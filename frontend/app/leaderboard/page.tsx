@@ -79,7 +79,7 @@ export default function LeaderboardPage() {
           <div className="space-y-5">
             <Card className="duolingo-card border-0 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-xl font-bold text-foreground">Top Performers</CardTitle>
+                <CardTitle className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>Top Performers</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {leaderboardData.map((user) => (
@@ -130,7 +130,7 @@ export default function LeaderboardPage() {
           <div className="space-y-5">
             <Card className="duolingo-card border-0 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-xl font-bold text-foreground">Most Improved This Week</CardTitle>
+                <CardTitle className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>Most Improved This Week</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {mostImprovedData.map((user) => (
@@ -158,7 +158,7 @@ export default function LeaderboardPage() {
         {/* Point System Info */}
         <Card className="duolingo-card border-0 shadow-lg">
           <CardHeader>
-            <CardTitle className="text-xl font-bold text-foreground">How to Earn Points</CardTitle>
+            <CardTitle className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>How to Earn Points</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex justify-between items-center p-3 bg-muted/30 rounded-xl">

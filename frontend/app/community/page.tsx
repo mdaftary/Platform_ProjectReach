@@ -131,7 +131,7 @@ export default function CommunityPage() {
         {activeTab === "discussions" && (
           <div className="space-y-5">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold text-foreground">Recent Discussions</h2>
+              <h2 className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>Recent Discussions</h2>
               <Button size="sm" className="duolingo-button duolingo-gradient-primary border-0 text-white font-semibold">
                 {!isLarge && <Plus className="w-4 h-4 mr-1" />}
                 New Post
@@ -265,7 +265,7 @@ export default function CommunityPage() {
         {activeTab === "resources" && (
           <div className="space-y-5">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold text-foreground">Shared Resources</h2>
+              <h2 className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>Shared Resources</h2>
               <Button size="sm" className="duolingo-button duolingo-gradient-primary border-0 text-white font-semibold">
                 {!isLarge && <Plus className="w-4 h-4 mr-1" />}
                 Share
@@ -342,7 +342,7 @@ export default function CommunityPage() {
         {activeTab === "groups" && (
           <div className="space-y-5">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold text-foreground">Practice Groups</h2>
+              <h2 className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>Practice Groups</h2>
               <Button size="sm" className="duolingo-button duolingo-gradient-primary border-0 text-white font-semibold">
                 {!isLarge && <Plus className="w-4 h-4 mr-1" />}
                 Create

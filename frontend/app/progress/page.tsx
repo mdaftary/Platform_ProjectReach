@@ -182,7 +182,7 @@ export default function ProgressPage() {
         <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-lg">
           <CardContent className="p-6">
         <div className="space-y-6">
-              <h2 className="text-lg font-semibold text-gray-900 text-center">Skills Overview</h2>
+              <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 text-center`}>Skills Overview</h2>
               
               <div className="flex justify-center w-full">
                 <svg width="100%" height="280" viewBox="0 0 360 280" className="max-w-sm mx-auto">
@@ -370,7 +370,7 @@ export default function ProgressPage() {
 
         {/* Skills Breakdown */}
         <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-gray-900">Skills Breakdown</h2>
+          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>Skills Breakdown</h2>
           <div className="space-y-3">
             {skillsData.map((skill, index) => {
               const isNeedsFocus = skill.status === 'needs-focus'
@@ -444,7 +444,7 @@ export default function ProgressPage() {
         <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
           <CardContent className="p-5">
             <div className="space-y-4">
-              <h2 className="text-lg font-semibold text-gray-900">AI Recommendations</h2>
+              <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>AI Recommendations</h2>
               <p className="text-sm text-gray-600">Personalized activities to boost your child's learning</p>
               
               <div className="space-y-3">
@@ -465,7 +465,7 @@ export default function ProgressPage() {
                             <div className="flex items-start justify-between mb-2">
                               <div>
                                 <div className="flex items-center gap-2">
-                                  <h3 className="font-semibold text-gray-900 text-sm">
+                                  <h3 className={`font-semibold text-gray-900 ${isLarge ? 'text-lg' : 'text-sm'}`}>
                                     {rec.title} ({rec.skillProgress}%)
                                   </h3>
                                   {isPriority && (
@@ -513,8 +513,8 @@ export default function ProgressPage() {
           <CardContent className="p-5">
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-green-600 stroke-2" />
-                <h2 className="text-lg font-semibold text-gray-900">Overall Score Trend</h2>
+                { !isLarge && <TrendingUp className="w-5 h-5 text-green-600 stroke-2" />}
+                <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 text-center`}>Overall Score Trend</h2>
           </div>
 
               <div className="h-48">

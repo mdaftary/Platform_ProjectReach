@@ -141,7 +141,7 @@ export default function VolunteerPage() {
                   <HelpCircle className="w-5 h-5 text-blue-600 stroke-2" />
                 </div>
                 <div className="flex-1">
-                  <h2 className="font-semibold text-gray-900">Need Help?</h2>
+                  <h2 className={`${isLarge ? 'text-2xl' : 'text-xl'} font-semibold text-gray-900`}>Need Help?</h2>
                   <p className="text-sm text-gray-600">Get answers from experienced parents and teachers</p>
                 </div>
               </div>
@@ -211,7 +211,7 @@ export default function VolunteerPage() {
                   <Target className="w-5 h-5 text-green-600 stroke-2" />
                 </div>
                 <div className="flex-1">
-                  <h2 className="font-semibold text-gray-900">My Impact</h2>
+                  <h2 className={`${isLarge ? 'text-2xl' : 'text-xl'} font-semibold text-gray-900`}>My Impact</h2>
                   <p className="text-sm text-gray-600">Track your volunteer hours and rewards</p>
                 </div>
               </div>
@@ -263,7 +263,7 @@ export default function VolunteerPage() {
 
         {/* Available Volunteers */}
         <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-gray-900">Available Volunteers</h2>
+          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>Available Volunteers</h2>
           
           <div className="space-y-3">
             {volunteers.map((volunteer) => (
@@ -332,7 +332,7 @@ export default function VolunteerPage() {
 
         {/* Recent Questions */}
         <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-gray-900">Recent Questions</h2>
+          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>Recent Questions</h2>
           
           <div className="space-y-3">
             {recentQuestions.map((q) => (
