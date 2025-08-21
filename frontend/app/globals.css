@@ -171,3 +171,16 @@
     -webkit-backdrop-filter: blur(20px);
   }
 }
+
+@layer utilities {
+  /* Enforce minimum text size of text-lg within a scoped container */
+  .min-text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  .min-text-lg :is(.text-xs, .text-sm, .text-base) {
+    font-size: 1.125rem !important;
+    line-height: 1.75rem !important;
+  }
+}
