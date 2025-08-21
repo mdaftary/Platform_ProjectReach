@@ -107,17 +107,21 @@ export default function HomePage() {
             <CardContent className="p-0">
               <div className="divide-y divide-gray-100">
                 {weeklyTasks.map((task, index) => (
-                  <div key={task.id} className={`p-4 flex items-center gap-4 ${task.isPrimary && !task.completed ? 'bg-blue-50/50' : ''}`}>
+                  <div key={task.id} className={`p-4 flex gap-4 ${task.isPrimary && !task.completed ? 'bg-blue-50/50' : ''} ${isLarge ? "flex-col" : ""}`}>
+                    { !isLarge && (
+                      <div>
                     <div className="flex-shrink-0">
-                      {task.completed ? (
-                        <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                          <CheckCircle2 className="w-4 h-4 text-white stroke-2" />
-                        </div>
-                      ) : (
-                        <div className="w-6 h-6 border-2 border-gray-300 rounded-full"></div>
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
+                    {task.completed ? (
+                      <div className="w-6 h-6 bg-green-500 rounded-full flex justify-center">
+                        <CheckCircle2 className="w-4 h-4 text-white stroke-2" />
+                      </div>
+                    ) : (
+                      <div className="w-6 h-6 border-2 border-gray-300 rounded-full"></div>
+                    )}
+                  </div>
+                  </div>
+                    )}
+                    <div className={`flex-1 min-w-0 `}>
                       <p className={`${isLarge ? 'text-lg' : 'text-sm'} font-medium ${task.completed ? 'text-gray-500 line-through' : 'text-gray-900'}`}>
                         {task.title}
                       </p>
@@ -135,7 +139,7 @@ export default function HomePage() {
                         Upload
                       </Button>
                     )}
-                    {!task.isPrimary && (
+                    {(!task.isPrimary && !isLarge) && (
                       <ChevronRight className="w-4 h-4 text-gray-400" />
                     )}
                   </div>
