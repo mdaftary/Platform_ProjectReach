@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
+import { useFontSize } from "@/app/font-size-provider"
 import {
   MessageSquare,
   Users,
@@ -85,6 +86,7 @@ const practiceGroups = [
 
 export default function CommunityPage() {
   const [activeTab, setActiveTab] = useState("discussions")
+  const { isLarge } = useFontSize()
 
   const tabs = [
     { id: "discussions", label: "Discussions", icon: MessageSquare },
@@ -93,7 +95,7 @@ export default function CommunityPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className={`min-h-screen bg-background ${isLarge ? 'min-text-lg text-lg' : ''}`}>
       <div className="max-w-md mx-auto px-4 py-6 space-y-6">
         {/* Welcome Section */}
         <div className="text-center mb-8">
@@ -115,11 +117,11 @@ export default function CommunityPage() {
               className={`flex items-center gap-2 duolingo-button py-3 ${
                 activeTab === tab.id 
                   ? "duolingo-gradient-primary border-0 text-white shadow-lg" 
-                  : "border-border bg-card hover:bg-accent/50"
+                  : "border-gray-300 text-foreground bg-card hover:bg-gray-100"
               }`}
               onClick={() => setActiveTab(tab.id)}
             >
-              <tab.icon className="w-4 h-4" />
+              {!isLarge && <tab.icon className="w-4 h-4" />}
               <span className="text-sm font-medium">{tab.label}</span>
             </Button>
           ))}
@@ -131,7 +133,7 @@ export default function CommunityPage() {
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-bold text-foreground">Recent Discussions</h2>
               <Button size="sm" className="duolingo-button duolingo-gradient-primary border-0 text-white font-semibold">
-                <Plus className="w-4 h-4 mr-1" />
+                {!isLarge && <Plus className="w-4 h-4 mr-1" />}
                 New Post
               </Button>
             </div>
@@ -205,7 +207,7 @@ export default function CommunityPage() {
                       </div>
 
                       {/* Recent Replies Preview */}
-                      {discussion.recentReplies && discussion.recentReplies.length > 0 && (
+                      {!isLarge && discussion.recentReplies && discussion.recentReplies.length > 0 && (
                         <div className="bg-gray-50 rounded-lg p-3 space-y-2">
                           <div className="text-xs font-medium text-gray-600 mb-2">Latest replies:</div>
                           {discussion.recentReplies.slice(0, 2).map((reply, replyIndex) => (
@@ -246,7 +248,7 @@ export default function CommunityPage() {
                               <span>{discussion.likes}</span>
                             </div>
                           </div>
-                          <Button variant="outline" size="sm" className="text-green-600 border-green-200 hover:bg-green-50 text-xs">
+                          <Button variant="outline" size="sm" className="text-green-700 border-green-400 hover:bg-green-100">
                             Follow
                           </Button>
                         </div>
@@ -265,7 +267,7 @@ export default function CommunityPage() {
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-bold text-foreground">Shared Resources</h2>
               <Button size="sm" className="duolingo-button duolingo-gradient-primary border-0 text-white font-semibold">
-                <Plus className="w-4 h-4 mr-1" />
+                {!isLarge && <Plus className="w-4 h-4 mr-1" />}
                 Share
               </Button>
             </div>
@@ -290,16 +292,16 @@ export default function CommunityPage() {
                             <h3 className="font-semibold text-foreground flex-1 leading-tight">{resource.title}</h3>
                           </div>
                           
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <div className={`flex ${isLarge ? 'flex-col items-start gap-1' : 'items-center gap-2'} text-sm text-muted-foreground`}>
                             <span>By {resource.author}</span>
-                            <span>•</span>
+                            {!isLarge && <span>•</span>}
                             <span>⭐ {resource.rating}</span>
-                            <span>•</span>
+                            {!isLarge && <span>•</span>}
                             <span>{resource.downloads} downloads</span>
                           </div>
                           
                           {/* File Details */}
-                          <div className="flex items-center gap-2">
+                          <div className={`flex ${isLarge ? 'flex-col items-start gap-1' : 'items-center gap-2'}`}>
                             <Badge variant="outline" className="text-xs border-primary/20 text-primary">
                               {resource.category}
                             </Badge>
@@ -312,17 +314,19 @@ export default function CommunityPage() {
                       
                       <div className="flex items-center justify-between pt-2">
                         <div className="flex items-center gap-2">
-                          <Button variant="outline" size="sm" className="text-gray-600 border-gray-200 hover:bg-gray-50 text-xs">
-                            Preview
-                          </Button>
-                          <Button variant="outline" size="sm" className="text-blue-600 border-blue-200 hover:bg-blue-50 text-xs">
-                            <Heart className="w-3 h-3 mr-1 stroke-2" />
-                            Save
+                          {!isLarge && (
+                            <Button variant="outline" size="sm" className="text-gray-800 border-gray-300 hover:bg-gray-100">
+                              Preview
+                            </Button>
+                          )}
+                          <Button variant="outline" size="sm" className="text-blue-700 border-blue-400 hover:bg-blue-100">
+                            {!isLarge && <Heart className="w-3 h-3 mr-1 stroke-2" />}
+                            Favourite
                           </Button>
                         </div>
                         
                         <Button size="sm" className="bg-green-500 hover:bg-green-600 text-white border-0 rounded-xl px-4 py-2 font-semibold shadow-sm">
-                          <Download className="w-4 h-4 mr-2 stroke-2" />
+                          {!isLarge && <Download className="w-4 h-4 mr-2 stroke-2" />}
                           Download
                         </Button>
                       </div>
@@ -340,7 +344,7 @@ export default function CommunityPage() {
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-bold text-foreground">Practice Groups</h2>
               <Button size="sm" className="duolingo-button duolingo-gradient-primary border-0 text-white font-semibold">
-                <Plus className="w-4 h-4 mr-1" />
+                {!isLarge && <Plus className="w-4 h-4 mr-1" />}
                 Create
               </Button>
             </div>
