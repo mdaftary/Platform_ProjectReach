@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { BookOpen, Edit3, Volume2, TrendingUp, Play } from "lucide-react"
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from "recharts"
+import { useFontSize } from "@/app/font-size-provider"
 
 // Skills data with progress and insights
 const skillsDataRaw = [
@@ -13,44 +14,44 @@ const skillsDataRaw = [
     progress: 85,
     insight: "Fantastic progress! Ready for extra practice with letter pairs like b/d.",
     icon: Edit3,
-    expected: 80,
+    Goal: 80,
   },
   {
     name: "Sight Words", 
     progress: 60,
     insight: "Great foundation! On track, just 15% more to go for the next milestone.",
     icon: BookOpen,
-    expected: 75,
+    Goal: 75,
   },
   {
     name: "Vocabulary",
     progress: 72,
     insight: "Wonderful word collection! Ahead of schedule and ready for new challenges.",
     icon: BookOpen,
-    expected: 70,
+    Goal: 70,
   },
   {
     name: "Phonemic Awareness",
     progress: 79,
     insight: "Excellent listening skills! Blending sounds beautifully every day.",
     icon: Volume2,
-    expected: 75,
+    Goal: 75,
   },
   {
     name: "Point-and-Read",
     progress: 91,
     insight: "Amazing confidence! Reading independently like a champion.",
     icon: BookOpen,
-    expected: 85,
+    Goal: 85,
   },
 ]
 
-// Sort skills by priority (weakest first, considering expected benchmark)
+// Sort skills by priority (weakest first, considering Goal benchmark)
 const skillsData = skillsDataRaw
   .map(skill => ({
     ...skill,
-    priority: skill.progress - skill.expected, // Negative = needs attention
-    status: skill.progress < skill.expected ? 'needs-focus' : 'good'
+    priority: skill.progress - skill.Goal, // Negative = needs attention
+    status: skill.progress < skill.Goal ? 'needs-focus' : 'good'
   }))
   .sort((a, b) => a.priority - b.priority)
 
@@ -96,6 +97,7 @@ const progressData = [
 ]
 
 export default function ProgressPage() {
+  const { isLarge } = useFontSize()
   // Calculate radar chart points for pentagon (Apple iOS style - mobile optimized)
   const calculateRadarPoints = () => {
     const centerX = 180
@@ -103,23 +105,23 @@ export default function ProgressPage() {
     const maxRadius = 70
     
     const skills = [
-      { name: "Alphabet", progress: 85, expected: 80 },
-      { name: "Sight Words", progress: 60, expected: 75 },
-      { name: "Vocabulary", progress: 72, expected: 70 },
-      { name: "Phonemic Awareness", progress: 79, expected: 75 },
-      { name: "Point-and-Read", progress: 91, expected: 85 },
+      { name: "Alphabet", progress: 85, Goal: 80 },
+      { name: "Sight Words", progress: 60, Goal: 75 },
+      { name: "Vocabulary", progress: 72, Goal: 70 },
+      { name: "Phonemic Awareness", progress: 79, Goal: 75 },
+      { name: "Point-and-Read", progress: 91, Goal: 85 },
     ]
     
     return skills.map((skill, index) => {
       const angle = (index * 72 - 90) * (Math.PI / 180) // Pentagon angles (starting from top)
       const currentRadius = (skill.progress / 100) * maxRadius
-      const expectedRadius = (skill.expected / 100) * maxRadius
+      const GoalRadius = (skill.Goal / 100) * maxRadius
       
       // Data points
       const currentX = centerX + currentRadius * Math.cos(angle)
       const currentY = centerY + currentRadius * Math.sin(angle)
-      const expectedX = centerX + expectedRadius * Math.cos(angle)
-      const expectedY = centerY + expectedRadius * Math.sin(angle)
+      const GoalX = centerX + GoalRadius * Math.cos(angle)
+      const GoalY = centerY + GoalRadius * Math.sin(angle)
       
       // Grid line endpoints
       const gridX = centerX + maxRadius * Math.cos(angle)
@@ -132,7 +134,7 @@ export default function ProgressPage() {
       
       return { 
         current: { x: currentX, y: currentY }, 
-        expected: { x: expectedX, y: expectedY },
+        Goal: { x: GoalX, y: GoalY },
         grid: { x: gridX, y: gridY },
         label: { x: labelX, y: labelY },
         skill,
@@ -147,20 +149,36 @@ export default function ProgressPage() {
     `${index === 0 ? 'M' : 'L'} ${point.current.x} ${point.current.y}`
   ).join(' ') + ' Z'
   
-  const expectedPathData = radarPoints.map((point, index) => 
-    `${index === 0 ? 'M' : 'L'} ${point.expected.x} ${point.expected.y}`
+  const GoalPathData = radarPoints.map((point, index) => 
+    `${index === 0 ? 'M' : 'L'} ${point.Goal.x} ${point.Goal.y}`
   ).join(' ') + ' Z'
 
+  const overallScore = progressData[progressData.length - 1]?.score ?? 0
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={`min-h-screen bg-gray-50 ${isLarge ? 'min-text-lg text-lg' : ''}`}>
       <div className="max-w-md mx-auto px-6 py-6 space-y-6">
         {/* Header */}
         <div className="text-center space-y-2">
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Your Progress</h1>
-          <p className="text-base text-gray-500">Track your child's English learning journey</p>
+          <h1 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-bold text-gray-900 tracking-tight`}>Your Progress</h1>
+          <p className={`${isLarge ? 'text-base' : 'text-sm'} text-gray-500`}>Track your child's English learning journey</p>
+        </div>
+        {/* Overall Score */}
+        <div className="duolingo-gradient-light rounded-2xl p-4 shadow-sm">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full duolingo-gradient-primary flex items-center justify-center shadow">
+              <TrendingUp className="w-5 h-5 text-white" />
+            </div>
+            <div className="flex-1">
+              <div className="text-2xl font-extrabold text-gray-900 tabular-nums">{overallScore}</div>
+              <div className="text-xs text-gray-700 mt-0.5">Overall Score</div>
+            </div>
+          </div>
         </div>
 
+
         {/* Five-Dimension Radar Chart */}
+        {!isLarge && (
         <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-lg">
           <CardContent className="p-6">
         <div className="space-y-6">
@@ -225,9 +243,9 @@ export default function ProgressPage() {
                     />
                   ))}
                   
-                  {/* Expected level (benchmark) - Apple gray dashed */}
+                  {/* Goal level (benchmark) - Apple gray dashed */}
                   <path
-                    d={expectedPathData}
+                    d={GoalPathData}
                     fill="none"
                     stroke="#d1d5db"
                     strokeWidth="1.5"
@@ -328,7 +346,7 @@ export default function ProgressPage() {
                       Current Level
                     </text>
                     
-                    {/* Expected level indicator */}
+                    {/* Goal level indicator */}
                     <line x1="140" y1="260" x2="155" y2="260" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="3,3" />
                     <text 
                       x="160" 
@@ -340,7 +358,7 @@ export default function ProgressPage() {
                         fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif'
                       }}
                     >
-                      Expected Level
+                      Goal Level
                     </text>
                   </g>
             </svg>
@@ -348,6 +366,7 @@ export default function ProgressPage() {
             </div>
           </CardContent>
         </Card>
+        )}
 
         {/* Skills Breakdown */}
         <div className="space-y-4">
@@ -367,13 +386,15 @@ export default function ProgressPage() {
                 >
                   <CardContent className="p-4">
                     <div className="flex items-start gap-3">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                        isNeedsFocus ? 'bg-orange-100' : 'bg-green-100'
-                      }`}>
-                        <skill.icon className={`w-4 h-4 stroke-2 ${
-                          isNeedsFocus ? 'text-orange-600' : 'text-green-600'
-                        }`} />
-                      </div>
+                      {!isLarge && (
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                          isNeedsFocus ? 'bg-orange-100' : 'bg-green-100'
+                        }`}>
+                          <skill.icon className={`w-4 h-4 stroke-2 ${
+                            isNeedsFocus ? 'text-orange-600' : 'text-green-600'
+                          }`} />
+                        </div>
+                      )}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
@@ -399,13 +420,15 @@ export default function ProgressPage() {
                             style={{ width: `${skill.progress}%` }}
                           />
             </div>
-                        <p className="text-sm text-gray-600 leading-relaxed">{skill.insight}</p>
+                        {!isLarge && (
+                          <p className="text-sm text-gray-600 leading-relaxed">{skill.insight}</p>
+                        )}
                         <div className="mt-2 text-xs text-gray-500">
-                          Expected: {skill.expected}% • 
-                          {skill.progress >= skill.expected ? (
-                            <span className="text-green-600 font-medium"> Above target ✓</span>
+                          Goal: {skill.Goal}% • 
+                          {skill.progress >= skill.Goal ? (
+                            <span className="text-green-600 font-medium"> Above Goal ✓</span>
                           ) : (
-                            <span className="text-gray-600 font-medium"> On track, {skill.expected - skill.progress}% more to go!</span>
+                            <span className="text-gray-600 font-medium"> On track, {skill.Goal - skill.progress}% more to go!</span>
                           )}
             </div>
             </div>
@@ -432,9 +455,11 @@ export default function ProgressPage() {
                     <Card key={index} className="bg-white border border-gray-200 shadow-sm">
                       <CardContent className="p-4">
                         <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 bg-green-100 rounded-2xl flex items-center justify-center flex-shrink-0">
-                            <rec.icon className="w-5 h-5 stroke-2 text-green-600" />
-                          </div>
+                          {!isLarge && (
+                            <div className="w-10 h-10 bg-green-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                              <rec.icon className="w-5 h-5 stroke-2 text-green-600" />
+                            </div>
+                          )}
                           
                           <div className="flex-1 min-w-0">
                             <div className="flex items-start justify-between mb-2">
