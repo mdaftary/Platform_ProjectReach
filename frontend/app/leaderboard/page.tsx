@@ -37,30 +37,34 @@ export default function LeaderboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm px-4 py-4">
-        <div className="max-w-md mx-auto">
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <Trophy className="w-6 h-6 text-orange-600" />
-            Leaderboard
-          </h1>
-        </div>
-      </header>
-
+    <div className="min-h-screen bg-background">
       <div className="max-w-md mx-auto px-4 py-6 space-y-6">
+        {/* Welcome Section */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-foreground mb-2">Leaderboard</h1>
+          <p className="text-muted-foreground">See how you rank among other learners</p>
+        </div>
         {/* Tab Navigation */}
-        <div className="flex bg-gray-100 rounded-lg p-1">
+        <div className="grid grid-cols-2 gap-3">
           <Button
-            variant={activeTab === "overall" ? "default" : "ghost"}
-            className={`flex-1 ${activeTab === "overall" ? "bg-orange-600 hover:bg-orange-700" : ""}`}
+            variant={activeTab === "overall" ? "default" : "outline"}
+            className={`duolingo-button py-3 ${
+              activeTab === "overall" 
+                ? "duolingo-gradient-primary border-0 text-white shadow-lg" 
+                : "border-border bg-card hover:bg-accent/50"
+            }`}
             onClick={() => setActiveTab("overall")}
           >
             <Star className="w-4 h-4 mr-2" />
             Top Points
           </Button>
           <Button
-            variant={activeTab === "improved" ? "default" : "ghost"}
-            className={`flex-1 ${activeTab === "improved" ? "bg-orange-600 hover:bg-orange-700" : ""}`}
+            variant={activeTab === "improved" ? "default" : "outline"}
+            className={`duolingo-button py-3 ${
+              activeTab === "improved" 
+                ? "duolingo-gradient-primary border-0 text-white shadow-lg" 
+                : "border-border bg-card hover:bg-accent/50"
+            }`}
             onClick={() => setActiveTab("improved")}
           >
             <TrendingUp className="w-4 h-4 mr-2" />
@@ -70,28 +74,28 @@ export default function LeaderboardPage() {
 
         {/* Overall Leaderboard */}
         {activeTab === "overall" && (
-          <div className="space-y-4">
-            <Card>
+          <div className="space-y-5">
+            <Card className="duolingo-card border-0 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-lg">Top Performers</CardTitle>
+                <CardTitle className="text-xl font-bold text-foreground">Top Performers</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {leaderboardData.map((user) => (
-                  <div key={user.rank} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-white border-2 border-gray-200">
+                  <div key={user.rank} className="flex items-center gap-4 p-4 bg-muted/30 rounded-2xl">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-card border-2 border-border shadow-sm">
                       {user.rank <= 3 ? (
-                        <Medal className={`w-5 h-5 ${getBadgeColor(user.badge)} text-white rounded-full p-1`} />
+                        <Medal className={`w-6 h-6 ${getBadgeColor(user.badge)} text-white rounded-full p-1`} />
                       ) : (
-                        <span className="text-sm font-bold text-gray-600">#{user.rank}</span>
+                        <span className="text-sm font-bold text-muted-foreground">#{user.rank}</span>
                       )}
                     </div>
                     <div className="flex-1">
-                      <p className="font-medium text-gray-900">{user.name}</p>
-                      <p className="text-sm text-gray-500">{user.streak} day streak</p>
+                      <p className="font-semibold text-foreground">{user.name}</p>
+                      <p className="text-sm text-muted-foreground">{user.streak} day streak</p>
                     </div>
                     <div className="text-right">
-                      <p className="font-bold text-orange-600">{user.points}</p>
-                      <p className="text-xs text-gray-500">points</p>
+                      <p className="font-bold text-primary text-lg">{user.points}</p>
+                      <p className="text-xs text-muted-foreground">points</p>
                     </div>
                   </div>
                 ))}
@@ -99,46 +103,46 @@ export default function LeaderboardPage() {
             </Card>
 
             {/* Your Rank */}
-            <Card className="border-orange-200 bg-orange-50">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-orange-600 text-white">
+            <Card className="duolingo-card border-0 shadow-lg overflow-hidden">
+              <div className="duolingo-gradient-light p-5">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-center w-10 h-10 rounded-full duolingo-gradient-primary text-white shadow-lg">
                     <span className="text-sm font-bold">#12</span>
                   </div>
                   <div className="flex-1">
-                    <p className="font-medium text-gray-900">You</p>
-                    <p className="text-sm text-gray-500">5 day streak</p>
+                    <p className="font-semibold text-primary">You</p>
+                    <p className="text-sm text-primary/70">5 day streak</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-orange-600">1250</p>
-                    <p className="text-xs text-gray-500">points</p>
+                    <p className="font-bold text-primary text-lg">1250</p>
+                    <p className="text-xs text-primary/70">points</p>
                   </div>
                 </div>
-              </CardContent>
+              </div>
             </Card>
           </div>
         )}
 
         {/* Most Improved */}
         {activeTab === "improved" && (
-          <div className="space-y-4">
-            <Card>
+          <div className="space-y-5">
+            <Card className="duolingo-card border-0 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-lg">Most Improved This Week</CardTitle>
+                <CardTitle className="text-xl font-bold text-foreground">Most Improved This Week</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {mostImprovedData.map((user) => (
-                  <div key={user.rank} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-500 text-white">
-                      <TrendingUp className="w-4 h-4" />
+                  <div key={user.rank} className="flex items-center gap-4 p-4 bg-muted/30 rounded-2xl">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full duolingo-gradient-success text-white shadow-lg">
+                      <TrendingUp className="w-5 h-5" />
                     </div>
                     <div className="flex-1">
-                      <p className="font-medium text-gray-900">{user.name}</p>
-                      <p className="text-sm text-gray-500">{user.period}</p>
+                      <p className="font-semibold text-foreground">{user.name}</p>
+                      <p className="text-sm text-muted-foreground">{user.period}</p>
                     </div>
                     <div className="text-right">
-                      <p className="font-bold text-green-600">{user.improvement}</p>
-                      <Badge variant="secondary" className="text-xs">
+                      <p className="font-bold text-primary text-lg">{user.improvement}</p>
+                      <Badge className="text-xs duolingo-gradient-success text-white border-0">
                         Rising
                       </Badge>
                     </div>
@@ -150,26 +154,26 @@ export default function LeaderboardPage() {
         )}
 
         {/* Point System Info */}
-        <Card>
+        <Card className="duolingo-card border-0 shadow-lg">
           <CardHeader>
-            <CardTitle className="text-lg">How to Earn Points</CardTitle>
+            <CardTitle className="text-xl font-bold text-foreground">How to Earn Points</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Submit assignment</span>
-              <Badge variant="secondary">+50 pts</Badge>
+          <CardContent className="space-y-3">
+            <div className="flex justify-between items-center p-3 bg-muted/30 rounded-xl">
+              <span className="text-sm font-medium text-foreground">Submit assignment</span>
+              <Badge className="duolingo-gradient-success text-white border-0">+50 pts</Badge>
             </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Help in discussions</span>
-              <Badge variant="secondary">+75 pts</Badge>
+            <div className="flex justify-between items-center p-3 bg-muted/30 rounded-xl">
+              <span className="text-sm font-medium text-foreground">Help in discussions</span>
+              <Badge className="duolingo-gradient-success text-white border-0">+75 pts</Badge>
             </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Join practice group</span>
-              <Badge variant="secondary">+25 pts</Badge>
+            <div className="flex justify-between items-center p-3 bg-muted/30 rounded-xl">
+              <span className="text-sm font-medium text-foreground">Join practice group</span>
+              <Badge className="duolingo-gradient-success text-white border-0">+25 pts</Badge>
             </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Daily login streak</span>
-              <Badge variant="secondary">+10 pts</Badge>
+            <div className="flex justify-between items-center p-3 bg-muted/30 rounded-xl">
+              <span className="text-sm font-medium text-foreground">Daily login streak</span>
+              <Badge className="duolingo-gradient-success text-white border-0">+10 pts</Badge>
             </div>
           </CardContent>
         </Card>
