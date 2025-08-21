@@ -50,7 +50,7 @@ export default function LeaderboardPage() {
         <div className="grid grid-cols-2 gap-3">
           <Button
             variant={activeTab === "overall" ? "default" : "outline"}
-            className={`duolingo-button py-3 ${
+            className={`duolingo-button ${isLarge ? 'py-4 text-base' : 'py-3'} ${
               activeTab === "overall" 
                 ? "duolingo-gradient-primary border-0 text-white shadow-lg" 
                 : "border-border bg-card hover:bg-accent/50"
@@ -62,7 +62,7 @@ export default function LeaderboardPage() {
           </Button>
           <Button
             variant={activeTab === "improved" ? "default" : "outline"}
-            className={`duolingo-button py-3 ${
+            className={`duolingo-button ${isLarge ? 'py-4 text-base' : 'py-3'} ${
               activeTab === "improved" 
                 ? "duolingo-gradient-primary border-0 text-white shadow-lg" 
                 : "border-border bg-card hover:bg-accent/50"
