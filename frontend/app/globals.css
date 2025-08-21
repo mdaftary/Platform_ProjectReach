@@ -4,74 +4,74 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(1 0 0); /* #FFFFFF */
-  --foreground: oklch(0.35 0.01 264); /* #4B5563 */
-  --card: oklch(0.98 0 0); /* #F9F9F9 */
-  --card-foreground: oklch(0.35 0.01 264); /* #4B5563 */
+  --background: oklch(1 0 0); /* #FFFFFF - Pure white background */
+  --foreground: oklch(0.25 0.01 264); /* #3B4B5C - Darker text for contrast */
+  --card: oklch(1 0 0); /* #FFFFFF - Clean white cards */
+  --card-foreground: oklch(0.25 0.01 264); /* #3B4B5C */
   --popover: oklch(1 0 0); /* #FFFFFF */
-  --popover-foreground: oklch(0.35 0.01 264); /* #4B5563 */
-  --primary: oklch(0.7 0.15 65); /* #FFA500 - REACH orange */
+  --popover-foreground: oklch(0.25 0.01 264); /* #3B4B5C */
+  --primary: oklch(0.65 0.18 141); /* #58CC02 - Duolingo green */
   --primary-foreground: oklch(1 0 0); /* #FFFFFF */
-  --secondary: oklch(0.85 0.12 85); /* #FFD700 - Gold accent */
-  --secondary-foreground: oklch(0.35 0.01 264); /* #4B5563 */
-  --muted: oklch(0.98 0 0); /* #F9F9F9 */
-  --muted-foreground: oklch(0.35 0.01 264); /* #4B5563 */
-  --accent: oklch(0.85 0.12 85); /* #FFD700 - Gold accent */
-  --accent-foreground: oklch(0.35 0.01 264); /* #4B5563 */
-  --destructive: oklch(0.577 0.245 27.325);
+  --secondary: oklch(0.75 0.15 148); /* #7EE068 - Light green accent */
+  --secondary-foreground: oklch(0.25 0.01 264); /* #3B4B5C */
+  --muted: oklch(0.97 0 0); /* #F7F7F7 - Very light gray */
+  --muted-foreground: oklch(0.5 0.01 264); /* #6B7280 */
+  --accent: oklch(0.75 0.15 148); /* #7EE068 - Light green accent */
+  --accent-foreground: oklch(0.25 0.01 264); /* #3B4B5C */
+  --destructive: oklch(0.55 0.22 15); /* #DC2626 - Red for errors */
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.92 0 0); /* #E5E7EB */
+  --border: oklch(0.94 0 0); /* #E5E7EB - Light border */
   --input: oklch(1 0 0); /* #FFFFFF */
-  --ring: oklch(0.7 0.15 65 / 0.5); /* Orange focus ring */
-  --chart-1: oklch(0.7 0.15 65); /* #FFA500 */
-  --chart-2: oklch(0.85 0.12 85); /* #FFD700 */
-  --chart-3: oklch(0.35 0.01 264); /* #4B5563 */
-  --chart-4: oklch(0.98 0 0); /* #F9F9F9 */
-  --chart-5: oklch(0.92 0 0); /* #E5E7EB */
-  --radius: 0.5rem;
-  --sidebar: oklch(0.98 0 0); /* #F9F9F9 */
-  --sidebar-foreground: oklch(0.35 0.01 264); /* #4B5563 */
-  --sidebar-primary: oklch(0.7 0.15 65); /* #FFA500 */
+  --ring: oklch(0.65 0.18 141 / 0.3); /* Green focus ring */
+  --chart-1: oklch(0.65 0.18 141); /* Duolingo green */
+  --chart-2: oklch(0.75 0.15 148); /* Light green */
+  --chart-3: oklch(0.55 0.16 135); /* Darker green */
+  --chart-4: oklch(0.85 0.12 152); /* Very light green */
+  --chart-5: oklch(0.94 0 0); /* Light gray */
+  --radius: 0.75rem; /* More rounded, Apple-like */
+  --sidebar: oklch(0.99 0 0); /* #FAFAFA */
+  --sidebar-foreground: oklch(0.25 0.01 264); /* #3B4B5C */
+  --sidebar-primary: oklch(0.65 0.18 141); /* Duolingo green */
   --sidebar-primary-foreground: oklch(1 0 0); /* #FFFFFF */
-  --sidebar-accent: oklch(0.85 0.12 85); /* #FFD700 */
-  --sidebar-accent-foreground: oklch(0.35 0.01 264); /* #4B5563 */
-  --sidebar-border: oklch(0.92 0 0); /* #E5E7EB */
-  --sidebar-ring: oklch(0.7 0.15 65 / 0.5); /* Orange focus ring */
+  --sidebar-accent: oklch(0.75 0.15 148); /* Light green */
+  --sidebar-accent-foreground: oklch(0.25 0.01 264); /* #3B4B5C */
+  --sidebar-border: oklch(0.94 0 0); /* #E5E7EB */
+  --sidebar-ring: oklch(0.65 0.18 141 / 0.3); /* Green focus ring */
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.7 0.15 65); /* Keep REACH orange in dark mode */
-  --primary-foreground: oklch(0.145 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.85 0.12 85); /* Keep gold accent in dark mode */
-  --accent-foreground: oklch(0.145 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.7 0.15 65 / 0.5);
-  --chart-1: oklch(0.7 0.15 65);
-  --chart-2: oklch(0.85 0.12 85);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.7 0.15 65);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  --background: oklch(0.15 0 0); /* Dark background */
+  --foreground: oklch(0.95 0 0); /* Light text */
+  --card: oklch(0.18 0 0); /* Dark cards */
+  --card-foreground: oklch(0.95 0 0);
+  --popover: oklch(0.18 0 0);
+  --popover-foreground: oklch(0.95 0 0);
+  --primary: oklch(0.7 0.18 141); /* Brighter Duolingo green for dark mode */
+  --primary-foreground: oklch(0.15 0 0);
+  --secondary: oklch(0.35 0 0); /* Dark gray */
+  --secondary-foreground: oklch(0.95 0 0);
+  --muted: oklch(0.25 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+  --accent: oklch(0.8 0.15 148); /* Bright light green accent */
+  --accent-foreground: oklch(0.15 0 0);
+  --destructive: oklch(0.6 0.22 15); /* Brighter red for dark mode */
+  --destructive-foreground: oklch(0.95 0 0);
+  --border: oklch(0.3 0 0);
+  --input: oklch(0.25 0 0);
+  --ring: oklch(0.7 0.18 141 / 0.4);
+  --chart-1: oklch(0.7 0.18 141);
+  --chart-2: oklch(0.8 0.15 148);
+  --chart-3: oklch(0.6 0.16 135);
+  --chart-4: oklch(0.9 0.12 152);
+  --chart-5: oklch(0.4 0 0);
+  --sidebar: oklch(0.2 0 0);
+  --sidebar-foreground: oklch(0.95 0 0);
+  --sidebar-primary: oklch(0.7 0.18 141);
+  --sidebar-primary-foreground: oklch(0.95 0 0);
+  --sidebar-accent: oklch(0.25 0 0);
+  --sidebar-accent-foreground: oklch(0.95 0 0);
+  --sidebar-border: oklch(0.3 0 0);
+  --sidebar-ring: oklch(0.5 0 0);
 }
 
 @theme inline {
@@ -119,5 +119,55 @@
   }
   body {
     @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Apple-like design enhancements */
+  .duolingo-button {
+    @apply transition-all duration-200 ease-out;
+    @apply active:scale-95;
+    @apply shadow-lg hover:shadow-xl;
+    border-radius: 16px;
+  }
+  
+  .duolingo-card {
+    @apply transition-all duration-200 ease-out;
+    @apply hover:scale-[1.02] hover:shadow-xl;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.9);
+  }
+  
+  .duolingo-nav {
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.95);
+  }
+  
+  /* Green gradient backgrounds similar to Duolingo */
+  .duolingo-gradient-primary {
+    background: linear-gradient(135deg, #58CC02 0%, #7EE068 100%);
+  }
+  
+  .duolingo-gradient-success {
+    background: linear-gradient(135deg, #7EE068 0%, #9FE870 100%);
+  }
+  
+  .duolingo-gradient-light {
+    background: linear-gradient(135deg, #E8F5E8 0%, #F0F9F0 100%);
+  }
+  
+  /* iOS-style glass effects */
+  .ios-glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .ios-glass-header {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
 }

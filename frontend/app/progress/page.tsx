@@ -1,217 +1,549 @@
 "use client"
 
-import { Card } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { TrendingUp, MessageSquare } from "lucide-react"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import { BookOpen, Edit3, Volume2, TrendingUp, Play } from "lucide-react"
+import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from "recharts"
+
+// Skills data with progress and insights
+const skillsDataRaw = [
+  {
+    name: "Alphabet",
+    progress: 85,
+    insight: "Fantastic progress! Ready for extra practice with letter pairs like b/d.",
+    icon: Edit3,
+    expected: 80,
+  },
+  {
+    name: "Sight Words", 
+    progress: 60,
+    insight: "Great foundation! On track, just 15% more to go for the next milestone.",
+    icon: BookOpen,
+    expected: 75,
+  },
+  {
+    name: "Vocabulary",
+    progress: 72,
+    insight: "Wonderful word collection! Ahead of schedule and ready for new challenges.",
+    icon: BookOpen,
+    expected: 70,
+  },
+  {
+    name: "Phonemic Awareness",
+    progress: 79,
+    insight: "Excellent listening skills! Blending sounds beautifully every day.",
+    icon: Volume2,
+    expected: 75,
+  },
+  {
+    name: "Point-and-Read",
+    progress: 91,
+    insight: "Amazing confidence! Reading independently like a champion.",
+    icon: BookOpen,
+    expected: 85,
+  },
+]
+
+// Sort skills by priority (weakest first, considering expected benchmark)
+const skillsData = skillsDataRaw
+  .map(skill => ({
+    ...skill,
+    priority: skill.progress - skill.expected, // Negative = needs attention
+    status: skill.progress < skill.expected ? 'needs-focus' : 'good'
+  }))
+  .sort((a, b) => a.priority - b.priority)
+
+// AI Recommendations grouped by skill
+const aiRecommendations = [
+  {
+    skill: "Sight Words",
+    skillProgress: 60,
+    title: "Practice Sight Words",
+    description: "Play \"find the word\" game in today's storybook.",
+    timeNeeded: "5 min",
+    icon: BookOpen,
+    priority: "high"
+  },
+  {
+    skill: "Alphabet", 
+    skillProgress: 85,
+    title: "Letter Practice",
+    description: "Trace lowercase letters \"b\" and \"d\" for clarity.",
+    timeNeeded: "5 min",
+    icon: Edit3,
+    priority: "medium"
+  },
+  {
+    skill: "Phonemic Awareness",
+    skillProgress: 79, 
+    title: "Sound Matching",
+    description: "Try sound-blending exercise in the student app.",
+    timeNeeded: "10 min",
+    icon: Volume2,
+    priority: "low"
+  },
+]
+
+// Progress timeline data
+const progressData = [
+  { month: "Jan", score: 65 },
+  { month: "Feb", score: 68 },
+  { month: "Mar", score: 71 },
+  { month: "Apr", score: 74 },
+  { month: "May", score: 76 },
+  { month: "Jun", score: 80 },
+]
 
 export default function ProgressPage() {
-  // Sample data for the 5 dimensions
-  const skillsData = [
-    { name: "Pronunciation", score: 95, color: "text-green-500", points: "Excellent clarity and accent work" },
-    { name: "Vocabulary", score: 74, color: "text-yellow-500", points: "Good range, needs more advanced words" },
-    { name: "Grammar", score: 80, color: "text-green-500", points: "Strong foundation, minor tense issues" },
-    { name: "Fluency", score: 47, color: "text-orange-500", points: "Needs more speaking practice and confidence" },
-    { name: "Filler Words", score: 81, color: "text-green-500", points: "Much improved, occasional 'um' usage" },
-  ]
+  // Calculate radar chart points for pentagon (Apple iOS style - mobile optimized)
+  const calculateRadarPoints = () => {
+    const centerX = 180
+    const centerY = 170
+    const maxRadius = 70
+    
+    const skills = [
+      { name: "Alphabet", progress: 85, expected: 80 },
+      { name: "Sight Words", progress: 60, expected: 75 },
+      { name: "Vocabulary", progress: 72, expected: 70 },
+      { name: "Phonemic Awareness", progress: 79, expected: 75 },
+      { name: "Point-and-Read", progress: 91, expected: 85 },
+    ]
+    
+    return skills.map((skill, index) => {
+      const angle = (index * 72 - 90) * (Math.PI / 180) // Pentagon angles (starting from top)
+      const currentRadius = (skill.progress / 100) * maxRadius
+      const expectedRadius = (skill.expected / 100) * maxRadius
+      
+      // Data points
+      const currentX = centerX + currentRadius * Math.cos(angle)
+      const currentY = centerY + currentRadius * Math.sin(angle)
+      const expectedX = centerX + expectedRadius * Math.cos(angle)
+      const expectedY = centerY + expectedRadius * Math.sin(angle)
+      
+      // Grid line endpoints
+      const gridX = centerX + maxRadius * Math.cos(angle)
+      const gridY = centerY + maxRadius * Math.sin(angle)
+      
+      // Label positions with generous spacing for mobile
+      const labelRadius = maxRadius + 55
+      const labelX = centerX + labelRadius * Math.cos(angle)
+      const labelY = centerY + labelRadius * Math.sin(angle)
+      
+      return { 
+        current: { x: currentX, y: currentY }, 
+        expected: { x: expectedX, y: expectedY },
+        grid: { x: gridX, y: gridY },
+        label: { x: labelX, y: labelY },
+        skill,
+        angle: angle * (180 / Math.PI),
+        index
+      }
+    })
+  }
 
-  const progressData = [
-    { month: "Jan", grade: 65 },
-    { month: "Feb", grade: 68 },
-    { month: "Mar", grade: 71 },
-    { month: "Apr", grade: 74 },
-    { month: "May", grade: 76 },
-    { month: "Jun", grade: 78 },
-  ]
-
-  const headmasterComments = [
-    {
-      date: "June 2024",
-      comment:
-        "Emma has shown remarkable improvement in pronunciation and grammar this month. I recommend focusing on fluency exercises to build confidence in speaking. Keep up the excellent work!",
-      teacher: "Ms. Chen, Head Teacher",
-    },
-    {
-      date: "December 2023",
-      comment:
-        "Good progress in vocabulary building. Emma is starting to use more complex sentence structures. Continue with reading exercises to improve fluency.",
-      teacher: "Mr. Wong, Head Teacher",
-    },
-    {
-      date: "June 2023",
-      comment:
-        "Emma shows great enthusiasm for learning. Focus areas should be pronunciation and reducing filler words. Overall trajectory is very positive.",
-      teacher: "Ms. Chen, Head Teacher",
-    },
-  ]
+  const radarPoints = calculateRadarPoints()
+  const currentPathData = radarPoints.map((point, index) => 
+    `${index === 0 ? 'M' : 'L'} ${point.current.x} ${point.current.y}`
+  ).join(' ') + ' Z'
+  
+  const expectedPathData = radarPoints.map((point, index) => 
+    `${index === 0 ? 'M' : 'L'} ${point.expected.x} ${point.expected.y}`
+  ).join(' ') + ' Z'
 
   return (
-    <div className="p-4 space-y-6">
-      {/* English Level Overview */}
-      <Card className="p-6 bg-gradient-to-br from-blue-900 to-purple-900 text-white">
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-md mx-auto px-6 py-6 space-y-6">
+        {/* Header */}
         <div className="text-center space-y-2">
-          <p className="text-blue-200">Your English Level</p>
-          <h1 className="text-3xl font-bold">
-            Proficient <span className="text-blue-400">C2</span>
-          </h1>
-          <p className="text-blue-200">74 out of 100</p>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Your Progress</h1>
+          <p className="text-base text-gray-500">Track your child's English learning journey</p>
         </div>
-      </Card>
 
-      {/* Skills Radar Chart Visualization */}
-      <Card className="p-6 bg-gradient-to-br from-gray-900 to-blue-900 text-white">
+        {/* Five-Dimension Radar Chart */}
+        <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-lg">
+          <CardContent className="p-6">
         <div className="space-y-6">
-          <div className="relative h-64 flex items-center justify-center">
-            <svg width="200" height="200" viewBox="0 0 200 200" className="absolute">
-              {/* Pentagon grid lines */}
+              <h2 className="text-lg font-semibold text-gray-900 text-center">Skills Overview</h2>
+              
+              <div className="flex justify-center w-full">
+                <svg width="100%" height="280" viewBox="0 0 360 280" className="max-w-sm mx-auto">
+                  {/* Definitions for Apple-style effects */}
+                  <defs>
+                    <filter id="chartShadow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur in="SourceAlpha" stdDeviation="1.5"/>
+                      <feOffset dx="0" dy="1" result="offset"/>
+                      <feComponentTransfer>
+                        <feFuncA type="linear" slope="0.08"/>
+                      </feComponentTransfer>
+                      <feMerge> 
+                        <feMergeNode/>
+                        <feMergeNode in="SourceGraphic"/> 
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  
+                  {/* Minimal grid pentagons (Apple Health style) */}
+                  {/* Outer pentagon (100%) */}
               <polygon
-                points="100,20 170,65 145,140 55,140 30,65"
+                    points="180,100 235,135 215,205 145,205 125,135"
                 fill="none"
-                stroke="rgba(255,255,255,0.1)"
+                    stroke="#f8fafc"
                 strokeWidth="1"
+                    opacity="0.6"
               />
+                  
+                  {/* Middle pentagon (75%) */}
               <polygon
-                points="100,40 150,70 130,130 70,130 50,70"
+                    points="180,117 218,143 206,188 154,188 142,143"
                 fill="none"
-                stroke="rgba(255,255,255,0.1)"
+                    stroke="#f8fafc"
                 strokeWidth="1"
+                    opacity="0.4"
               />
+                  
+                  {/* Inner pentagon (50%) */}
               <polygon
-                points="100,60 130,80 120,120 80,120 70,80"
+                    points="180,135 201,152 196,170 164,170 159,152"
                 fill="none"
-                stroke="rgba(255,255,255,0.1)"
+                    stroke="#f8fafc"
+                    strokeWidth="1"
+                    opacity="0.3"
+                  />
+                  
+                  {/* Axis lines (ultra minimal) */}
+                  {radarPoints.map((point, index) => (
+                    <line
+                      key={`axis-${index}`}
+                      x1="180"
+                      y1="170"
+                      x2={point.grid.x}
+                      y2={point.grid.y}
+                      stroke="#f8fafc"
                 strokeWidth="1"
-              />
-
-              {/* Data polygon with gradient */}
-              <defs>
-                <linearGradient id="skillGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#3B82F6" stopOpacity="0.6" />
-                </linearGradient>
-              </defs>
-              <polygon
-                points="100,25 160,70 135,125 65,125 40,70"
-                fill="url(#skillGradient)"
-                stroke="#A855F7"
-                strokeWidth="2"
-              />
-
-              {/* Light circles at data points */}
-              <circle cx="100" cy="25" r="4" fill="#E5E7EB" stroke="#9CA3AF" strokeWidth="1" />
-              <circle cx="160" cy="70" r="4" fill="#E5E7EB" stroke="#9CA3AF" strokeWidth="1" />
-              <circle cx="135" cy="125" r="4" fill="#E5E7EB" stroke="#9CA3AF" strokeWidth="1" />
-              <circle cx="65" cy="125" r="4" fill="#E5E7EB" stroke="#9CA3AF" strokeWidth="1" />
-              <circle cx="40" cy="70" r="4" fill="#E5E7EB" stroke="#9CA3AF" strokeWidth="1" />
+                      opacity="0.4"
+                    />
+                  ))}
+                  
+                  {/* Expected level (benchmark) - Apple gray dashed */}
+                  <path
+                    d={expectedPathData}
+                    fill="none"
+                    stroke="#d1d5db"
+                    strokeWidth="1.5"
+                    strokeDasharray="3,3"
+                    opacity="0.6"
+                  />
+                  
+                  {/* Current progress polygon - Duolingo green */}
+                  <path
+                    d={currentPathData}
+                    fill="rgba(34, 197, 94, 0.08)"
+                    stroke="#22c55e"
+                    strokeWidth="2.5"
+                    filter="url(#chartShadow)"
+                  />
+                  
+                  {/* Data points with Apple styling */}
+                  {radarPoints.map((point, index) => (
+                    <circle
+                      key={`point-${index}`}
+                      cx={point.current.x}
+                      cy={point.current.y}
+                      r="3.5"
+                      fill="#22c55e"
+                      stroke="#ffffff"
+                      strokeWidth="2"
+                      filter="url(#chartShadow)"
+                    />
+                  ))}
+                  
+                  {/* Skill labels with proper positioning */}
+                  {radarPoints.map((point, index) => {
+                    // Fixed positions for each skill to avoid overlaps
+                    const labelPositions = [
+                      // Alphabet (top)
+                      { x: 180, y: 65, anchor: "middle", percentY: 78 },
+                      // Sight Words (top right) 
+                      { x: 280, y: 120, anchor: "start", percentY: 133 },
+                      // Vocabulary (bottom right)
+                      { x: 280, y: 230, anchor: "start", percentY: 243 },
+                      // Phonemic Awareness (bottom left)
+                      { x: 80, y: 230, anchor: "end", percentY: 243 },
+                      // Point-and-Read (top left)
+                      { x: 80, y: 120, anchor: "end", percentY: 133 }
+                    ]
+                    
+                    const pos = labelPositions[index]
+                    
+                    return (
+                      <g key={`label-group-${index}`}>
+                        {/* Skill name */}
+                        <text
+                          x={pos.x}
+                          y={pos.y}
+                          textAnchor={pos.anchor}
+                          className="fill-gray-700 select-none"
+                          style={{ 
+                            fontSize: '10px', 
+                            fontWeight: '600',
+                            fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif'
+                          }}
+                        >
+                          {point.skill.name}
+                        </text>
+                        
+                        {/* Percentage */}
+                        <text
+                          x={pos.x}
+                          y={pos.percentY}
+                          textAnchor={pos.anchor}
+                          className="fill-green-600 select-none"
+                          style={{ 
+                            fontSize: '10px', 
+                            fontWeight: '700',
+                            fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif'
+                          }}
+                        >
+                          {point.skill.progress}%
+                        </text>
+                      </g>
+                    )
+                  })}
+                  
+                  {/* Clean Apple-style legend */}
+                  <g>
+                    {/* Current level indicator */}
+                    <line x1="20" y1="260" x2="35" y2="260" stroke="#22c55e" strokeWidth="2.5" />
+                    <text 
+                      x="40" 
+                      y="264" 
+                      className="fill-gray-600 select-none"
+                      style={{ 
+                        fontSize: '10px', 
+                        fontWeight: '500',
+                        fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif'
+                      }}
+                    >
+                      Current Level
+                    </text>
+                    
+                    {/* Expected level indicator */}
+                    <line x1="140" y1="260" x2="155" y2="260" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="3,3" />
+                    <text 
+                      x="160" 
+                      y="264" 
+                      className="fill-gray-600 select-none"
+                      style={{ 
+                        fontSize: '10px', 
+                        fontWeight: '500',
+                        fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif'
+                      }}
+                    >
+                      Expected Level
+                    </text>
+                  </g>
             </svg>
-
-            {/* Skills positioned around the pentagon */}
-            <div className="absolute top-2 left-1/2 transform -translate-x-1/2 text-center">
-              <div className="text-green-400 text-lg font-bold">95%</div>
-              <div className="text-xs text-gray-300">Pronunciation</div>
+              </div>
             </div>
+          </CardContent>
+        </Card>
 
-            <div className="absolute top-12 right-4 text-center">
-              <div className="text-yellow-400 text-lg font-bold">74%</div>
-              <div className="text-xs text-gray-300">Vocabulary</div>
+        {/* Skills Breakdown */}
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold text-gray-900">Skills Breakdown</h2>
+          <div className="space-y-3">
+            {skillsData.map((skill, index) => {
+              const isNeedsFocus = skill.status === 'needs-focus'
+              const priorityBadge = index === 0 && isNeedsFocus ? 'Focus First' : null
+              
+              return (
+                <Card 
+                  key={skill.name} 
+                  className={`backdrop-blur-sm border-0 shadow-sm ${
+                    isNeedsFocus ? 'bg-orange-50/80 border-l-4 border-l-orange-400' : 
+                    'bg-green-50/80 border-l-4 border-l-green-400'
+                  }`}
+                >
+                  <CardContent className="p-4">
+                    <div className="flex items-start gap-3">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                        isNeedsFocus ? 'bg-orange-100' : 'bg-green-100'
+                      }`}>
+                        <skill.icon className={`w-4 h-4 stroke-2 ${
+                          isNeedsFocus ? 'text-orange-600' : 'text-green-600'
+                        }`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-semibold text-gray-900">{skill.name}</h3>
+                            {priorityBadge && (
+                              <Badge 
+                                variant="secondary"
+                                className="text-xs px-2 py-0.5 bg-orange-100 text-orange-700 border-orange-200"
+                              >
+                                {priorityBadge}
+                              </Badge>
+                            )}
+                          </div>
+                          <span className={`font-bold tabular-nums ${
+                            isNeedsFocus ? 'text-orange-600' : 'text-green-600'
+                          }`}>{skill.progress}%</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
+                          <div
+                            className={`h-2 rounded-full transition-all duration-500 ${
+                              isNeedsFocus ? 'bg-orange-500' : 'bg-green-500'
+                            }`}
+                            style={{ width: `${skill.progress}%` }}
+                          />
             </div>
-
-            <div className="absolute bottom-8 right-8 text-center">
-              <div className="text-green-400 text-lg font-bold">80%</div>
-              <div className="text-xs text-gray-300">Grammar</div>
+                        <p className="text-sm text-gray-600 leading-relaxed">{skill.insight}</p>
+                        <div className="mt-2 text-xs text-gray-500">
+                          Expected: {skill.expected}% • 
+                          {skill.progress >= skill.expected ? (
+                            <span className="text-green-600 font-medium"> Above target ✓</span>
+                          ) : (
+                            <span className="text-gray-600 font-medium"> On track, {skill.expected - skill.progress}% more to go!</span>
+                          )}
             </div>
-
-            <div className="absolute bottom-8 left-8 text-center">
-              <div className="text-orange-400 text-lg font-bold">47%</div>
-              <div className="text-xs text-gray-300">Fluency</div>
             </div>
-
-            <div className="absolute top-12 left-4 text-center">
-              <div className="text-green-400 text-lg font-bold">81%</div>
-              <div className="text-xs text-gray-300">Filler Words</div>
             </div>
+                  </CardContent>
+                </Card>
+              )
+            })}
           </div>
         </div>
+
+        {/* AI Personalized Practices */}
+        <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
+          <CardContent className="p-5">
+            <div className="space-y-4">
+              <h2 className="text-lg font-semibold text-gray-900">AI Recommendations</h2>
+              <p className="text-sm text-gray-600">Personalized activities to boost your child's learning</p>
+              
+              <div className="space-y-3">
+                {aiRecommendations.map((rec, index) => {
+                  const isPriority = rec.priority === 'high'
+                  
+                  return (
+                    <Card key={index} className="bg-white border border-gray-200 shadow-sm">
+                      <CardContent className="p-4">
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 bg-green-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                            <rec.icon className="w-5 h-5 stroke-2 text-green-600" />
+                          </div>
+                          
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-start justify-between mb-2">
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <h3 className="font-semibold text-gray-900 text-sm">
+                                    {rec.title} ({rec.skillProgress}%)
+                                  </h3>
+                                  {isPriority && (
+                                    <Badge className="bg-orange-100 text-orange-700 border-orange-200 text-xs px-1.5 py-0.5">
+                                      Priority
+                                    </Badge>
+                                  )}
+                                </div>
+                                <div className="flex items-center gap-2 mt-1">
+                                  <span className="text-xs text-gray-500 font-medium">{rec.skill}</span>
+                                  <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
+                                    {rec.timeNeeded}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <p className="text-sm text-gray-600 leading-relaxed mb-3">{rec.description}</p>
+                            
+                            <Button 
+                              size="sm" 
+                              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 font-semibold text-sm rounded-xl border-0 shadow-sm transition-all"
+                            >
+                              <Play className="w-4 h-4 mr-1.5 stroke-2" />
+                              Start Practice
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
       </Card>
-
-      <div className="space-y-4">
-        <h2 className="text-xl font-bold text-gray-800">Skills Breakdown</h2>
-        {skillsData.map((skill) => (
-          <Card key={skill.name} className="p-4">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-gray-800">{skill.name}</span>
-                <span className={`font-bold ${skill.color}`}>{skill.score}%</span>
+                  )
+                })}
               </div>
-              <Progress value={skill.score} className="h-2" />
-              <p className="text-sm text-gray-600 mt-2">{skill.points}</p>
+              
+              <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-xl">
+                <p className="text-xs text-green-700 font-medium text-center">
+                  🎯 Start with priority activities for the biggest learning boost
+                </p>
+              </div>
             </div>
+          </CardContent>
           </Card>
-        ))}
-      </div>
 
-      <Card className="p-6">
+        {/* Progress Over Time */}
+        <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
+          <CardContent className="p-5">
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 text-green-600" />
-            <h3 className="text-lg font-bold text-gray-800">Grade Progression</h3>
+                <TrendingUp className="w-5 h-5 text-green-600 stroke-2" />
+                <h2 className="text-lg font-semibold text-gray-900">Overall Score Trend</h2>
           </div>
 
-          <div className="h-64">
+              <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={progressData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis domain={[60, 85]} />
-                <Tooltip />
+                    <XAxis 
+                      dataKey="month" 
+                      axisLine={false}
+                      tickLine={false}
+                      className="text-xs text-gray-500"
+                    />
+                    <YAxis 
+                      domain={[60, 85]} 
+                      axisLine={false}
+                      tickLine={false}
+                      className="text-xs text-gray-500"
+                    />
                 <Line
                   type="monotone"
-                  dataKey="grade"
-                  stroke="#10B981"
+                      dataKey="score"
+                      stroke="#22c55e"
                   strokeWidth="3"
-                  dot={{ fill: "#10B981", strokeWidth: 2, r: 4 }}
+                      dot={{ fill: "#22c55e", strokeWidth: 0, r: 5 }}
+                      activeDot={{ r: 7, fill: "#16a34a" }}
                 />
               </LineChart>
             </ResponsiveContainer>
           </div>
 
-          <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-            <p className="text-sm text-blue-700">
-              <strong>Improvement:</strong> You've improved by 13 points in the past 6 months! Keep practicing to reach
-              85+ level.
-            </p>
+              {/* Milestone markers */}
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span>Mar: Reached 30 sight words</span>
           </div>
-        </div>
-      </Card>
-
-      <Card className="p-6">
-        <div className="space-y-4">
-          <div className="flex items-center gap-2">
-            <MessageSquare className="w-5 h-5 text-blue-600" />
-            <h3 className="text-lg font-bold text-gray-800">Headmaster's Comments</h3>
-            <Badge variant="outline" className="text-xs">
-              Every 6 months
-            </Badge>
-          </div>
-
-          <div className="space-y-4">
-            {headmasterComments.map((comment, index) => (
-              <div
-                key={index}
-                className={`p-4 rounded-lg ${index === 0 ? "bg-blue-50 border-l-4 border-blue-500" : "bg-gray-50"}`}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-600">{comment.date}</span>
-                  {index === 0 && <Badge className="bg-blue-100 text-blue-800 text-xs">Latest</Badge>}
+                <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <span>May: Completed alphabet mastery</span>
                 </div>
-                <p className="text-gray-700 italic mb-2">"{comment.comment}"</p>
-                <p className="text-sm text-gray-500">- {comment.teacher}</p>
               </div>
-            ))}
+              
+              {/* Motivational text */}
+              <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+                <p className="text-sm font-semibold text-green-800 text-center">
+                  Great Progress! +15% improvement this month 🎉
+                </p>
           </div>
         </div>
+          </CardContent>
       </Card>
+
+        {/* Bottom padding for navigation */}
+        <div className="h-20"></div>
+      </div>
     </div>
   )
 }

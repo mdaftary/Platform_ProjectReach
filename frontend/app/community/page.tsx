@@ -93,71 +93,47 @@ export default function CommunityPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm px-4 py-4">
-        <div className="max-w-md mx-auto">
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <Users className="w-6 h-6 text-orange-600" />
-            Community
-          </h1>
-        </div>
-      </header>
-
+    <div className="min-h-screen bg-background">
       <div className="max-w-md mx-auto px-4 py-6 space-y-6">
+        {/* Welcome Section */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-foreground mb-2">Community</h1>
+          <p className="text-muted-foreground">Connect, learn, and grow together</p>
+        </div>
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-          <Input placeholder="Search community..." className="pl-10" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+          <Input placeholder="Search community..." className="pl-10 duolingo-card border-0 shadow-lg" />
         </div>
 
         {/* Tab Navigation */}
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-3">
           {tabs.map((tab) => (
             <Button
               key={tab.id}
               variant={activeTab === tab.id ? "default" : "outline"}
-              className={`flex items-center gap-2 ${activeTab === tab.id ? "bg-orange-600 hover:bg-orange-700" : ""}`}
+              className={`flex items-center gap-2 duolingo-button py-3 ${
+                activeTab === tab.id 
+                  ? "duolingo-gradient-primary border-0 text-white shadow-lg" 
+                  : "border-border bg-card hover:bg-accent/50"
+              }`}
               onClick={() => setActiveTab(tab.id)}
             >
               <tab.icon className="w-4 h-4" />
-              <span className="text-xs">{tab.label}</span>
+              <span className="text-sm font-medium">{tab.label}</span>
             </Button>
           ))}
         </div>
 
         {/* Discussions Tab */}
         {activeTab === "discussions" && (
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold">Recent Discussions</h2>
-              <Button size="sm" className="bg-orange-600 hover:bg-orange-700">
+              <h2 className="text-xl font-bold text-foreground">Recent Discussions</h2>
+              <Button size="sm" className="duolingo-button duolingo-gradient-primary border-0 text-white font-semibold">
                 <Plus className="w-4 h-4 mr-1" />
                 New Post
               </Button>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3 mb-4">
-              <Card className="bg-blue-50 border-blue-200">
-                <CardContent className="p-4 text-center">
-                  <HelpCircle className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-                  <h3 className="font-semibold text-blue-800 text-sm">Get Help</h3>
-                  <p className="text-xs text-blue-600 mb-2">Ask questions</p>
-                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-xs">
-                    Ask Question
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-green-50 border-green-200">
-                <CardContent className="p-4 text-center">
-                  <Heart className="w-6 h-6 text-green-600 mx-auto mb-2" />
-                  <h3 className="font-semibold text-green-800 text-sm">Give Help</h3>
-                  <p className="text-xs text-green-600 mb-2">Answer & earn points</p>
-                  <Button size="sm" className="bg-green-600 hover:bg-green-700 text-xs">
-                    Help Others
-                  </Button>
-                </CardContent>
-              </Card>
             </div>
 
             <div className="space-y-3">
@@ -165,62 +141,114 @@ export default function CommunityPage() {
                 {
                   title: "Tips for K3 to Primary 1 Transition",
                   author: "Anonymous Parent",
+                  authorRole: "Parent",
                   replies: 24,
                   likes: 18,
                   timeAgo: "2h ago",
                   isPinned: true,
                   category: "General",
+                  recentReplies: [
+                    { author: "Sarah M.", role: "Parent", text: "We use bedtime reading — 10 min daily worked wonders for sight words." },
+                    { author: "Ms. Chen", role: "Teacher", text: "Try flashcards with pictures! Make it a game..." }
+                  ]
                 },
                 {
                   title: "English Reading Help Needed",
                   author: "Sarah_HK",
+                  authorRole: "Parent",
                   replies: 12,
                   likes: 8,
                   timeAgo: "4h ago",
                   isPinned: false,
                   category: "Assignment Help",
+                  recentReplies: [
+                    { author: "David L.", role: "Volunteer", text: "What specific reading challenges is your child facing?" },
+                    { author: "Emma K.", role: "Parent", text: "My daughter had similar issues. Here's what helped..." }
+                  ]
                 },
                 {
                   title: "Homework Motivation Strategies",
                   author: "TeacherVolunteer",
+                  authorRole: "Volunteer",
                   replies: 31,
                   likes: 45,
                   timeAgo: "6h ago",
                   isPinned: false,
                   category: "Tips & Strategies",
                   isVolunteer: true,
+                  recentReplies: [
+                    { author: "Lisa M.", role: "Parent", text: "The reward chart idea worked perfectly for us!" },
+                    { author: "Mr. Wong", role: "Teacher", text: "I always recommend breaking tasks into smaller chunks." }
+                  ]
                 },
               ].map((discussion, index) => (
-                <Card key={index} className="cursor-pointer hover:shadow-md transition-shadow">
-                  <CardContent className="p-4">
-                    <div className="space-y-2">
+                <Card key={index} className="duolingo-card border-0 shadow-lg cursor-pointer hover:shadow-xl transition-shadow">
+                  <CardContent className="p-5">
+                    <div className="space-y-4">
                       <div className="flex items-start justify-between">
-                        <h3 className="font-medium text-gray-900 flex-1 leading-tight">{discussion.title}</h3>
-                        {discussion.isPinned && <Pin className="w-4 h-4 text-orange-600 flex-shrink-0 ml-2" />}
+                        <h3 className="font-semibold text-foreground flex-1 leading-tight">{discussion.title}</h3>
+                        {discussion.isPinned && <Pin className="w-4 h-4 text-primary flex-shrink-0 ml-2" />}
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-500">
+                      
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <span>{discussion.author}</span>
-                        {discussion.isVolunteer && (
-                          <Badge variant="secondary" className="text-xs bg-green-100 text-green-800">
-                            Volunteer
-                          </Badge>
-                        )}
+                        <Badge className={`text-xs px-2 py-0.5 ${
+                          discussion.authorRole === 'Teacher' ? 'bg-purple-100 text-purple-700 border-purple-200' :
+                          discussion.authorRole === 'Volunteer' ? 'bg-orange-100 text-orange-700 border-orange-200' :
+                          discussion.authorRole === 'Staff' ? 'bg-blue-100 text-blue-700 border-blue-200' :
+                          'bg-green-100 text-green-700 border-green-200'
+                        }`}>
+                          {discussion.authorRole}
+                        </Badge>
                         <span>•</span>
                         <span>{discussion.timeAgo}</span>
                       </div>
+
+                      {/* Recent Replies Preview */}
+                      {discussion.recentReplies && discussion.recentReplies.length > 0 && (
+                        <div className="bg-gray-50 rounded-lg p-3 space-y-2">
+                          <div className="text-xs font-medium text-gray-600 mb-2">Latest replies:</div>
+                          {discussion.recentReplies.slice(0, 2).map((reply, replyIndex) => (
+                            <div key={replyIndex} className="flex items-start gap-2">
+                              <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-1.5 mb-1">
+                                  <span className="text-xs font-medium text-gray-700">{reply.author}</span>
+                                  <Badge className={`text-xs px-1.5 py-0.5 ${
+                                    reply.role === 'Teacher' ? 'bg-purple-100 text-purple-600' :
+                                    reply.role === 'Volunteer' ? 'bg-orange-100 text-orange-600' :
+                                    'bg-green-100 text-green-600'
+                                  }`}>
+                                    {reply.role}
+                                  </Badge>
+                                </div>
+                                <p className="text-xs text-gray-600 leading-relaxed truncate">{reply.text}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      
                       <div className="flex items-center justify-between">
-                        <Badge variant="outline" className="text-xs">
+                        <Badge variant="outline" className="text-xs border-primary/20 text-primary">
                           {discussion.category}
                         </Badge>
-                        <div className="flex items-center gap-3 text-sm text-gray-500">
-                          <div className="flex items-center gap-1">
-                            <MessageCircle className="w-4 h-4" />
-                            <span>{discussion.replies}</span>
+                        <div className="flex items-center gap-4">
+                          <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                            <div className="flex items-center gap-1">
+                              <MessageCircle className="w-4 h-4" />
+                              <span>{discussion.replies}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Heart className="w-4 h-4" />
+                              <span>{discussion.likes}</span>
+                            </div>
                           </div>
-                          <div className="flex items-center gap-1">
-                            <Heart className="w-4 h-4" />
-                            <span>{discussion.likes}</span>
-                          </div>
+                          <Button variant="outline" size="sm" className="text-green-600 border-green-200 hover:bg-green-50 text-xs">
+                            Follow
+                          </Button>
                         </div>
                       </div>
                     </div>
@@ -233,39 +261,68 @@ export default function CommunityPage() {
 
         {/* Resources Tab */}
         {activeTab === "resources" && (
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold">Shared Resources</h2>
-              <Button size="sm" className="bg-orange-600 hover:bg-orange-700">
+              <h2 className="text-xl font-bold text-foreground">Shared Resources</h2>
+              <Button size="sm" className="duolingo-button duolingo-gradient-primary border-0 text-white font-semibold">
                 <Plus className="w-4 h-4 mr-1" />
                 Share
               </Button>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               {sharedResources.map((resource) => (
-                <Card key={resource.id} className="cursor-pointer hover:shadow-md transition-shadow">
-                  <CardContent className="p-4">
-                    <div className="space-y-2">
-                      <div className="flex items-start justify-between">
-                        <h3 className="font-medium text-gray-900 flex-1">{resource.title}</h3>
-                        <Badge variant="secondary" className="ml-2">
-                          {resource.type}
-                        </Badge>
+                <Card key={resource.id} className="duolingo-card border-0 shadow-lg cursor-pointer hover:shadow-xl transition-shadow">
+                  <CardContent className="p-5">
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-4">
+                        {/* File Preview Thumbnail */}
+                        <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-green-200 rounded-xl flex items-center justify-center flex-shrink-0">
+                          <div className="text-green-600 font-bold text-xs text-center">
+                            {resource.type}
+                            <br />
+                            <div className="text-xs opacity-75">Preview</div>
+                          </div>
+                        </div>
+                        
+                        <div className="flex-1 space-y-2">
+                          <div className="flex items-start justify-between">
+                            <h3 className="font-semibold text-foreground flex-1 leading-tight">{resource.title}</h3>
+                          </div>
+                          
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <span>By {resource.author}</span>
+                            <span>•</span>
+                            <span>⭐ {resource.rating}</span>
+                            <span>•</span>
+                            <span>{resource.downloads} downloads</span>
+                          </div>
+                          
+                          {/* File Details */}
+                          <div className="flex items-center gap-2">
+                            <Badge variant="outline" className="text-xs border-primary/20 text-primary">
+                              {resource.category}
+                            </Badge>
+                            <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                              {resource.type} • {Math.floor(Math.random() * 3 + 1)}.{Math.floor(Math.random() * 9)}MB
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-500">
-                        <span>By {resource.author}</span>
-                        <span>•</span>
-                        <span>⭐ {resource.rating}</span>
-                        <span>•</span>
-                        <span>{resource.downloads} downloads</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <Badge variant="outline" className="text-xs">
-                          {resource.category}
-                        </Badge>
-                        <Button size="sm" variant="outline">
-                          <Download className="w-4 h-4 mr-1" />
+                      
+                      <div className="flex items-center justify-between pt-2">
+                        <div className="flex items-center gap-2">
+                          <Button variant="outline" size="sm" className="text-gray-600 border-gray-200 hover:bg-gray-50 text-xs">
+                            Preview
+                          </Button>
+                          <Button variant="outline" size="sm" className="text-blue-600 border-blue-200 hover:bg-blue-50 text-xs">
+                            <Heart className="w-3 h-3 mr-1 stroke-2" />
+                            Save
+                          </Button>
+                        </div>
+                        
+                        <Button size="sm" className="bg-green-500 hover:bg-green-600 text-white border-0 rounded-xl px-4 py-2 font-semibold shadow-sm">
+                          <Download className="w-4 h-4 mr-2 stroke-2" />
                           Download
                         </Button>
                       </div>
@@ -279,28 +336,28 @@ export default function CommunityPage() {
 
         {/* Groups Tab */}
         {activeTab === "groups" && (
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold">Practice Groups</h2>
-              <Button size="sm" className="bg-orange-600 hover:bg-orange-700">
+              <h2 className="text-xl font-bold text-foreground">Practice Groups</h2>
+              <Button size="sm" className="duolingo-button duolingo-gradient-primary border-0 text-white font-semibold">
                 <Plus className="w-4 h-4 mr-1" />
                 Create
               </Button>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               {practiceGroups.map((group) => (
-                <Card key={group.id} className="cursor-pointer hover:shadow-md transition-shadow">
-                  <CardContent className="p-4">
-                    <div className="space-y-3">
+                <Card key={group.id} className="duolingo-card border-0 shadow-lg cursor-pointer">
+                  <CardContent className="p-5">
+                    <div className="space-y-4">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <h3 className="font-medium text-gray-900">{group.name}</h3>
-                          <p className="text-sm text-gray-500 mt-1">{group.description}</p>
+                          <h3 className="font-semibold text-foreground">{group.name}</h3>
+                          <p className="text-sm text-muted-foreground mt-1">{group.description}</p>
                         </div>
-                        <Badge variant="secondary">{group.level}</Badge>
+                        <Badge className="duolingo-gradient-light text-primary border-0">{group.level}</Badge>
                       </div>
-                      <div className="flex items-center gap-4 text-sm text-gray-500">
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
                         <div className="flex items-center gap-1">
                           <Users className="w-4 h-4" />
                           <span>{group.members} members</span>
@@ -310,7 +367,7 @@ export default function CommunityPage() {
                           <span>{group.nextSession}</span>
                         </div>
                       </div>
-                      <Button size="sm" className="w-full bg-orange-600 hover:bg-orange-700">
+                      <Button size="sm" className="w-full duolingo-button duolingo-gradient-primary border-0 text-white font-semibold">
                         Join Group (+25 pts)
                       </Button>
                     </div>
