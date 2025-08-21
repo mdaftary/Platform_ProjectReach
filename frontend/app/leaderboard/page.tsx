@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Trophy, TrendingUp, Star, Medal } from "lucide-react"
+import { useFontSize } from "@/app/font-size-provider"
 
 const leaderboardData = [
   { rank: 1, name: "Parent A", points: 2450, streak: 15, badge: "gold" },
@@ -22,6 +23,7 @@ const mostImprovedData = [
 
 export default function LeaderboardPage() {
   const [activeTab, setActiveTab] = useState<"overall" | "improved">("overall")
+  const { isLarge } = useFontSize()
 
   const getBadgeColor = (badge: string | null) => {
     switch (badge) {
@@ -37,7 +39,7 @@ export default function LeaderboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className={`min-h-screen bg-background ${isLarge ? 'min-text-lg text-lg' : ''}`}>
       <div className="max-w-md mx-auto px-4 py-6 space-y-6">
         {/* Welcome Section */}
         <div className="text-center mb-8">
@@ -55,7 +57,7 @@ export default function LeaderboardPage() {
             }`}
             onClick={() => setActiveTab("overall")}
           >
-            <Star className="w-4 h-4 mr-2" />
+            {!isLarge && <Star className="w-4 h-4 mr-2" />}
             Top Points
           </Button>
           <Button
@@ -67,7 +69,7 @@ export default function LeaderboardPage() {
             }`}
             onClick={() => setActiveTab("improved")}
           >
-            <TrendingUp className="w-4 h-4 mr-2" />
+            {!isLarge && <TrendingUp className="w-4 h-4 mr-2" />}
             Most Improved
           </Button>
         </div>

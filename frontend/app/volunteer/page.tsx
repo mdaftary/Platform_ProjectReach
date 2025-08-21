@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { useFontSize } from "@/app/font-size-provider"
 import {
   HelpCircle,
   Users,
@@ -111,9 +112,10 @@ export default function VolunteerPage() {
   const [showAskQuestion, setShowAskQuestion] = useState(false)
   const [question, setQuestion] = useState("")
   const [category, setCategory] = useState("General")
+  const { isLarge } = useFontSize()
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={`min-h-screen bg-gray-50 ${isLarge ? 'min-text-lg text-lg' : ''}`}>
       <div className="max-w-md mx-auto px-4 py-6 space-y-6">
         {/* Header */}
         <div className="text-center space-y-3">
