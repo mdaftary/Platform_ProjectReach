@@ -6,6 +6,8 @@ import "./globals.css"
 import { AuthProvider } from "@/contexts/auth-context"
 import { RouteGuard } from "@/components/route-guard"
 import { ConditionalNavigation, ConditionalLayout } from "@/components/conditional-navigation"
+import { MobileNavigation } from "@/components/mobile-navigation"
+import { FontSizeProvider } from "./font-size-provider"
 
 export const metadata: Metadata = {
   title: "REACH Hong Kong - Assignment Hub",
@@ -32,8 +34,10 @@ html {
       <body className="bg-gray-50">
         <AuthProvider>
           <RouteGuard>
-            <ConditionalLayout>{children}</ConditionalLayout>
-            <ConditionalNavigation />
+            <FontSizeProvider>
+              <ConditionalLayout>{children}</ConditionalLayout>
+              <ConditionalNavigation />
+            </FontSizeProvider>
           </RouteGuard>
         </AuthProvider>
       </body>

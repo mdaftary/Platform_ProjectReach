@@ -4,9 +4,10 @@ import { useState, useEffect, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Camera, Play, CheckCircle2, Circle, User, Eye, ChevronRight, X, Check, AlertCircle, Download, ArrowRight, Loader, LogOut } from "lucide-react"
+import { Camera, Play, CheckCircle2, Circle, User, Eye, ChevronRight, X, Check, AlertCircle, Download, ArrowRight, Loader, LogOut, Flame, Clock, Star } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
+import { useFontSize } from "@/app/font-size-provider"
 
 // Weekly tasks data
 const weeklyTasks = [
@@ -46,6 +47,7 @@ const progressCategories = [
 ]
 
 export default function HomePage() {
+  const { isLarge } = useFontSize()
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
   const [uploadState, setUploadState] = useState<'idle' | 'uploading' | 'processing' | 'complete'>('idle')
   const [uploadedImage, setUploadedImage] = useState<string | null>(null)
@@ -93,7 +95,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={`min-h-screen bg-gray-50 ${isLarge ? 'min-text-lg text-lg' : ''}`}>
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-xl border-b border-gray-100">
         <div className="max-w-md mx-auto px-6 py-6">
@@ -145,23 +147,27 @@ export default function HomePage() {
       <div className="max-w-md mx-auto px-6 py-6 space-y-6">
         {/* Weekly Tasks */}
         <div className="space-y-3">
-          <h2 className="text-lg font-semibold text-gray-900 tracking-tight">This Week</h2>
+          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>This Week</h2>
           <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
             <CardContent className="p-0">
               <div className="divide-y divide-gray-100">
                 {weeklyTasks.map((task, index) => (
-                  <div key={task.id} className={`p-4 flex items-center gap-4 ${task.isPrimary && !task.completed ? 'bg-blue-50/50' : ''}`}>
+                  <div key={task.id} className={`p-4 flex gap-4 ${task.isPrimary && !task.completed ? 'bg-blue-50/50' : ''} ${isLarge ? "flex-col" : ""}`}>
+                    { !isLarge && (
+                      <div>
                     <div className="flex-shrink-0">
-                      {task.completed ? (
-                        <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                          <CheckCircle2 className="w-4 h-4 text-white stroke-2" />
-                        </div>
-                      ) : (
-                        <div className="w-6 h-6 border-2 border-gray-300 rounded-full"></div>
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-medium ${task.completed ? 'text-gray-500 line-through' : 'text-gray-900'}`}>
+                    {task.completed ? (
+                      <div className="w-6 h-6 bg-green-500 rounded-full flex justify-center">
+                        <CheckCircle2 className="w-4 h-4 text-white stroke-2" />
+                      </div>
+                    ) : (
+                      <div className="w-6 h-6 border-2 border-gray-300 rounded-full"></div>
+                    )}
+                  </div>
+                  </div>
+                    )}
+                    <div className={`flex-1 min-w-0 `}>
+                      <p className={`${isLarge ? 'text-lg' : 'text-sm'} font-medium ${task.completed ? 'text-gray-500 line-through' : 'text-gray-900'}`}>
                         {task.title}
                       </p>
                       <p className="text-xs text-gray-500 mt-0.5">
@@ -178,7 +184,7 @@ export default function HomePage() {
                         Upload
                       </Button>
                     )}
-                    {!task.isPrimary && (
+                    {(!task.isPrimary && !isLarge) && (
                       <ChevronRight className="w-4 h-4 text-gray-400" />
                     )}
                   </div>
@@ -190,7 +196,7 @@ export default function HomePage() {
 
         {/* AI Insights - Priority Section */}
         <div className="space-y-3">
-          <h2 className="text-lg font-semibold text-gray-900 tracking-tight">AI Insights</h2>
+          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>AI Insights</h2>
           <Card className="bg-white/65 backdrop-blur-xl border border-white/30 shadow-lg">
             <CardContent className="p-5">
               <div className="space-y-4">
@@ -220,24 +226,26 @@ export default function HomePage() {
 
         {/* Progress Snapshot */}
         <div className="space-y-3">
-          <h2 className="text-lg font-semibold text-gray-900 tracking-tight">Progress Snapshot</h2>
+          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>Progress Snapshot</h2>
           <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
-            <CardContent className="p-5">
+            <CardContent className={`p-5 ${isLarge ? 'text-lg' : ''}`}>
               <div className="space-y-4">
                 {progressCategories.map((category, index) => (
                   <div key={category.name}>
                     <div className="flex items-center justify-between">
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900">{category.name}</p>
+                        <p className={`${isLarge ? 'text-xl' : 'text-sm'} font-medium text-gray-900`}>{category.name}</p>
                       </div>
                       <div className="flex items-center gap-3 ml-4">
-                        <div className="flex-1 bg-gray-200 rounded-full h-2 w-20">
-                          <div
-                            className={`h-2 rounded-full transition-all duration-500 ${category.barColor}`}
-                            style={{ width: `${category.progress}%` }}
-                          />
-                        </div>
-                        <span className={`text-xs font-semibold tabular-nums ${category.color} min-w-[32px] text-right`}>
+                        {!isLarge && (
+                          <div className="flex-1 bg-gray-200 rounded-full h-2 w-20">
+                            <div
+                              className={`h-2 rounded-full transition-all duration-500 ${category.barColor}`}
+                              style={{ width: `${category.progress}%` }}
+                            />
+                          </div>
+                        )}
+                        <span className={`${isLarge ? 'text-xl min-w-[40px]' : 'text-xs min-w-[32px]'} font-semibold tabular-nums ${category.color} text-right`}>
                           {category.progress}%
                         </span>
                       </div>
@@ -253,31 +261,40 @@ export default function HomePage() {
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-3 gap-3">
-          <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
-            <CardContent className="p-4 text-center">
-              <div className="border-b border-gray-100/50 pb-2 mb-2">
-                <div className="text-xl font-bold text-gray-900 tabular-nums">12</div>
-                <div className="text-xs text-gray-500 mt-1">Days Streak</div>
+        <div className={`grid ${isLarge ? 'grid-cols-1' : 'grid-cols-3'} gap-3`}>
+          <div className="duolingo-gradient-light rounded-2xl p-4 shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full duolingo-gradient-primary flex items-center justify-center shadow">
+                <Flame className="w-5 h-5 text-white" />
               </div>
-            </CardContent>
-          </Card>
-          <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
-            <CardContent className="p-4 text-center">
-              <div className="border-b border-gray-100/50 pb-2 mb-2">
-                <div className="text-xl font-bold text-gray-900 tabular-nums">2.5h</div>
-                <div className="text-xs text-gray-500 mt-1">Activity Hours</div>
+              <div className="flex-1">
+                <div className="text-2xl font-extrabold text-gray-900 tabular-nums">12</div>
+                <div className="text-xs text-gray-700 mt-0.5">Days Streak</div>
               </div>
-            </CardContent>
-          </Card>
-          <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
-            <CardContent className="p-4 text-center">
-              <div className="border-b border-gray-100/50 pb-2 mb-2">
-                <div className="text-xl font-bold text-gray-900 tabular-nums">847</div>
-                <div className="text-xs text-gray-500 mt-1">Stars Earned</div>
+            </div>
+          </div>
+          <div className="duolingo-gradient-light rounded-2xl p-4 shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full duolingo-gradient-success flex items-center justify-center shadow">
+                <Clock className="w-5 h-5 text-white" />
               </div>
-            </CardContent>
-          </Card>
+              <div className="flex-1">
+                <div className="text-2xl font-extrabold text-gray-900 tabular-nums">2.5h</div>
+                <div className="text-xs text-gray-700 mt-0.5">Activity Hours</div>
+              </div>
+            </div>
+          </div>
+          <div className="duolingo-gradient-light rounded-2xl p-4 shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full duolingo-gradient-primary flex items-center justify-center shadow">
+                <Star className="w-5 h-5 text-white" />
+              </div>
+              <div className="flex-1">
+                <div className="text-2xl font-extrabold text-gray-900 tabular-nums">847</div>
+                <div className="text-xs text-gray-700 mt-0.5">Stars Earned</div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Bottom padding for navigation */}
