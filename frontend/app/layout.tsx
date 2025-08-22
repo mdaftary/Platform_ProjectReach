@@ -3,9 +3,9 @@ import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import "./globals.css"
-import { MobileNavigation } from "@/components/mobile-navigation"
 import { AuthProvider } from "@/contexts/auth-context"
 import { RouteGuard } from "@/components/route-guard"
+import { ConditionalNavigation, ConditionalLayout } from "@/components/conditional-navigation"
 
 export const metadata: Metadata = {
   title: "REACH Hong Kong - Assignment Hub",
@@ -32,8 +32,8 @@ html {
       <body className="bg-gray-50">
         <AuthProvider>
           <RouteGuard>
-            <div className="min-h-screen pb-20">{children}</div>
-            <MobileNavigation />
+            <ConditionalLayout>{children}</ConditionalLayout>
+            <ConditionalNavigation />
           </RouteGuard>
         </AuthProvider>
       </body>

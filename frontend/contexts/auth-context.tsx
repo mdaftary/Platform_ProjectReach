@@ -102,7 +102,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         router.push('/login')
       } else if (user && isPublicRoute) {
         // Redirect to dashboard if authenticated and trying to access auth pages
-        router.push('/dashboard')
+        router.push('/')
       }
     }
   }, [user, isLoading, isPublicRoute, router, pathname])
@@ -136,7 +136,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('auth_token', 'mock_jwt_token_' + Date.now())
 
       setUser(authenticatedUser)
-      router.push('/dashboard')
+      router.push('/')
+      setIsLoading(false)
     } catch (error) {
       setIsLoading(false)
       throw error
@@ -201,7 +202,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('auth_token', 'mock_signup_token_' + Date.now())
 
       setUser(newUser)
-      router.push('/dashboard')
+      router.push('/')
     } catch (error) {
       setIsLoading(false)
       throw error

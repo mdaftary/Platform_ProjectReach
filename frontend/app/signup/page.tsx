@@ -445,7 +445,7 @@ export default function SignUpPage() {
 
                 {/* Continue Button */}
                 <Button
-                  onClick={() => window.location.href = '/dashboard'}
+                  onClick={() => window.location.href = '/'}
                   className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold py-3"
                 >
                   Continue to Dashboard

@@ -4,8 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Settings, User, Bell, Shield, HelpCircle, LogOut } from "lucide-react"
+import { useAuth } from "@/contexts/auth-context"
 
 export default function SettingsPage() {
+  const { user, logout } = useAuth()
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm px-4 py-4">
@@ -32,7 +35,7 @@ export default function SettingsPage() {
                 <span className="text-lg font-bold text-orange-600">EC</span>
               </div>
               <div>
-                <p className="font-medium text-gray-900">Emma Chen</p>
+                <p className="font-medium text-gray-900">{user?.username}</p>
                 <p className="text-sm text-gray-500">K3 Student</p>
               </div>
             </div>
@@ -121,7 +124,9 @@ export default function SettingsPage() {
         {/* Account */}
         <Card>
           <CardContent className="p-4">
-            <Button variant="destructive" className="w-full">
+            <Button variant="destructive" className="w-full" onClick={() => {
+              logout()
+            }}>
               <LogOut className="w-4 h-4 mr-2" />
               Sign Out
             </Button>
