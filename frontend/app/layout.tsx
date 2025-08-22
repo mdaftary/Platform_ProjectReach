@@ -38,7 +38,7 @@ html {
           <AuthProvider>
             <RouteGuard>
               <FontSizeProvider>
-                <div className="fixed top-3 left-3 z-50">
+                <div className="absolute top-3 left-3 z-50">
                   <LanguageSwitcher />
                 </div>
                 <ConditionalLayout>{children}</ConditionalLayout>
