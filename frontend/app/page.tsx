@@ -8,6 +8,7 @@ import { Camera, Play, CheckCircle2, Circle, User, Eye, ChevronRight, X, Check, 
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import { useFontSize } from "@/app/font-size-provider"
+import { useSoundEffects } from "@/hooks/use-sound-effects"
 import { Trans } from "react-i18next"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
@@ -52,6 +53,7 @@ const progressCategories = [
 export default function HomePage() {
   const { t } = useTranslation()
   const { isLarge } = useFontSize()
+  const { sounds } = useSoundEffects()
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
   const [uploadState, setUploadState] = useState<'idle' | 'uploading' | 'processing' | 'complete'>('idle')
   const [uploadedImage, setUploadedImage] = useState<string | null>(null)
@@ -77,6 +79,7 @@ export default function HomePage() {
   }, [showUserMenu])
 
   const handleUploadClick = () => {
+    sounds.upload()
     setUploadModalOpen(true)
     setUploadState('uploading')
     
@@ -84,15 +87,18 @@ export default function HomePage() {
     setTimeout(() => {
       setUploadedImage('/worksheet-example.jpg') // Mock uploaded image
       setUploadState('processing')
+      sounds.notification()
       
       // Simulate OCR processing
       setTimeout(() => {
         setUploadState('complete')
+        sounds.successSequence()
       }, 3000)
     }, 1500)
   }
 
   const closeModal = () => {
+    sounds.click()
     setUploadModalOpen(false)
     setUploadState('idle')
     setUploadedImage(null)
@@ -100,8 +106,16 @@ export default function HomePage() {
 
   return (
     <div className={`min-h-screen bg-gray-50 ${isLarge ? 'min-text-lg text-lg' : ''}`}>
+      {/* Skip to Content Link for Keyboard Navigation */}
+      <a 
+        href="#main-content" 
+        className="skip-link"
+        onClick={() => sounds.navigation()}
+      >
+        Skip to main content
+      </a>
       {/* Header */}
-      <div className="bg-white/80 backdrop-blur-xl border-b border-gray-100">
+      <div className="bg-white/95 border-b border-gray-100 relative z-10">
         <div className="max-w-md mx-auto px-6 py-6">
           {/* REACH Logo */}
           <div className="flex justify-center mb-4">
@@ -115,21 +129,33 @@ export default function HomePage() {
             </div>
             <div className="relative ml-4" ref={userMenuRef}>
               <button
-                onClick={() => setShowUserMenu(!showUserMenu)}
+                onClick={() => {
+                  sounds.click()
+                  setShowUserMenu(!showUserMenu)
+                }}
                 className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors cursor-pointer"
               >
                 <User className="w-5 h-5 text-gray-600" />
               </button>
               
               {showUserMenu && (
-                <div className="absolute right-0 top-12 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
+                <>
+                  {/* Invisible backdrop to close menu when clicking outside */}
+                  <div 
+                    className="fixed inset-0 z-[90]" 
+                    onClick={() => setShowUserMenu(false)}
+                  />
+                  <div className="absolute right-0 top-12 w-48 bg-white rounded-xl shadow-xl border border-gray-200 py-2 z-[100]">
                   <div className="px-4 py-2 border-b border-gray-100">
                     <p className="text-sm font-semibold text-gray-900">{user?.username}</p>
                     <p className="text-xs text-gray-500">{user?.email || user?.phone}</p>
                   </div>
                                 <Link
                 href="/settings"
-                onClick={() => setShowUserMenu(false)}
+                onClick={() => {
+                  sounds.navigation()
+                  setShowUserMenu(false)
+                }}
                 className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 <Settings className="w-4 h-4" />
@@ -137,7 +163,10 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/admin"
-                onClick={() => setShowUserMenu(false)}
+                onClick={() => {
+                  sounds.navigation()
+                  setShowUserMenu(false)
+                }}
                 className="w-full flex items-center gap-2 px-4 py-2 text-sm text-purple-600 hover:bg-purple-50 transition-colors"
               >
                 <BarChart3 className="w-4 h-4" />
@@ -145,6 +174,7 @@ export default function HomePage() {
               </Link>
               <button
                 onClick={() => {
+                  sounds.click()
                   logout()
                   setShowUserMenu(false)
                 }}
@@ -153,14 +183,16 @@ export default function HomePage() {
                 <LogOut className="w-4 h-4" />
                 {t('common.signOut')}
               </button>
-                </div>
+                  </div>
+                </>
               )}
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-md mx-auto px-6 py-6 space-y-6">
+      {/* Main Content */}
+      <main id="main-content" className="max-w-md mx-auto px-6 pb-8 space-y-6" tabIndex={-1}>
         {/* Weekly Tasks */}
         <div className="space-y-3">
           <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>{t('home.thisWeek')}</h2>
@@ -192,9 +224,12 @@ export default function HomePage() {
                     </div>
                     {task.isPrimary && !task.completed && (
                       <Button 
+                        onClick={() => {
+                          sounds.click()
+                          handleUploadClick()
+                        }}
                         size="sm" 
-                        onClick={handleUploadClick}
-                        className="bg-blue-500 hover:bg-blue-600 text-white border-0 px-4 py-2 text-sm font-semibold rounded-xl shadow-sm"
+                        className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-lg px-3 py-1.5 shadow-sm"
                       >
                         <task.icon className="w-4 h-4 mr-2" />
                         {t('home.upload')}
@@ -230,6 +265,7 @@ export default function HomePage() {
                   <Button 
                     variant="outline" 
                     size="sm" 
+                    onClick={() => sounds.navigation()}
                     className="border-gray-200 text-gray-700 hover:bg-gray-50 text-xs font-medium rounded-lg px-4 py-2"
                   >
                     {t('home.viewExercises')}
@@ -317,7 +353,7 @@ export default function HomePage() {
 
         {/* Bottom padding for navigation */}
         <div className="h-20"></div>
-      </div>
+      </main>
 
       {/* Upload Modal */}
       {uploadModalOpen && (
@@ -432,7 +468,7 @@ export default function HomePage() {
                           </div>
                           <div className="bg-green-50/50 rounded-xl p-3">
                             <p className="text-sm text-gray-900 leading-relaxed">
-                              Correctly circled <span className="font-semibold">"see"</span> and <span className="font-semibold">"cat"</span>. Great recognition skills!
+                              I loved seeing you identify <span className="font-semibold">"see"</span> and <span className="font-semibold">"cat"</span> so quickly! You're really getting the hang of these sight words.
                             </p>
                           </div>
                         </div>
@@ -445,7 +481,7 @@ export default function HomePage() {
                           </div>
                           <div className="bg-orange-50/50 rounded-xl p-3">
                             <p className="text-sm text-gray-900 leading-relaxed">
-                              Didn't circle <span className="font-semibold">"apple"</span>. Try double-checking sight words.
+
                             </p>
                           </div>
                         </div>
@@ -458,7 +494,7 @@ export default function HomePage() {
                           </div>
                           <div className="bg-blue-50/50 rounded-xl p-3">
                             <p className="text-sm text-gray-900 leading-relaxed">
-                              Good tracing, but spacing between <span className="font-semibold">"p"</span> and <span className="font-semibold">"a"</span> in "panda" needs work.
+
                             </p>
                           </div>
                         </div>
@@ -483,14 +519,7 @@ export default function HomePage() {
                     </CardContent>
                   </Card>
 
-                  {/* Close Button */}
-                  <Button 
-                    onClick={closeModal}
-                    variant="outline"
-                    className="w-full border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl font-semibold"
-                  >
-                    {t('home.done')}
-                  </Button>
+
                 </div>
               )}
             </div>

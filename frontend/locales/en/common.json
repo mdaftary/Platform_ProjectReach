@@ -84,6 +84,8 @@
     "darkMode": "Dark",
     "systemMode": "System",
     "accessibility": "Accessibility",
+    "fontSize": "Font Size",
+    "fontSizeDesc": "Choose the text size that works best for you",
     "largeText": "Large Text",
     "largeTextDesc": "Increase overall font size",
     "highContrast": "High Contrast",

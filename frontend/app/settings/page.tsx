@@ -9,6 +9,7 @@ import { useAuth } from "@/contexts/auth-context"
 import { useFontSize } from "@/app/font-size-provider"
 import { useAccessibility } from "@/app/accessibility-provider"
 import { useTheme } from "@/app/theme-provider"
+import { useSoundEffects } from "@/hooks/use-sound-effects"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
@@ -18,8 +19,9 @@ import { useTranslation } from "react-i18next"
 export default function SettingsPage() {
   const { t } = useTranslation()
   const { user, logout } = useAuth()
-  const { isLarge, toggle } = useFontSize()
+  const { mode, setMode, getFontSizeLabel, getFontSizeDescription } = useFontSize()
   const { theme, setTheme } = useTheme()
+  const { sounds } = useSoundEffects()
   const router = useRouter()
   
   // Use accessibility context
@@ -130,18 +132,43 @@ export default function SettingsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
-            {/* Large Text Toggle */}
+            {/* Font Size Selector */}
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-gray-900">{t('settings.largeText')}</p>
-                <p className="text-sm text-gray-500">{t('settings.largeTextDesc')}</p>
+                <p className="font-medium text-gray-900">{t('settings.fontSize')}</p>
+                <p className="text-sm text-gray-500">{t('settings.fontSizeDesc')}</p>
               </div>
-              <Switch 
-                checked={isLarge} 
-                onCheckedChange={toggle} 
-                aria-label="Toggle large text"
-                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-green-500" 
-              />
+              <Select value={mode} onValueChange={setMode}>
+                <SelectTrigger className="w-48">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="normal">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm">Aa</span>
+                      Normal Text
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="large">
+                    <div className="flex items-center gap-2">
+                      <span className="text-base">Aa</span>
+                      Large Text
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="extra-large">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">Aa</span>
+                      Extra Large Text
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="grandparent">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">👴👵</span>
+                      Grandparent Mode
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             
             {/* High Contrast */}
