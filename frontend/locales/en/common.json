@@ -300,7 +300,9 @@
       "progress": "Progress",
       "community": "Community",
       "volunteer": "Volunteer",
-      "leaderboard": "Leaderboard"
+      "leaderboard": "Leaderboard",
+      "qna": "Q&A",
+      "liveTutoring": "Live Tutoring"
     },
     "routeGuard": {
       "loading": "Loading...",
@@ -796,6 +798,78 @@
     "recent": {
       "title": "Recent Questions",
       "answered": "Answered"
+    },
+    "qna": {
+      "title": "Q&A Hub",
+      "subtitle": "Help parents and students with their learning questions",
+      "searchPlaceholder": "Search questions by title, content, or tags...",
+      "filters": {
+        "all": "All",
+        "urgent": "Urgent",
+        "unanswered": "Unanswered",
+        "answered": "Answered"
+      },
+      "priority": {
+        "urgent": "Urgent",
+        "normal": "Normal",
+        "low": "Low"
+      },
+      "status": {
+        "open": "Open",
+        "answered": "Answered", 
+        "resolved": "Resolved"
+      },
+      "actions": {
+        "answer": "Answer",
+        "submitAnswer": "Submit Answer",
+        "cancel": "Cancel"
+      },
+      "form": {
+        "yourAnswer": "Your Answer",
+        "answerPlaceholder": "Share your knowledge and help this parent...",
+        "submitted": "Answer submitted successfully!"
+      },
+      "stats": {
+        "questions": "Questions",
+        "upvotes": "upvotes",
+        "answers": "answers"
+      },
+      "empty": {
+        "title": "No questions found",
+        "subtitle": "Try adjusting your search terms or filters.",
+        "noResults": "Be the first to ask a question!"
+      }
+    },
+    "liveTutoring": {
+      "title": "Live Tutoring",
+      "subtitle": "Conduct one-on-one tutoring sessions with students",
+      "tabs": {
+        "upcoming": "Upcoming",
+        "live": "Live",
+        "completed": "Completed"
+      },
+      "session": {
+        "joinSession": "Join Session",
+        "startEarly": "Start Early",
+        "message": "Message",
+        "viewNotes": "View Notes"
+      },
+      "videoCall": {
+        "you": "You",
+        "live": "LIVE"
+      },
+      "time": {
+        "today": "Today",
+        "tomorrow": "Tomorrow"
+      },
+      "stats": {
+        "sessions": "Sessions"
+      },
+      "empty": {
+        "noLive": "No live sessions at the moment.",
+        "noUpcoming": "No upcoming sessions scheduled.",
+        "noCompleted": "No completed sessions yet."
+      }
     }
   }
   ,

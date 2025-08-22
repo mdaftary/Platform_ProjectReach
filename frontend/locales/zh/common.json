@@ -300,7 +300,9 @@
       "progress": "進度",
       "community": "社群",
       "volunteer": "義工",
-      "leaderboard": "排行榜"
+      "leaderboard": "排行榜",
+      "qna": "問答",
+      "liveTutoring": "實時輔導"
     },
     "routeGuard": {
       "loading": "載入中...",
@@ -796,6 +798,78 @@
     "recent": {
       "title": "最新問題",
       "answered": "已解答"
+    },
+    "qna": {
+      "title": "問答中心",
+      "subtitle": "幫助家長和學生解決學習問題",
+      "searchPlaceholder": "按標題、內容或標籤搜索問題...",
+      "filters": {
+        "all": "全部",
+        "urgent": "緊急",
+        "unanswered": "未解答",
+        "answered": "已解答"
+      },
+      "priority": {
+        "urgent": "緊急",
+        "normal": "一般",
+        "low": "低"
+      },
+      "status": {
+        "open": "開放",
+        "answered": "已解答", 
+        "resolved": "已解決"
+      },
+      "actions": {
+        "answer": "回答",
+        "submitAnswer": "提交回答",
+        "cancel": "取消"
+      },
+      "form": {
+        "yourAnswer": "你的回答",
+        "answerPlaceholder": "分享你的知識，幫助這位家長...",
+        "submitted": "回答提交成功！"
+      },
+      "stats": {
+        "questions": "問題",
+        "upvotes": "讚數",
+        "answers": "回答"
+      },
+      "empty": {
+        "title": "沒有找到問題",
+        "subtitle": "嘗試調整你的搜索詞或篩選器。",
+        "noResults": "成為第一個提問的人！"
+      }
+    },
+    "liveTutoring": {
+      "title": "實時輔導",
+      "subtitle": "與學生進行一對一輔導課程",
+      "tabs": {
+        "upcoming": "即將開始",
+        "live": "進行中",
+        "completed": "已完成"
+      },
+      "session": {
+        "joinSession": "加入課程",
+        "startEarly": "提早開始",
+        "message": "發訊息",
+        "viewNotes": "查看筆記"
+      },
+      "videoCall": {
+        "you": "你",
+        "live": "直播中"
+      },
+      "time": {
+        "today": "今天",
+        "tomorrow": "明天"
+      },
+      "stats": {
+        "sessions": "課程"
+      },
+      "empty": {
+        "noLive": "目前沒有進行中的課程。",
+        "noUpcoming": "沒有預定的課程。",
+        "noCompleted": "還沒有完成的課程。"
+      }
     }
   }
   ,
