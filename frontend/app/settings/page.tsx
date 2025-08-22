@@ -4,10 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Settings, User, Bell, Shield, HelpCircle, LogOut, Accessibility, Contrast, Volume2, Eye, MousePointer, ArrowLeft } from "lucide-react"
+import { Settings, User, Bell, Shield, HelpCircle, LogOut, Accessibility, Contrast, Volume2, Eye, MousePointer, ArrowLeft, Monitor, Sun, Moon } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { useFontSize } from "@/app/font-size-provider"
 import { useAccessibility } from "@/app/accessibility-provider"
+import { useTheme } from "@/app/theme-provider"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
@@ -18,6 +19,7 @@ export default function SettingsPage() {
   const { t } = useTranslation()
   const { user, logout } = useAuth()
   const { isLarge, toggle } = useFontSize()
+  const { theme, setTheme } = useTheme()
   const router = useRouter()
   
   // Use accessibility context
@@ -33,6 +35,22 @@ export default function SettingsPage() {
     focusIndicators,
     setFocusIndicators
   } = useAccessibility()
+
+  const getThemeIcon = () => {
+    switch (theme) {
+      case 'light': return Sun
+      case 'dark': return Moon  
+      default: return Monitor
+    }
+  }
+
+  const getThemeLabel = () => {
+    switch (theme) {
+      case 'light': return t('settings.lightMode')
+      case 'dark': return t('settings.darkMode')
+      default: return t('settings.systemMode')
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -57,6 +75,52 @@ export default function SettingsPage() {
       </header>
 
       <div className="max-w-md mx-auto px-4 py-6 space-y-6">
+        {/* Theme */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              {(() => {
+                const Icon = getThemeIcon()
+                return <Icon className="w-5 h-5" />
+              })()}
+              {t('settings.appearance')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium text-gray-900">{t('settings.theme')}</p>
+                <p className="text-sm text-gray-500">{t('settings.themeDesc')}</p>
+              </div>
+              <Select value={theme} onValueChange={setTheme}>
+                <SelectTrigger className="w-32">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="light">
+                    <div className="flex items-center gap-2">
+                      <Sun className="w-4 h-4" />
+                      {t('settings.lightMode')}
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="dark">
+                    <div className="flex items-center gap-2">
+                      <Moon className="w-4 h-4" />
+                      {t('settings.darkMode')}
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="system">
+                    <div className="flex items-center gap-2">
+                      <Monitor className="w-4 h-4" />
+                      {t('settings.systemMode')}
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Accessibility */}
         <Card>
           <CardHeader>

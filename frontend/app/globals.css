@@ -40,38 +40,38 @@
 }
 
 .dark {
-  --background: oklch(0.15 0 0); /* Dark background */
-  --foreground: oklch(0.95 0 0); /* Light text */
-  --card: oklch(0.18 0 0); /* Dark cards */
-  --card-foreground: oklch(0.95 0 0);
-  --popover: oklch(0.18 0 0);
-  --popover-foreground: oklch(0.95 0 0);
-  --primary: oklch(0.7 0.18 141); /* Brighter Duolingo green for dark mode */
-  --primary-foreground: oklch(0.15 0 0);
-  --secondary: oklch(0.35 0 0); /* Dark gray */
-  --secondary-foreground: oklch(0.95 0 0);
-  --muted: oklch(0.25 0 0);
-  --muted-foreground: oklch(0.7 0 0);
-  --accent: oklch(0.8 0.15 148); /* Bright light green accent */
-  --accent-foreground: oklch(0.15 0 0);
-  --destructive: oklch(0.6 0.22 15); /* Brighter red for dark mode */
-  --destructive-foreground: oklch(0.95 0 0);
-  --border: oklch(0.3 0 0);
-  --input: oklch(0.25 0 0);
-  --ring: oklch(0.7 0.18 141 / 0.4);
+  --background: oklch(0.09 0 0); /* #171717 - Deeper dark background */
+  --foreground: oklch(0.98 0 0); /* #FAFAFA - Light text */
+  --card: oklch(0.14 0 0); /* #262626 - Dark cards with better contrast */
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.14 0 0);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.7 0.18 141); /* #58CC02 - Duolingo green maintained */
+  --primary-foreground: oklch(0.09 0 0);
+  --secondary: oklch(0.2 0 0); /* #404040 - Better contrast */
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.2 0 0); /* #404040 */
+  --muted-foreground: oklch(0.65 0 0); /* #A3A3A3 - Better readability */
+  --accent: oklch(0.75 0.15 148); /* #7EE068 - Light green accent */
+  --accent-foreground: oklch(0.09 0 0);
+  --destructive: oklch(0.62 0.22 15); /* #EF4444 - Red for dark mode */
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.27 0 0); /* #525252 - Subtle borders */
+  --input: oklch(0.14 0 0); /* #262626 - Input backgrounds */
+  --ring: oklch(0.7 0.18 141 / 0.4); /* Green focus ring */
   --chart-1: oklch(0.7 0.18 141);
   --chart-2: oklch(0.8 0.15 148);
   --chart-3: oklch(0.6 0.16 135);
   --chart-4: oklch(0.9 0.12 152);
-  --chart-5: oklch(0.4 0 0);
-  --sidebar: oklch(0.2 0 0);
-  --sidebar-foreground: oklch(0.95 0 0);
+  --chart-5: oklch(0.35 0 0);
+  --sidebar: oklch(0.11 0 0); /* #1C1C1C */
+  --sidebar-foreground: oklch(0.98 0 0);
   --sidebar-primary: oklch(0.7 0.18 141);
-  --sidebar-primary-foreground: oklch(0.95 0 0);
-  --sidebar-accent: oklch(0.25 0 0);
-  --sidebar-accent-foreground: oklch(0.95 0 0);
-  --sidebar-border: oklch(0.3 0 0);
-  --sidebar-ring: oklch(0.5 0 0);
+  --sidebar-primary-foreground: oklch(0.09 0 0);
+  --sidebar-accent: oklch(0.2 0 0);
+  --sidebar-accent-foreground: oklch(0.98 0 0);
+  --sidebar-border: oklch(0.27 0 0);
+  --sidebar-ring: oklch(0.7 0.18 141 / 0.4);
 }
 
 @theme inline {
@@ -170,6 +170,187 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
+
+  /* Dark mode glass effects */
+  .dark .ios-glass {
+    background: rgba(23, 23, 23, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .dark .ios-glass-header {
+    background: rgba(23, 23, 23, 0.9);
+  }
+
+  .dark .duolingo-nav {
+    backdrop-filter: blur(20px);
+    background: rgba(23, 23, 23, 0.95);
+  }
+
+  .dark .duolingo-card {
+    background: rgba(38, 38, 38, 0.9);
+  }
+
+  /* Dark mode text and background improvements */
+  .dark .text-gray-900 {
+    color: rgb(250 250 250) !important;
+  }
+
+  .dark .text-gray-800 {
+    color: rgb(228 228 231) !important;
+  }
+
+  .dark .text-gray-700 {
+    color: rgb(212 212 216) !important;
+  }
+
+  .dark .text-gray-600 {
+    color: rgb(181 181 181) !important;
+  }
+
+  .dark .text-gray-500 {
+    color: rgb(163 163 163) !important;
+  }
+
+  .dark .text-gray-400 {
+    color: rgb(140 140 140) !important;
+  }
+
+  .dark .bg-white {
+    background-color: rgb(38 38 38) !important;
+  }
+
+  .dark .bg-gray-50 {
+    background-color: rgb(23 23 23) !important;
+  }
+
+  .dark .bg-gray-100 {
+    background-color: rgb(38 38 38) !important;
+  }
+
+  .dark .bg-gray-200 {
+    background-color: rgb(64 64 64) !important;
+  }
+
+  /* Homepage specific improvements */
+  .dark .shadow-sm,
+  .dark .shadow,
+  .dark .shadow-md,
+  .dark .shadow-lg,
+  .dark .shadow-xl {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2) !important;
+  }
+
+  /* Card improvements for dark mode */
+  .dark .rounded-xl,
+  .dark .rounded-lg {
+    border: 1px solid rgb(82 82 82) !important;
+  }
+
+  /* Button improvements */
+  .dark button:hover {
+    background-color: rgb(64 64 64) !important;
+  }
+
+  .dark .hover\\:bg-gray-50:hover {
+    background-color: rgb(64 64 64) !important;
+  }
+
+  .dark .hover\\:bg-gray-100:hover {
+    background-color: rgb(64 64 64) !important;
+  }
+
+  /* Green colors adjustments for dark mode */
+  .dark .text-green-600 {
+    color: rgb(34 197 94) !important;
+  }
+
+  .dark .bg-green-50 {
+    background-color: rgb(20 83 45) !important;
+  }
+
+  .dark .bg-green-100 {
+    background-color: rgb(22 101 52) !important;
+  }
+
+  /* Orange colors for icons */
+  .dark .text-orange-600 {
+    color: rgb(249 115 22) !important;
+  }
+
+  /* Border improvements */
+  .dark .border-gray-100 {
+    border-color: rgb(82 82 82) !important;
+  }
+
+  .dark .border-gray-200 {
+    border-color: rgb(82 82 82) !important;
+  }
+
+  /* Navigation improvements */
+  .dark .backdrop-blur-xl {
+    background: rgba(23, 23, 23, 0.8) !important;
+  }
+
+  /* Mobile navigation */
+  .dark nav {
+    background: rgba(23, 23, 23, 0.95) !important;
+    border-top: 1px solid rgb(82 82 82) !important;
+  }
+
+  /* Specific homepage improvements */
+  .dark .bg-blue-50 {
+    background-color: rgb(30 58 138) !important;
+  }
+
+  .dark .bg-blue-500 {
+    background-color: rgb(59 130 246) !important;
+  }
+
+  .dark .text-blue-600 {
+    color: rgb(96 165 250) !important;
+  }
+
+  /* Progress cards and badges */
+  .dark .bg-gradient-to-r {
+    filter: brightness(0.8) !important;
+  }
+
+  /* Ensure readability for all content */
+  .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+    color: rgb(250 250 250) !important;
+  }
+
+  .dark p {
+    color: rgb(212 212 216) !important;
+  }
+
+  /* Fix any white text that becomes invisible */
+  .dark .text-white {
+    color: rgb(250 250 250) !important;
+  }
+
+  /* Task completion indicators */
+  .dark .bg-green-500 {
+    background-color: rgb(34 197 94) !important;
+  }
+
+  .dark .text-green-500 {
+    color: rgb(34 197 94) !important;
+  }
+
+  /* Weekly tasks styling */
+  .dark .border-l-4 {
+    border-left-color: rgb(34 197 94) !important;
+  }
+
+  /* AI insights section */
+  .dark .bg-purple-50 {
+    background-color: rgb(76 29 149) !important;
+  }
+
+  .dark .text-purple-600 {
+    color: rgb(147 51 234) !important;
+  }
 }
 
 @layer utilities {
@@ -195,28 +376,33 @@
     padding-bottom: 0.75rem;
   }
 
-  /* High Contrast Mode - Improved for better usability */
+  /* High Contrast Mode - Works with both light and dark themes */
   .high-contrast {
-    --background: #1a1a1a;
+    filter: contrast(200%) saturate(150%);
+  }
+
+  .high-contrast.light {
+    --background: #ffffff;
+    --foreground: #000000;
+    --card: #ffffff;
+    --card-foreground: #000000;
+    --primary: #00aa00;
+    --secondary: #f5f5f5;
+    --muted: #e5e5e5;
+    --border: #000000;
+    --input: #ffffff;
+  }
+
+  .high-contrast.dark {
+    --background: #000000;
     --foreground: #ffffff;
-    --card: #262626;
+    --card: #000000;
     --card-foreground: #ffffff;
-    --popover: #262626;
-    --popover-foreground: #ffffff;
-    --primary: #4ade80;
-    --primary-foreground: #000000;
-    --secondary: #404040;
-    --secondary-foreground: #ffffff;
-    --muted: #404040;
-    --muted-foreground: #d4d4d8;
-    --accent: #fbbf24;
-    --accent-foreground: #000000;
-    --destructive: #ef4444;
-    --destructive-foreground: #ffffff;
-    --border: #525252;
-    --input: #262626;
-    --ring: #4ade80;
-    filter: contrast(150%);
+    --primary: #00ff00;
+    --secondary: #333333;
+    --muted: #333333;
+    --border: #ffffff;
+    --input: #000000;
   }
 
   .high-contrast .text-gray-500 {

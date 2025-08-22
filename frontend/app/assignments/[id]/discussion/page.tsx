@@ -11,14 +11,17 @@ import Link from "next/link"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
 
-export default function AssignmentDiscussionPage({ params }: { params: { id: string } }) {
+import { use } from "react"
+
+export default function AssignmentDiscussionPage({ params }: { params: Promise<{ id: string }> }) {
   const { t } = useTranslation()
   const [newMessage, setNewMessage] = useState("")
   const [isAnonymous, setIsAnonymous] = useState(false)
+  const resolvedParams = use(params)
 
   // Mock assignment data
   const assignment = {
-    id: params.id,
+    id: resolvedParams.id,
     title: "English Reading Comprehension",
     subject: "English",
     dueDate: "2025-08-23",

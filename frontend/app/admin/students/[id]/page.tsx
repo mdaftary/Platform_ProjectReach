@@ -24,11 +24,14 @@ import {
   Radar,
 } from "recharts"
 
-export default function StudentDetailPage({ params }: { params: { id: string } }) {
+import { use } from "react"
+
+export default function StudentDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { t } = useTranslation()
+  const resolvedParams = use(params)
   // Mock student data
   const student = {
-    id: params.id,
+    id: resolvedParams.id,
     name: "Emma Chen",
     grade: "K3",
     parentName: "Sarah Chen",

@@ -13,9 +13,11 @@ import { BookOpen, Upload, Camera, Video, FileText, ArrowLeft, X, Check } from "
 import Link from "next/link"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
+import { use } from "react"
 
-export default function SubmitAssignmentPage({ params }: { params: { id: string } }) {
+export default function SubmitAssignmentPage({ params }: { params: Promise<{ id: string }> }) {
   const { t } = useTranslation()
+  const resolvedParams = use(params)
   const [uploadedFiles, setUploadedFiles] = useState<
     Array<{
       id: string
@@ -31,7 +33,7 @@ export default function SubmitAssignmentPage({ params }: { params: { id: string 
 
   // Mock assignment data
   const assignment = {
-    id: params.id,
+    id: resolvedParams.id,
     title: "English Reading Comprehension",
     subject: "English",
     dueDate: "2025-08-23",

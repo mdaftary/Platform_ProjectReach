@@ -21,6 +21,7 @@ import {
 import Link from "next/link"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
+import { use } from "react"
 
 // Localized discussion and replies (EN / ZH)
 const discussionEn = {
@@ -209,14 +210,15 @@ const repliesZh = [
   },
 ]
 
-export default function DiscussionDetailPage({ params }: { params: { id: string } }) {
+export default function DiscussionDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { t, i18n } = useTranslation()
   const [newReply, setNewReply] = useState("")
   const [isAnonymous, setIsAnonymous] = useState(false)
+  const resolvedParams = use(params)
 
   const isZh = i18n.language?.startsWith('zh')
   const discussionBase = isZh ? discussionZh : discussionEn
-  const discussion = { id: params.id, ...discussionBase }
+  const discussion = { id: resolvedParams.id, ...discussionBase }
   const replies = isZh ? repliesZh : repliesEn
 
   const handleSubmitReply = () => {
