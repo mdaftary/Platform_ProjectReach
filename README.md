@@ -5,7 +5,7 @@
 
 'mongodb+srv://{username}:{pswd}@{clustername}.{randomstuff}.mongodb.net/?retryWrites=true&w=majority&appName={clustername}'.
 
-- Insert the table name you want here:
+- Insert the database name you want here:
 
 'mongodb+srv://username:pswd@clustername.randomstuff.mongodb.net/**{INSERT_HERE}**?retryWrites=true&w=majority&appName=clustername'.
 
