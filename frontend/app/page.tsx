@@ -418,7 +418,7 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  {/* AI Feedback Card */}
+                  {/* REACH Expert Feedback Card */}
                   <Card className="bg-white border border-gray-200 shadow-sm">
                     <CardContent className="p-5">
                       <div className="space-y-5">
