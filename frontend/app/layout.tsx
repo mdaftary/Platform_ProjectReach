@@ -8,6 +8,8 @@ import { RouteGuard } from "@/components/route-guard"
 import { ConditionalNavigation, ConditionalLayout } from "@/components/conditional-navigation"
 import { MobileNavigation } from "@/components/mobile-navigation"
 import { FontSizeProvider } from "./font-size-provider"
+import I18nProvider from "./i18n-provider"
+import LanguageSwitcher from "@/components/language-switcher"
 
 export const metadata: Metadata = {
   title: "REACH Hong Kong - Assignment Hub",
@@ -32,14 +34,19 @@ html {
         `}</style>
       </head>
       <body className="bg-gray-50">
-        <AuthProvider>
-          <RouteGuard>
-            <FontSizeProvider>
-              <ConditionalLayout>{children}</ConditionalLayout>
-              <ConditionalNavigation />
-            </FontSizeProvider>
-          </RouteGuard>
-        </AuthProvider>
+        <I18nProvider>
+          <AuthProvider>
+            <RouteGuard>
+              <FontSizeProvider>
+                <div className="fixed top-3 left-3 z-50">
+                  <LanguageSwitcher />
+                </div>
+                <ConditionalLayout>{children}</ConditionalLayout>
+                <ConditionalNavigation />
+              </FontSizeProvider>
+            </RouteGuard>
+          </AuthProvider>
+        </I18nProvider>
       </body>
     </html>
   )

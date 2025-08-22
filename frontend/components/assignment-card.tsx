@@ -1,8 +1,12 @@
+"use client"
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Upload, Download, Clock, CheckCircle, AlertCircle } from "lucide-react"
 import Link from "next/link"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 interface Assignment {
   id: string
@@ -23,6 +27,7 @@ interface AssignmentCardProps {
 }
 
 export function AssignmentCard({ assignment }: AssignmentCardProps) {
+  const { t } = useTranslation()
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "submitted":
@@ -43,7 +48,7 @@ export function AssignmentCard({ assignment }: AssignmentCardProps) {
     if (isOverdue) {
       return (
         <Badge variant="destructive" className="text-xs">
-          Overdue
+          {t('components.assignmentCard.status.overdue')}
         </Badge>
       )
     }
@@ -52,19 +57,19 @@ export function AssignmentCard({ assignment }: AssignmentCardProps) {
       case "submitted":
         return (
           <Badge variant="secondary" className="text-xs bg-green-100 text-green-800">
-            Submitted
+            {t('components.assignmentCard.status.submitted')}
           </Badge>
         )
       case "graded":
         return (
           <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-800">
-            Graded
+            {t('components.assignmentCard.status.graded')}
           </Badge>
         )
       case "pending":
         return (
           <Badge variant="outline" className="text-xs">
-            Pending
+            {t('components.assignmentCard.status.pending')}
           </Badge>
         )
       default:
@@ -96,11 +101,11 @@ export function AssignmentCard({ assignment }: AssignmentCardProps) {
         {/* Assignment Details */}
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
-            <p className="text-muted-foreground">Due Date</p>
+            <p className="text-muted-foreground">{t('components.assignmentCard.labels.dueDate')}</p>
             <p className="font-medium text-foreground">{new Date(assignment.dueDate).toLocaleDateString()}</p>
           </div>
           <div>
-            <p className="text-muted-foreground">Est. Time</p>
+            <p className="text-muted-foreground">{t('components.assignmentCard.labels.estTime')}</p>
             <p className="font-medium text-foreground">{assignment.estimatedTime}</p>
           </div>
         </div>
@@ -109,7 +114,7 @@ export function AssignmentCard({ assignment }: AssignmentCardProps) {
         {assignment.hasSubmission && assignment.grade && (
           <div className="bg-green-50 border border-green-200 rounded-lg p-3">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-sm font-medium text-green-800">Grade</span>
+              <span className="text-sm font-medium text-green-800">{t('components.assignmentCard.labels.grade')}</span>
               <span className="text-lg font-bold text-green-600">{assignment.grade}</span>
             </div>
             {assignment.feedback && <p className="text-xs text-green-700">{assignment.feedback}</p>}
@@ -122,7 +127,7 @@ export function AssignmentCard({ assignment }: AssignmentCardProps) {
             <Button size="sm" className="flex-1 bg-primary hover:bg-primary/90" asChild>
               <Link href={`/assignments/${assignment.id}`}>
                 <Download className="w-4 h-4 mr-1" />
-                View Details
+                {t('components.assignmentCard.actions.viewDetails')}
               </Link>
             </Button>
 
@@ -130,12 +135,12 @@ export function AssignmentCard({ assignment }: AssignmentCardProps) {
               <Button size="sm" variant="outline" className="flex-1 bg-transparent" asChild>
                 <Link href={`/assignments/${assignment.id}/submit`}>
                   <Upload className="w-4 h-4 mr-1" />
-                  Submit Work
+                  {t('components.assignmentCard.actions.submitWork')}
                 </Link>
               </Button>
             ) : (
               <Button size="sm" variant="outline" className="flex-1 bg-transparent" asChild>
-                <Link href={`/assignments/${assignment.id}/submission`}>View Submission</Link>
+                <Link href={`/assignments/${assignment.id}/submission`}>{t('components.assignmentCard.actions.viewSubmission')}</Link>
               </Button>
             )}
           </div>

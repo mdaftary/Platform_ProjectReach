@@ -6,8 +6,11 @@ import { Switch } from "@/components/ui/switch"
 import { Settings, User, Bell, Shield, HelpCircle, LogOut, Accessibility } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { useFontSize } from "@/app/font-size-provider"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 export default function SettingsPage() {
+  const { t } = useTranslation()
   const { user, logout } = useAuth()
   const { isLarge, toggle } = useFontSize()
 
@@ -17,7 +20,7 @@ export default function SettingsPage() {
         <div className="max-w-md mx-auto">
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
             <Settings className="w-6 h-6 text-orange-600" />
-            Settings
+            {t('settings.title')}
           </h1>
         </div>
       </header>
@@ -28,14 +31,14 @@ export default function SettingsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Accessibility className="w-5 h-5" />
-              Accessibility
+              {t('settings.accessibility')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-gray-900">Large Text</p>
-                <p className="text-sm text-gray-500">Increase overall font size</p>
+                <p className="font-medium text-gray-900">{t('settings.largeText')}</p>
+                <p className="text-sm text-gray-500">{t('settings.largeTextDesc')}</p>
               </div>
               <Switch checked={isLarge} onCheckedChange={toggle} aria-label="Toggle large text" />
             </div>
@@ -47,7 +50,7 @@ export default function SettingsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <User className="w-5 h-5" />
-              Profile
+              {t('settings.profile')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -61,7 +64,7 @@ export default function SettingsPage() {
               </div>
             </div>
             <Button variant="outline" className="w-full bg-transparent">
-              Edit Profile
+              {t('settings.editProfile')}
             </Button>
           </CardContent>
         </Card>
@@ -71,28 +74,28 @@ export default function SettingsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Bell className="w-5 h-5" />
-              Notifications
+              {t('settings.notifications')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-gray-900">Assignment Reminders</p>
-                <p className="text-sm text-gray-500">Get notified about due dates</p>
+                <p className="font-medium text-gray-900">{t('settings.assignmentReminders')}</p>
+                <p className="text-sm text-gray-500">{t('settings.assignmentRemindersDesc')}</p>
               </div>
               <Switch defaultChecked />
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-gray-900">Community Updates</p>
-                <p className="text-sm text-gray-500">New discussions and replies</p>
+                <p className="font-medium text-gray-900">{t('settings.communityUpdates')}</p>
+                <p className="text-sm text-gray-500">{t('settings.communityUpdatesDesc')}</p>
               </div>
               <Switch defaultChecked />
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-gray-900">Achievement Badges</p>
-                <p className="text-sm text-gray-500">When you earn new badges</p>
+                <p className="font-medium text-gray-900">{t('settings.achievementBadges')}</p>
+                <p className="text-sm text-gray-500">{t('settings.achievementBadgesDesc')}</p>
               </div>
               <Switch defaultChecked />
             </div>
@@ -104,19 +107,19 @@ export default function SettingsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Shield className="w-5 h-5" />
-              Privacy & Security
+              {t('settings.privacy')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-gray-900">Anonymous Mode</p>
-                <p className="text-sm text-gray-500">Hide your name in discussions</p>
+                <p className="font-medium text-gray-900">{t('settings.anonymousMode')}</p>
+                <p className="text-sm text-gray-500">{t('settings.anonymousModeDesc')}</p>
               </div>
               <Switch />
             </div>
             <Button variant="outline" className="w-full bg-transparent">
-              Change Password
+              {t('settings.changePassword')}
             </Button>
           </CardContent>
         </Card>
@@ -126,18 +129,18 @@ export default function SettingsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <HelpCircle className="w-5 h-5" />
-              Support
+              {t('settings.support')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <Button variant="outline" className="w-full justify-start bg-transparent">
-              Help Center
+              {t('settings.helpCenter')}
             </Button>
             <Button variant="outline" className="w-full justify-start bg-transparent">
-              Contact Support
+              {t('settings.contactSupport')}
             </Button>
             <Button variant="outline" className="w-full justify-start bg-transparent">
-              Report a Problem
+              {t('settings.reportProblem')}
             </Button>
           </CardContent>
         </Card>
@@ -149,7 +152,7 @@ export default function SettingsPage() {
               logout()
             }}>
               <LogOut className="w-4 h-4 mr-2" />
-              Sign Out
+              {t('common.signOut')}
             </Button>
           </CardContent>
         </Card>

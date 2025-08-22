@@ -8,6 +8,8 @@ import { Camera, Play, CheckCircle2, Circle, User, Eye, ChevronRight, X, Check, 
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import { useFontSize } from "@/app/font-size-provider"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 // Weekly tasks data
 const weeklyTasks = [
@@ -47,6 +49,7 @@ const progressCategories = [
 ]
 
 export default function HomePage() {
+  const { t } = useTranslation()
   const { isLarge } = useFontSize()
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
   const [uploadState, setUploadState] = useState<'idle' | 'uploading' | 'processing' | 'complete'>('idle')
@@ -106,12 +109,8 @@ export default function HomePage() {
           
           <div className="flex items-start justify-between">
             <div className="flex-1">
-              <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-                Emma's Learning Journey
-              </h1>
-              <p className="text-base text-gray-500 mt-1 font-medium">
-                Grade K3 • Parent Dashboard
-              </p>
+              <h1 className="text-2xl font-bold text-gray-900 tracking-tight">{t('home.headerTitle')}</h1>
+              <p className="text-base text-gray-500 mt-1 font-medium">{t('home.headerSubtitle')}</p>
             </div>
             <div className="relative ml-4" ref={userMenuRef}>
               <button
@@ -135,7 +134,7 @@ export default function HomePage() {
                     className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
                   >
                     <LogOut className="w-4 h-4" />
-                    Sign Out
+                    {t('common.signOut')}
                   </button>
                 </div>
               )}
@@ -147,7 +146,7 @@ export default function HomePage() {
       <div className="max-w-md mx-auto px-6 py-6 space-y-6">
         {/* Weekly Tasks */}
         <div className="space-y-3">
-          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>This Week</h2>
+          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>{t('home.thisWeek')}</h2>
           <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
             <CardContent className="p-0">
               <div className="divide-y divide-gray-100">
@@ -181,7 +180,7 @@ export default function HomePage() {
                         className="bg-blue-500 hover:bg-blue-600 text-white border-0 px-4 py-2 text-sm font-semibold rounded-xl shadow-sm"
                       >
                         <task.icon className="w-4 h-4 mr-2" />
-                        Upload
+                        {t('home.upload')}
                       </Button>
                     )}
                     {(!task.isPrimary && !isLarge) && (
@@ -196,7 +195,7 @@ export default function HomePage() {
 
         {/* AI Insights - Priority Section */}
         <div className="space-y-3">
-          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>AI Insights</h2>
+          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>{t('home.aiInsights')}</h2>
           <Card className="bg-white/65 backdrop-blur-xl border border-white/30 shadow-lg">
             <CardContent className="p-5">
               <div className="space-y-4">
@@ -216,7 +215,7 @@ export default function HomePage() {
                     size="sm" 
                     className="border-gray-200 text-gray-700 hover:bg-gray-50 text-xs font-medium rounded-lg px-4 py-2"
                   >
-                    View Exercises
+                    {t('home.viewExercises')}
                   </Button>
                 </div>
               </div>
@@ -226,7 +225,7 @@ export default function HomePage() {
 
         {/* Progress Snapshot */}
         <div className="space-y-3">
-          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>Progress Snapshot</h2>
+          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>{t('home.progressSnapshot')}</h2>
           <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
             <CardContent className={`p-5 ${isLarge ? 'text-lg' : ''}`}>
               <div className="space-y-4">
@@ -269,7 +268,7 @@ export default function HomePage() {
               </div>
               <div className="flex-1">
                 <div className="text-2xl font-extrabold text-gray-900 tabular-nums">12</div>
-                <div className="text-xs text-gray-700 mt-0.5">Days Streak</div>
+                <div className="text-xs text-gray-700 mt-0.5">{t('home.daysStreak')}</div>
               </div>
             </div>
           </div>
@@ -280,7 +279,7 @@ export default function HomePage() {
               </div>
               <div className="flex-1">
                 <div className="text-2xl font-extrabold text-gray-900 tabular-nums">2.5h</div>
-                <div className="text-xs text-gray-700 mt-0.5">Activity Hours</div>
+                <div className="text-xs text-gray-700 mt-0.5">{t('home.activityHours')}</div>
               </div>
             </div>
           </div>
@@ -291,7 +290,7 @@ export default function HomePage() {
               </div>
               <div className="flex-1">
                 <div className="text-2xl font-extrabold text-gray-900 tabular-nums">847</div>
-                <div className="text-xs text-gray-700 mt-0.5">Stars Earned</div>
+                <div className="text-xs text-gray-700 mt-0.5">{t('home.starsEarned')}</div>
               </div>
             </div>
           </div>
@@ -307,7 +306,7 @@ export default function HomePage() {
           <div className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
             {/* Modal Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-100/50">
-              <h2 className="text-xl font-bold text-gray-900">Upload Worksheet</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t('home.modalUploadWorksheet')}</h2>
               <button
                 onClick={closeModal}
                 className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
@@ -324,8 +323,8 @@ export default function HomePage() {
                       <Loader className="w-8 h-8 text-blue-600 animate-spin stroke-2" />
                     </div>
                   <div>
-                    <p className="text-lg font-semibold text-gray-900">Uploading...</p>
-                    <p className="text-sm text-gray-500 mt-1">Processing your worksheet</p>
+                    <p className="text-lg font-semibold text-gray-900">{t('home.uploading')}</p>
+                    <p className="text-sm text-gray-500 mt-1">{t('home.processingWorksheet')}</p>
                   </div>
                 </div>
               )}
@@ -340,7 +339,7 @@ export default function HomePage() {
                         <Check className="w-5 h-5 text-white stroke-2" />
                       </div>
                       <div>
-                        <p className="font-semibold text-green-900">Worksheet uploaded successfully</p>
+                        <p className="font-semibold text-green-900">{t('home.uploadedSuccessfully')}</p>
                         <p className="text-sm text-green-700">Week 12 - Alphabet Practice</p>
                       </div>
                     </div>
@@ -348,12 +347,12 @@ export default function HomePage() {
 
                   {/* Uploaded Image Preview */}
                   <div className="space-y-3">
-                    <h3 className="font-semibold text-gray-900">Uploaded Worksheet</h3>
+                    <h3 className="font-semibold text-gray-900">{t('home.uploadedWorksheet')}</h3>
                     <div className="bg-gray-100 rounded-2xl p-4 aspect-[4/3] flex items-center justify-center">
                       <div className="text-center text-gray-500">
                         <Camera className="w-8 h-8 mx-auto mb-2" />
-                        <p className="text-sm">Worksheet Preview</p>
-                        <p className="text-xs">Sight word circling task</p>
+                        <p className="text-sm">{t('home.worksheetPreview')}</p>
+                        <p className="text-xs">{t('home.sightWordTask')}</p>
                       </div>
                     </div>
                   </div>
@@ -364,8 +363,8 @@ export default function HomePage() {
                       <Loader className="w-6 h-6 text-blue-600 animate-spin stroke-2" />
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900">Analyzing handwriting and answers...</p>
-                      <p className="text-sm text-gray-500 mt-1">This usually takes 30-60 seconds</p>
+                      <p className="font-semibold text-gray-900">{t('home.analyzing')}</p>
+                      <p className="text-sm text-gray-500 mt-1">{t('home.takes3060')}</p>
                     </div>
                   </div>
                 </div>
@@ -381,8 +380,8 @@ export default function HomePage() {
                         <Check className="w-5 h-5 text-white stroke-2" />
                       </div>
                       <div>
-                        <p className="font-semibold text-green-900">Analysis complete</p>
-                        <p className="text-sm text-green-700">Emma's worksheet has been reviewed</p>
+                        <p className="font-semibold text-green-900">{t('home.analysisComplete')}</p>
+                        <p className="text-sm text-green-700">{t('home.emmaReviewed')}</p>
                       </div>
                     </div>
                   </div>
@@ -394,8 +393,8 @@ export default function HomePage() {
                         <ArrowRight className="w-4 h-4 text-white stroke-2" />
                       </div>
                       <div>
-                        <p className="font-semibold text-blue-900">Progress Updated</p>
-                        <p className="text-sm text-blue-700">+2% Vocabulary Progress • +1% Phonemic Awareness</p>
+                        <p className="font-semibold text-blue-900">{t('home.progressUpdated')}</p>
+                        <p className="text-sm text-blue-700">{t('home.progressDelta')}</p>
                       </div>
                     </div>
                   </div>
@@ -404,13 +403,13 @@ export default function HomePage() {
                   <Card className="bg-white border border-gray-200 shadow-sm">
                     <CardContent className="p-5">
                       <div className="space-y-5">
-                        <h3 className="text-lg font-bold text-gray-900">AI Feedback</h3>
+                        <h3 className="text-lg font-bold text-gray-900">{t('home.aiFeedback')}</h3>
                         
                         {/* What Went Well Section */}
                         <div className="space-y-3">
                           <div className="flex items-center gap-2">
                             <Check className="w-4 h-4 text-green-600 stroke-2" />
-                            <h4 className="text-sm font-semibold text-green-800">What Went Well</h4>
+                            <h4 className="text-sm font-semibold text-green-800">{t('home.whatWentWell')}</h4>
                           </div>
                           <div className="bg-green-50/50 rounded-xl p-3">
                             <p className="text-sm text-gray-900 leading-relaxed">
@@ -423,7 +422,7 @@ export default function HomePage() {
                         <div className="space-y-3">
                           <div className="flex items-center gap-2">
                             <AlertCircle className="w-4 h-4 text-orange-600 stroke-2" />
-                            <h4 className="text-sm font-semibold text-orange-800">Needs Practice</h4>
+                            <h4 className="text-sm font-semibold text-orange-800">{t('home.needsPractice')}</h4>
                           </div>
                           <div className="bg-orange-50/50 rounded-xl p-3">
                             <p className="text-sm text-gray-900 leading-relaxed">
@@ -436,7 +435,7 @@ export default function HomePage() {
                         <div className="space-y-3">
                           <div className="flex items-center gap-2">
                             <Eye className="w-4 h-4 text-blue-600 stroke-2" />
-                            <h4 className="text-sm font-semibold text-blue-800">General Notes</h4>
+                            <h4 className="text-sm font-semibold text-blue-800">{t('home.generalNotes')}</h4>
                           </div>
                           <div className="bg-blue-50/50 rounded-xl p-3">
                             <p className="text-sm text-gray-900 leading-relaxed">
@@ -447,17 +446,17 @@ export default function HomePage() {
 
                         {/* Divider */}
                         <div className="border-t border-gray-100 pt-4">
-                          <h4 className="font-semibold text-gray-900 mb-3">Suggested Next Steps</h4>
+                          <h4 className="font-semibold text-gray-900 mb-3">{t('home.suggestedNextSteps')}</h4>
                           
                           <div className="space-y-3">
                             <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold">
                               <ArrowRight className="w-4 h-4 mr-2 stroke-2" />
-                              View Recommended Practice
+                              {t('home.viewRecommendedPractice')}
                             </Button>
                             
                             <button className="w-full flex items-center justify-center gap-2 text-sm text-gray-600 hover:text-gray-800 transition-colors">
                               <Download className="w-4 h-4 stroke-2" />
-                              Download extra worksheet (PDF)
+                              {t('home.downloadExtraWorksheet')}
                             </button>
                           </div>
                         </div>
@@ -471,7 +470,7 @@ export default function HomePage() {
                     variant="outline"
                     className="w-full border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl font-semibold"
                   >
-                    Done
+                    {t('home.done')}
                   </Button>
                 </div>
               )}

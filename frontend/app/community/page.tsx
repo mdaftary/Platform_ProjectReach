@@ -19,6 +19,8 @@ import {
   Share2,
   Download,
 } from "lucide-react"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 const timeAuctionVolunteers = [
   { name: "TeacherVolunteer", expertise: "Former K3 Teacher", hours: 4.5, answers: 12, available: true },
@@ -85,13 +87,14 @@ const practiceGroups = [
 ]
 
 export default function CommunityPage() {
+  const { t } = useTranslation()
   const [activeTab, setActiveTab] = useState("discussions")
   const { isLarge } = useFontSize()
 
   const tabs = [
-    { id: "discussions", label: "Discussions", icon: MessageSquare },
-    { id: "resources", label: "Resources", icon: Share2 },
-    { id: "groups", label: "Groups", icon: Users },
+    { id: "discussions", label: t('community.page.tabs.discussions'), icon: MessageSquare },
+    { id: "resources", label: t('community.page.tabs.resources'), icon: Share2 },
+    { id: "groups", label: t('community.page.tabs.groups'), icon: Users },
   ]
 
   return (
@@ -99,13 +102,13 @@ export default function CommunityPage() {
       <div className="max-w-md mx-auto px-4 py-6 space-y-6">
         {/* Welcome Section */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Community</h1>
-          <p className="text-muted-foreground">Connect, learn, and grow together</p>
+          <h1 className="text-3xl font-bold text-foreground mb-2">{t('community.page.title')}</h1>
+          <p className="text-muted-foreground">{t('community.page.subtitle')}</p>
         </div>
         {/* Search */}
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-          <Input placeholder="Search community..." className="pl-10 duolingo-card border-0 shadow-lg" />
+          <Input placeholder={t('community.page.search')} className="pl-10 duolingo-card border-0 shadow-lg" />
         </div>
 
         {/* Tab Navigation */}
@@ -131,10 +134,10 @@ export default function CommunityPage() {
         {activeTab === "discussions" && (
           <div className="space-y-5">
             <div className="flex justify-between items-center">
-              <h2 className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>Recent Discussions</h2>
+              <h2 className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>{t('community.page.discussions.recent')}</h2>
               <Button size="sm" className="duolingo-button duolingo-gradient-primary border-0 text-white font-semibold">
                 {!isLarge && <Plus className="w-4 h-4 mr-1" />}
-                New Post
+                {t('community.page.discussions.newPost')}
               </Button>
             </div>
 
@@ -209,7 +212,7 @@ export default function CommunityPage() {
                       {/* Recent Replies Preview */}
                       {!isLarge && discussion.recentReplies && discussion.recentReplies.length > 0 && (
                         <div className="bg-gray-50 rounded-lg p-3 space-y-2">
-                          <div className="text-xs font-medium text-gray-600 mb-2">Latest replies:</div>
+                          <div className="text-xs font-medium text-gray-600 mb-2">{t('community.page.discussions.latestReplies')}</div>
                           {discussion.recentReplies.slice(0, 2).map((reply, replyIndex) => (
                             <div key={replyIndex} className="flex items-start gap-2">
                               <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -249,7 +252,7 @@ export default function CommunityPage() {
                             </div>
                           </div>
                           <Button variant="outline" size="sm" className="text-green-700 border-green-400 hover:bg-green-100">
-                            Follow
+                            {t('community.page.discussions.follow')}
                           </Button>
                         </div>
                       </div>
@@ -265,10 +268,10 @@ export default function CommunityPage() {
         {activeTab === "resources" && (
           <div className="space-y-5">
             <div className="flex justify-between items-center">
-              <h2 className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>Shared Resources</h2>
+              <h2 className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>{t('community.page.resources.title')}</h2>
               <Button size="sm" className="duolingo-button duolingo-gradient-primary border-0 text-white font-semibold">
                 {!isLarge && <Plus className="w-4 h-4 mr-1" />}
-                Share
+                {t('community.page.resources.share')}
               </Button>
             </div>
 
@@ -283,7 +286,7 @@ export default function CommunityPage() {
                           <div className="text-green-600 font-bold text-xs text-center">
                             {resource.type}
                             <br />
-                            <div className="text-xs opacity-75">Preview</div>
+                            <div className="text-xs opacity-75">{t('community.page.resources.preview')}</div>
                           </div>
                         </div>
                         
@@ -293,11 +296,11 @@ export default function CommunityPage() {
                           </div>
                           
                           <div className={`flex ${isLarge ? 'flex-col items-start gap-1' : 'items-center gap-2'} text-sm text-muted-foreground`}>
-                            <span>By {resource.author}</span>
+                            <span>{t('community.page.resources.by')} {resource.author}</span>
                             {!isLarge && <span>•</span>}
                             <span>⭐ {resource.rating}</span>
                             {!isLarge && <span>•</span>}
-                            <span>{resource.downloads} downloads</span>
+                            <span>{resource.downloads} {t('community.page.resources.download')}</span>
                           </div>
                           
                           {/* File Details */}
@@ -316,18 +319,18 @@ export default function CommunityPage() {
                         <div className="flex items-center gap-2">
                           {!isLarge && (
                             <Button variant="outline" size="sm" className="text-gray-800 border-gray-300 hover:bg-gray-100">
-                              Preview
+                              {t('community.page.resources.preview')}
                             </Button>
                           )}
                           <Button variant="outline" size="sm" className="text-blue-700 border-blue-400 hover:bg-blue-100">
                             {!isLarge && <Heart className="w-3 h-3 mr-1 stroke-2" />}
-                            Favourite
+                            {t('community.page.resources.favourite')}
                           </Button>
                         </div>
                         
                         <Button size="sm" className="bg-green-500 hover:bg-green-600 text-white border-0 rounded-xl px-4 py-2 font-semibold shadow-sm">
                           {!isLarge && <Download className="w-4 h-4 mr-2 stroke-2" />}
-                          Download
+                          {t('community.page.resources.download')}
                         </Button>
                       </div>
                     </div>
@@ -342,10 +345,10 @@ export default function CommunityPage() {
         {activeTab === "groups" && (
           <div className="space-y-5">
             <div className="flex justify-between items-center">
-              <h2 className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>Practice Groups</h2>
+              <h2 className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>{t('community.page.groups.title')}</h2>
               <Button size="sm" className="duolingo-button duolingo-gradient-primary border-0 text-white font-semibold">
                 {!isLarge && <Plus className="w-4 h-4 mr-1" />}
-                Create
+                {t('community.page.groups.create')}
               </Button>
             </div>
 
@@ -364,7 +367,7 @@ export default function CommunityPage() {
                       <div className="flex items-center gap-4 text-sm text-muted-foreground">
                         <div className="flex items-center gap-1">
                           <Users className="w-4 h-4" />
-                          <span>{group.members} members</span>
+                          <span>{group.members} {t('community.page.groups.members')}</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <Clock className="w-4 h-4" />
@@ -372,7 +375,7 @@ export default function CommunityPage() {
                         </div>
                       </div>
                       <Button size="sm" className="w-full duolingo-button duolingo-gradient-primary border-0 text-white font-semibold">
-                        Join Group (+25 pts)
+                        {t('community.page.groups.join')}
                       </Button>
                     </div>
                   </CardContent>

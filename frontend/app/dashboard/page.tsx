@@ -20,8 +20,11 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 export default function ParentDashboard() {
+  const { t } = useTranslation()
   // Mock data for charts
   const progressData = [
     { week: "Week 1", english: 75, math: 80, science: 70 },
@@ -98,7 +101,7 @@ export default function ParentDashboard() {
                 </div>
                 <div>
                   <h1 className="text-xl font-bold text-foreground">REACH Hong Kong</h1>
-                  <p className="text-sm text-muted-foreground">Parent Dashboard</p>
+                  <p className="text-sm text-muted-foreground">{t('dashboard.header.subtitle')}</p>
                 </div>
               </Link>
             </div>
@@ -107,7 +110,7 @@ export default function ParentDashboard() {
                 Emma Chen - K3
               </Badge>
               <Button variant="outline" size="sm">
-                Settings
+                {t('dashboard.header.settings')}
               </Button>
             </div>
           </div>
@@ -117,16 +120,16 @@ export default function ParentDashboard() {
       <main className="container mx-auto px-4 py-8">
         {/* Welcome Section */}
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-foreground mb-2">Welcome back, Sarah Chen</h2>
-          <p className="text-muted-foreground">Track Emma's learning journey and connect with the REACH community</p>
+          <h2 className="text-3xl font-bold text-foreground mb-2">{t('dashboard.welcome', { name: 'Sarah Chen' })}</h2>
+          <p className="text-muted-foreground">{t('dashboard.welcomeSubtitle')}</p>
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="progress">Progress</TabsTrigger>
-            <TabsTrigger value="engagement">Engagement</TabsTrigger>
-            <TabsTrigger value="recommendations">Insights</TabsTrigger>
+            <TabsTrigger value="overview">{t('dashboard.tabs.overview')}</TabsTrigger>
+            <TabsTrigger value="progress">{t('dashboard.tabs.progress')}</TabsTrigger>
+            <TabsTrigger value="engagement">{t('dashboard.tabs.engagement')}</TabsTrigger>
+            <TabsTrigger value="recommendations">{t('dashboard.tabs.insights')}</TabsTrigger>
           </TabsList>
 
           {/* Overview Tab */}
@@ -140,7 +143,7 @@ export default function ParentDashboard() {
                       <BookOpen className="w-4 h-4 text-primary" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Active Assignments</p>
+                      <p className="text-sm text-muted-foreground">{t('dashboard.overview.activeAssignments')}</p>
                       <p className="text-xl font-bold text-foreground">3</p>
                     </div>
                   </div>
@@ -154,7 +157,7 @@ export default function ParentDashboard() {
                       <Award className="w-4 h-4 text-accent-foreground" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Badges Earned</p>
+                      <p className="text-sm text-muted-foreground">{t('dashboard.overview.badgesEarned')}</p>
                       <p className="text-xl font-bold text-foreground">7</p>
                     </div>
                   </div>
@@ -168,7 +171,7 @@ export default function ParentDashboard() {
                       <TrendingUp className="w-4 h-4 text-primary" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">Average Grade</p>
+                      <p className="text-sm text-muted-foreground">{t('dashboard.overview.averageGrade')}</p>
                       <p className="text-xl font-bold text-foreground">87%</p>
                     </div>
                   </div>
@@ -182,7 +185,7 @@ export default function ParentDashboard() {
                       <Clock className="w-4 h-4 text-accent-foreground" />
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground">This Week</p>
+                      <p className="text-sm text-muted-foreground">{t('dashboard.overview.thisWeek')}</p>
                       <p className="text-xl font-bold text-foreground">12.5h</p>
                     </div>
                   </div>
@@ -196,28 +199,28 @@ export default function ParentDashboard() {
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Calendar className="w-5 h-5 text-primary" />
-                    <span>Recent Activity</span>
+                    <span>{t('dashboard.overview.recentActivity')}</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
                     <div>
-                      <p className="text-sm font-medium text-foreground">Math assignment submitted</p>
+                      <p className="text-sm font-medium text-foreground">{t('dashboard.overview.mathSubmitted')}</p>
                       <p className="text-xs text-muted-foreground">2 hours ago</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
                     <div>
-                      <p className="text-sm font-medium text-foreground">Earned "Reading Star" badge</p>
-                      <p className="text-xs text-muted-foreground">Yesterday</p>
+                      <p className="text-sm font-medium text-foreground">{t('dashboard.overview.earnedReadingStar')}</p>
+                      <p className="text-xs text-muted-foreground">{t('dashboard.overview.yesterday')}</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-orange-500 rounded-full mt-2"></div>
                     <div>
-                      <p className="text-sm font-medium text-foreground">Joined parent discussion</p>
+                      <p className="text-sm font-medium text-foreground">{t('dashboard.overview.joinedDiscussion')}</p>
                       <p className="text-xs text-muted-foreground">2 days ago</p>
                     </div>
                   </div>
@@ -228,35 +231,35 @@ export default function ParentDashboard() {
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Clock className="w-5 h-5 text-primary" />
-                    <span>Upcoming Deadlines</span>
+                    <span>{t('dashboard.overview.upcomingDeadlines')}</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between p-3 border rounded-lg">
                     <div>
                       <p className="font-medium text-foreground">English Reading</p>
-                      <p className="text-sm text-muted-foreground">Due tomorrow</p>
+                      <p className="text-sm text-muted-foreground">{t('dashboard.overview.dueTomorrow')}</p>
                     </div>
                     <Badge variant="outline" className="text-xs">
-                      Pending
+                      {t('dashboard.overview.pending')}
                     </Badge>
                   </div>
                   <div className="flex items-center justify-between p-3 border rounded-lg">
                     <div>
                       <p className="font-medium text-foreground">Art Project</p>
-                      <p className="text-sm text-muted-foreground">Due in 3 days</p>
+                      <p className="text-sm text-muted-foreground">{t('dashboard.overview.dueInDays', { days: 3 })}</p>
                     </div>
                     <Badge variant="outline" className="text-xs">
-                      Pending
+                      {t('dashboard.overview.pending')}
                     </Badge>
                   </div>
                   <div className="flex items-center justify-between p-3 border rounded-lg">
                     <div>
                       <p className="font-medium text-foreground">Science Observation</p>
-                      <p className="text-sm text-muted-foreground">Due next week</p>
+                      <p className="text-sm text-muted-foreground">{t('dashboard.overview.dueNextWeek')}</p>
                     </div>
                     <Badge variant="outline" className="text-xs">
-                      Pending
+                      {t('dashboard.overview.pending')}
                     </Badge>
                   </div>
                 </CardContent>
@@ -270,8 +273,8 @@ export default function ParentDashboard() {
               {/* Subject Progress Chart */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Subject Progress Over Time</CardTitle>
-                  <CardDescription>Emma's performance across different subjects</CardDescription>
+                  <CardTitle>{t('dashboard.progress.subjectOverTime')}</CardTitle>
+                  <CardDescription>{t('dashboard.progress.subjectOverTimeDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={300}>
@@ -291,8 +294,8 @@ export default function ParentDashboard() {
               {/* Subject Breakdown */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Current Subject Performance</CardTitle>
-                  <CardDescription>Emma's latest scores by subject</CardDescription>
+                  <CardTitle>{t('dashboard.progress.currentSubject')}</CardTitle>
+                  <CardDescription>{t('dashboard.progress.currentSubjectDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
@@ -332,9 +335,9 @@ export default function ParentDashboard() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Trophy className="w-5 h-5 text-primary" />
-                  <span>Achievement Badges</span>
+                  <span>{t('dashboard.progress.achievementBadges')}</span>
                 </CardTitle>
-                <CardDescription>Emma's learning milestones and accomplishments</CardDescription>
+                <CardDescription>{t('dashboard.progress.achievementBadgesDesc')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -350,7 +353,7 @@ export default function ParentDashboard() {
                       <p className="text-xs text-muted-foreground">{badge.description}</p>
                       {badge.earned && (
                         <Badge variant="secondary" className="mt-2 text-xs bg-accent text-accent-foreground">
-                          Earned
+                          {t('dashboard.progress.earned')}
                         </Badge>
                       )}
                     </div>
@@ -366,8 +369,8 @@ export default function ParentDashboard() {
               {/* Weekly Engagement */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Weekly Learning Time</CardTitle>
-                  <CardDescription>Hours spent on assignments and activities</CardDescription>
+                  <CardTitle>{t('dashboard.engagement.weeklyLearningTime')}</CardTitle>
+                  <CardDescription>{t('dashboard.engagement.weeklyLearningTimeDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={300}>
@@ -387,36 +390,36 @@ export default function ParentDashboard() {
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Users className="w-5 h-5 text-primary" />
-                    <span>Community Engagement</span>
+                    <span>{t('dashboard.engagement.communityEngagement')}</span>
                   </CardTitle>
-                  <CardDescription>Your participation in the REACH community</CardDescription>
+                  <CardDescription>{t('dashboard.engagement.communityEngagementDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between p-3 border rounded-lg">
                     <div>
-                      <p className="font-medium text-foreground">Forum Posts</p>
-                      <p className="text-sm text-muted-foreground">This month</p>
+                      <p className="font-medium text-foreground">{t('dashboard.engagement.forumPosts')}</p>
+                      <p className="text-sm text-muted-foreground">{t('dashboard.engagement.thisMonth')}</p>
                     </div>
                     <span className="text-2xl font-bold text-primary">12</span>
                   </div>
                   <div className="flex items-center justify-between p-3 border rounded-lg">
                     <div>
-                      <p className="font-medium text-foreground">Helpful Answers</p>
-                      <p className="text-sm text-muted-foreground">Given to other parents</p>
+                      <p className="font-medium text-foreground">{t('dashboard.engagement.helpfulAnswers')}</p>
+                      <p className="text-sm text-muted-foreground">{t('dashboard.engagement.givenToParents')}</p>
                     </div>
                     <span className="text-2xl font-bold text-accent-foreground">8</span>
                   </div>
                   <div className="flex items-center justify-between p-3 border rounded-lg">
                     <div>
-                      <p className="font-medium text-foreground">Volunteer Hours</p>
-                      <p className="text-sm text-muted-foreground">Time Auction credits</p>
+                      <p className="font-medium text-foreground">{t('dashboard.engagement.volunteerHours')}</p>
+                      <p className="text-sm text-muted-foreground">{t('dashboard.engagement.timeAuction')}</p>
                     </div>
                     <span className="text-2xl font-bold text-primary">4.5h</span>
                   </div>
                   <Button className="w-full bg-primary hover:bg-primary/90" asChild>
                     <Link href="/community">
                       <MessageSquare className="w-4 h-4 mr-2" />
-                      Join Discussions
+                      {t('dashboard.engagement.joinDiscussions')}
                     </Link>
                   </Button>
                 </CardContent>

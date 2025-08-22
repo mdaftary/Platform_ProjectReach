@@ -1,11 +1,16 @@
+"use client"
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { BookOpen, Download, Upload, Clock, FileText, Video, ImageIcon, ArrowLeft } from "lucide-react"
 import Link from "next/link"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 export default function AssignmentDetailPage({ params }: { params: { id: string } }) {
+  const { t } = useTranslation()
   // Mock data - in real app, fetch based on params.id
   const assignment = {
     id: params.id,
@@ -65,8 +70,8 @@ export default function AssignmentDetailPage({ params }: { params: { id: string 
                 <BookOpen className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-foreground">Assignment Details</h1>
-                <p className="text-sm text-muted-foreground">REACH Hong Kong</p>
+                <h1 className="text-xl font-bold text-foreground">{t('assignments.detail.header')}</h1>
+                <p className="text-sm text-muted-foreground">{t('assignments.detail.reach')}</p>
               </div>
             </div>
             <Badge variant="secondary" className="bg-accent text-accent-foreground">
@@ -93,7 +98,7 @@ export default function AssignmentDetailPage({ params }: { params: { id: string 
                     <CardDescription className="text-base">{assignment.description}</CardDescription>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm text-muted-foreground">Due Date</p>
+                    <p className="text-sm text-muted-foreground">{t('assignments.detail.dueDate')}</p>
                     <p className="font-bold text-lg text-foreground">
                       {new Date(assignment.dueDate).toLocaleDateString()}
                     </p>
@@ -105,7 +110,7 @@ export default function AssignmentDetailPage({ params }: { params: { id: string 
             {/* Instructions */}
             <Card>
               <CardHeader>
-                <CardTitle>Instructions</CardTitle>
+                <CardTitle>{t('assignments.detail.instructions')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="prose prose-sm max-w-none">
@@ -119,8 +124,8 @@ export default function AssignmentDetailPage({ params }: { params: { id: string 
             {/* Materials to Download */}
             <Card>
               <CardHeader>
-                <CardTitle>Assignment Materials</CardTitle>
-                <CardDescription>Download these files to complete the assignment</CardDescription>
+                <CardTitle>{t('assignments.detail.materials')}</CardTitle>
+                <CardDescription>{t('assignments.detail.materialsDesc')}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
                 {assignment.materials.map((material, index) => (
@@ -134,7 +139,7 @@ export default function AssignmentDetailPage({ params }: { params: { id: string 
                     </div>
                     <Button size="sm" variant="outline">
                       <Download className="w-4 h-4 mr-1" />
-                      Download
+                      {t('assignments.detail.download')}
                     </Button>
                   </div>
                 ))}
@@ -147,24 +152,24 @@ export default function AssignmentDetailPage({ params }: { params: { id: string 
             {/* Assignment Info */}
             <Card>
               <CardHeader>
-                <CardTitle>Assignment Info</CardTitle>
+                <CardTitle>{t('assignments.detail.info')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p className="text-muted-foreground">Teacher</p>
+                    <p className="text-muted-foreground">{t('assignments.detail.teacher')}</p>
                     <p className="font-medium text-foreground">{assignment.teacher}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Points</p>
+                    <p className="text-muted-foreground">{t('assignments.detail.points')}</p>
                     <p className="font-medium text-foreground">{assignment.maxPoints} pts</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Est. Time</p>
+                    <p className="text-muted-foreground">{t('assignments.detail.estTime')}</p>
                     <p className="font-medium text-foreground">{assignment.estimatedTime}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Status</p>
+                    <p className="text-muted-foreground">{t('assignments.detail.status')}</p>
                     <Badge variant="outline" className="text-xs">
                       {assignment.status}
                     </Badge>
@@ -174,7 +179,7 @@ export default function AssignmentDetailPage({ params }: { params: { id: string 
                 <Separator />
 
                 <div>
-                  <p className="text-sm text-muted-foreground mb-2">Accepted Formats</p>
+                  <p className="text-sm text-muted-foreground mb-2">{t('assignments.detail.acceptedFormats')}</p>
                   <div className="flex flex-wrap gap-1">
                     {assignment.submissionTypes.map((type) => (
                       <Badge key={type} variant="secondary" className="text-xs">
@@ -189,8 +194,8 @@ export default function AssignmentDetailPage({ params }: { params: { id: string 
             {/* Submission Actions */}
             <Card>
               <CardHeader>
-                <CardTitle>Submit Your Work</CardTitle>
-                <CardDescription>Upload photos, videos, or documents of your completed assignment</CardDescription>
+                <CardTitle>{t('assignments.detail.submitYourWork')}</CardTitle>
+                <CardDescription>{t('assignments.detail.submitDesc')}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
                 {!assignment.hasSubmission ? (
@@ -198,24 +203,24 @@ export default function AssignmentDetailPage({ params }: { params: { id: string 
                     <Button className="w-full bg-primary hover:bg-primary/90" size="lg" asChild>
                       <Link href={`/assignments/${assignment.id}/submit`}>
                         <Upload className="w-4 h-4 mr-2" />
-                        Submit Assignment
+                        {t('assignments.detail.submitAssignment')}
                       </Link>
                     </Button>
                     <p className="text-xs text-muted-foreground text-center">
-                      Due in{" "}
+                      {t('assignments.detail.dueIn')} {" "}
                       {Math.ceil(
                         (new Date(assignment.dueDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
                       )}{" "}
-                      days
+                      {t('assignments.detail.days')}
                     </p>
                   </>
                 ) : (
                   <>
                     <Button variant="outline" className="w-full bg-transparent" size="lg">
-                      View Submission
+                      {t('assignments.detail.viewSubmission')}
                     </Button>
                     <Button variant="outline" className="w-full bg-transparent">
-                      Edit Submission
+                      {t('assignments.detail.editSubmission')}
                     </Button>
                   </>
                 )}
@@ -225,16 +230,16 @@ export default function AssignmentDetailPage({ params }: { params: { id: string 
             {/* Help & Support */}
             <Card>
               <CardHeader>
-                <CardTitle>Need Help?</CardTitle>
+                <CardTitle>{t('assignments.detail.help')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <Button variant="outline" className="w-full justify-start bg-transparent">
                   <Clock className="w-4 h-4 mr-2" />
-                  Ask in Discussion Forum
+                  {t('assignments.detail.askForum')}
                 </Button>
                 <Button variant="outline" className="w-full justify-start bg-transparent">
                   <FileText className="w-4 h-4 mr-2" />
-                  Parent Guide
+                  {t('assignments.detail.parentGuide')}
                 </Button>
               </CardContent>
             </Card>

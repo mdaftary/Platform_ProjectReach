@@ -14,6 +14,8 @@ import {
   User
 } from "lucide-react"
 import Link from "next/link"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 // Mock data for the discussion post
 const discussionPost = {
@@ -76,6 +78,7 @@ const replies = [
 ]
 
 export default function DiscussionPost() {
+  const { t } = useTranslation()
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-md mx-auto">
@@ -88,7 +91,7 @@ export default function DiscussionPost() {
                   <ArrowLeft className="w-5 h-5 text-gray-600 stroke-2" />
                 </Button>
               </Link>
-              <h1 className="text-lg font-semibold text-gray-900">Discussion</h1>
+              <h1 className="text-lg font-semibold text-gray-900">{t('community.discussion.title')}</h1>
             </div>
             <Button variant="ghost" size="sm" className="p-1 h-8 w-8">
               <Bookmark className={`w-5 h-5 stroke-2 ${discussionPost.isBookmarked ? 'text-green-600 fill-green-100' : 'text-gray-600'}`} />
@@ -167,7 +170,7 @@ export default function DiscussionPost() {
                     size="sm" 
                     className="text-green-600 border-green-200 hover:bg-green-50"
                   >
-                    Follow Post
+                    {t('community.discussion.followPost')}
                   </Button>
                 </div>
               </div>
@@ -177,7 +180,7 @@ export default function DiscussionPost() {
           {/* Replies Section */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900">
-              Replies ({discussionPost.engagement.replies})
+              {t('community.discussion.replies')} ({discussionPost.engagement.replies})
             </h3>
 
             {replies.map((reply) => (
@@ -221,7 +224,7 @@ export default function DiscussionPost() {
                         </button>
                         
                         <button className="text-xs text-green-600 font-medium hover:text-green-700">
-                          Reply
+                          {t('community.discussion.postReply')}
                         </button>
                       </div>
                     </div>
@@ -282,7 +285,7 @@ export default function DiscussionPost() {
             </div>
             <div className="flex-1 relative">
               <Input 
-                placeholder="Write your reply..." 
+                placeholder={t('community.discussion.writeReply')} 
                 className="pr-12 bg-gray-50 border-gray-200 focus:bg-white focus:border-green-300 rounded-full"
               />
               <Button 

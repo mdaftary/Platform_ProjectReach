@@ -8,8 +8,11 @@ import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { BookOpen, MessageSquare, ArrowLeft, Heart, Reply, Clock, HelpCircle } from "lucide-react"
 import Link from "next/link"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 export default function AssignmentDiscussionPage({ params }: { params: { id: string } }) {
+  const { t } = useTranslation()
   const [newMessage, setNewMessage] = useState("")
   const [isAnonymous, setIsAnonymous] = useState(false)
 
@@ -93,7 +96,7 @@ The key is to make it interactive and fun, not stressful!`,
                 <BookOpen className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-foreground">Assignment Discussion</h1>
+                <h1 className="text-xl font-bold text-foreground">{t('assignments.discussion.header')}</h1>
                 <p className="text-sm text-muted-foreground">{assignment.title}</p>
               </div>
             </div>
@@ -113,14 +116,14 @@ The key is to make it interactive and fun, not stressful!`,
               <span>{assignment.title}</span>
             </CardTitle>
             <CardDescription>
-              Get help and share tips for this assignment • Due: {new Date(assignment.dueDate).toLocaleDateString()}
+              {t('assignments.discussion.help')} • Due: {new Date(assignment.dueDate).toLocaleDateString()}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-              <span>{messages.length} messages</span>
+              <span>{messages.length} {t('assignments.discussion.messagesCount')}</span>
               <span>•</span>
-              <span>Last activity: {messages[messages.length - 1]?.createdAt}</span>
+              <span>{t('assignments.discussion.lastActivity')} {messages[messages.length - 1]?.createdAt}</span>
             </div>
           </CardContent>
         </Card>
@@ -170,7 +173,7 @@ The key is to make it interactive and fun, not stressful!`,
                       </Button>
                       <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
                         <Reply className="w-4 h-4 mr-1" />
-                        Reply
+                        {t('assignments.discussion.reply')}
                       </Button>
                     </div>
                   </div>
@@ -183,12 +186,12 @@ The key is to make it interactive and fun, not stressful!`,
         {/* Message Form */}
         <Card>
           <CardHeader>
-            <CardTitle>Join the Discussion</CardTitle>
-            <CardDescription>Ask questions or share tips about this assignment</CardDescription>
+            <CardTitle>{t('assignments.discussion.join')}</CardTitle>
+            <CardDescription>{t('assignments.discussion.joinDesc')}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <Textarea
-              placeholder="Ask a question or share a tip..."
+              placeholder={t('assignments.discussion.placeholder')}
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               rows={3}
@@ -204,19 +207,19 @@ The key is to make it interactive and fun, not stressful!`,
                   className="rounded border-border"
                 />
                 <label htmlFor="anonymous-assignment" className="text-sm text-muted-foreground">
-                  Post anonymously
+                  {t('assignments.discussion.postAnonymously')}
                 </label>
               </div>
 
               <div className="flex items-center space-x-2">
-                <Button variant="outline">Cancel</Button>
+                <Button variant="outline">{t('assignments.discussion.cancel')}</Button>
                 <Button
                   className="bg-primary hover:bg-primary/90"
                   onClick={handleSubmitMessage}
                   disabled={!newMessage.trim()}
                 >
                   <MessageSquare className="w-4 h-4 mr-1" />
-                  Post Message
+                  {t('assignments.discussion.postMessage')}
                 </Button>
               </div>
             </div>

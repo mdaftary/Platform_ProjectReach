@@ -19,8 +19,11 @@ import {
   Flag,
 } from "lucide-react"
 import Link from "next/link"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 export default function DiscussionDetailPage({ params }: { params: { id: string } }) {
+  const { t } = useTranslation()
   const [newReply, setNewReply] = useState("")
   const [isAnonymous, setIsAnonymous] = useState(false)
 
@@ -141,8 +144,8 @@ Schools are very understanding about different language backgrounds at home.`,
                 <MessageSquare className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-foreground">Discussion</h1>
-                <p className="text-sm text-muted-foreground">REACH Community</p>
+                <h1 className="text-xl font-bold text-foreground">{t('community.discussion.title')}</h1>
+                <p className="text-sm text-muted-foreground">{t('community.discussion.reach')}</p>
               </div>
             </div>
             <Badge variant="secondary" className="bg-accent text-accent-foreground">
@@ -162,17 +165,17 @@ Schools are very understanding about different language backgrounds at home.`,
                   {discussion.isPinned && (
                     <Badge variant="secondary" className="text-xs bg-primary/10 text-primary">
                       <Pin className="w-3 h-3 mr-1" />
-                      Pinned
+                      {t('components.communityCard.badges.pinned')}
                     </Badge>
                   )}
                   {discussion.isPopular && (
                     <Badge variant="secondary" className="text-xs bg-accent/10 text-accent-foreground">
                       <Star className="w-3 h-3 mr-1" />
-                      Popular
+                      {t('components.communityCard.badges.popular')}
                     </Badge>
                   )}
                   <Badge variant="outline" className="text-xs">
-                    General Discussion
+                    {t('community.discussion.generalDiscussion')}
                   </Badge>
                 </div>
                 <CardTitle className="text-2xl">{discussion.title}</CardTitle>
@@ -188,7 +191,7 @@ Schools are very understanding about different language backgrounds at home.`,
               </Avatar>
               <div>
                 <p className="font-medium text-foreground">
-                  {discussion.isAnonymous ? "Anonymous Parent" : discussion.author}
+                  {discussion.isAnonymous ? t('components.communityCard.anonymousParent') : discussion.author}
                 </p>
                 <p className="text-sm text-muted-foreground">{discussion.createdAt}</p>
               </div>
@@ -222,7 +225,7 @@ Schools are very understanding about different language backgrounds at home.`,
               <div className="flex items-center space-x-2">
                 <Button variant="ghost" size="sm">
                   <Flag className="w-4 h-4 mr-1" />
-                  Report
+                  {t('community.discussion.report')}
                 </Button>
               </div>
             </div>
@@ -231,7 +234,7 @@ Schools are very understanding about different language backgrounds at home.`,
 
         {/* Replies */}
         <div className="space-y-4 mb-6">
-          <h3 className="text-lg font-semibold text-foreground">Replies ({replies.length})</h3>
+          <h3 className="text-lg font-semibold text-foreground">{t('community.discussion.replies')} ({replies.length})</h3>
 
           {replies.map((reply) => (
             <Card key={reply.id}>
@@ -246,12 +249,12 @@ Schools are very understanding about different language backgrounds at home.`,
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-2">
                       <p className="font-medium text-foreground">
-                        {reply.isAnonymous ? "Anonymous Parent" : reply.author}
+                        {reply.isAnonymous ? t('components.communityCard.anonymousParent') : reply.author}
                       </p>
                       {reply.isVolunteer && (
                         <Badge variant="secondary" className="text-xs bg-green-100 text-green-800">
                           <HelpCircle className="w-3 h-3 mr-1" />
-                          Volunteer
+                          {t('components.communityCard.badges.volunteer')}
                         </Badge>
                       )}
                       {reply.isHelpful && (
@@ -274,11 +277,11 @@ Schools are very understanding about different language backgrounds at home.`,
                       </Button>
                       <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
                         <Reply className="w-4 h-4 mr-1" />
-                        Reply
+                        {t('community.discussion.postReply')}
                       </Button>
                       <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
                         <Flag className="w-4 h-4 mr-1" />
-                        Report
+                        {t('community.discussion.report')}
                       </Button>
                     </div>
                   </div>
@@ -291,12 +294,12 @@ Schools are very understanding about different language backgrounds at home.`,
         {/* Reply Form */}
         <Card>
           <CardHeader>
-            <CardTitle>Add Your Reply</CardTitle>
-            <CardDescription>Share your thoughts and help other parents</CardDescription>
+            <CardTitle>{t('community.discussion.addReply')}</CardTitle>
+            <CardDescription>{t('community.discussion.addReplyDesc')}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <Textarea
-              placeholder="Write your reply here..."
+              placeholder={t('community.discussion.replyPlaceholder')}
               value={newReply}
               onChange={(e) => setNewReply(e.target.value)}
               rows={4}
@@ -312,18 +315,18 @@ Schools are very understanding about different language backgrounds at home.`,
                   className="rounded border-border"
                 />
                 <label htmlFor="anonymous" className="text-sm text-muted-foreground">
-                  Post anonymously
+                  {t('community.discussion.postAnonymously')}
                 </label>
               </div>
 
               <div className="flex items-center space-x-2">
-                <Button variant="outline">Cancel</Button>
+                <Button variant="outline">{t('community.discussion.cancel')}</Button>
                 <Button
                   className="bg-primary hover:bg-primary/90"
                   onClick={handleSubmitReply}
                   disabled={!newReply.trim()}
                 >
-                  Post Reply
+                  {t('community.discussion.postReply')}
                 </Button>
               </div>
             </div>

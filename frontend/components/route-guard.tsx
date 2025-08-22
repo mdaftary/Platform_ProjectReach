@@ -3,6 +3,8 @@
 import { useAuth } from "@/contexts/auth-context"
 import { usePathname } from "next/navigation"
 import { Loader } from "lucide-react"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 interface RouteGuardProps {
   children: React.ReactNode
@@ -14,6 +16,7 @@ const PUBLIC_ROUTES = ['/login', '/signup', '/forgot-password']
 export function RouteGuard({ children }: RouteGuardProps) {
   const { isLoading, isAuthenticated } = useAuth()
   const pathname = usePathname()
+  const { t } = useTranslation()
 
   // Check if current route is public
   const isPublicRoute = PUBLIC_ROUTES.some(route => pathname.startsWith(route))
@@ -27,8 +30,8 @@ export function RouteGuard({ children }: RouteGuardProps) {
             <Loader className="w-8 h-8 text-blue-600 animate-spin stroke-2" />
           </div>
           <div>
-            <p className="text-lg font-semibold text-gray-900">Loading...</p>
-            <p className="text-sm text-gray-500 mt-1">Checking authentication</p>
+            <p className="text-lg font-semibold text-gray-900">{t('components.routeGuard.loading')}</p>
+            <p className="text-sm text-gray-500 mt-1">{t('components.routeGuard.checkingAuth')}</p>
           </div>
         </div>
       </div>
