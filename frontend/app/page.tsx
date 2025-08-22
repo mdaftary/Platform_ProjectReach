@@ -263,7 +263,7 @@ export default function HomePage() {
         </div>
 
         {/* Quick Stats */}
-        <div className={`grid ${isLarge ? 'grid-cols-1' : 'grid-cols-3'} gap-3`}>
+        <div className={`grid ${isLarge ? 'grid-cols-1' : 'grid-cols-1'} gap-3`}>
           <div className="duolingo-gradient-light rounded-2xl p-4 shadow-sm">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full duolingo-gradient-primary flex items-center justify-center shadow">
