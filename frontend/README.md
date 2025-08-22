@@ -1,3 +1,21 @@
+# Local Deployment
+Go to /backend first and follow the steps listed there to deploy the backend server locally
+
+Change **package.json** file contents:
+Add 
+```
+  "private": true,
+  "proxy": "http://localhost:3001", # ADD THIS
+```
+
+***NOTE: For docker deployment, undo the change, else it will not work.***
+
+After the above change is done, run:
+```
+pnpm install
+pnpm run dev
+```
+
 ## Large Text Mode
 
 Large Text Mode improves readability across the app by increasing the root font size and enforcing a minimum text size on key pages.
@@ -54,4 +72,3 @@ function FontSizeToggleButton() {
 
 - The provider is added in `app/layout.tsx`, so the mode applies globally.
 - Pages can opt-in to the `.min-text-lg` utility to guarantee a minimum legible size for smaller text tokens.
-
