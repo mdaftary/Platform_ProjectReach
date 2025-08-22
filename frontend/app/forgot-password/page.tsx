@@ -7,10 +7,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Mail, ArrowLeft, Loader, Check } from "lucide-react"
 import Link from "next/link"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 type ResetStep = 'email' | 'sent'
 
 export default function ForgotPasswordPage() {
+  const { t } = useTranslation()
   const [step, setStep] = useState<ResetStep>('email')
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -38,10 +41,10 @@ export default function ForgotPasswordPage() {
           
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-              {step === 'email' ? 'Reset Password' : 'Check Your Email'}
+              {step === 'email' ? t('forgotPassword.titleEmail') : t('forgotPassword.titleSent')}
             </h1>
             <p className="text-base text-gray-500 mt-1 font-medium">
-              {step === 'email' ? 'Enter your email to receive reset instructions' : 'We\'ve sent you a password reset link'}
+              {step === 'email' ? t('forgotPassword.subtitleEmail') : t('forgotPassword.subtitleSent')}
             </p>
           </div>
         </div>
@@ -65,14 +68,14 @@ export default function ForgotPasswordPage() {
                     </Button>
                   </Link>
                   <div className="text-sm text-gray-500">
-                    Back to sign in
+                    {t('forgotPassword.backToSignIn')}
                   </div>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="email" className="text-sm font-medium text-gray-900">
-                      Email Address
+                      {t('forgotPassword.emailAddress')}
                     </Label>
                     <div className="relative">
                       <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
@@ -83,7 +86,7 @@ export default function ForgotPasswordPage() {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Enter your email address"
+                        placeholder={t('forgotPassword.emailPlaceholder')}
                         className="pl-10 rounded-xl"
                         required
                       />
@@ -98,18 +101,18 @@ export default function ForgotPasswordPage() {
                     {isLoading ? (
                       <>
                         <Loader className="w-4 h-4 mr-2 animate-spin" />
-                        Sending Reset Link...
+                        {t('forgotPassword.sending')}
                       </>
                     ) : (
-                      'Send Reset Link'
+                      t('forgotPassword.send')
                     )}
                   </Button>
                 </form>
 
                 <div className="text-center text-sm">
-                  <span className="text-gray-500">Remember your password? </span>
+                  <span className="text-gray-500">{t('forgotPassword.remember')}</span>
                   <Link href="/login" className="text-blue-600 hover:text-blue-700 font-semibold">
-                    Sign in
+                    {t('forgotPassword.signIn')}
                   </Link>
                 </div>
               </>
@@ -124,20 +127,20 @@ export default function ForgotPasswordPage() {
 
                 {/* Success Message */}
                 <div className="space-y-2">
-                  <h3 className="text-lg font-bold text-gray-900">Reset Link Sent!</h3>
+                  <h3 className="text-lg font-bold text-gray-900">{t('forgotPassword.sentTitle')}</h3>
                   <p className="text-sm text-gray-500">
-                    We've sent a password reset link to <span className="font-semibold">{email}</span>
+                    {t('forgotPassword.sentTo')}<span className="font-semibold">{email}</span>
                   </p>
                 </div>
 
                 {/* Instructions */}
                 <div className="bg-blue-50 rounded-xl p-4 space-y-2">
-                  <h4 className="text-sm font-semibold text-blue-900">Next Steps</h4>
+                  <h4 className="text-sm font-semibold text-blue-900">{t('forgotPassword.nextSteps')}</h4>
                   <ol className="text-sm text-blue-800 space-y-1 list-decimal list-inside">
-                    <li>Check your email inbox</li>
-                    <li>Click the password reset link</li>
-                    <li>Create a new password</li>
-                    <li>Sign in with your new password</li>
+                    <li>{t('forgotPassword.steps.check')}</li>
+                    <li>{t('forgotPassword.steps.click')}</li>
+                    <li>{t('forgotPassword.steps.create')}</li>
+                    <li>{t('forgotPassword.steps.signin')}</li>
                   </ol>
                 </div>
 
@@ -148,22 +151,22 @@ export default function ForgotPasswordPage() {
                     variant="outline"
                     className="w-full border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl font-semibold py-3"
                   >
-                    Open Email App
+                    {t('forgotPassword.openEmail')}
                   </Button>
 
                   <div className="text-center text-sm">
-                    <span className="text-gray-500">Didn't receive the email? </span>
+                    <span className="text-gray-500">{t('forgotPassword.noEmail')}</span>
                     <button
                       onClick={() => setStep('email')}
                       className="text-blue-600 hover:text-blue-700 font-semibold"
                     >
-                      Try again
+                      {t('forgotPassword.tryAgain')}
                     </button>
                   </div>
 
                   <div className="text-center text-sm">
                     <Link href="/login" className="text-blue-600 hover:text-blue-700 font-semibold">
-                      Back to sign in
+                      {t('forgotPassword.backToSignIn')}
                     </Link>
                   </div>
                 </div>

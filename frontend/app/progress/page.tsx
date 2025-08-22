@@ -6,39 +6,41 @@ import { Badge } from "@/components/ui/badge"
 import { BookOpen, Edit3, Volume2, TrendingUp, Play } from "lucide-react"
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from "recharts"
 import { useFontSize } from "@/app/font-size-provider"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 // Skills data with progress and insights
 const skillsDataRaw = [
   {
-    name: "Alphabet",
+    name: "alphabet",
     progress: 85,
     insight: "Fantastic progress! Ready for extra practice with letter pairs like b/d.",
     icon: Edit3,
     Goal: 80,
   },
   {
-    name: "Sight Words", 
+    name: "sightWords", 
     progress: 60,
     insight: "Great foundation! On track, just 15% more to go for the next milestone.",
     icon: BookOpen,
     Goal: 75,
   },
   {
-    name: "Vocabulary",
+    name: "vocabulary",
     progress: 72,
     insight: "Wonderful word collection! Ahead of schedule and ready for new challenges.",
     icon: BookOpen,
     Goal: 70,
   },
   {
-    name: "Phonemic Awareness",
+    name: "phonemicAwareness",
     progress: 79,
     insight: "Excellent listening skills! Blending sounds beautifully every day.",
     icon: Volume2,
     Goal: 75,
   },
   {
-    name: "Point-and-Read",
+    name: "pointAndRead",
     progress: 91,
     insight: "Amazing confidence! Reading independently like a champion.",
     icon: BookOpen,
@@ -58,7 +60,7 @@ const skillsData = skillsDataRaw
 // AI Recommendations grouped by skill
 const aiRecommendations = [
   {
-    skill: "Sight Words",
+    skill: "sightWords",
     skillProgress: 60,
     title: "Practice Sight Words",
     description: "Play \"find the word\" game in today's storybook.",
@@ -67,7 +69,7 @@ const aiRecommendations = [
     priority: "high"
   },
   {
-    skill: "Alphabet", 
+    skill: "alphabet", 
     skillProgress: 85,
     title: "Letter Practice",
     description: "Trace lowercase letters \"b\" and \"d\" for clarity.",
@@ -76,7 +78,7 @@ const aiRecommendations = [
     priority: "medium"
   },
   {
-    skill: "Phonemic Awareness",
+    skill: "phonemicAwareness",
     skillProgress: 79, 
     title: "Sound Matching",
     description: "Try sound-blending exercise in the student app.",
@@ -97,6 +99,7 @@ const progressData = [
 ]
 
 export default function ProgressPage() {
+  const { t } = useTranslation()
   const { isLarge } = useFontSize()
   // Calculate radar chart points for pentagon (Apple iOS style - mobile optimized)
   const calculateRadarPoints = () => {
@@ -105,12 +108,13 @@ export default function ProgressPage() {
     const maxRadius = 70
     
     const skills = [
-      { name: "Alphabet", progress: 85, Goal: 80 },
-      { name: "Sight Words", progress: 60, Goal: 75 },
-      { name: "Vocabulary", progress: 72, Goal: 70 },
-      { name: "Phonemic Awareness", progress: 79, Goal: 75 },
-      { name: "Point-and-Read", progress: 91, Goal: 85 },
+      { name: "alphabet", progress: 85, Goal: 80 },
+      { name: "sightWords", progress: 60, Goal: 75 },
+      { name: "vocabulary", progress: 72, Goal: 70 },
+      { name: "phonemicAwareness", progress: 79, Goal: 75 },
+      { name: "pointAndRead", progress: 91, Goal: 85 },
     ]
+    
     
     return skills.map((skill, index) => {
       const angle = (index * 72 - 90) * (Math.PI / 180) // Pentagon angles (starting from top)
@@ -160,8 +164,8 @@ export default function ProgressPage() {
       <div className="max-w-md mx-auto px-6 py-6 space-y-6">
         {/* Header */}
         <div className="text-center space-y-2">
-          <h1 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-bold text-gray-900 tracking-tight`}>Your Progress</h1>
-          <p className={`${isLarge ? 'text-base' : 'text-sm'} text-gray-500`}>Track your child's English learning journey</p>
+          <h1 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-bold text-gray-900 tracking-tight`}>{t('progress.header.title')}</h1>
+          <p className={`${isLarge ? 'text-base' : 'text-sm'} text-gray-500`}>{t('progress.header.subtitle')}</p>
         </div>
         {/* Overall Score */}
         <div className="duolingo-gradient-light rounded-2xl p-4 shadow-sm">
@@ -171,7 +175,7 @@ export default function ProgressPage() {
             </div>
             <div className="flex-1">
               <div className="text-2xl font-extrabold text-gray-900 tabular-nums">{overallScore}</div>
-              <div className="text-xs text-gray-700 mt-0.5">Overall Score</div>
+              <div className="text-xs text-gray-700 mt-0.5">{t('progress.header.overallScore')}</div>
             </div>
           </div>
         </div>
@@ -182,7 +186,7 @@ export default function ProgressPage() {
         <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-lg">
           <CardContent className="p-6">
         <div className="space-y-6">
-              <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 text-center`}>Skills Overview</h2>
+              <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 text-center`}>{t('progress.radar.title')}</h2>
               
               <div className="flex justify-center w-full">
                 <svg width="100%" height="280" viewBox="0 0 360 280" className="max-w-sm mx-auto">
@@ -308,7 +312,7 @@ export default function ProgressPage() {
                             fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif'
                           }}
                         >
-                          {point.skill.name}
+                          {t(`progress.skills.${point.skill.name}.name`, { defaultValue: point.skill.name })}
                         </text>
                         
                         {/* Percentage */}
@@ -343,7 +347,7 @@ export default function ProgressPage() {
                         fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif'
                       }}
                     >
-                      Current Level
+                      {t('progress.radar.legend.current')}
                     </text>
                     
                     {/* Goal level indicator */}
@@ -358,7 +362,7 @@ export default function ProgressPage() {
                         fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif'
                       }}
                     >
-                      Goal Level
+                      {t('progress.radar.legend.goal')}
                     </text>
                   </g>
             </svg>
@@ -370,11 +374,11 @@ export default function ProgressPage() {
 
         {/* Skills Breakdown */}
         <div className="space-y-4">
-          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>Skills Breakdown</h2>
+          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>{t('progress.skills.title')}</h2>
           <div className="space-y-3">
             {skillsData.map((skill, index) => {
               const isNeedsFocus = skill.status === 'needs-focus'
-              const priorityBadge = index === 0 && isNeedsFocus ? 'Focus First' : null
+              const priorityBadge = index === 0 && isNeedsFocus ? t('progress.skills.focusFirst') : null
               
               return (
                 <Card 
@@ -398,7 +402,7 @@ export default function ProgressPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
-                            <h3 className="font-semibold text-gray-900">{skill.name}</h3>
+                            <h3 className="font-semibold text-gray-900">{t(`progress.skills.${skill.name}.name`, { defaultValue: skill.name })}</h3>
                             {priorityBadge && (
                               <Badge 
                                 variant="secondary"
@@ -421,14 +425,14 @@ export default function ProgressPage() {
                           />
             </div>
                         {!isLarge && (
-                          <p className="text-sm text-gray-600 leading-relaxed">{skill.insight}</p>
+                          <p className="text-sm text-gray-600 leading-relaxed">{t(`progress.skills.${skill.name}.insight`, { defaultValue: skill.insight })}</p>
                         )}
                         <div className="mt-2 text-xs text-gray-500">
-                          Goal: {skill.Goal}% • 
+                          {t(`progress.skills.goalLabel`)} {skill.Goal}% • 
                           {skill.progress >= skill.Goal ? (
-                            <span className="text-green-600 font-medium"> Above Goal ✓</span>
+                            <span className="text-green-600 font-medium">{t('progress.skills.aboveGoal')}</span>
                           ) : (
-                            <span className="text-gray-600 font-medium"> On track, {skill.Goal - skill.progress}% more to go!</span>
+                            <span className="text-gray-600 font-medium">{t('progress.skills.onTrack', { remaining: skill.Goal - skill.progress })}</span>
                           )}
             </div>
             </div>
@@ -444,8 +448,8 @@ export default function ProgressPage() {
         <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
           <CardContent className="p-5">
             <div className="space-y-4">
-              <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>AI Recommendations</h2>
-              <p className="text-sm text-gray-600">Personalized activities to boost your child's learning</p>
+              <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>{t('progress.ai.title')}</h2>
+              <p className="text-sm text-gray-600">{t('progress.ai.subtitle')}</p>
               
               <div className="space-y-3">
                 {aiRecommendations.map((rec, index) => {
@@ -466,30 +470,30 @@ export default function ProgressPage() {
                               <div>
                                 <div className="flex items-center gap-2">
                                   <h3 className={`font-semibold text-gray-900 ${isLarge ? 'text-lg' : 'text-sm'}`}>
-                                    {rec.title} ({rec.skillProgress}%)
+                                    {t(`progress.ai.recs.${index}.title`, { defaultValue: rec.title })} ({rec.skillProgress}%)
                                   </h3>
                                   {isPriority && (
                                     <Badge className="bg-orange-100 text-orange-700 border-orange-200 text-xs px-1.5 py-0.5">
-                                      Priority
+                                      {t('progress.ai.priority')}
                                     </Badge>
                                   )}
                                 </div>
                                 <div className="flex items-center gap-2 mt-1">
-                                  <span className="text-xs text-gray-500 font-medium">{rec.skill}</span>
+                                  <span className="text-xs text-gray-500 font-medium">{t(`progress.skills.${rec.skill}.name`, { defaultValue: rec.skill })}</span>
                                   <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
-                                    {rec.timeNeeded}
+                                    {t('progress.ai.minutes_one', { count: parseInt(rec.timeNeeded) || 5 })}
                                   </span>
                                 </div>
                               </div>
                             </div>
-                            <p className="text-sm text-gray-600 leading-relaxed mb-3">{rec.description}</p>
+                            <p className="text-sm text-gray-600 leading-relaxed mb-3">{t(`progress.ai.recs.${index}.description`, { defaultValue: rec.description })}</p>
                             
                             <Button 
                               size="sm" 
                               className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 font-semibold text-sm rounded-xl border-0 shadow-sm transition-all"
                             >
                               <Play className="w-4 h-4 mr-1.5 stroke-2" />
-                              Start Practice
+                              {t('progress.ai.startPractice')}
                             </Button>
                           </div>
                         </div>
@@ -501,7 +505,7 @@ export default function ProgressPage() {
               
               <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-xl">
                 <p className="text-xs text-green-700 font-medium text-center">
-                  🎯 Start with priority activities for the biggest learning boost
+                  {t('progress.ai.tip')}
                 </p>
               </div>
             </div>
@@ -514,7 +518,7 @@ export default function ProgressPage() {
         <div className="space-y-4">
           <div className="flex items-center gap-2">
                 { !isLarge && <TrendingUp className="w-5 h-5 text-green-600 stroke-2" />}
-                <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 text-center`}>Overall Score Trend</h2>
+                <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 text-center`}>{t('progress.trend.title')}</h2>
           </div>
 
               <div className="h-48">
@@ -548,18 +552,18 @@ export default function ProgressPage() {
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-xs text-gray-500">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span>Mar: Reached 30 sight words</span>
+                  <span>{t('progress.trend.milestone1')}</span>
           </div>
                 <div className="flex items-center gap-2 text-xs text-gray-500">
                   <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span>May: Completed alphabet mastery</span>
+                  <span>{t('progress.trend.milestone2')}</span>
                 </div>
               </div>
               
               {/* Motivational text */}
               <div className="bg-green-50 border border-green-200 rounded-xl p-4">
                 <p className="text-sm font-semibold text-green-800 text-center">
-                  Great Progress! +15% improvement this month 🎉
+                  {t('progress.trend.motivation')}
                 </p>
           </div>
         </div>

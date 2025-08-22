@@ -7,6 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
 import { User, ArrowLeft, Mail } from "lucide-react"
 import Link from "next/link"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 import {
   LineChart,
   Line,
@@ -23,6 +25,7 @@ import {
 } from "recharts"
 
 export default function StudentDetailPage({ params }: { params: { id: string } }) {
+  const { t } = useTranslation()
   // Mock student data
   const student = {
     id: params.id,
@@ -115,7 +118,7 @@ export default function StudentDetailPage({ params }: { params: { id: string } }
                 <User className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-foreground">Student Profile</h1>
+                <h1 className="text-xl font-bold text-foreground">{t('admin.student.header')}</h1>
                 <p className="text-sm text-muted-foreground">
                   {student.name} - Grade {student.grade}
                 </p>
@@ -124,10 +127,10 @@ export default function StudentDetailPage({ params }: { params: { id: string } }
             <div className="flex items-center space-x-2">
               <Button variant="outline" size="sm">
                 <Mail className="w-4 h-4 mr-1" />
-                Contact Parent
+                {t('admin.student.contactParent')}
               </Button>
               <Button variant="outline" size="sm">
-                Generate Report
+                {t('admin.student.generateReport')}
               </Button>
             </div>
           </div>
@@ -142,7 +145,7 @@ export default function StudentDetailPage({ params }: { params: { id: string } }
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <User className="w-5 h-5" />
-                  <span>Student Info</span>
+                  <span>{t('admin.student.studentInfo')}</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -156,26 +159,26 @@ export default function StudentDetailPage({ params }: { params: { id: string } }
 
                 <div className="space-y-3 text-sm">
                   <div>
-                    <p className="text-muted-foreground">Parent</p>
+                    <p className="text-muted-foreground">{t('admin.student.parent')}</p>
                     <p className="font-medium text-foreground">{student.parentName}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Email</p>
+                    <p className="text-muted-foreground">{t('admin.student.email')}</p>
                     <p className="font-medium text-foreground">{student.parentEmail}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Phone</p>
+                    <p className="text-muted-foreground">{t('admin.student.phone')}</p>
                     <p className="font-medium text-foreground">{student.parentPhone}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Enrolled</p>
+                    <p className="text-muted-foreground">{t('admin.student.enrolled')}</p>
                     <p className="font-medium text-foreground">
                       {new Date(student.enrollmentDate).toLocaleDateString()}
                     </p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Status</p>
-                    <Badge className="bg-green-100 text-green-800 mt-1">Active</Badge>
+                    <p className="text-muted-foreground">{t('admin.student.status')}</p>
+                    <Badge className="bg-green-100 text-green-800 mt-1">{t('admin.student.active')}</Badge>
                   </div>
                 </div>
               </CardContent>
@@ -184,25 +187,25 @@ export default function StudentDetailPage({ params }: { params: { id: string } }
             {/* Quick Stats */}
             <Card>
               <CardHeader>
-                <CardTitle>Quick Stats</CardTitle>
+                <CardTitle>{t('admin.student.quickStats')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Avg Score</span>
+                  <span className="text-muted-foreground">{t('admin.student.avgScore')}</span>
                   <span className="font-bold text-foreground">{student.avgScore}%</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Submissions</span>
+                  <span className="text-muted-foreground">{t('admin.student.submissions')}</span>
                   <span className="font-bold text-foreground">{student.totalSubmissions}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">On Time Rate</span>
+                  <span className="text-muted-foreground">{t('admin.student.onTimeRate')}</span>
                   <span className="font-bold text-foreground">
                     {Math.round((student.onTimeSubmissions / student.totalSubmissions) * 100)}%
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Last Active</span>
+                  <span className="text-muted-foreground">{t('admin.student.lastActive')}</span>
                   <span className="text-sm text-foreground">{student.lastActive}</span>
                 </div>
               </CardContent>
@@ -213,10 +216,10 @@ export default function StudentDetailPage({ params }: { params: { id: string } }
           <div className="lg:col-span-3">
             <Tabs defaultValue="overview" className="space-y-6">
               <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="assignments">Assignments</TabsTrigger>
-                <TabsTrigger value="progress">Progress</TabsTrigger>
-                <TabsTrigger value="activity">Activity</TabsTrigger>
+                <TabsTrigger value="overview">{t('admin.student.tabs.overview')}</TabsTrigger>
+                <TabsTrigger value="assignments">{t('admin.student.tabs.assignments')}</TabsTrigger>
+                <TabsTrigger value="progress">{t('admin.student.tabs.progress')}</TabsTrigger>
+                <TabsTrigger value="activity">{t('admin.student.tabs.activity')}</TabsTrigger>
               </TabsList>
 
               {/* Overview Tab */}
@@ -224,8 +227,8 @@ export default function StudentDetailPage({ params }: { params: { id: string } }
                 {/* Performance Chart */}
                 <Card>
                   <CardHeader>
-                    <CardTitle>Academic Performance Trends</CardTitle>
-                    <CardDescription>Subject performance over the past 4 weeks</CardDescription>
+                    <CardTitle>{t('admin.student.overview.performanceTitle')}</CardTitle>
+                    <CardDescription>{t('admin.student.overview.performanceDesc')}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
@@ -246,8 +249,8 @@ export default function StudentDetailPage({ params }: { params: { id: string } }
                 {/* Skills Radar */}
                 <Card>
                   <CardHeader>
-                    <CardTitle>Skills Assessment</CardTitle>
-                    <CardDescription>Current skill levels across different areas</CardDescription>
+                    <CardTitle>{t('admin.student.overview.skillsTitle')}</CardTitle>
+                    <CardDescription>{t('admin.student.overview.skillsDesc')}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
@@ -256,7 +259,7 @@ export default function StudentDetailPage({ params }: { params: { id: string } }
                         <PolarAngleAxis dataKey="skill" />
                         <PolarRadiusAxis angle={90} domain={[0, 100]} />
                         <Radar
-                          name="Skills"
+                          name={t('admin.student.overview.skillsSeries')}
                           dataKey="score"
                           stroke="#FFA500"
                           fill="#FFA500"
@@ -274,8 +277,8 @@ export default function StudentDetailPage({ params }: { params: { id: string } }
               <TabsContent value="assignments" className="space-y-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Assignment History</CardTitle>
-                    <CardDescription>Complete record of submitted assignments and grades</CardDescription>
+                    <CardTitle>{t('admin.student.assignments.historyTitle')}</CardTitle>
+                    <CardDescription>{t('admin.student.assignments.historyDesc')}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -296,22 +299,22 @@ export default function StudentDetailPage({ params }: { params: { id: string } }
 
                           <div className="grid grid-cols-2 gap-4 text-sm mb-3">
                             <div>
-                              <p className="text-muted-foreground">Due Date</p>
+                              <p className="text-muted-foreground">{t('admin.student.assignments.dueDate')}</p>
                               <p className="text-foreground">{new Date(assignment.dueDate).toLocaleDateString()}</p>
                             </div>
                             <div>
-                              <p className="text-muted-foreground">Submitted</p>
+                              <p className="text-muted-foreground">{t('admin.student.assignments.submitted')}</p>
                               <p className="text-foreground">
                                 {assignment.submittedDate
                                   ? new Date(assignment.submittedDate).toLocaleDateString()
-                                  : "Not submitted"}
+                                  : t('admin.student.assignments.notSubmitted')}
                               </p>
                             </div>
                           </div>
 
                           {assignment.feedback && (
                             <div className="bg-muted/50 rounded p-3">
-                              <p className="text-sm font-medium text-foreground mb-1">Teacher Feedback</p>
+                              <p className="text-sm font-medium text-foreground mb-1">{t('admin.student.assignments.teacherFeedback')}</p>
                               <p className="text-sm text-muted-foreground">{assignment.feedback}</p>
                             </div>
                           )}
@@ -327,8 +330,8 @@ export default function StudentDetailPage({ params }: { params: { id: string } }
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Card>
                     <CardHeader>
-                      <CardTitle>Subject Progress</CardTitle>
-                      <CardDescription>Current performance by subject</CardDescription>
+                      <CardTitle>{t('admin.student.progress.subjectProgressTitle')}</CardTitle>
+                      <CardDescription>{t('admin.student.progress.subjectProgressDesc')}</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                       {[
@@ -341,7 +344,7 @@ export default function StudentDetailPage({ params }: { params: { id: string } }
                           <div className="flex justify-between text-sm">
                             <span className="font-medium text-foreground">{item.subject}</span>
                             <span className="text-muted-foreground">
-                              {item.score}% (Target: {item.target}%)
+                              {item.score}% ({t('admin.student.progress.target')}: {item.target}%)
                             </span>
                           </div>
                           <Progress value={item.score} className="h-2" />
@@ -352,20 +355,20 @@ export default function StudentDetailPage({ params }: { params: { id: string } }
 
                   <Card>
                     <CardHeader>
-                      <CardTitle>Learning Goals</CardTitle>
-                      <CardDescription>Areas for improvement and focus</CardDescription>
+                      <CardTitle>{t('admin.student.progress.learningGoalsTitle')}</CardTitle>
+                      <CardDescription>{t('admin.student.progress.learningGoalsDesc')}</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-3">
                       <div className="p-3 bg-orange-50 border border-orange-200 rounded-lg">
-                        <p className="text-sm font-medium text-orange-800">Focus Area</p>
+                        <p className="text-sm font-medium text-orange-800">{t('admin.student.progress.focusArea')}</p>
                         <p className="text-sm text-orange-700">Number formation (6, 9) - Practice needed</p>
                       </div>
                       <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                        <p className="text-sm font-medium text-blue-800">Strength</p>
+                        <p className="text-sm font-medium text-blue-800">{t('admin.student.progress.strength')}</p>
                         <p className="text-sm text-blue-700">Creative expression and artistic skills</p>
                       </div>
                       <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-                        <p className="text-sm font-medium text-green-800">Achievement</p>
+                        <p className="text-sm font-medium text-green-800">{t('admin.student.progress.achievement')}</p>
                         <p className="text-sm text-green-700">Excellent reading comprehension progress</p>
                       </div>
                     </CardContent>

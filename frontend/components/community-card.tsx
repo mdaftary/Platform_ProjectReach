@@ -1,7 +1,11 @@
+"use client"
+
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { MessageSquare, Heart, Clock, Pin, Star, HelpCircle } from "lucide-react"
 import Link from "next/link"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 interface Discussion {
   id: string
@@ -23,6 +27,7 @@ interface CommunityCardProps {
 }
 
 export function CommunityCard({ discussion }: CommunityCardProps) {
+  const { t } = useTranslation()
   return (
     <Card className="hover:shadow-md transition-shadow">
       <CardContent className="p-6">
@@ -37,19 +42,19 @@ export function CommunityCard({ discussion }: CommunityCardProps) {
                 {discussion.isPinned && (
                   <Badge variant="secondary" className="text-xs bg-primary/10 text-primary">
                     <Pin className="w-3 h-3 mr-1" />
-                    Pinned
+                    {t('components.communityCard.badges.pinned')}
                   </Badge>
                 )}
                 {discussion.isPopular && (
                   <Badge variant="secondary" className="text-xs bg-accent/10 text-accent-foreground">
                     <Star className="w-3 h-3 mr-1" />
-                    Popular
+                    {t('components.communityCard.badges.popular')}
                   </Badge>
                 )}
                 {discussion.isVolunteer && (
                   <Badge variant="secondary" className="text-xs bg-green-100 text-green-800">
                     <HelpCircle className="w-3 h-3 mr-1" />
-                    Volunteer
+                    {t('components.communityCard.badges.volunteer')}
                   </Badge>
                 )}
                 <Badge variant="outline" className="text-xs">
@@ -69,8 +74,8 @@ export function CommunityCard({ discussion }: CommunityCardProps) {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                 <span>
-                  by{" "}
-                  <span className="font-medium">{discussion.isAnonymous ? "Anonymous Parent" : discussion.author}</span>
+                  {t('components.communityCard.by')}{" "}
+                  <span className="font-medium">{discussion.isAnonymous ? t('components.communityCard.anonymousParent') : discussion.author}</span>
                 </span>
                 <div className="flex items-center space-x-1">
                   <MessageSquare className="w-4 h-4" />

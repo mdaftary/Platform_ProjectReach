@@ -14,9 +14,11 @@ import {
   User
 } from "lucide-react"
 import Link from "next/link"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 // Mock data for the discussion post
-const discussionPost = {
+const discussionPostEn = {
   id: 1,
   title: "Tips for K3 to Primary 1 Transition",
   author: "Anonymous Parent",
@@ -24,58 +26,42 @@ const discussionPost = {
   timestamp: "2 hours ago",
   content: "My child is moving to Primary 1 next year, and I'm worried about English readiness. How do you practice sight words at home? Any specific activities or games that worked well for your children?",
   tags: ["General", "Transition"],
-  engagement: {
-    likes: 12,
-    replies: 8,
-    shares: 3
-  },
+  engagement: { likes: 12, replies: 8, shares: 3 },
+  isLiked: false,
+  isBookmarked: false
+}
+
+const discussionPostZh = {
+  id: 1,
+  title: "K3 升小一過渡小秘訣",
+  author: "匿名家長",
+  authorRole: "Parent",
+  timestamp: "2 小時前",
+  content: "孩子明年升小一，擔心英語準備不足。大家在家如何練習常見詞？有沒有特別有效的活動或遊戲？",
+  tags: ["一般", "過渡"],
+  engagement: { likes: 12, replies: 8, shares: 3 },
   isLiked: false,
   isBookmarked: false
 }
 
 // Mock replies data
-const replies = [
-  {
-    id: 1,
-    author: "Sarah M.",
-    authorRole: "Parent",
-    timestamp: "1 hour ago",
-    content: "We use bedtime reading — 10 min daily worked wonders for sight words. My daughter went from recognizing 5 words to 30+ in just 2 months!",
-    likes: 8,
-    isLiked: true
-  },
-  {
-    id: 2,
-    author: "Ms. Chen",
-    authorRole: "Teacher",
-    timestamp: "45 min ago",
-    content: "Try flashcards with pictures! Make it a game - if they get 5 right, they choose the next bedtime story. We also joined REACH's weekly storytime group — very helpful!",
-    likes: 15,
-    isLiked: false,
-    replies: [
-      {
-        id: 3,
-        author: "Anonymous Parent",
-        authorRole: "Parent", 
-        timestamp: "30 min ago",
-        content: "That's a great idea! Where can I find the storytime group schedule?",
-        likes: 3,
-        isLiked: false
-      }
-    ]
-  },
-  {
-    id: 4,
-    author: "David L.",
-    authorRole: "Volunteer",
-    timestamp: "20 min ago",
-    content: "As a volunteer tutor, I've seen great results with the 'word hunt' game. Hide sight word cards around the house and let them find them. Makes learning active and fun!",
-    likes: 6,
-    isLiked: false
-  }
+const repliesEn = [
+  { id: 1, author: "Sarah M.", authorRole: "Parent", timestamp: "1 hour ago", content: "We use bedtime reading — 10 min daily worked wonders for sight words. My daughter went from recognizing 5 words to 30+ in just 2 months!", likes: 8, isLiked: true },
+  { id: 2, author: "Ms. Chen", authorRole: "Teacher", timestamp: "45 min ago", content: "Try flashcards with pictures! Make it a game - if they get 5 right, they choose the next bedtime story. We also joined REACH's weekly storytime group — very helpful!", likes: 15, isLiked: false, replies: [ { id: 3, author: "Anonymous Parent", authorRole: "Parent", timestamp: "30 min ago", content: "That's a great idea! Where can I find the storytime group schedule?", likes: 3, isLiked: false } ] },
+  { id: 4, author: "David L.", authorRole: "Volunteer", timestamp: "20 min ago", content: "As a volunteer tutor, I've seen great results with the 'word hunt' game. Hide sight word cards around the house and let them find them. Makes learning active and fun!", likes: 6, isLiked: false }
+]
+
+const repliesZh = [
+  { id: 1, author: "Sarah M.", authorRole: "Parent", timestamp: "1 小時前", content: "我們睡前閱讀—每天 10 分鐘，常見詞進步很快。女兒兩個月從 5 個到 30+！", likes: 8, isLiked: true },
+  { id: 2, author: "Ms. Chen", authorRole: "Teacher", timestamp: "45 分鐘前", content: "試試帶圖片的字卡！做成遊戲—答對 5 個就讓他選睡前故事。我們也參加 REACH 每週說故事活動—很有幫助！", likes: 15, isLiked: false, replies: [ { id: 3, author: "匿名家長", authorRole: "Parent", timestamp: "30 分鐘前", content: "好主意！在哪裡可以看到說故事活動時間表？", likes: 3, isLiked: false } ] },
+  { id: 4, author: "David L.", authorRole: "Volunteer", timestamp: "20 分鐘前", content: "作為義教，我很推薦『找字遊戲』。把常見詞卡片藏在家裡，讓孩子找，學習更有趣！", likes: 6, isLiked: false }
 ]
 
 export default function DiscussionPost() {
+  const { t, i18n } = useTranslation()
+  const isZh = i18n.language?.startsWith('zh')
+  const discussionPost = isZh ? discussionPostZh : discussionPostEn
+  const replies = isZh ? repliesZh : repliesEn
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-md mx-auto">
@@ -88,7 +74,7 @@ export default function DiscussionPost() {
                   <ArrowLeft className="w-5 h-5 text-gray-600 stroke-2" />
                 </Button>
               </Link>
-              <h1 className="text-lg font-semibold text-gray-900">Discussion</h1>
+              <h1 className="text-lg font-semibold text-gray-900">{t('community.discussion.title')}</h1>
             </div>
             <Button variant="ghost" size="sm" className="p-1 h-8 w-8">
               <Bookmark className={`w-5 h-5 stroke-2 ${discussionPost.isBookmarked ? 'text-green-600 fill-green-100' : 'text-gray-600'}`} />
@@ -167,7 +153,7 @@ export default function DiscussionPost() {
                     size="sm" 
                     className="text-green-600 border-green-200 hover:bg-green-50"
                   >
-                    Follow Post
+                    {t('community.discussion.followPost')}
                   </Button>
                 </div>
               </div>
@@ -177,7 +163,7 @@ export default function DiscussionPost() {
           {/* Replies Section */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900">
-              Replies ({discussionPost.engagement.replies})
+              {t('community.discussion.replies')} ({discussionPost.engagement.replies})
             </h3>
 
             {replies.map((reply) => (
@@ -221,7 +207,7 @@ export default function DiscussionPost() {
                         </button>
                         
                         <button className="text-xs text-green-600 font-medium hover:text-green-700">
-                          Reply
+                          {t('community.discussion.postReply')}
                         </button>
                       </div>
                     </div>
@@ -282,7 +268,7 @@ export default function DiscussionPost() {
             </div>
             <div className="flex-1 relative">
               <Input 
-                placeholder="Write your reply..." 
+                placeholder={t('community.discussion.writeReply')} 
                 className="pr-12 bg-gray-50 border-gray-200 focus:bg-white focus:border-green-300 rounded-full"
               />
               <Button 

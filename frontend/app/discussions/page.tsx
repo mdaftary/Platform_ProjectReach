@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { MessageCircle, Users, Share2, Clock, Search, Plus, HelpCircle, Heart } from "lucide-react"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 const discussionTabs = [
   { id: "help", label: "Get Help", icon: HelpCircle },
@@ -93,6 +95,7 @@ const practiceGroups = [
 ]
 
 export default function DiscussionsPage() {
+  const { t } = useTranslation()
   const [activeTab, setActiveTab] = useState("help")
   const [searchQuery, setSearchQuery] = useState("")
 
@@ -102,7 +105,7 @@ export default function DiscussionsPage() {
         <div className="max-w-md mx-auto">
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
             <MessageCircle className="w-6 h-6 text-orange-600" />
-            Discussions
+            {t('discussions.header')}
           </h1>
         </div>
       </header>
@@ -112,7 +115,7 @@ export default function DiscussionsPage() {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           <Input
-            placeholder="Search discussions..."
+            placeholder={t('discussions.searchPlaceholder')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
@@ -129,7 +132,7 @@ export default function DiscussionsPage() {
               onClick={() => setActiveTab(tab.id)}
             >
               <tab.icon className="w-4 h-4" />
-              <span className="text-xs">{tab.label}</span>
+              <span className="text-xs">{t(`discussions.tabs.${tab.id}`)}</span>
             </Button>
           ))}
         </div>
@@ -138,10 +141,10 @@ export default function DiscussionsPage() {
         {activeTab === "help" && (
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold">Need Help?</h2>
+              <h2 className="text-lg font-semibold">{t('discussions.help.title')}</h2>
               <Button size="sm" className="bg-orange-600 hover:bg-orange-700">
                 <Plus className="w-4 h-4 mr-1" />
-                Ask Question
+                {t('discussions.help.askQuestion')}
               </Button>
             </div>
             {helpRequests.map((request) => (
@@ -159,7 +162,7 @@ export default function DiscussionsPage() {
                       <span>•</span>
                       <span>{request.timeAgo}</span>
                       <span>•</span>
-                      <span>{request.replies} replies</span>
+                      <span>{request.replies} {t('discussions.help.replies')}</span>
                     </div>
                     <Badge variant="outline" className="text-xs">
                       {request.category}
@@ -174,7 +177,7 @@ export default function DiscussionsPage() {
         {/* Give Help Tab */}
         {activeTab === "give" && (
           <div className="space-y-4">
-            <h2 className="text-lg font-semibold">Help Others & Earn Points</h2>
+            <h2 className="text-lg font-semibold">{t('discussions.give.title')}</h2>
             {giveHelpOpportunities.map((opportunity) => (
               <Card key={opportunity.id} className="cursor-pointer hover:shadow-md transition-shadow">
                 <CardContent className="p-4">
@@ -184,10 +187,10 @@ export default function DiscussionsPage() {
                       <div className="flex items-center gap-2">
                         {opportunity.urgent && (
                           <Badge variant="destructive" className="text-xs">
-                            Urgent
+                            {t('discussions.give.urgent')}
                           </Badge>
                         )}
-                        <Badge variant="secondary">{opportunity.points} pts</Badge>
+                        <Badge variant="secondary">{opportunity.points} {t('discussions.give.pts')}</Badge>
                       </div>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-gray-500">
@@ -209,10 +212,10 @@ export default function DiscussionsPage() {
         {activeTab === "resources" && (
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold">Shared Resources</h2>
+              <h2 className="text-lg font-semibold">{t('discussions.resources.title')}</h2>
               <Button size="sm" className="bg-orange-600 hover:bg-orange-700">
                 <Plus className="w-4 h-4 mr-1" />
-                Share Resource
+                {t('discussions.resources.share')}
               </Button>
             </div>
             {sharedResources.map((resource) => (
@@ -221,8 +224,8 @@ export default function DiscussionsPage() {
                   <div className="space-y-2">
                     <h3 className="font-medium text-gray-900">{resource.title}</h3>
                     <div className="flex items-center gap-4 text-sm text-gray-500">
-                      <span>By {resource.author}</span>
-                      <span>{resource.downloads} downloads</span>
+                      <span>{t('discussions.resources.by')} {resource.author}</span>
+                      <span>{resource.downloads} {t('discussions.resources.downloads')}</span>
                       <span>⭐ {resource.rating}</span>
                     </div>
                     <Badge variant="outline" className="text-xs">
@@ -239,10 +242,10 @@ export default function DiscussionsPage() {
         {activeTab === "groups" && (
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold">Practice Groups</h2>
+              <h2 className="text-lg font-semibold">{t('discussions.groups.title')}</h2>
               <Button size="sm" className="bg-orange-600 hover:bg-orange-700">
                 <Plus className="w-4 h-4 mr-1" />
-                Create Group
+                {t('discussions.groups.create')}
               </Button>
             </div>
             {practiceGroups.map((group) => (
@@ -256,7 +259,7 @@ export default function DiscussionsPage() {
                     <div className="flex items-center gap-4 text-sm text-gray-500">
                       <div className="flex items-center gap-1">
                         <Users className="w-4 h-4" />
-                        <span>{group.members} members</span>
+                        <span>{group.members} {t('discussions.groups.members')}</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <Clock className="w-4 h-4" />
@@ -264,7 +267,7 @@ export default function DiscussionsPage() {
                       </div>
                     </div>
                     <Button size="sm" variant="outline" className="w-full bg-transparent">
-                      Join Group
+                      {t('discussions.groups.join')}
                     </Button>
                   </div>
                 </CardContent>

@@ -34,8 +34,11 @@ import {
   Area,
   AreaChart,
 } from "recharts"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 export default function AdminDashboard() {
+  const { t } = useTranslation()
   // Mock data for analytics
   const overviewStats = {
     totalStudents: 156,
@@ -143,8 +146,8 @@ export default function AdminDashboard() {
                 <BarChart3 className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-foreground">REACH Admin Dashboard</h1>
-                <p className="text-sm text-muted-foreground">Analytics & Student Management</p>
+                <h1 className="text-xl font-bold text-foreground">{t('admin.dashboard.header')}</h1>
+                <p className="text-sm text-muted-foreground">{t('admin.dashboard.subtitle')}</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
@@ -153,14 +156,14 @@ export default function AdminDashboard() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all-students">All Students</SelectItem>
-                  <SelectItem value="k3-only">K3 Only</SelectItem>
-                  <SelectItem value="active-only">Active Only</SelectItem>
+                  <SelectItem value="all-students">{t('admin.dashboard.filters.allStudents')}</SelectItem>
+                  <SelectItem value="k3-only">{t('admin.dashboard.filters.k3Only')}</SelectItem>
+                  <SelectItem value="active-only">{t('admin.dashboard.filters.activeOnly')}</SelectItem>
                 </SelectContent>
               </Select>
               <Button variant="outline" size="sm">
                 <Download className="w-4 h-4 mr-1" />
-                Export Data
+                {t('admin.dashboard.exportData')}
               </Button>
             </div>
           </div>
@@ -170,11 +173,11 @@ export default function AdminDashboard() {
       <main className="container mx-auto px-4 py-8">
         <Tabs defaultValue="overview" className="space-y-6">
           <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="students">Students</TabsTrigger>
-            <TabsTrigger value="assignments">Assignments</TabsTrigger>
-            <TabsTrigger value="community">Community</TabsTrigger>
-            <TabsTrigger value="reports">Reports</TabsTrigger>
+            <TabsTrigger value="overview">{t('admin.dashboard.tabs.overview')}</TabsTrigger>
+            <TabsTrigger value="students">{t('admin.dashboard.tabs.students')}</TabsTrigger>
+            <TabsTrigger value="assignments">{t('admin.dashboard.tabs.assignments')}</TabsTrigger>
+            <TabsTrigger value="community">{t('admin.dashboard.tabs.community')}</TabsTrigger>
+            <TabsTrigger value="reports">{t('admin.dashboard.tabs.reports')}</TabsTrigger>
           </TabsList>
 
           {/* Overview Tab */}
@@ -186,7 +189,7 @@ export default function AdminDashboard() {
                   <div className="flex items-center space-x-2">
                     <Users className="w-4 h-4 text-primary" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Total Students</p>
+                      <p className="text-sm text-muted-foreground">{t('admin.dashboard.overview.totalStudents')}</p>
                       <p className="text-2xl font-bold text-foreground">{overviewStats.totalStudents}</p>
                     </div>
                   </div>
@@ -198,7 +201,7 @@ export default function AdminDashboard() {
                   <div className="flex items-center space-x-2">
                     <BookOpen className="w-4 h-4 text-primary" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Active Assignments</p>
+                      <p className="text-sm text-muted-foreground">{t('admin.dashboard.overview.activeAssignments')}</p>
                       <p className="text-2xl font-bold text-foreground">{overviewStats.activeAssignments}</p>
                     </div>
                   </div>
@@ -210,7 +213,7 @@ export default function AdminDashboard() {
                   <div className="flex items-center space-x-2">
                     <CheckCircle className="w-4 h-4 text-green-600" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Submission Rate</p>
+                      <p className="text-sm text-muted-foreground">{t('admin.dashboard.overview.submissionRate')}</p>
                       <p className="text-2xl font-bold text-foreground">{overviewStats.submissionRate}%</p>
                     </div>
                   </div>
@@ -222,7 +225,7 @@ export default function AdminDashboard() {
                   <div className="flex items-center space-x-2">
                     <TrendingUp className="w-4 h-4 text-accent-foreground" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Avg Grade</p>
+                      <p className="text-sm text-muted-foreground">{t('admin.dashboard.overview.avgGrade')}</p>
                       <p className="text-2xl font-bold text-foreground">{overviewStats.avgGrade}%</p>
                     </div>
                   </div>
@@ -234,7 +237,7 @@ export default function AdminDashboard() {
                   <div className="flex items-center space-x-2">
                     <MessageSquare className="w-4 h-4 text-primary" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Forum Posts</p>
+                      <p className="text-sm text-muted-foreground">{t('admin.dashboard.overview.forumPosts')}</p>
                       <p className="text-2xl font-bold text-foreground">{overviewStats.forumPosts}</p>
                     </div>
                   </div>
@@ -246,7 +249,7 @@ export default function AdminDashboard() {
                   <div className="flex items-center space-x-2">
                     <Clock className="w-4 h-4 text-accent-foreground" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Volunteer Hours</p>
+                      <p className="text-sm text-muted-foreground">{t('admin.dashboard.overview.volunteerHours')}</p>
                       <p className="text-2xl font-bold text-foreground">{overviewStats.volunteerHours}h</p>
                     </div>
                   </div>
@@ -259,8 +262,8 @@ export default function AdminDashboard() {
               {/* Submission Trends */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Assignment Submission Trends</CardTitle>
-                  <CardDescription>Weekly submission patterns and timeliness</CardDescription>
+                  <CardTitle>{t('admin.dashboard.overview.submissionTrendsTitle')}</CardTitle>
+                  <CardDescription>{t('admin.dashboard.overview.submissionTrendsDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={300}>
@@ -279,8 +282,8 @@ export default function AdminDashboard() {
               {/* Grade Distribution */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Grade Distribution</CardTitle>
-                  <CardDescription>Overall student performance breakdown</CardDescription>
+                  <CardTitle>{t('admin.dashboard.overview.gradeDistributionTitle')}</CardTitle>
+                  <CardDescription>{t('admin.dashboard.overview.gradeDistributionDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={300}>
@@ -309,8 +312,8 @@ export default function AdminDashboard() {
             {/* Daily Engagement */}
             <Card>
               <CardHeader>
-                <CardTitle>Daily Platform Engagement</CardTitle>
-                <CardDescription>Learning hours and community activity by day</CardDescription>
+                <CardTitle>{t('admin.dashboard.overview.engagementTitle')}</CardTitle>
+                <CardDescription>{t('admin.dashboard.overview.engagementDesc')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -320,8 +323,8 @@ export default function AdminDashboard() {
                     <YAxis yAxisId="left" />
                     <YAxis yAxisId="right" orientation="right" />
                     <Tooltip />
-                    <Bar yAxisId="left" dataKey="hours" fill="#FFA500" name="Learning Hours" />
-                    <Bar yAxisId="right" dataKey="posts" fill="#FFD700" name="Forum Posts" />
+                    <Bar yAxisId="left" dataKey="hours" fill="#FFA500" name={t('admin.dashboard.overview.series.learningHours')} />
+                    <Bar yAxisId="right" dataKey="posts" fill="#FFD700" name={t('admin.dashboard.overview.series.forumPosts')} />
                   </BarChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -334,8 +337,8 @@ export default function AdminDashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Subject Performance Overview</CardTitle>
-                  <CardDescription>Average grades and completion rates by subject</CardDescription>
+                  <CardTitle>{t('admin.dashboard.students.subjectPerformanceTitle')}</CardTitle>
+                  <CardDescription>{t('admin.dashboard.students.subjectPerformanceDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
@@ -358,29 +361,29 @@ export default function AdminDashboard() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Student Status Overview</CardTitle>
-                  <CardDescription>Current student engagement levels</CardDescription>
+                  <CardTitle>{t('admin.dashboard.students.statusOverviewTitle')}</CardTitle>
+                  <CardDescription>{t('admin.dashboard.students.statusOverviewDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="w-4 h-4 text-green-600" />
-                        <span className="text-foreground">Active Students</span>
+                        <span className="text-foreground">{t('admin.dashboard.students.activeStudents')}</span>
                       </div>
                       <span className="font-bold text-foreground">142 (91%)</span>
                     </div>
                     <div className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center space-x-2">
                         <AlertCircle className="w-4 h-4 text-orange-500" />
-                        <span className="text-foreground">At Risk</span>
+                        <span className="text-foreground">{t('admin.dashboard.students.atRisk')}</span>
                       </div>
                       <span className="font-bold text-foreground">12 (8%)</span>
                     </div>
                     <div className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center space-x-2">
                         <Clock className="w-4 h-4 text-red-500" />
-                        <span className="text-foreground">Inactive</span>
+                        <span className="text-foreground">{t('admin.dashboard.students.inactive')}</span>
                       </div>
                       <span className="font-bold text-foreground">2 (1%)</span>
                     </div>
@@ -393,19 +396,19 @@ export default function AdminDashboard() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
-                  <span>Student Management</span>
+                  <span>{t('admin.dashboard.students.studentManagement')}</span>
                   <div className="flex items-center space-x-2">
                     <Button variant="outline" size="sm">
                       <Filter className="w-4 h-4 mr-1" />
-                      Filter
+                      {t('admin.dashboard.students.filter')}
                     </Button>
                     <Button variant="outline" size="sm">
                       <Download className="w-4 h-4 mr-1" />
-                      Export
+                      {t('admin.dashboard.students.export')}
                     </Button>
                   </div>
                 </CardTitle>
-                <CardDescription>Individual student progress and engagement tracking</CardDescription>
+                <CardDescription>{t('admin.dashboard.students.studentTrackingDesc')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -475,19 +478,19 @@ export default function AdminDashboard() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Submission Timeliness</CardTitle>
+                  <CardTitle>{t('admin.dashboard.assignments.timelinessTitle')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">On Time</span>
+                    <span className="text-muted-foreground">{t('admin.dashboard.assignments.onTime')}</span>
                     <span className="font-bold text-green-600">89%</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Late</span>
+                    <span className="text-muted-foreground">{t('admin.dashboard.assignments.late')}</span>
                     <span className="font-bold text-orange-500">8%</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Missing</span>
+                    <span className="text-muted-foreground">{t('admin.dashboard.assignments.missing')}</span>
                     <span className="font-bold text-red-500">3%</span>
                   </div>
                 </CardContent>
@@ -495,19 +498,19 @@ export default function AdminDashboard() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Grading Status</CardTitle>
+                  <CardTitle>{t('admin.dashboard.assignments.gradingStatusTitle')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Graded</span>
+                    <span className="text-muted-foreground">{t('admin.dashboard.assignments.graded')}</span>
                     <span className="font-bold text-green-600">142</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Pending Review</span>
+                    <span className="text-muted-foreground">{t('admin.dashboard.assignments.pendingReview')}</span>
                     <span className="font-bold text-orange-500">18</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">AI Pre-graded</span>
+                    <span className="text-muted-foreground">{t('admin.dashboard.assignments.aiPreGraded')}</span>
                     <span className="font-bold text-blue-600">12</span>
                   </div>
                 </CardContent>
@@ -590,8 +593,8 @@ export default function AdminDashboard() {
             {/* Community Activity Chart */}
             <Card>
               <CardHeader>
-                <CardTitle>Community Activity Trends</CardTitle>
-                <CardDescription>Forum posts and user engagement over time</CardDescription>
+                <CardTitle>{t('admin.dashboard.community.activityTrendsTitle')}</CardTitle>
+                <CardDescription>{t('admin.dashboard.community.activityTrendsDesc')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -612,46 +615,46 @@ export default function AdminDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Generate Reports</CardTitle>
-                  <CardDescription>Create detailed analytics reports</CardDescription>
+                  <CardTitle>{t('admin.dashboard.reports.generateReports')}</CardTitle>
+                  <CardDescription>{t('admin.dashboard.reports.generateReportsDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <Button className="w-full bg-primary hover:bg-primary/90">
                     <Download className="w-4 h-4 mr-2" />
-                    Student Progress Report
+                    {t('admin.dashboard.reports.studentProgressReport')}
                   </Button>
                   <Button variant="outline" className="w-full bg-transparent">
                     <Download className="w-4 h-4 mr-2" />
-                    Assignment Analytics
+                    {t('admin.dashboard.reports.assignmentAnalytics')}
                   </Button>
                   <Button variant="outline" className="w-full bg-transparent">
                     <Download className="w-4 h-4 mr-2" />
-                    Community Engagement
+                    {t('admin.dashboard.reports.communityEngagement')}
                   </Button>
                   <Button variant="outline" className="w-full bg-transparent">
                     <Download className="w-4 h-4 mr-2" />
-                    Platform Usage Statistics
+                    {t('admin.dashboard.reports.platformUsage')}
                   </Button>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Quick Insights</CardTitle>
-                  <CardDescription>Key findings and recommendations</CardDescription>
+                  <CardTitle>{t('admin.dashboard.reports.quickInsights')}</CardTitle>
+                  <CardDescription>{t('admin.dashboard.reports.quickInsightsDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-                    <p className="text-sm font-medium text-green-800">Positive Trend</p>
-                    <p className="text-sm text-green-700">Submission rates increased by 12% this month</p>
+                    <p className="text-sm font-medium text-green-800">{t('admin.dashboard.reports.positiveTrend')}</p>
+                    <p className="text-sm text-green-700">{t('admin.dashboard.reports.positiveTrendDesc')}</p>
                   </div>
                   <div className="p-3 bg-orange-50 border border-orange-200 rounded-lg">
-                    <p className="text-sm font-medium text-orange-800">Attention Needed</p>
-                    <p className="text-sm text-orange-700">12 students showing decreased engagement</p>
+                    <p className="text-sm font-medium text-orange-800">{t('admin.dashboard.reports.attentionNeeded')}</p>
+                    <p className="text-sm text-orange-700">{t('admin.dashboard.reports.attentionNeededDesc')}</p>
                   </div>
                   <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                    <p className="text-sm font-medium text-blue-800">Opportunity</p>
-                    <p className="text-sm text-blue-700">Math assignments have highest completion rates</p>
+                    <p className="text-sm font-medium text-blue-800">{t('admin.dashboard.reports.opportunity')}</p>
+                    <p className="text-sm text-blue-700">{t('admin.dashboard.reports.opportunityDesc')}</p>
                   </div>
                 </CardContent>
               </Card>

@@ -4,17 +4,20 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { BookOpen, BarChart3, Users, Settings } from "lucide-react"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 const navigation = [
-  { name: "Overview", href: "/", icon: BookOpen },
-  { name: "Assignments", href: "/assignments", icon: BookOpen },
-  { name: "Dashboard", href: "/dashboard", icon: BarChart3 },
-  { name: "Community", href: "/community", icon: Users },
-  { name: "Settings", href: "/settings", icon: Settings },
+  { name: "dashboardNav.overview", href: "/", icon: BookOpen },
+  { name: "dashboardNav.assignments", href: "/assignments", icon: BookOpen },
+  { name: "dashboardNav.dashboard", href: "/dashboard", icon: BarChart3 },
+  { name: "dashboardNav.community", href: "/community", icon: Users },
+  { name: "dashboardNav.settings", href: "/settings", icon: Settings },
 ]
 
 export function DashboardNav() {
   const pathname = usePathname()
+  const { t } = useTranslation()
 
   return (
     <nav className="flex space-x-1">
@@ -32,7 +35,7 @@ export function DashboardNav() {
             )}
           >
             <Icon className="w-4 h-4" />
-            <span>{item.name}</span>
+            <span>{t(`components.${item.name}`)}</span>
           </Link>
         )
       })}

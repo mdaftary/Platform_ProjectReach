@@ -8,11 +8,14 @@ import { Label } from "@/components/ui/label"
 import { Mail, Phone, TicketCheck, User, Eye, EyeOff, Loader, ArrowLeft, Check, AlertCircle } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 type SignUpStep = 'method' | 'credentials' | 'complete'
 type SignUpMethod = 'email' | 'phone' | 'invitation'
 
 export default function SignUpPage() {
+  const { t } = useTranslation()
   const [step, setStep] = useState<SignUpStep>('method')
   const [signUpMethod, setSignUpMethod] = useState<SignUpMethod>('email')
   const [email, setEmail] = useState('')
@@ -33,7 +36,7 @@ export default function SignUpPage() {
     // Simple validation
     const value = getMethodValue()
     if (!value) {
-      setError('Please fill in the required field')
+      setError(t('signup.errorRequired'))
       return
     }
     
@@ -47,12 +50,12 @@ export default function SignUpPage() {
     
     // Validation
     if (password !== confirmPassword) {
-      setError('Passwords do not match')
+      setError(t('signup.errorPasswordMismatch'))
       return
     }
     
     if (password.length < 6) {
-      setError('Password must be at least 6 characters')
+      setError(t('signup.errorPasswordShort'))
       return
     }
     
@@ -67,7 +70,7 @@ export default function SignUpPage() {
       })
       // Auth provider will handle redirect to dashboard
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Signup failed')
+      setError(error instanceof Error ? error.message : t('signup.errorSignupFailed'))
     }
   }
 
@@ -78,7 +81,7 @@ export default function SignUpPage() {
       await loginWithGoogle()
       // Auth provider will handle redirect to dashboard
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Google sign up failed')
+      setError(error instanceof Error ? error.message : t('signup.errorGoogleFailed'))
     }
   }
 
@@ -112,11 +115,11 @@ export default function SignUpPage() {
   const getPlaceholderText = () => {
     switch (signUpMethod) {
       case 'email':
-        return 'Enter your email address'
+        return t('signup.emailAddress')
       case 'phone':
-        return 'Enter your phone number'
+        return t('signup.phoneNumber')
       case 'invitation':
-        return 'Enter invitation code'
+        return t('signup.invitationCode')
       default:
         return ''
     }
@@ -147,14 +150,14 @@ export default function SignUpPage() {
           
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-              {step === 'method' && 'Create Account'}
-              {step === 'credentials' && 'Set Up Your Account'}
-              {step === 'complete' && 'Welcome to REACH!'}
+              {step === 'method' && t('signup.titles.method')}
+              {step === 'credentials' && t('signup.titles.credentials')}
+              {step === 'complete' && t('signup.titles.complete')}
             </h1>
             <p className="text-base text-gray-500 mt-1 font-medium">
-              {step === 'method' && 'Choose how you\'d like to sign up'}
-              {step === 'credentials' && 'Create your username and password'}
-              {step === 'complete' && 'Your account has been created successfully'}
+              {step === 'method' && t('signup.subtitles.method')}
+              {step === 'credentials' && t('signup.subtitles.credentials')}
+              {step === 'complete' && t('signup.subtitles.complete')}
             </p>
           </div>
         </div>
@@ -168,7 +171,7 @@ export default function SignUpPage() {
               <>
                 {/* Sign Up Method Selection */}
                 <div className="space-y-3">
-                  <Label className="text-sm font-semibold text-gray-900">Sign up with</Label>
+                  <Label className="text-sm font-semibold text-gray-900">{t('signup.signUpWith')}</Label>
                   <div className="grid grid-cols-1 gap-3">
                     <Button
                       type="button"
@@ -177,7 +180,7 @@ export default function SignUpPage() {
                       className="flex items-center gap-3 text-sm font-medium rounded-xl py-3 justify-start"
                     >
                       <Mail className="w-4 h-4" />
-                      Email Address
+                      {t('signup.emailAddress')}
                     </Button>
                     <Button
                       type="button"
@@ -186,7 +189,7 @@ export default function SignUpPage() {
                       className="flex items-center gap-3 text-sm font-medium rounded-xl py-3 justify-start"
                     >
                       <Phone className="w-4 h-4" />
-                      Phone Number
+                      {t('signup.phoneNumber')}
                     </Button>
                     <Button
                       type="button"
@@ -195,7 +198,7 @@ export default function SignUpPage() {
                       className="flex items-center gap-3 text-sm font-medium rounded-xl py-3 justify-start"
                     >
                       <TicketCheck className="w-4 h-4" />
-                      Invitation Code
+                      {t('signup.invitationCode')}
                     </Button>
                   </div>
                 </div>
@@ -214,8 +217,8 @@ export default function SignUpPage() {
                 <form onSubmit={handleMethodSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="method-input" className="text-sm font-medium text-gray-900">
-                      {signUpMethod === 'email' ? 'Email Address' : 
-                       signUpMethod === 'phone' ? 'Phone Number' : 'Invitation Code'}
+                      {signUpMethod === 'email' ? t('signup.emailAddress') : 
+                       signUpMethod === 'phone' ? t('signup.phoneNumber') : t('signup.invitationCode')}
                     </Label>
                     <div className="relative">
                       <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
@@ -241,10 +244,10 @@ export default function SignUpPage() {
                     {isLoading ? (
                       <>
                         <Loader className="w-4 h-4 mr-2 animate-spin" />
-                        Verifying...
+                        {t('signup.verifying')}
                       </>
                     ) : (
-                      'Continue'
+                      t('signup.continue')
                     )}
                   </Button>
                 </form>
@@ -255,7 +258,7 @@ export default function SignUpPage() {
                     <div className="w-full border-t border-gray-200"></div>
                   </div>
                   <div className="relative flex justify-center text-sm">
-                    <span className="bg-white px-4 text-gray-500 font-medium">or</span>
+                    <span className="bg-white px-4 text-gray-500 font-medium">{t('common.or')}</span>
                   </div>
                 </div>
 
@@ -270,7 +273,7 @@ export default function SignUpPage() {
                   {isLoading ? (
                     <>
                       <Loader className="w-4 h-4 mr-2 animate-spin" />
-                      Connecting...
+                      {t('signup.connecting')}
                     </>
                   ) : (
                     <>
@@ -280,16 +283,16 @@ export default function SignUpPage() {
                         <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                         <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                       </svg>
-                      Continue with Google
+                      {t('signup.continueWithGoogle')}
                     </>
                   )}
                 </Button>
 
                 {/* Sign In Link */}
                 <div className="text-center text-sm">
-                  <span className="text-gray-500">Already have an account? </span>
+                  <span className="text-gray-500">{t('signup.alreadyHave')}</span>
                   <Link href="/login" className="text-blue-600 hover:text-blue-700 font-semibold">
-                    Sign in
+                    {t('signup.signIn')}
                   </Link>
                 </div>
               </>
@@ -311,7 +314,7 @@ export default function SignUpPage() {
                   </Button>
                   <div className="text-sm text-gray-500">
                     {signUpMethod === 'email' ? email : 
-                     signUpMethod === 'phone' ? phone : 'Invitation code verified'}
+                     signUpMethod === 'phone' ? phone : t('signup.viaInvitation')}
                   </div>
                 </div>
 
@@ -328,7 +331,7 @@ export default function SignUpPage() {
                 <form onSubmit={handleCredentialsSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="username" className="text-sm font-medium text-gray-900">
-                      Username
+                      {t('signup.username')}
                     </Label>
                     <div className="relative">
                       <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
@@ -339,7 +342,7 @@ export default function SignUpPage() {
                         type="text"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        placeholder="Choose a username"
+                        placeholder={t('signup.username')}
                         className="pl-10 rounded-xl"
                         required
                       />
@@ -348,7 +351,7 @@ export default function SignUpPage() {
 
                   <div className="space-y-2">
                     <Label htmlFor="password" className="text-sm font-medium text-gray-900">
-                      Password
+                      {t('signup.password')}
                     </Label>
                     <div className="relative">
                       <Input
@@ -356,7 +359,7 @@ export default function SignUpPage() {
                         type={showPassword ? 'text' : 'password'}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Create a password"
+                        placeholder={t('signup.createPassword')}
                         className="pr-10 rounded-xl"
                         required
                       />
@@ -372,7 +375,7 @@ export default function SignUpPage() {
 
                   <div className="space-y-2">
                     <Label htmlFor="confirm-password" className="text-sm font-medium text-gray-900">
-                      Confirm Password
+                      {t('signup.confirmPassword')}
                     </Label>
                     <div className="relative">
                       <Input
@@ -380,7 +383,7 @@ export default function SignUpPage() {
                         type={showConfirmPassword ? 'text' : 'password'}
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="Confirm your password"
+                        placeholder={t('signup.confirmYourPassword')}
                         className="pr-10 rounded-xl"
                         required
                       />
@@ -402,10 +405,10 @@ export default function SignUpPage() {
                     {isLoading ? (
                       <>
                         <Loader className="w-4 h-4 mr-2 animate-spin" />
-                        Creating Account...
+                        {t('signup.creatingAccount')}
                       </>
                     ) : (
-                      'Create Account'
+                      t('signup.createAccount')
                     )}
                   </Button>
                 </form>
@@ -422,23 +425,21 @@ export default function SignUpPage() {
 
                 {/* Success Message */}
                 <div className="space-y-2">
-                  <h3 className="text-lg font-bold text-gray-900">Account Created!</h3>
-                  <p className="text-sm text-gray-500">
-                    Welcome to REACH Hong Kong. You can now start your learning journey.
-                  </p>
+                  <h3 className="text-lg font-bold text-gray-900">{t('signup.successAccountCreated')}</h3>
+                  <p className="text-sm text-gray-500">{t('signup.successWelcome')}</p>
                 </div>
 
                 {/* Account Details */}
                 <div className="bg-gray-50 rounded-xl p-4 space-y-2">
                   <div className="text-sm">
-                    <span className="text-gray-500">Username: </span>
+                    <span className="text-gray-500">{t('signup.labelUsername')}</span>
                     <span className="font-semibold text-gray-900">{username}</span>
                   </div>
                   <div className="text-sm">
-                    <span className="text-gray-500">Contact: </span>
+                    <span className="text-gray-500">{t('signup.labelContact')}</span>
                     <span className="font-semibold text-gray-900">
                       {signUpMethod === 'email' ? email : 
-                       signUpMethod === 'phone' ? phone : 'Via invitation'}
+                       signUpMethod === 'phone' ? phone : t('signup.viaInvitation')}
                     </span>
                   </div>
                 </div>
@@ -448,13 +449,13 @@ export default function SignUpPage() {
                   onClick={() => window.location.href = '/'}
                   className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold py-3"
                 >
-                  Continue to Dashboard
+                  {t('signup.continueToDashboard')}
                 </Button>
 
                 {/* Sign In Link */}
                 <div className="text-center text-sm">
                   <Link href="/login" className="text-blue-600 hover:text-blue-700 font-semibold">
-                    Sign in to existing account
+                    {t('signup.signInExisting')}
                   </Link>
                 </div>
               </div>

@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Trophy, TrendingUp, Star, Medal, EyeOff, Eye } from "lucide-react"
 import { useFontSize } from "@/app/font-size-provider"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 const leaderboardData = [
   { rank: 1, name: "Parent A", points: 2450, streak: 15, badge: "gold" },
@@ -22,6 +24,7 @@ const mostImprovedData = [
 ]
 
 export default function LeaderboardPage() {
+  const { t } = useTranslation()
   const [activeTab, setActiveTab] = useState<"overall" | "improved">("overall")
   const { isLarge } = useFontSize()
   const [optedOut, setOptedOut] = useState(false)
@@ -65,16 +68,16 @@ export default function LeaderboardPage() {
       <div className="max-w-md mx-auto px-4 py-6 space-y-6">
         {/* Welcome Section */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Leaderboard</h1>
-          <p className="text-muted-foreground">See how you rank among other learners</p>
+          <h1 className="text-3xl font-bold text-foreground mb-2">{t('leaderboard.title')}</h1>
+          <p className="text-muted-foreground">{t('leaderboard.subtitle')}</p>
         </div>
         {optedOut && (
           <Card className="duolingo-card border-0 shadow-lg">
             <CardHeader>
-              <CardTitle className="text-xl font-bold text-foreground">Leaderboard hidden</CardTitle>
+              <CardTitle className="text-xl font-bold text-foreground">{t('leaderboard.hiddenTitle')}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">You have opted out. You won't appear on the leaderboard until you opt back in.</p>
+              <p className="text-sm text-muted-foreground">{t('leaderboard.hiddenDesc')}</p>
             </CardContent>
           </Card>
         )}
@@ -92,7 +95,7 @@ export default function LeaderboardPage() {
             onClick={() => setActiveTab("overall")}
           >
             {!isLarge && <Star className="w-4 h-4 mr-2" />}
-            Top Points
+            {t('leaderboard.tabs.overall')}
           </Button>
           <Button
             variant={activeTab === "improved" ? "default" : "outline"}
@@ -104,7 +107,7 @@ export default function LeaderboardPage() {
             onClick={() => setActiveTab("improved")}
           >
             {!isLarge && <TrendingUp className="w-4 h-4 mr-2" />}
-            Most Improved
+            {t('leaderboard.tabs.improved')}
           </Button>
         </div>
         )}
@@ -114,7 +117,7 @@ export default function LeaderboardPage() {
           <div className="space-y-5">
             <Card className="duolingo-card border-0 shadow-lg">
               <CardHeader>
-                <CardTitle className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>Top Performers</CardTitle>
+                <CardTitle className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>{t('leaderboard.overall.topPerformers')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {leaderboardData.map((user) => (
@@ -128,11 +131,11 @@ export default function LeaderboardPage() {
                     </div>
                     <div className="flex-1">
                       <p className="font-semibold text-foreground">{user.name}</p>
-                      <p className="text-sm text-muted-foreground">{user.streak} day streak</p>
+                      <p className="text-sm text-muted-foreground">{user.streak} {t('leaderboard.overall.dayStreak')}</p>
                     </div>
                     <div className="text-right">
                       <p className="font-bold text-primary text-lg">{user.points}</p>
-                      <p className="text-xs text-muted-foreground">points</p>
+                      <p className="text-xs text-muted-foreground">{t('leaderboard.overall.points')}</p>
                     </div>
                   </div>
                 ))}
@@ -147,12 +150,12 @@ export default function LeaderboardPage() {
                     <span className="text-sm font-bold">#12</span>
                   </div>
                   <div className="flex-1">
-                    <p className="font-semibold text-primary">You</p>
-                    <p className="text-sm text-primary/70">5 day streak</p>
+                    <p className="font-semibold text-primary">{t('leaderboard.overall.you')}</p>
+                    <p className="text-sm text-primary/70">5 {t('leaderboard.overall.dayStreak')}</p>
                   </div>
                   <div className="text-right">
                     <p className="font-bold text-primary text-lg">1250</p>
-                    <p className="text-xs text-primary/70">points</p>
+                    <p className="text-xs text-primary/70">{t('leaderboard.overall.points')}</p>
                   </div>
                 </div>
               </div>
@@ -165,7 +168,7 @@ export default function LeaderboardPage() {
           <div className="space-y-5">
             <Card className="duolingo-card border-0 shadow-lg">
               <CardHeader>
-                <CardTitle className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>Most Improved This Week</CardTitle>
+                <CardTitle className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>{t('leaderboard.improved.title')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {mostImprovedData.map((user) => (
@@ -180,7 +183,7 @@ export default function LeaderboardPage() {
                     <div className="text-right">
                       <p className="font-bold text-primary text-lg">{user.improvement}</p>
                       <Badge className="text-xs duolingo-gradient-success text-white border-0">
-                        Rising
+                        {t('leaderboard.improved.rising')}
                       </Badge>
                     </div>
                   </div>
@@ -194,24 +197,24 @@ export default function LeaderboardPage() {
         {!optedOut && (
         <Card className="duolingo-card border-0 shadow-lg">
           <CardHeader>
-            <CardTitle className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>How to Earn Points</CardTitle>
+            <CardTitle className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>{t('leaderboard.pointsInfo.title')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex justify-between items-center p-3 bg-muted/30 rounded-xl">
-              <span className="text-sm font-medium text-foreground">Submit assignment</span>
-              <Badge className="duolingo-gradient-success text-white border-0">+50 pts</Badge>
+              <span className="text-sm font-medium text-foreground">{t('leaderboard.pointsInfo.submit')}</span>
+              <Badge className="duolingo-gradient-success text-white border-0">{t('leaderboard.pointsInfo.plus50')}</Badge>
             </div>
             <div className="flex justify-between items-center p-3 bg-muted/30 rounded-xl">
-              <span className="text-sm font-medium text-foreground">Help in discussions</span>
-              <Badge className="duolingo-gradient-success text-white border-0">+75 pts</Badge>
+              <span className="text-sm font-medium text-foreground">{t('leaderboard.pointsInfo.help')}</span>
+              <Badge className="duolingo-gradient-success text-white border-0">{t('leaderboard.pointsInfo.plus75')}</Badge>
             </div>
             <div className="flex justify-between items-center p-3 bg-muted/30 rounded-xl">
-              <span className="text-sm font-medium text-foreground">Join practice group</span>
-              <Badge className="duolingo-gradient-success text-white border-0">+25 pts</Badge>
+              <span className="text-sm font-medium text-foreground">{t('leaderboard.pointsInfo.join')}</span>
+              <Badge className="duolingo-gradient-success text-white border-0">{t('leaderboard.pointsInfo.plus25')}</Badge>
             </div>
             <div className="flex justify-between items-center p-3 bg-muted/30 rounded-xl">
-              <span className="text-sm font-medium text-foreground">Daily login streak</span>
-              <Badge className="duolingo-gradient-success text-white border-0">+10 pts</Badge>
+              <span className="text-sm font-medium text-foreground">{t('leaderboard.pointsInfo.streak')}</span>
+              <Badge className="duolingo-gradient-success text-white border-0">{t('leaderboard.pointsInfo.plus10')}</Badge>
             </div>
           </CardContent>
         </Card>
@@ -222,12 +225,12 @@ export default function LeaderboardPage() {
           {!optedOut ? (
             <Button variant="outline" className="text-gray-700 border-gray-300 hover:bg-gray-100 w-full" onClick={handleOptOut}>
               {!isLarge && <EyeOff className="w-4 h-4 mr-2" />}
-              Opt out of leaderboard
+              {t('leaderboard.optOut')}
             </Button>
           ) : (
             <Button className="duolingo-gradient-primary border-0 text-white shadow-lg w-full" onClick={handleOptIn}>
               {!isLarge && <Eye className="w-4 h-4 mr-2" />}
-              Opt in to leaderboard
+              {t('leaderboard.optIn')}
             </Button>
           )}
         </div>

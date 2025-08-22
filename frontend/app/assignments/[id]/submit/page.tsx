@@ -11,8 +11,11 @@ import { Label } from "@/components/ui/label"
 import { Progress } from "@/components/ui/progress"
 import { BookOpen, Upload, Camera, Video, FileText, ArrowLeft, X, Check } from "lucide-react"
 import Link from "next/link"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 export default function SubmitAssignmentPage({ params }: { params: { id: string } }) {
+  const { t } = useTranslation()
   const [uploadedFiles, setUploadedFiles] = useState<
     Array<{
       id: string
@@ -106,8 +109,8 @@ export default function SubmitAssignmentPage({ params }: { params: { id: string 
                 <BookOpen className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-foreground">Submit Assignment</h1>
-                <p className="text-sm text-muted-foreground">REACH Hong Kong</p>
+                <h1 className="text-xl font-bold text-foreground">{t('assignments.submit.header')}</h1>
+                <p className="text-sm text-muted-foreground">{t('assignments.submit.reach')}</p>
               </div>
             </div>
             <Badge variant="secondary" className="bg-accent text-accent-foreground">
@@ -125,10 +128,10 @@ export default function SubmitAssignmentPage({ params }: { params: { id: string 
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle className="text-xl">{assignment.title}</CardTitle>
-                  <CardDescription>Submit your completed work for grading and feedback</CardDescription>
+                  <CardDescription>{t('assignments.submit.submitDesc')}</CardDescription>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm text-muted-foreground">Due Date</p>
+                  <p className="text-sm text-muted-foreground">{t('assignments.submit.dueDate')}</p>
                   <p className="font-bold text-foreground">{new Date(assignment.dueDate).toLocaleDateString()}</p>
                 </div>
               </div>
@@ -141,17 +144,17 @@ export default function SubmitAssignmentPage({ params }: { params: { id: string 
               {/* File Upload */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Upload Your Work</CardTitle>
+                  <CardTitle>{t('assignments.submit.uploadYourWork')}</CardTitle>
                   <CardDescription>
-                    Upload photos, videos, or documents showing your completed assignment
+                    {t('assignments.submit.uploadDesc')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {/* Upload Area */}
                   <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
                     <Upload className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-foreground mb-2">Drag and drop files here</h3>
-                    <p className="text-muted-foreground mb-4">or click to browse your device</p>
+                    <h3 className="text-lg font-medium text-foreground mb-2">{t('assignments.submit.dragDrop')}</h3>
+                    <p className="text-muted-foreground mb-4">{t('assignments.submit.orClick')}</p>
                     <input
                       type="file"
                       multiple
@@ -162,16 +165,16 @@ export default function SubmitAssignmentPage({ params }: { params: { id: string 
                     />
                     <Label htmlFor="file-upload">
                       <Button variant="outline" className="cursor-pointer bg-transparent">
-                        Choose Files
+                        {t('assignments.submit.chooseFiles')}
                       </Button>
                     </Label>
-                    <p className="text-xs text-muted-foreground mt-2">Supported: Images, Videos, PDF (Max 10MB each)</p>
+                    <p className="text-xs text-muted-foreground mt-2">{t('assignments.submit.supported')}</p>
                   </div>
 
                   {/* Uploaded Files */}
                   {uploadedFiles.length > 0 && (
                     <div className="space-y-3">
-                      <h4 className="font-medium text-foreground">Uploaded Files</h4>
+                      <h4 className="font-medium text-foreground">{t('assignments.submit.uploadedFiles')}</h4>
                       {uploadedFiles.map((file) => (
                         <div key={file.id} className="flex items-center space-x-3 p-3 border rounded-lg">
                           {file.preview ? (
@@ -202,12 +205,12 @@ export default function SubmitAssignmentPage({ params }: { params: { id: string 
               {/* Additional Notes */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Additional Notes</CardTitle>
-                  <CardDescription>Add any comments or notes about your submission (optional)</CardDescription>
+                  <CardTitle>{t('assignments.submit.additionalNotes')}</CardTitle>
+                  <CardDescription>{t('assignments.submit.additionalNotesDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Textarea
-                    placeholder="Tell your teacher about your work, any challenges you faced, or questions you have..."
+                    placeholder={t('assignments.submit.notesPlaceholder')}
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     rows={4}
@@ -221,7 +224,7 @@ export default function SubmitAssignmentPage({ params }: { params: { id: string 
                   <CardContent className="pt-6">
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-foreground">Uploading...</span>
+                        <span className="text-sm font-medium text-foreground">{t('assignments.submit.uploading')}</span>
                         <span className="text-sm text-muted-foreground">{uploadProgress}%</span>
                       </div>
                       <Progress value={uploadProgress} className="w-full" />
@@ -236,24 +239,24 @@ export default function SubmitAssignmentPage({ params }: { params: { id: string 
               {/* Submission Guidelines */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Submission Guidelines</CardTitle>
+                  <CardTitle>{t('assignments.submit.submissionGuidelines')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3 text-sm">
                   <div className="flex items-start space-x-2">
                     <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p>Take clear photos or videos of your work</p>
+                    <p>{t('assignments.submit.guidelines.clearMedia')}</p>
                   </div>
                   <div className="flex items-start space-x-2">
                     <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p>Make sure all text is readable</p>
+                    <p>{t('assignments.submit.guidelines.readableText')}</p>
                   </div>
                   <div className="flex items-start space-x-2">
                     <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p>Include your child's name on the work</p>
+                    <p>{t("assignments.submit.guidelines.includeName")}</p>
                   </div>
                   <div className="flex items-start space-x-2">
                     <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p>Submit before the due date</p>
+                    <p>{t('assignments.submit.guidelines.beforeDue')}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -287,18 +290,18 @@ export default function SubmitAssignmentPage({ params }: { params: { id: string 
                     {isSubmitting ? (
                       <>
                         <Upload className="w-4 h-4 mr-2 animate-spin" />
-                        Submitting...
+                        {t('assignments.submit.submitting')}
                       </>
                     ) : (
                       <>
                         <Upload className="w-4 h-4 mr-2" />
-                        Submit Assignment
+                        {t('assignments.submit.submitAssignment')}
                       </>
                     )}
                   </Button>
                   {uploadedFiles.length === 0 && (
                     <p className="text-xs text-muted-foreground text-center mt-2">
-                      Please upload at least one file to submit
+                      {t('assignments.submit.uploadAtLeastOne')}
                     </p>
                   )}
                 </CardContent>
