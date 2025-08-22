@@ -3,9 +3,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
-import { Settings, User, Bell, Shield, HelpCircle, LogOut } from "lucide-react"
+import { Settings, User, Bell, Shield, HelpCircle, LogOut, Accessibility } from "lucide-react"
+import { useAuth } from "@/contexts/auth-context"
+import { useFontSize } from "@/app/font-size-provider"
 
 export default function SettingsPage() {
+  const { user, logout } = useAuth()
+  const { isLarge, toggle } = useFontSize()
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm px-4 py-4">
@@ -18,6 +23,25 @@ export default function SettingsPage() {
       </header>
 
       <div className="max-w-md mx-auto px-4 py-6 space-y-6">
+        {/* Accessibility */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Accessibility className="w-5 h-5" />
+              Accessibility
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium text-gray-900">Large Text</p>
+                <p className="text-sm text-gray-500">Increase overall font size</p>
+              </div>
+              <Switch checked={isLarge} onCheckedChange={toggle} aria-label="Toggle large text" />
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Profile Section */}
         <Card>
           <CardHeader>
@@ -32,7 +56,7 @@ export default function SettingsPage() {
                 <span className="text-lg font-bold text-orange-600">EC</span>
               </div>
               <div>
-                <p className="font-medium text-gray-900">Emma Chen</p>
+                <p className="font-medium text-gray-900">{user?.username}</p>
                 <p className="text-sm text-gray-500">K3 Student</p>
               </div>
             </div>
@@ -121,7 +145,9 @@ export default function SettingsPage() {
         {/* Account */}
         <Card>
           <CardContent className="p-4">
-            <Button variant="destructive" className="w-full">
+            <Button variant="destructive" className="w-full" onClick={() => {
+              logout()
+            }}>
               <LogOut className="w-4 h-4 mr-2" />
               Sign Out
             </Button>

@@ -3,7 +3,11 @@ import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import "./globals.css"
+import { AuthProvider } from "@/contexts/auth-context"
+import { RouteGuard } from "@/components/route-guard"
+import { ConditionalNavigation, ConditionalLayout } from "@/components/conditional-navigation"
 import { MobileNavigation } from "@/components/mobile-navigation"
+import { FontSizeProvider } from "./font-size-provider"
 
 export const metadata: Metadata = {
   title: "REACH Hong Kong - Assignment Hub",
@@ -28,8 +32,14 @@ html {
         `}</style>
       </head>
       <body className="bg-gray-50">
-        <div className="min-h-screen pb-20">{children}</div>
-        <MobileNavigation />
+        <AuthProvider>
+          <RouteGuard>
+            <FontSizeProvider>
+              <ConditionalLayout>{children}</ConditionalLayout>
+              <ConditionalNavigation />
+            </FontSizeProvider>
+          </RouteGuard>
+        </AuthProvider>
       </body>
     </html>
   )

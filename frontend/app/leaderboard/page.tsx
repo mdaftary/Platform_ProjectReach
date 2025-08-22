@@ -1,10 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Trophy, TrendingUp, Star, Medal } from "lucide-react"
+import { Trophy, TrendingUp, Star, Medal, EyeOff, Eye } from "lucide-react"
+import { useFontSize } from "@/app/font-size-provider"
 
 const leaderboardData = [
   { rank: 1, name: "Parent A", points: 2450, streak: 15, badge: "gold" },
@@ -22,6 +23,29 @@ const mostImprovedData = [
 
 export default function LeaderboardPage() {
   const [activeTab, setActiveTab] = useState<"overall" | "improved">("overall")
+  const { isLarge } = useFontSize()
+  const [optedOut, setOptedOut] = useState(false)
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("leaderboard-opt-out")
+      setOptedOut(stored === "true")
+    } catch {}
+  }, [])
+
+  const handleOptOut = () => {
+    try {
+      localStorage.setItem("leaderboard-opt-out", "true")
+    } catch {}
+    setOptedOut(true)
+  }
+
+  const handleOptIn = () => {
+    try {
+      localStorage.setItem("leaderboard-opt-out", "false")
+    } catch {}
+    setOptedOut(false)
+  }
 
   const getBadgeColor = (badge: string | null) => {
     switch (badge) {
@@ -37,47 +61,60 @@ export default function LeaderboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className={`min-h-screen bg-background ${isLarge ? 'min-text-lg text-lg' : ''}`}>
       <div className="max-w-md mx-auto px-4 py-6 space-y-6">
         {/* Welcome Section */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">Leaderboard</h1>
           <p className="text-muted-foreground">See how you rank among other learners</p>
         </div>
+        {optedOut && (
+          <Card className="duolingo-card border-0 shadow-lg">
+            <CardHeader>
+              <CardTitle className="text-xl font-bold text-foreground">Leaderboard hidden</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">You have opted out. You won't appear on the leaderboard until you opt back in.</p>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Tab Navigation */}
+        {!optedOut && (
         <div className="grid grid-cols-2 gap-3">
           <Button
             variant={activeTab === "overall" ? "default" : "outline"}
-            className={`duolingo-button py-3 ${
+            className={`duolingo-button ${isLarge ? 'py-4 text-base' : 'py-3'} ${
               activeTab === "overall" 
                 ? "duolingo-gradient-primary border-0 text-white shadow-lg" 
                 : "border-border bg-card hover:bg-accent/50"
             }`}
             onClick={() => setActiveTab("overall")}
           >
-            <Star className="w-4 h-4 mr-2" />
+            {!isLarge && <Star className="w-4 h-4 mr-2" />}
             Top Points
           </Button>
           <Button
             variant={activeTab === "improved" ? "default" : "outline"}
-            className={`duolingo-button py-3 ${
+            className={`duolingo-button ${isLarge ? 'py-4 text-base' : 'py-3'} ${
               activeTab === "improved" 
                 ? "duolingo-gradient-primary border-0 text-white shadow-lg" 
                 : "border-border bg-card hover:bg-accent/50"
             }`}
             onClick={() => setActiveTab("improved")}
           >
-            <TrendingUp className="w-4 h-4 mr-2" />
+            {!isLarge && <TrendingUp className="w-4 h-4 mr-2" />}
             Most Improved
           </Button>
         </div>
+        )}
 
         {/* Overall Leaderboard */}
-        {activeTab === "overall" && (
+        {!optedOut && activeTab === "overall" && (
           <div className="space-y-5">
             <Card className="duolingo-card border-0 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-xl font-bold text-foreground">Top Performers</CardTitle>
+                <CardTitle className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>Top Performers</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {leaderboardData.map((user) => (
@@ -124,11 +161,11 @@ export default function LeaderboardPage() {
         )}
 
         {/* Most Improved */}
-        {activeTab === "improved" && (
+        {!optedOut && activeTab === "improved" && (
           <div className="space-y-5">
             <Card className="duolingo-card border-0 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-xl font-bold text-foreground">Most Improved This Week</CardTitle>
+                <CardTitle className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>Most Improved This Week</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {mostImprovedData.map((user) => (
@@ -154,9 +191,10 @@ export default function LeaderboardPage() {
         )}
 
         {/* Point System Info */}
+        {!optedOut && (
         <Card className="duolingo-card border-0 shadow-lg">
           <CardHeader>
-            <CardTitle className="text-xl font-bold text-foreground">How to Earn Points</CardTitle>
+            <CardTitle className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>How to Earn Points</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex justify-between items-center p-3 bg-muted/30 rounded-xl">
@@ -177,7 +215,24 @@ export default function LeaderboardPage() {
             </div>
           </CardContent>
         </Card>
+        )}
+
+        {/* Opt-out / Opt-in Control */}
+        <div className="flex w-full">
+          {!optedOut ? (
+            <Button variant="outline" className="text-gray-700 border-gray-300 hover:bg-gray-100 w-full" onClick={handleOptOut}>
+              {!isLarge && <EyeOff className="w-4 h-4 mr-2" />}
+              Opt out of leaderboard
+            </Button>
+          ) : (
+            <Button className="duolingo-gradient-primary border-0 text-white shadow-lg w-full" onClick={handleOptIn}>
+              {!isLarge && <Eye className="w-4 h-4 mr-2" />}
+              Opt in to leaderboard
+            </Button>
+          )}
+        </div>
       </div>
+      
     </div>
   )
 }
