@@ -481,7 +481,7 @@ export default function HomePage() {
                           </div>
                           <div className="bg-orange-50/50 rounded-xl p-3">
                             <p className="text-sm text-gray-900 leading-relaxed">
-
+                              Let's work on the word <span className="font-semibold">"the"</span> - I noticed you hesitated a few times. Try practicing this sight word with flashcards or by finding it in your favorite books!
                             </p>
                           </div>
                         </div>
@@ -494,7 +494,7 @@ export default function HomePage() {
                           </div>
                           <div className="bg-blue-50/50 rounded-xl p-3">
                             <p className="text-sm text-gray-900 leading-relaxed">
-
+                              Your reading confidence is growing! I can see you're taking your time to sound out words carefully. Keep up the great work with your phonics skills.
                             </p>
                           </div>
                         </div>
