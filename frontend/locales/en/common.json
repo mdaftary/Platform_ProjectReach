@@ -72,6 +72,18 @@
     "accessibility": "Accessibility",
     "largeText": "Large Text",
     "largeTextDesc": "Increase overall font size",
+    "highContrast": "High Contrast",
+    "highContrastDesc": "Enhance text and UI contrast for better visibility",
+    "reduceMotion": "Reduce Motion",
+    "reduceMotionDesc": "Minimize animations and transitions",
+    "soundEffects": "Sound Effects",
+    "soundEffectsDesc": "Enable audio feedback for interactions",
+    "enhancedFocus": "Enhanced Focus",
+    "enhancedFocusDesc": "Show clear focus indicators for keyboard navigation",
+    "screenReaderMode": "Screen Reader Mode",
+    "screenReaderModeDesc": "Optimize interface for screen readers",
+    "resetAccessibility": "Reset All Accessibility Settings",
+    "accessibilityHelp": "Accessibility Help & Guide",
     "profile": "Profile",
     "editProfile": "Edit Profile",
     "notifications": "Notifications",
@@ -143,7 +155,8 @@
   },
   "common": {
     "or": "or",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "settings": "Settings"
   },
   "components": {
     "assignmentCard": {

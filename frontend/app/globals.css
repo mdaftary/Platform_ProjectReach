@@ -194,4 +194,141 @@
     padding-top: 0.75rem; /* py-3 */
     padding-bottom: 0.75rem;
   }
+
+  /* High Contrast Mode - Improved for better usability */
+  .high-contrast {
+    --background: #1a1a1a;
+    --foreground: #ffffff;
+    --card: #262626;
+    --card-foreground: #ffffff;
+    --popover: #262626;
+    --popover-foreground: #ffffff;
+    --primary: #4ade80;
+    --primary-foreground: #000000;
+    --secondary: #404040;
+    --secondary-foreground: #ffffff;
+    --muted: #404040;
+    --muted-foreground: #d4d4d8;
+    --accent: #fbbf24;
+    --accent-foreground: #000000;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #525252;
+    --input: #262626;
+    --ring: #4ade80;
+    filter: contrast(150%);
+  }
+
+  .high-contrast .text-gray-500 {
+    color: #d4d4d8 !important;
+  }
+
+  .high-contrast .text-gray-600 {
+    color: #e4e4e7 !important;
+  }
+
+  .high-contrast .text-gray-700 {
+    color: #f4f4f5 !important;
+  }
+
+  .high-contrast .text-gray-900 {
+    color: #ffffff !important;
+  }
+
+  .high-contrast .bg-gray-50 {
+    background-color: #1a1a1a !important;
+  }
+
+  .high-contrast .bg-gray-100 {
+    background-color: #262626 !important;
+  }
+
+  .high-contrast .bg-white {
+    background-color: #262626 !important;
+  }
+
+  .high-contrast .border-gray-100,
+  .high-contrast .border-gray-200 {
+    border-color: #525252 !important;
+  }
+
+  /* Ensure buttons remain visible and clickable */
+  .high-contrast button {
+    border: 2px solid #525252 !important;
+  }
+
+  .high-contrast button:hover {
+    border-color: #4ade80 !important;
+    background-color: #404040 !important;
+  }
+
+  /* Make navigation icons more visible */
+  .high-contrast .text-green-600 {
+    color: #4ade80 !important;
+  }
+
+  .high-contrast .text-orange-600 {
+    color: #fbbf24 !important;
+  }
+
+  /* Screen Reader Mode */
+  .screen-reader-mode {
+    /* Enhanced focus indicators */
+    --ring: #0066cc;
+  }
+
+  .screen-reader-mode *:focus {
+    outline: 3px solid #0066cc !important;
+    outline-offset: 2px !important;
+  }
+
+  .screen-reader-mode button,
+  .screen-reader-mode a,
+  .screen-reader-mode input,
+  .screen-reader-mode select,
+  .screen-reader-mode textarea {
+    position: relative;
+  }
+
+  .screen-reader-mode button:focus::after,
+  .screen-reader-mode a:focus::after {
+    content: attr(aria-label) " (focused)";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #000000;
+    color: #ffffff;
+    padding: 4px 8px;
+    font-size: 14px;
+    z-index: 1000;
+    white-space: nowrap;
+    border-radius: 4px;
+  }
+
+  /* Reduced Motion */
+  .reduce-motion *,
+  .reduce-motion *::before,
+  .reduce-motion *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Enhanced Focus Indicators */
+  .enhanced-focus *:focus {
+    outline: 3px solid #0066cc !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 5px rgba(0, 102, 204, 0.3) !important;
+  }
+
+  .enhanced-focus button:focus,
+  .enhanced-focus a:focus,
+  .enhanced-focus input:focus,
+  .enhanced-focus select:focus,
+  .enhanced-focus textarea:focus {
+    transform: scale(1.05) !important;
+    z-index: 10 !important;
+  }
 }

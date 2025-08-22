@@ -8,6 +8,7 @@ import { RouteGuard } from "@/components/route-guard"
 import { ConditionalNavigation, ConditionalLayout } from "@/components/conditional-navigation"
 import { MobileNavigation } from "@/components/mobile-navigation"
 import { FontSizeProvider } from "./font-size-provider"
+import { AccessibilityProvider } from "./accessibility-provider"
 import I18nProvider from "./i18n-provider"
 import LanguageSwitcher from "@/components/language-switcher"
 
@@ -38,11 +39,13 @@ html {
           <AuthProvider>
             <RouteGuard>
               <FontSizeProvider>
-                <div className="absolute top-3 left-3 z-50">
-                  <LanguageSwitcher />
-                </div>
-                <ConditionalLayout>{children}</ConditionalLayout>
-                <ConditionalNavigation />
+                <AccessibilityProvider>
+                  <div className="absolute top-3 left-3 z-50">
+                    <LanguageSwitcher />
+                  </div>
+                  <ConditionalLayout>{children}</ConditionalLayout>
+                  <ConditionalNavigation />
+                </AccessibilityProvider>
               </FontSizeProvider>
             </RouteGuard>
           </AuthProvider>

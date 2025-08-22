@@ -72,6 +72,18 @@
     "accessibility": "無障礙",
     "largeText": "大字體",
     "largeTextDesc": "增加整體字型大小",
+    "highContrast": "高對比度",
+    "highContrastDesc": "增強文字和介面的對比度以提升可視性",
+    "reduceMotion": "減少動作",
+    "reduceMotionDesc": "減少動畫和過場效果",
+    "soundEffects": "音效",
+    "soundEffectsDesc": "為互動提供聲音回饋",
+    "enhancedFocus": "增強焦點",
+    "enhancedFocusDesc": "為鍵盤導航顯示清晰的焦點指示器",
+    "screenReaderMode": "螢幕閱讀器模式",
+    "screenReaderModeDesc": "為螢幕閱讀器優化介面",
+    "resetAccessibility": "重設所有無障礙設定",
+    "accessibilityHelp": "無障礙說明與指南",
     "profile": "個人資料",
     "editProfile": "編輯個人資料",
     "notifications": "通知",
@@ -143,7 +155,8 @@
   },
   "common": {
     "or": "或",
-    "signOut": "登出"
+    "signOut": "登出",
+    "settings": "設定"
   },
   "components": {
     "assignmentCard": {

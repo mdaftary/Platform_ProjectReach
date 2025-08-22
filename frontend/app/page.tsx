@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Camera, Play, CheckCircle2, Circle, User, Eye, ChevronRight, X, Check, AlertCircle, Download, ArrowRight, Loader, LogOut, Flame, Clock, Star } from "lucide-react"
+import { Camera, Play, CheckCircle2, Circle, User, Eye, ChevronRight, X, Check, AlertCircle, Download, ArrowRight, Loader, LogOut, Flame, Clock, Star, Settings } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import { useFontSize } from "@/app/font-size-provider"
@@ -127,6 +127,14 @@ export default function HomePage() {
                     <p className="text-sm font-semibold text-gray-900">{user?.username}</p>
                     <p className="text-xs text-gray-500">{user?.email || user?.phone}</p>
                   </div>
+                  <Link
+                    href="/settings"
+                    onClick={() => setShowUserMenu(false)}
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <Settings className="w-4 h-4" />
+                    {t('common.settings')}
+                  </Link>
                   <button
                     onClick={() => {
                       logout()
