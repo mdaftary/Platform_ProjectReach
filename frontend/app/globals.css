@@ -171,3 +171,27 @@
     -webkit-backdrop-filter: blur(20px);
   }
 }
+
+@layer utilities {
+  /* Enforce minimum text size of text-lg within a scoped container */
+  .min-text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  .min-text-lg :is(.text-xs, .text-sm, .text-base) {
+    font-size: 1.125rem !important;
+    line-height: 1.75rem !important;
+  }
+
+  /* Enlarge all buttons when Large Text mode is active */
+  [data-font-size="large"] [data-slot="button"] {
+    font-size: 1rem; /* text-base */
+    line-height: 1.5rem;
+    height: 2.75rem; /* h-11 */
+    padding-left: 1.25rem; /* px-5 */
+    padding-right: 1.25rem;
+    padding-top: 0.75rem; /* py-3 */
+    padding-bottom: 0.75rem;
+  }
+}
