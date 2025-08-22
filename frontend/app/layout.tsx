@@ -9,6 +9,7 @@ import { ConditionalNavigation, ConditionalLayout } from "@/components/condition
 import { MobileNavigation } from "@/components/mobile-navigation"
 import { FontSizeProvider } from "./font-size-provider"
 import { AccessibilityProvider } from "./accessibility-provider"
+import { ThemeProvider } from "./theme-provider"
 import I18nProvider from "./i18n-provider"
 import LanguageSwitcher from "@/components/language-switcher"
 
@@ -34,21 +35,23 @@ html {
 }
         `}</style>
       </head>
-      <body className="bg-gray-50">
+      <body className="bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
         <I18nProvider>
-          <AuthProvider>
-            <RouteGuard>
-              <FontSizeProvider>
-                <AccessibilityProvider>
-                  <div className="absolute top-3 left-3 z-50">
-                    <LanguageSwitcher />
-                  </div>
-                  <ConditionalLayout>{children}</ConditionalLayout>
-                  <ConditionalNavigation />
-                </AccessibilityProvider>
-              </FontSizeProvider>
-            </RouteGuard>
-          </AuthProvider>
+          <ThemeProvider>
+            <AuthProvider>
+              <RouteGuard>
+                <FontSizeProvider>
+                  <AccessibilityProvider>
+                    <div className="absolute top-3 left-3 z-50">
+                      <LanguageSwitcher />
+                    </div>
+                    <ConditionalLayout>{children}</ConditionalLayout>
+                    <ConditionalNavigation />
+                  </AccessibilityProvider>
+                </FontSizeProvider>
+              </RouteGuard>
+            </AuthProvider>
+          </ThemeProvider>
         </I18nProvider>
       </body>
     </html>

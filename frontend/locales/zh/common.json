@@ -69,6 +69,12 @@
   },
   "settings": {
     "title": "設定",
+    "appearance": "外觀",
+    "theme": "主題",
+    "themeDesc": "選擇您偏好的色彩配置",
+    "lightMode": "淺色",
+    "darkMode": "深色",
+    "systemMode": "系統",
     "accessibility": "無障礙",
     "largeText": "大字體",
     "largeTextDesc": "增加整體字型大小",

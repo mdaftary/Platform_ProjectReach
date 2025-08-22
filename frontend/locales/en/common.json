@@ -69,6 +69,12 @@
   },
   "settings": {
     "title": "Settings",
+    "appearance": "Appearance",
+    "theme": "Theme",
+    "themeDesc": "Choose your preferred color scheme",
+    "lightMode": "Light",
+    "darkMode": "Dark",
+    "systemMode": "System",
     "accessibility": "Accessibility",
     "largeText": "Large Text",
     "largeTextDesc": "Increase overall font size",

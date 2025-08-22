@@ -8,12 +8,14 @@ import { BookOpen, Download, Upload, Clock, FileText, Video, ImageIcon, ArrowLef
 import Link from "next/link"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
+import { use } from "react"
 
-export default function AssignmentDetailPage({ params }: { params: { id: string } }) {
+export default function AssignmentDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { t } = useTranslation()
+  const resolvedParams = use(params)
   // Mock data - in real app, fetch based on params.id
   const assignment = {
-    id: params.id,
+    id: resolvedParams.id,
     title: "English Reading Comprehension",
     subject: "English",
     description: "Read the story 'The Little Red Hen' and answer the comprehension questions.",
