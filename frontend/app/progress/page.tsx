@@ -1,9 +1,8 @@
 "use client"
 
 import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { BookOpen, Edit3, Volume2, TrendingUp, Play } from "lucide-react"
+import { BookOpen, Edit3, Volume2, TrendingUp } from "lucide-react"
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from "recharts"
 import { useFontSize } from "@/app/font-size-provider"
 import "@/lib/i18n"
@@ -56,37 +55,6 @@ const skillsData = skillsDataRaw
     status: skill.progress < skill.Goal ? 'needs-focus' : 'good'
   }))
   .sort((a, b) => a.priority - b.priority)
-
-// AI Recommendations grouped by skill
-const aiRecommendations = [
-  {
-    skill: "sightWords",
-    skillProgress: 60,
-    title: "Practice Sight Words",
-    description: "Play \"find the word\" game in today's storybook.",
-    timeNeeded: "5 min",
-    icon: BookOpen,
-    priority: "high"
-  },
-  {
-    skill: "alphabet", 
-    skillProgress: 85,
-    title: "Letter Practice",
-    description: "Trace lowercase letters \"b\" and \"d\" for clarity.",
-    timeNeeded: "5 min",
-    icon: Edit3,
-    priority: "medium"
-  },
-  {
-    skill: "phonemicAwareness",
-    skillProgress: 79, 
-    title: "Sound Matching",
-    description: "Try sound-blending exercise in the student app.",
-    timeNeeded: "10 min",
-    icon: Volume2,
-    priority: "low"
-  },
-]
 
 // Progress timeline data
 const progressData = [
@@ -444,73 +412,7 @@ export default function ProgressPage() {
           </div>
         </div>
 
-        {/* AI Personalized Practices */}
-        <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
-          <CardContent className="p-5">
-            <div className="space-y-4">
-              <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>{t('progress.ai.title')}</h2>
-              <p className="text-sm text-gray-600">{t('progress.ai.subtitle')}</p>
-              
-              <div className="space-y-3">
-                {aiRecommendations.map((rec, index) => {
-                  const isPriority = rec.priority === 'high'
-                  
-                  return (
-                    <Card key={index} className="bg-white border border-gray-200 shadow-sm">
-                      <CardContent className="p-4">
-                        <div className="flex items-start gap-3">
-                          {!isLarge && (
-                            <div className="w-10 h-10 bg-green-100 rounded-2xl flex items-center justify-center flex-shrink-0">
-                              <rec.icon className="w-5 h-5 stroke-2 text-green-600" />
-                            </div>
-                          )}
-                          
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-start justify-between mb-2">
-                              <div>
-                                <div className="flex items-center gap-2">
-                                  <h3 className={`font-semibold text-gray-900 ${isLarge ? 'text-lg' : 'text-sm'}`}>
-                                    {t(`progress.ai.recs.${index}.title`, { defaultValue: rec.title })} ({rec.skillProgress}%)
-                                  </h3>
-                                  {isPriority && (
-                                    <Badge className="bg-orange-100 text-orange-700 border-orange-200 text-xs px-1.5 py-0.5">
-                                      {t('progress.ai.priority')}
-                                    </Badge>
-                                  )}
-                                </div>
-                                <div className="flex items-center gap-2 mt-1">
-                                  <span className="text-xs text-gray-500 font-medium">{t(`progress.skills.${rec.skill}.name`, { defaultValue: rec.skill })}</span>
-                                  <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
-                                    {t('progress.ai.minutes_one', { count: parseInt(rec.timeNeeded) || 5 })}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <p className="text-sm text-gray-600 leading-relaxed mb-3">{t(`progress.ai.recs.${index}.description`, { defaultValue: rec.description })}</p>
-                            
-                            <Button 
-                              size="sm" 
-                              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 font-semibold text-sm rounded-xl border-0 shadow-sm transition-all"
-                            >
-                              <Play className="w-4 h-4 mr-1.5 stroke-2" />
-                              {t('progress.ai.startPractice')}
-                            </Button>
-                          </div>
-                        </div>
-                      </CardContent>
-      </Card>
-                  )
-                })}
-              </div>
-              
-              <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-xl">
-                <p className="text-xs text-green-700 font-medium text-center">
-                  {t('progress.ai.tip')}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-          </Card>
+        {/* (AI Personalized Practices removed from Progress page) */}
 
         {/* Progress Over Time */}
         <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">

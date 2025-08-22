@@ -290,46 +290,7 @@ export default function ParentDashboard() {
                   </ResponsiveContainer>
                 </CardContent>
               </Card>
-
-              {/* Subject Breakdown */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>{t('dashboard.progress.currentSubject')}</CardTitle>
-                  <CardDescription>{t('dashboard.progress.currentSubjectDesc')}</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">English</span>
-                      <span className="font-medium text-foreground">85%</span>
-                    </div>
-                    <Progress value={85} className="h-2" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Mathematics</span>
-                      <span className="font-medium text-foreground">90%</span>
-                    </div>
-                    <Progress value={90} className="h-2" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Science</span>
-                      <span className="font-medium text-foreground">88%</span>
-                    </div>
-                    <Progress value={88} className="h-2" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Art & Creativity</span>
-                      <span className="font-medium text-foreground">92%</span>
-                    </div>
-                    <Progress value={92} className="h-2" />
-                  </div>
-                </CardContent>
-              </Card>
             </div>
-
             {/* Achievement Badges */}
             <Card>
               <CardHeader>
