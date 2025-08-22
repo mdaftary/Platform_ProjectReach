@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Camera, Play, CheckCircle2, Circle, User, Eye, ChevronRight, X, Check, AlertCircle, Download, ArrowRight, Loader, LogOut, Flame, Clock, Star, Settings, BarChart3 } from "lucide-react"
+import { Camera, Play, CheckCircle2, Circle, User, Eye, ChevronRight, X, Check, AlertCircle, Download, ArrowRight, Loader, LogOut, Flame, Clock, Star, Settings, BarChart3, Video } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import { useFontSize } from "@/app/font-size-provider"
@@ -37,6 +37,14 @@ const weeklyTasks = [
     completed: false,
     isPrimary: false,
     icon: CheckCircle2,
+  },
+  {
+    id: 4,
+    title: "Live Tutorial Session",
+    subtitle: "Reading Comprehension - Tomorrow 2:00 PM",
+    completed: false,
+    isPrimary: false,
+    icon: Video,
   },
 ]
 
