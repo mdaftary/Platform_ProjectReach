@@ -182,7 +182,7 @@ export default function HomePage() {
         {/* Weekly Tasks */}
         <div className="space-y-3">
           <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>{t('home.thisWeek')}</h2>
-          <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
+          <Card className="bg-white border border-gray-200 shadow-sm">
             <CardContent className="p-0">
               <div className="divide-y divide-gray-100">
                 {sortedWeeklyTasks.map((task, index) => (
@@ -234,7 +234,7 @@ export default function HomePage() {
         {/* AI Insights - Priority Section */}
         <div className="space-y-3">
           <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>{t('home.aiInsights')}</h2>
-          <Card className="bg-white/65 backdrop-blur-xl border border-white/30 shadow-lg">
+          <Card className="bg-white border border-gray-200 shadow-sm">
             <CardContent className="p-5">
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
@@ -247,82 +247,69 @@ export default function HomePage() {
                     </p>
                   </div>
                 </div>
-                <div className="border-t border-gray-100/60 pt-3 flex justify-end">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="border-gray-200 text-gray-700 hover:bg-gray-50 text-xs font-medium rounded-lg px-4 py-2"
-                  >
-                    {t('home.viewExercises')}
-                  </Button>
-                </div>
+                {/* Removed "View Exercises" button per request */}
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* AI Personalized Practices (moved below AI Insights) */}
-        <Card className="bg-white/65 backdrop-blur-xl border border-white/30 shadow-lg">
-          <CardContent className="p-5">
-            <div className="space-y-4">
-              <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>{t('progress.ai.title')}</h2>
-              <p className="text-sm text-gray-600 leading-relaxed">{t('progress.ai.subtitle')}</p>
-              <div className="space-y-3">
-                {aiRecommendations.map((rec, index) => {
-                  const isPriority = rec.priority === 'high'
-                  return (
-                    <Card key={index} className="bg-white border border-gray-200 shadow-sm">
-                      <CardContent className="p-4">
-                        <div className="flex items-start gap-3">
-                          {!isLarge && (
-                            <div className="w-10 h-10 bg-green-100 rounded-2xl flex items-center justify-center flex-shrink-0">
-                              <rec.icon className="w-5 h-5 stroke-2 text-green-600" />
+        {/* AI Recommendations - header outside, list of sub-cards only */}
+        <div className="space-y-3">
+          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>{t('progress.ai.title')}</h2>
+          <div className="space-y-3">
+            {aiRecommendations.map((rec, index) => {
+              const isPriority = rec.priority === 'high'
+              return (
+                <Card key={index} className="bg-white border border-gray-200 shadow-sm">
+                  <CardContent className="p-4">
+                    <div className="flex items-start gap-3">
+                      {!isLarge && (
+                        <div className="w-10 h-10 bg-green-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                          <rec.icon className="w-5 h-5 stroke-2 text-green-600" />
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between mb-2">
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <h3 className={`font-semibold text-gray-900 ${isLarge ? 'text-lg' : 'text-sm'}`}>
+                                {t(`progress.ai.recs.${index}.title`, { defaultValue: rec.title })} ({rec.skillProgress}%)
+                              </h3>
+                              {isPriority && (
+                                <Badge className="bg-orange-100 text-orange-700 border-orange-200 text-xs px-1.5 py-0.5">
+                                  {t('progress.ai.priority')}
+                                </Badge>
+                              )}
                             </div>
-                          )}
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-start justify-between mb-2">
-                              <div>
-                                <div className="flex items-center gap-2">
-                                  <h3 className={`font-semibold text-gray-900 ${isLarge ? 'text-lg' : 'text-sm'}`}>
-                                    {t(`progress.ai.recs.${index}.title`, { defaultValue: rec.title })} ({rec.skillProgress}%)
-                                  </h3>
-                                  {isPriority && (
-                                    <Badge className="bg-orange-100 text-orange-700 border-orange-200 text-xs px-1.5 py-0.5">
-                                      {t('progress.ai.priority')}
-                                    </Badge>
-                                  )}
-                                </div>
-                                <div className="flex items-center gap-2 mt-1">
-                                  <span className="text-xs text-gray-500 font-medium">{t(`progress.skills.${rec.skill}.name`, { defaultValue: rec.skill })}</span>
-                                  <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
-                                    {t('progress.ai.minutes_one', { count: parseInt(rec.timeNeeded) || 5 })}
-                                  </span>
-                                </div>
-                              </div>
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className="text-xs text-gray-500 font-medium">{t(`progress.skills.${rec.skill}.name`, { defaultValue: rec.skill })}</span>
+                              <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
+                                {t('progress.ai.minutes_one', { count: parseInt(rec.timeNeeded) || 5 })}
+                              </span>
                             </div>
-                            <p className="text-sm text-gray-600 leading-relaxed mb-3">{t(`progress.ai.recs.${index}.description`, { defaultValue: rec.description })}</p>
-                            <Button 
-                              size="sm" 
-                              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 font-semibold text-sm rounded-xl border-0 shadow-sm transition-all"
-                            >
-                              <Play className="w-4 h-4 mr-1.5 stroke-2" />
-                              {t('progress.ai.startPractice')}
-                            </Button>
                           </div>
                         </div>
-                      </CardContent>
-                    </Card>
-                  )
-                })}
-              </div>
-              <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-xl">
-                <p className="text-xs text-green-700 font-medium text-center">
-                  {t('progress.ai.tip')}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+                        <p className="text-sm text-gray-600 leading-relaxed mb-3">{t(`progress.ai.recs.${index}.description`, { defaultValue: rec.description })}</p>
+                        <Button 
+                          size="sm" 
+                          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 font-semibold text-sm rounded-xl border-0 shadow-sm transition-all"
+                        >
+                          <Play className="w-4 h-4 mr-1.5 stroke-2" />
+                          {t('progress.ai.startPractice')}
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
+          <div className="p-3 bg-green-50 border border-green-200 rounded-xl">
+            <p className="text-xs text-green-700 font-medium text-center">
+              {t('progress.ai.tip')}
+            </p>
+          </div>
+        </div>
 
         {/* Bottom padding for navigation */}
         <div className="h-20"></div>

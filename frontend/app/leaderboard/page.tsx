@@ -81,11 +81,11 @@ export default function LeaderboardPage() {
         {/* Personal Stats */}
         <div className={`flex ${isLarge ? 'flex-col gap-3' : 'justify-between items-center gap-4'} mb-6`}>
           <div className="duolingo-gradient-light rounded-2xl p-4 shadow-sm flex-1">
-            <div className={`flex items-center ${isLarge ? 'gap-4' : 'gap-3'}`}>
+            <div className={`flex ${isLarge ? 'flex-row items-center gap-4' : 'flex-col items-center gap-2 text-center'}`}>
               <div className={`${isLarge ? 'w-12 h-12' : 'w-10 h-10'} rounded-full duolingo-gradient-primary flex items-center justify-center shadow`}>
                 <Flame className={`${isLarge ? 'w-6 h-6' : 'w-5 h-5'} text-white`} />
               </div>
-              <div className="flex-1">
+              <div className={`${isLarge ? 'flex-1' : ''}`}>
                 <div className={`${isLarge ? 'text-3xl' : 'text-2xl'} font-extrabold text-gray-900 tabular-nums`}>12</div>
                 <div className={`${isLarge ? 'text-sm' : 'text-xs'} text-gray-700 mt-0.5`}>{t('home.daysStreak')}</div>
               </div>
@@ -93,11 +93,11 @@ export default function LeaderboardPage() {
           </div>
 
           <div className="duolingo-gradient-light rounded-2xl p-4 shadow-sm flex-1">
-            <div className={`flex items-center ${isLarge ? 'gap-4' : 'gap-3'}`}>
+            <div className={`flex ${isLarge ? 'flex-row items-center gap-4' : 'flex-col items-center gap-2 text-center'}`}>
               <div className={`${isLarge ? 'w-12 h-12' : 'w-10 h-10'} rounded-full duolingo-gradient-success flex items-center justify-center shadow`}>
                 <Clock className={`${isLarge ? 'w-6 h-6' : 'w-5 h-5'} text-white`} />
               </div>
-              <div className="flex-1">
+              <div className={`${isLarge ? 'flex-1' : ''}`}>
                 <div className={`${isLarge ? 'text-3xl' : 'text-2xl'} font-extrabold text-gray-900 tabular-nums`}>2.5h</div>
                 <div className={`${isLarge ? 'text-sm' : 'text-xs'} text-gray-700 mt-0.5`}>{t('home.activityHours')}</div>
               </div>
@@ -105,11 +105,11 @@ export default function LeaderboardPage() {
           </div>
 
           <div className="duolingo-gradient-light rounded-2xl p-4 shadow-sm flex-1">
-            <div className={`flex items-center ${isLarge ? 'gap-4' : 'gap-3'}`}>
+            <div className={`flex ${isLarge ? 'flex-row items-center gap-4' : 'flex-col items-center gap-2 text-center'}`}>
               <div className={`${isLarge ? 'w-12 h-12' : 'w-10 h-10'} rounded-full duolingo-gradient-primary flex items-center justify-center shadow`}>
                 <Star className={`${isLarge ? 'w-6 h-6' : 'w-5 h-5'} text-white`} />
               </div>
-              <div className="flex-1">
+              <div className={`${isLarge ? 'flex-1' : ''}`}>
                 <div className={`${isLarge ? 'text-3xl' : 'text-2xl'} font-extrabold text-gray-900 tabular-nums`}>847</div>
                 <div className={`${isLarge ? 'text-sm' : 'text-xs'} text-gray-700 mt-0.5`}>{t('home.starsEarned')}</div>
               </div>

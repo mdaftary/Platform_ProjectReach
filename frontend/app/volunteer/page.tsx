@@ -13,12 +13,10 @@ import {
   Clock,
   Star,
   MessageCircle,
-  Trophy,
-  Gift,
-  Target,
+  Phone,
+  Video,
   Timer,
   Send,
-  Award,
   CheckCircle,
   Heart,
   User
@@ -281,64 +279,7 @@ export default function VolunteerPage() {
           </CardContent>
         </Card>
 
-        {/* My Impact Section (for volunteers) */}
-        <Card className="bg-gradient-to-r from-green-50 to-emerald-50 border-0 shadow-sm">
-          <CardContent className="p-5">
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                  <Target className="w-5 h-5 text-green-600 stroke-2" />
-                </div>
-                <div className="flex-1">
-                  <h2 className={`${isLarge ? 'text-2xl' : 'text-xl'} font-semibold text-gray-900`}>{t('volunteer.impact.title')}</h2>
-                  <p className="text-sm text-gray-600">{t('volunteer.impact.subtitle')}</p>
-                </div>
-              </div>
-
-              {/* Hours Progress */}
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="font-medium text-gray-700">{t('volunteer.impact.thisMonth', { hours: myProgress.hoursThisMonth, goal: myProgress.hoursGoal })}</span>
-                  <span className="text-green-600 font-semibold">{Math.round((myProgress.hoursThisMonth/myProgress.hoursGoal)*100)}%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
-                    className="bg-green-500 h-2 rounded-full transition-all duration-500"
-                    style={{ width: `${(myProgress.hoursThisMonth/myProgress.hoursGoal)*100}%` }}
-                  />
-                </div>
-              </div>
-
-              {/* Quick Stats */}
-              <div className="grid grid-cols-3 gap-4">
-                <div className="text-center">
-                  <div className="text-lg font-bold text-gray-900">{myProgress.totalHours}</div>
-                  <div className="text-xs text-gray-600">{t('volunteer.impact.totalHours')}</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-lg font-bold text-gray-900">#{myProgress.rank}</div>
-                  <div className="text-xs text-gray-600">{t('volunteer.impact.thisWeek')}</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-lg font-bold text-green-600">{myProgress.rewardsAvailable}</div>
-                  <div className="text-xs text-gray-600">{t('volunteer.impact.rewards')}</div>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex gap-2">
-                <Button variant="outline" className="flex-1 text-green-600 border-green-200 hover:bg-green-50">
-                  <Gift className="w-4 h-4 mr-2 stroke-2" />
-                  {t('volunteer.impact.redeem')}
-                </Button>
-                <Button variant="outline" className="flex-1 text-orange-600 border-orange-200 hover:bg-orange-50">
-                  <Trophy className="w-4 h-4 mr-2 stroke-2" />
-                  {t('volunteer.impact.leaderboard')}
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Removed My Impact section per request */}
 
         {/* Available Volunteers */}
         <div className="space-y-4">
@@ -370,16 +311,7 @@ export default function VolunteerPage() {
                       </div>
                     </div>
 
-                    {/* Time Auction Badge & Hours */}
-                    <div className="flex items-center gap-2">
-                      <Badge className={`text-xs px-2 py-1 ${volunteer.badgeColor}`}>
-                        <Award className="w-3 h-3 mr-1 stroke-2" />
-                        {volunteer.timeAuctionBadge}
-                      </Badge>
-                      <span className="text-xs text-gray-600">
-                        {t('volunteer.volunteers.hoursContributed', { hours: volunteer.hoursContributed })}
-                      </span>
-                    </div>
+                    {/* Removed Time Auction badge & hours per request */}
 
                     {/* Specialties */}
                     <div className="flex flex-wrap gap-1">
@@ -394,14 +326,32 @@ export default function VolunteerPage() {
                       ))}
                     </div>
 
-                    {/* Action Button */}
-                    <Button 
-                      className="w-full bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium"
-                      disabled={!volunteer.isOnline}
-                    >
-                      <MessageCircle className="w-4 h-4 mr-2 stroke-2" />
-                      {volunteer.isOnline ? t('volunteer.volunteers.answerQuestions') : t('volunteer.volunteers.offline')}
-                    </Button>
+                    {/* Action Buttons: call & video next to message */}
+                    <div className="flex gap-2">
+                      <Button 
+                        className="flex-1 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium"
+                        disabled={!volunteer.isOnline}
+                      >
+                        <MessageCircle className="w-4 h-4 mr-2 stroke-2" />
+                        {volunteer.isOnline ? t('volunteer.volunteers.answerQuestions') : t('volunteer.volunteers.offline')}
+                      </Button>
+                      <Button 
+                        variant="outline"
+                        className="px-3 border-gray-200"
+                        disabled={!volunteer.isOnline}
+                        aria-label="Call"
+                      >
+                        <Users className="w-4 h-4" />
+                      </Button>
+                      <Button 
+                        variant="outline"
+                        className="px-3 border-gray-200"
+                        disabled={!volunteer.isOnline}
+                        aria-label="Video"
+                      >
+                        <Video className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>

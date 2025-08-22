@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { BookOpen, Edit3, Volume2, TrendingUp } from "lucide-react"
+import { BookOpen, Edit3, Volume2, TrendingUp, Smile } from "lucide-react"
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from "recharts"
 import { useFontSize } from "@/app/font-size-provider"
 import "@/lib/i18n"
@@ -16,6 +16,7 @@ const skillsDataRaw = [
     insight: "Fantastic progress! Ready for extra practice with letter pairs like b/d.",
     icon: Edit3,
     Goal: 80,
+    teacherComment: "Great improvement on lowercase shapes. Keep spacing consistent between letters.",
   },
   {
     name: "sightWords", 
@@ -23,6 +24,7 @@ const skillsDataRaw = [
     insight: "Great foundation! On track, just 15% more to go for the next milestone.",
     icon: BookOpen,
     Goal: 75,
+    teacherComment: "Practice high-frequency words daily. Try flashcards during reading time.",
   },
   {
     name: "vocabulary",
@@ -30,6 +32,7 @@ const skillsDataRaw = [
     insight: "Wonderful word collection! Ahead of schedule and ready for new challenges.",
     icon: BookOpen,
     Goal: 70,
+    teacherComment: "Introduce new words in conversation and ask for examples in sentences.",
   },
   {
     name: "phonemicAwareness",
@@ -37,6 +40,7 @@ const skillsDataRaw = [
     insight: "Excellent listening skills! Blending sounds beautifully every day.",
     icon: Volume2,
     Goal: 75,
+    teacherComment: "Keep practicing sound blending with simple CVC words (e.g., cat, map).",
   },
   {
     name: "pointAndRead",
@@ -44,6 +48,7 @@ const skillsDataRaw = [
     insight: "Amazing confidence! Reading independently like a champion.",
     icon: BookOpen,
     Goal: 85,
+    teacherComment: "Encourage finger-tracking for tricky lines to maintain steady pace.",
   },
 ]
 
@@ -130,23 +135,16 @@ export default function ProgressPage() {
   return (
     <div className={`min-h-screen bg-gray-50 ${isLarge ? 'min-text-lg text-lg' : ''}`}>
       <div className="max-w-md mx-auto px-6 py-6 space-y-6">
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-bold text-gray-900 tracking-tight`}>{t('progress.header.title')}</h1>
-          <p className={`${isLarge ? 'text-base' : 'text-sm'} text-gray-500`}>{t('progress.header.subtitle')}</p>
-        </div>
-        {/* Overall Score */}
-        <div className="duolingo-gradient-light rounded-2xl p-4 shadow-sm">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full duolingo-gradient-primary flex items-center justify-center shadow">
-              <TrendingUp className="w-5 h-5 text-white" />
-            </div>
-            <div className="flex-1">
-              <div className="text-2xl font-extrabold text-gray-900 tabular-nums">{overallScore}</div>
-              <div className="text-xs text-gray-700 mt-0.5">{t('progress.header.overallScore')}</div>
+        {/* Header with top icon circle (match leaderboard style) */}
+        <div className="text-center mb-8">
+          <div className="flex justify-center mb-6">
+            <div className="w-16 h-16 rounded-full bg-green-500 flex items-center justify-center shadow">
+              <Smile className="w-8 h-8 text-white" />
             </div>
           </div>
+          <h1 className="text-3xl font-bold text-foreground mb-2">{t('progress.header.title')}</h1>
         </div>
+        {/* Removed separate top icon card to keep only header circle */}
 
 
         {/* Five-Dimension Radar Chart */}

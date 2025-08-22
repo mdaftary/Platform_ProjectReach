@@ -11,7 +11,7 @@ const navItems = [
   { href: "/", icon: Home, label: "mobileNav.home" },
   { href: "/progress", icon: BarChart3, label: "mobileNav.progress" },
   { href: "/community", icon: Users, label: "mobileNav.community" },
-  { href: "/volunteer", icon: HandHeart, label: "mobileNav.volunteer" },
+  { href: "/volunteer", icon: HandHeart, label: "mobileNav.help" },
   { href: "/leaderboard", icon: Trophy, label: "mobileNav.leaderboard" },
 ]
 
