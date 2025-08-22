@@ -198,25 +198,28 @@ export default function VolunteerPage() {
   const isZh = i18n.language?.startsWith("zh");
   const volunteers = isZh ? volunteersZh : volunteersEn;
   const recentQuestions = isZh ? recentQuestionsZh : recentQuestionsEn;
-  const [showUserMenu, setShowUserMenu] = useState(false);  
-  const userMenuRef = useRef<HTMLDivElement>(null)
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
   // Close user menu when clicking outside
   useEffect(() => {
-      function handleClickOutside(event: MouseEvent) {
-        if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
-          setShowUserMenu(false)
-        }
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowUserMenu(false);
       }
-  
-      if (showUserMenu) {
-        document.addEventListener('mousedown', handleClickOutside)
-      }
-  
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside)
-      }
-    }, [showUserMenu])
+    }
+
+    if (showUserMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showUserMenu]);
   return (
     <div
       className={`min-h-screen bg-gray-50 ${
@@ -227,51 +230,51 @@ export default function VolunteerPage() {
         {/* Ask a Question Section */}
 
         <div className="absolute top-3 right-3" ref={userMenuRef}>
-              <button
-                onClick={() => setShowUserMenu(!showUserMenu)}
-                className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors cursor-pointer"
-              >
-                <User className="w-5 h-5 text-gray-600" />
-              </button>
+          <button
+            onClick={() => setShowUserMenu(!showUserMenu)}
+            className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors cursor-pointer"
+          >
+            <User className="w-5 h-5 text-gray-600" />
+          </button>
+          {showUserMenu && (
+            <div className="absolute right-0 top-12 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
+              <div className="px-4 py-2 border-b border-gray-100">
+                <p className="text-sm font-semibold text-gray-900">
+                  {user?.username}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {user?.email || user?.phone}
+                </p>
               </div>
-        {showUserMenu && (
-          <div className="absolute right-0 top-12 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
-            <div className="px-4 py-2 border-b border-gray-100">
-              <p className="text-sm font-semibold text-gray-900">
-                {user?.username}
-              </p>
-              <p className="text-xs text-gray-500">
-                {user?.email || user?.phone}
-              </p>
+              <Link
+                href="/settings"
+                onClick={() => setShowUserMenu(false)}
+                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                <Settings className="w-4 h-4" />
+                {t("common.settings")}
+              </Link>
+              <Link
+                href="/admin"
+                onClick={() => setShowUserMenu(false)}
+                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-purple-600 hover:bg-purple-50 transition-colors"
+              >
+                <BarChart3 className="w-4 h-4" />
+                NGO Admin
+              </Link>
+              <button
+                onClick={() => {
+                  logout();
+                  setShowUserMenu(false);
+                }}
+                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+                {t("common.signOut")}
+              </button>
             </div>
-            <Link
-              href="/settings"
-              onClick={() => setShowUserMenu(false)}
-              className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-            >
-              <Settings className="w-4 h-4" />
-              {t("common.settings")}
-            </Link>
-            <Link
-              href="/admin"
-              onClick={() => setShowUserMenu(false)}
-              className="w-full flex items-center gap-2 px-4 py-2 text-sm text-purple-600 hover:bg-purple-50 transition-colors"
-            >
-              <BarChart3 className="w-4 h-4" />
-              NGO Admin
-            </Link>
-            <button
-              onClick={() => {
-                logout();
-                setShowUserMenu(false);
-              }}
-              className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
-            >
-              <LogOut className="w-4 h-4" />
-              {t("common.signOut")}
-            </button>
-          </div>
-        )}
+          )}
+        </div>
         {/* Header */}
         <div className="text-center space-y-3">
           <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto shadow-lg">
@@ -383,7 +386,6 @@ export default function VolunteerPage() {
             </div>
           </CardContent>
         </Card>
-
 
         {/* Recent Questions */}
         <div className="space-y-4">

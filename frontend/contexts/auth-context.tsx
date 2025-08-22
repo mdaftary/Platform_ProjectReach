@@ -114,10 +114,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // Redirect to login if not authenticated and trying to access protected route
         router.push('/login')
       } else if (user && user.role === 'parent' && isPublicRoute && !pathname.startsWith('/admin')) {
-        // Redirect to dashboard if authenticated and trying to access auth pages (but not admin)
+        // Redirect to dashboard if authenticated and trying to access auth pages (for parents)
         router.push('/')
       } else if (user && user.role === 'volunteer' && isPublicRoute && !pathname.startsWith('/admin')) {
-        // Redirect to dashboard if authenticated and trying to access auth pages (but not admin)
+        // Redirect to dashboard if authenticated and trying to access auth pages (for volunteers)
         router.push('/volunteer')
       }
     }
@@ -251,6 +251,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem('auth_user')
     localStorage.removeItem('auth_token')
     setUser(null)
+    console.log('Logging out')
     router.push('/login')
   }
 
