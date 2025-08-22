@@ -17,7 +17,7 @@ class Student(BaseModel):
     badges: List[int] = []
     verified: bool = False
 
-class Volunteer:
+class Volunteer(BaseModel):
     id: str = str(uuid4())
     name: str
     username: str
@@ -27,7 +27,7 @@ class Volunteer:
     verification_code: str = str(uuid4())
     school: str
     volunteer_hours: float
-    badges: List[int]
+    badges: List[str]
     verified: bool = False
 
 class Admin(BaseModel):
@@ -77,5 +77,6 @@ class Comment(BaseModel):
     attachments: List[str] = []  # List of attachment paths
     timestamp: datetime
 
-
-
+class Badge(BaseModel):
+    badge_id: str
+    badge_path: str
