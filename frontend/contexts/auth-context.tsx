@@ -3,6 +3,8 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react"
 import { useRouter, usePathname } from "next/navigation"
 
+type UserRole = "parent" | "volunteer"
+
 interface User {
   id: string
   username: string
@@ -11,6 +13,7 @@ interface User {
   studentName?: string
   parentName?: string
   school?: string
+  role: UserRole
   createdAt: string
 }
 
@@ -36,9 +39,10 @@ interface SignupData {
   phone?: string
   username: string
   password: string
-  studentName: string
-  parentName: string
-  school: string
+  studentName?: string
+  parentName?: string
+  school?: string
+  role: UserRole
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -51,6 +55,7 @@ const MOCK_USERS = [
     email: "parent@example.com",
     phone: "+852 9876 5432",
     password: "password123",
+    role: "parent" as UserRole,
     createdAt: new Date().toISOString()
   },
   {
@@ -58,6 +63,15 @@ const MOCK_USERS = [
     username: "testuser",
     email: "test@example.com",
     password: "test123",
+    role: "parent" as UserRole,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: "3",
+    username: "volunteer_user",
+    email: "volunteer@example.com",
+    password: "volunteer123",
+    role: "volunteer" as UserRole,
     createdAt: new Date().toISOString()
   }
 ]
@@ -99,9 +113,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (!user && !isPublicRoute) {
         // Redirect to login if not authenticated and trying to access protected route
         router.push('/login')
-      } else if (user && isPublicRoute && !pathname.startsWith('/admin')) {
+      } else if (user && user.role === 'parent' && isPublicRoute && !pathname.startsWith('/admin')) {
         // Redirect to dashboard if authenticated and trying to access auth pages (but not admin)
         router.push('/')
+      } else if (user && user.role === 'volunteer' && isPublicRoute && !pathname.startsWith('/admin')) {
+        // Redirect to dashboard if authenticated and trying to access auth pages (but not admin)
+        router.push('/volunteer')
       }
     }
   }, [user, isLoading, isPublicRoute, router, pathname])
@@ -135,7 +152,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('auth_token', 'mock_jwt_token_' + Date.now())
 
       setUser(authenticatedUser)
-      router.push('/')
+      // Role-based redirect
+      if (authenticatedUser.role === 'volunteer') {
+        router.push('/volunteer')
+      } else {
+        router.push('/')
+      }
       setIsLoading(false)
     } catch (error) {
       setIsLoading(false)
@@ -150,11 +172,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Mock Google authentication
       await new Promise(resolve => setTimeout(resolve, 500))
       
-      // Create mock Google user
+      // Create mock Google user - default to parent role
       const googleUser: User = {
         id: "google_" + Date.now(),
         username: "google_user",
         email: "user@gmail.com",
+        role: "parent",
         createdAt: new Date().toISOString()
       }
 
@@ -163,7 +186,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       setUser(googleUser)
       setIsLoading(false) // Fix: Set loading to false after successful login
-      router.push('/')
+      // Role-based redirect
+      if (googleUser.role === 'volunteer') {
+        router.push('/volunteer')
+      } else {
+        router.push('/')
+      }
     } catch (error) {
       setIsLoading(false)
       throw error
@@ -192,6 +220,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         studentName: userData.studentName,
         parentName: userData.parentName,
         school: userData.school,
+        role: userData.role,
         createdAt: new Date().toISOString()
       }
 
@@ -206,7 +235,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       setUser(newUser)
       setIsLoading(false) // Fix: Set loading to false after successful signup
-      router.push('/')
+      // Role-based redirect
+      if (newUser.role === 'volunteer') {
+        router.push('/volunteer')
+      } else {
+        router.push('/')
+      }
     } catch (error) {
       setIsLoading(false)
       throw error

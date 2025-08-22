@@ -5,14 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Mail, Phone, TicketCheck, User, Eye, EyeOff, Loader, ArrowLeft, Check, AlertCircle } from "lucide-react"
+import { Mail, Phone, TicketCheck, User, Eye, EyeOff, Loader, ArrowLeft, Check, AlertCircle, Users, Heart } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
 
-type SignUpStep = 'method' | 'details' | 'complete'
+type SignUpStep = 'method' | 'role' | 'details' | 'complete'
 type SignUpMethod = 'email' | 'phone' | 'manual'
+type UserRole = 'parent' | 'volunteer'
 
 export default function SignUpPage() {
   const { t } = useTranslation()
@@ -26,6 +27,7 @@ export default function SignUpPage() {
   const [studentName, setStudentName] = useState('')
   const [parentName, setParentName] = useState('')
   const [school, setSchool] = useState('')
+  const [role, setRole] = useState<UserRole>('parent')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState('')
@@ -45,6 +47,14 @@ export default function SignUpPage() {
       return
     }
     
+    // Move to role selection step
+    setStep('role')
+  }
+
+  const handleRoleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+    
     // Move to details step
     setStep('details')
   }
@@ -53,8 +63,13 @@ export default function SignUpPage() {
     e.preventDefault()
     setError('')
     
-    // Validation
-    if (!username || !password || !studentName || !parentName || !school) {
+    // Validation - adjust based on role
+    const requiredFields = [username, password]
+    if (role === 'parent') {
+      requiredFields.push(studentName, parentName, school)
+    }
+    
+    if (requiredFields.some(field => !field)) {
       setError(t('signup.errorAllFieldsRequired'))
       return
     }
@@ -76,9 +91,10 @@ export default function SignUpPage() {
         phone: signUpMethod === 'phone' ? phone : undefined,
         username,
         password,
-        studentName,
-        parentName,
-        school
+        studentName: role === 'parent' ? studentName : undefined,
+        parentName: role === 'parent' ? parentName : undefined,
+        school: role === 'parent' ? school : undefined,
+        role
       })
       setStep('complete')
     } catch (error) {
@@ -163,11 +179,13 @@ export default function SignUpPage() {
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
               {step === 'method' && t('signup.titles.method')}
+              {step === 'role' && t('signup.selectRole')}
               {step === 'details' && t('signup.titles.details')}
               {step === 'complete' && t('signup.titles.complete')}
             </h1>
             <p className="text-base text-gray-500 mt-1 font-medium">
               {step === 'method' && t('signup.subtitles.method')}
+              {step === 'role' && 'Choose whether you are a parent or volunteer'}
               {step === 'details' && t('signup.subtitles.details')}
               {step === 'complete' && t('signup.subtitles.complete')}
             </p>
@@ -268,7 +286,7 @@ export default function SignUpPage() {
                 {/* Manual verification - direct continue */}
                 {signUpMethod === 'manual' && (
                   <Button
-                    onClick={() => setStep('details')}
+                    onClick={() => setStep('role')}
                     className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold py-3"
                   >
                     {t('signup.continue')}
@@ -321,8 +339,8 @@ export default function SignUpPage() {
               </>
             )}
 
-            {/* Step 2: Account Details */}
-            {step === 'details' && (
+            {/* Step 2: Role Selection */}
+            {step === 'role' && (
               <>
                 {/* Back button */}
                 <div className="flex items-center gap-3">
@@ -338,6 +356,76 @@ export default function SignUpPage() {
                   <div className="text-sm text-gray-500">
                     {signUpMethod === 'email' ? email : 
                      signUpMethod === 'phone' ? phone : t('signup.manualVerification')}
+                  </div>
+                </div>
+
+                {/* Error Message */}
+                {error && (
+                  <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                    <div className="flex items-center gap-3">
+                      <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
+                      <p className="text-sm text-red-700">{error}</p>
+                    </div>
+                  </div>
+                )}
+
+                <form onSubmit={handleRoleSubmit} className="space-y-4">
+                  <div className="space-y-3">
+                    <Label className="text-sm font-semibold text-gray-900">{t('signup.selectRole')}</Label>
+                    <div className="grid grid-cols-1 gap-3">
+                      <Button
+                        type="button"
+                        variant={role === 'parent' ? 'default' : 'outline'}
+                        onClick={() => setRole('parent')}
+                        className="flex items-start gap-4 text-left font-medium rounded-xl py-4 px-4 h-auto"
+                      >
+                        <Users className="w-5 h-5 mt-0.5 flex-shrink-0" />
+                        <div className="space-y-1">
+                          <div className="font-semibold">{t('signup.roleParent')}</div>
+                          <div className="text-sm opacity-80">{t('signup.roleParentDescription')}</div>
+                        </div>
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={role === 'volunteer' ? 'default' : 'outline'}
+                        onClick={() => setRole('volunteer')}
+                        className="flex items-start gap-4 text-left font-medium rounded-xl py-4 px-4 h-auto"
+                      >
+                        <Heart className="w-5 h-5 mt-0.5 flex-shrink-0" />
+                        <div className="space-y-1">
+                          <div className="font-semibold">{t('signup.roleVolunteer')}</div>
+                          <div className="text-sm opacity-80">{t('signup.roleVolunteerDescription')}</div>
+                        </div>
+                      </Button>
+                    </div>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold py-3"
+                  >
+                    {t('signup.continue')}
+                  </Button>
+                </form>
+              </>
+            )}
+
+            {/* Step 3: Account Details */}
+            {step === 'details' && (
+              <>
+                {/* Back button */}
+                <div className="flex items-center gap-3">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setStep('role')}
+                    className="p-2 rounded-xl"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                  </Button>
+                  <div className="text-sm text-gray-500">
+                    {role === 'parent' ? t('signup.roleParent') : t('signup.roleVolunteer')}
                   </div>
                 </div>
 
@@ -420,50 +508,55 @@ export default function SignUpPage() {
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="student-name" className="text-sm font-medium text-gray-900">
-                      {t('signup.studentName')}
-                    </Label>
-                    <Input
-                      id="student-name"
-                      type="text"
-                      value={studentName}
-                      onChange={(e) => setStudentName(e.target.value)}
-                      placeholder={t('signup.studentNamePlaceholder')}
-                      className="rounded-xl"
-                      required
-                    />
-                  </div>
+                  {/* Conditional fields based on role */}
+                  {role === 'parent' && (
+                    <>
+                      <div className="space-y-2">
+                        <Label htmlFor="student-name" className="text-sm font-medium text-gray-900">
+                          {t('signup.studentName')}
+                        </Label>
+                        <Input
+                          id="student-name"
+                          type="text"
+                          value={studentName}
+                          onChange={(e) => setStudentName(e.target.value)}
+                          placeholder={t('signup.studentNamePlaceholder')}
+                          className="rounded-xl"
+                          required
+                        />
+                      </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="parent-name" className="text-sm font-medium text-gray-900">
-                      {t('signup.parentName')}
-                    </Label>
-                    <Input
-                      id="parent-name"
-                      type="text"
-                      value={parentName}
-                      onChange={(e) => setParentName(e.target.value)}
-                      placeholder={t('signup.parentNamePlaceholder')}
-                      className="rounded-xl"
-                      required
-                    />
-                  </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="parent-name" className="text-sm font-medium text-gray-900">
+                          {t('signup.parentName')}
+                        </Label>
+                        <Input
+                          id="parent-name"
+                          type="text"
+                          value={parentName}
+                          onChange={(e) => setParentName(e.target.value)}
+                          placeholder={t('signup.parentNamePlaceholder')}
+                          className="rounded-xl"
+                          required
+                        />
+                      </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="school" className="text-sm font-medium text-gray-900">
-                      {t('signup.school')}
-                    </Label>
-                    <Input
-                      id="school"
-                      type="text"
-                      value={school}
-                      onChange={(e) => setSchool(e.target.value)}
-                      placeholder={t('signup.schoolPlaceholder')}
-                      className="rounded-xl"
-                      required
-                    />
-                  </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="school" className="text-sm font-medium text-gray-900">
+                          {t('signup.school')}
+                        </Label>
+                        <Input
+                          id="school"
+                          type="text"
+                          value={school}
+                          onChange={(e) => setSchool(e.target.value)}
+                          placeholder={t('signup.schoolPlaceholder')}
+                          className="rounded-xl"
+                          required
+                        />
+                      </div>
+                    </>
+                  )}
 
                   <Button
                     type="submit"
@@ -483,7 +576,7 @@ export default function SignUpPage() {
               </>
             )}
 
-            {/* Step 3: Success */}
+            {/* Step 4: Success */}
             {step === 'complete' && (
               <div className="text-center space-y-6">
                 {/* Success Icon */}

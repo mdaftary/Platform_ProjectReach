@@ -1,7 +1,20 @@
 from pydantic import BaseModel
-from typing_extensions import List, Optional
+from typing_extensions import List, Optional, Literal
 from uuid import uuid4
 from datetime import datetime
+
+UserRole = Literal["parent", "volunteer"]
+
+class User(BaseModel):
+    id: str = str(uuid4())
+    username: str
+    password: str
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    verification_code: str = str(uuid4())
+    role: UserRole
+    verified: bool = False
+    created_at: datetime = datetime.now()
 
 class Student(BaseModel):
     id: str = str(uuid4())
