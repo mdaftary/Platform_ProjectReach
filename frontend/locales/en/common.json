@@ -638,6 +638,9 @@
           "transition": "Transition",
           "primary1": "Primary 1",
           "preparation": "Preparation"
+        },
+        "questions": {
+          "newPost": "New Question"
         }
       },
       "resources": {

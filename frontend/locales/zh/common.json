@@ -590,6 +590,9 @@
         "resources": "資源",
         "groups": "練習小組"
       },
+      "questions": {
+        "newPost": "新問題"
+      },
       "discussions": {
         "recent": "最新討論",
         "newPost": "發佈貼文",
