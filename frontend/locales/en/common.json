@@ -122,7 +122,24 @@
     "viewRecommendedPractice": "View Recommended Practice",
     "downloadExtraWorksheet": "Download extra worksheet (PDF)",
     "done": "Done",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "weeklyTasks": {
+      "0": {
+        "title": "Upload Worksheet",
+        "subtitle": "Week 12 - Alphabet Practice"
+      },
+      "1": {
+        "title": "Watch Tutorial Video",
+        "subtitle": "Letter Recognition Tips"
+      },
+      "2": {
+        "title": "Confirm Homework Submission",
+        "subtitle": "Due Today at 6:00 PM"
+      }
+    },
+    "aiInsight": {
+      "sentence": "Emma reversed <bold>b</bold> and <bold>d</bold> in yesterday's worksheet. Try {{minutes}} minutes of extra practice."
+    }
   },
   "common": {
     "or": "or",
@@ -456,7 +473,51 @@
         "recent": "Recent Discussions",
         "newPost": "New Post",
         "latestReplies": "Latest replies:",
-        "follow": "Follow"
+        "follow": "Follow",
+        "roles": {
+          "teacher": "Teacher",
+          "volunteer": "Volunteer",
+          "staff": "Staff",
+          "parent": "Parent"
+        },
+        "posts": {
+          "0": {
+            "title": "Tips for K3 to Primary 1 Transition",
+            "author": "Anonymous Parent",
+            "timeAgo": "2h ago",
+            "category": "General",
+            "recentReplies": {
+              "0": "We use bedtime reading — 10 min daily worked wonders for sight words.",
+              "1": "Try flashcards with pictures! Make it a game..."
+            }
+          },
+          "1": {
+            "title": "English Reading Help Needed",
+            "author": "Sarah_HK",
+            "timeAgo": "4h ago",
+            "category": "Assignment Help",
+            "recentReplies": {
+              "0": "What specific reading challenges is your child facing?",
+              "1": "My daughter had similar issues. Here's what helped..."
+            }
+          },
+          "2": {
+            "title": "Homework Motivation Strategies",
+            "author": "TeacherVolunteer",
+            "timeAgo": "6h ago",
+            "category": "Tips & Strategies",
+            "recentReplies": {
+              "0": "The reward chart idea worked perfectly for us!",
+              "1": "I always recommend breaking tasks into smaller chunks."
+            }
+          }
+        },
+        "tags": {
+          "general": "General",
+          "transition": "Transition",
+          "primary1": "Primary 1",
+          "preparation": "Preparation"
+        }
       },
       "resources": {
         "title": "Shared Resources",
@@ -479,6 +540,7 @@
       "generalDiscussion": "General Discussion",
       "replies": "Replies",
       "report": "Report",
+      "helpful": "Helpful",
       "addReply": "Add Your Reply",
       "addReplyDesc": "Share your thoughts and help other parents",
       "replyPlaceholder": "Write your reply here...",
@@ -578,7 +640,26 @@
       "phonics": "Phonics",
       "reading": "Reading",
       "homework": "Homework Help",
-      "motivation": "Motivation"
+      "motivation": "Motivation",
+      "resources": "Resources"
+    },
+    "roles": {
+      "formerK3Teacher": "Former K3 Teacher",
+      "parentOf3": "Parent of 3",
+      "childPsychologist": "Child Psychologist"
+    },
+    "badges": {
+      "goldMentor": "Gold Mentor",
+      "silverHelper": "Silver Helper",
+      "platinumExpert": "Platinum Expert"
+    },
+    "specialties": {
+      "phonics": "Phonics",
+      "reading": "Reading",
+      "homework": "Homework Help",
+      "motivation": "Motivation",
+      "learningDifficulties": "Learning Difficulties",
+      "development": "Development"
     },
     "impact": {
       "title": "My Impact",

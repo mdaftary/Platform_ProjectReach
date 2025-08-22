@@ -12,35 +12,35 @@ import { useTranslation } from "react-i18next"
 // Skills data with progress and insights
 const skillsDataRaw = [
   {
-    name: "Alphabet",
+    name: "alphabet",
     progress: 85,
     insight: "Fantastic progress! Ready for extra practice with letter pairs like b/d.",
     icon: Edit3,
     Goal: 80,
   },
   {
-    name: "Sight Words", 
+    name: "sightWords", 
     progress: 60,
     insight: "Great foundation! On track, just 15% more to go for the next milestone.",
     icon: BookOpen,
     Goal: 75,
   },
   {
-    name: "Vocabulary",
+    name: "vocabulary",
     progress: 72,
     insight: "Wonderful word collection! Ahead of schedule and ready for new challenges.",
     icon: BookOpen,
     Goal: 70,
   },
   {
-    name: "Phonemic Awareness",
+    name: "phonemicAwareness",
     progress: 79,
     insight: "Excellent listening skills! Blending sounds beautifully every day.",
     icon: Volume2,
     Goal: 75,
   },
   {
-    name: "Point-and-Read",
+    name: "pointAndRead",
     progress: 91,
     insight: "Amazing confidence! Reading independently like a champion.",
     icon: BookOpen,
@@ -60,7 +60,7 @@ const skillsData = skillsDataRaw
 // AI Recommendations grouped by skill
 const aiRecommendations = [
   {
-    skill: "Sight Words",
+    skill: "sightWords",
     skillProgress: 60,
     title: "Practice Sight Words",
     description: "Play \"find the word\" game in today's storybook.",
@@ -69,7 +69,7 @@ const aiRecommendations = [
     priority: "high"
   },
   {
-    skill: "Alphabet", 
+    skill: "alphabet", 
     skillProgress: 85,
     title: "Letter Practice",
     description: "Trace lowercase letters \"b\" and \"d\" for clarity.",
@@ -78,7 +78,7 @@ const aiRecommendations = [
     priority: "medium"
   },
   {
-    skill: "Phonemic Awareness",
+    skill: "phonemicAwareness",
     skillProgress: 79, 
     title: "Sound Matching",
     description: "Try sound-blending exercise in the student app.",
@@ -108,12 +108,13 @@ export default function ProgressPage() {
     const maxRadius = 70
     
     const skills = [
-      { name: "Alphabet", progress: 85, Goal: 80 },
-      { name: "Sight Words", progress: 60, Goal: 75 },
-      { name: "Vocabulary", progress: 72, Goal: 70 },
-      { name: "Phonemic Awareness", progress: 79, Goal: 75 },
-      { name: "Point-and-Read", progress: 91, Goal: 85 },
+      { name: "alphabet", progress: 85, Goal: 80 },
+      { name: "sightWords", progress: 60, Goal: 75 },
+      { name: "vocabulary", progress: 72, Goal: 70 },
+      { name: "phonemicAwareness", progress: 79, Goal: 75 },
+      { name: "pointAndRead", progress: 91, Goal: 85 },
     ]
+    
     
     return skills.map((skill, index) => {
       const angle = (index * 72 - 90) * (Math.PI / 180) // Pentagon angles (starting from top)
@@ -311,7 +312,7 @@ export default function ProgressPage() {
                             fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif'
                           }}
                         >
-                          {point.skill.name}
+                          {t(`progress.skills.${point.skill.name}.name`, { defaultValue: point.skill.name })}
                         </text>
                         
                         {/* Percentage */}
@@ -401,7 +402,7 @@ export default function ProgressPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
-                            <h3 className="font-semibold text-gray-900">{t(`progress.skills.${skill.name.replace(/\\s|\\-|&/g, (m) => m === '&' ? 'And' : '')}.name`, { defaultValue: skill.name })}</h3>
+                            <h3 className="font-semibold text-gray-900">{t(`progress.skills.${skill.name}.name`, { defaultValue: skill.name })}</h3>
                             {priorityBadge && (
                               <Badge 
                                 variant="secondary"
@@ -424,10 +425,10 @@ export default function ProgressPage() {
                           />
             </div>
                         {!isLarge && (
-                          <p className="text-sm text-gray-600 leading-relaxed">{t(`progress.skills.${skill.name.replace(/\\s|\\-|&/g, (m) => m === '&' ? 'And' : '')}.insight`, { defaultValue: skill.insight })}</p>
+                          <p className="text-sm text-gray-600 leading-relaxed">{t(`progress.skills.${skill.name}.insight`, { defaultValue: skill.insight })}</p>
                         )}
                         <div className="mt-2 text-xs text-gray-500">
-                          {t('progress.skills.goalLabel')} {skill.Goal}% • 
+                          {t(`progress.skills.goalLabel`)} {skill.Goal}% • 
                           {skill.progress >= skill.Goal ? (
                             <span className="text-green-600 font-medium">{t('progress.skills.aboveGoal')}</span>
                           ) : (
@@ -478,7 +479,7 @@ export default function ProgressPage() {
                                   )}
                                 </div>
                                 <div className="flex items-center gap-2 mt-1">
-                                  <span className="text-xs text-gray-500 font-medium">{t(`progress.skills.${rec.skill.replace(/\\s|\\-|&/g, (m) => m === '&' ? 'And' : '')}.name`, { defaultValue: rec.skill })}</span>
+                                  <span className="text-xs text-gray-500 font-medium">{t(`progress.skills.${rec.skill}.name`, { defaultValue: rec.skill })}</span>
                                   <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
                                     {t('progress.ai.minutes_one', { count: parseInt(rec.timeNeeded) || 5 })}
                                   </span>

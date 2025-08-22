@@ -8,6 +8,7 @@ import { Camera, Play, CheckCircle2, Circle, User, Eye, ChevronRight, X, Check, 
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import { useFontSize } from "@/app/font-size-provider"
+import { Trans } from "react-i18next"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
 
@@ -41,11 +42,11 @@ const weeklyTasks = [
 
 // Progress categories data
 const progressCategories = [
-  { name: "Alphabet", progress: 85, color: "text-green-600", barColor: "bg-green-500" },
-  { name: "Sight Words", progress: 72, color: "text-blue-600", barColor: "bg-blue-500" },
-  { name: "Vocabulary", progress: 68, color: "text-blue-600", barColor: "bg-blue-400" },
-  { name: "Phonemic Awareness", progress: 79, color: "text-green-600", barColor: "bg-green-400" },
-  { name: "Point-and-Read", progress: 91, color: "text-green-600", barColor: "bg-green-500" },
+  { name: "alphabet", progress: 85, color: "text-green-600", barColor: "bg-green-500" },
+  { name: "sightWords", progress: 72, color: "text-blue-600", barColor: "bg-blue-500" },
+  { name: "vocabulary", progress: 68, color: "text-blue-600", barColor: "bg-blue-400" },
+  { name: "phonemicAwareness", progress: 79, color: "text-green-600", barColor: "bg-green-400" },
+  { name: "pointAndRead", progress: 91, color: "text-green-600", barColor: "bg-green-500" },
 ]
 
 export default function HomePage() {
@@ -167,10 +168,10 @@ export default function HomePage() {
                     )}
                     <div className={`flex-1 min-w-0 `}>
                       <p className={`${isLarge ? 'text-lg' : 'text-sm'} font-medium ${task.completed ? 'text-gray-500 line-through' : 'text-gray-900'}`}>
-                        {task.title}
+                        {t(`home.weeklyTasks.${index}.title`, { defaultValue: task.title })}
                       </p>
                       <p className="text-xs text-gray-500 mt-0.5">
-                        {task.subtitle}
+                        {t(`home.weeklyTasks.${index}.subtitle`, { defaultValue: task.subtitle })}
                       </p>
                     </div>
                     {task.isPrimary && !task.completed && (
@@ -205,7 +206,7 @@ export default function HomePage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-gray-900 leading-relaxed">
-                      Emma reversed <span className="font-semibold">b</span> and <span className="font-semibold">d</span> in yesterday's worksheet. Try 5 minutes of extra practice.
+                      <Trans i18nKey="home.aiInsight.sentence" values={{ minutes: 5 }} components={{ bold: <span className="font-semibold" /> }} />
                     </p>
                   </div>
                 </div>
@@ -233,7 +234,9 @@ export default function HomePage() {
                   <div key={category.name}>
                     <div className="flex items-center justify-between">
                       <div className="flex-1 min-w-0">
-                        <p className={`${isLarge ? 'text-xl' : 'text-sm'} font-medium text-gray-900`}>{category.name}</p>
+                        <p className={`${isLarge ? 'text-xl' : 'text-sm'} font-medium text-gray-900`}>
+                          {t(`progress.skills.${category.name}.name`, { defaultValue: category.name })}
+                        </p>
                       </div>
                       <div className="flex items-center gap-3 ml-4">
                         {!isLarge && (

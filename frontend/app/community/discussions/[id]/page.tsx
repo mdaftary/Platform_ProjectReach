@@ -22,19 +22,13 @@ import Link from "next/link"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
 
-export default function DiscussionDetailPage({ params }: { params: { id: string } }) {
-  const { t } = useTranslation()
-  const [newReply, setNewReply] = useState("")
-  const [isAnonymous, setIsAnonymous] = useState(false)
-
-  // Mock discussion data
-  const discussion = {
-    id: params.id,
-    title: "Tips for K3 to Primary 1 Transition",
-    category: "general",
-    author: "Parent_Mom123",
-    isAnonymous: true,
-    content: `My daughter is starting Primary 1 next year and I'm really worried about the transition. She's doing well in K3 but I've heard P1 is much more demanding.
+// Localized discussion and replies (EN / ZH)
+const discussionEn = {
+  title: "Tips for K3 to Primary 1 Transition",
+  category: "general",
+  author: "Parent_Mom123",
+  isAnonymous: true,
+  content: `My daughter is starting Primary 1 next year and I'm really worried about the transition. She's doing well in K3 but I've heard P1 is much more demanding.
 
 Has anyone been through this transition recently? What should I be preparing her for? Any tips on:
 - Academic preparation
@@ -43,21 +37,43 @@ Has anyone been through this transition recently? What should I be preparing her
 - Homework expectations
 
 I want to make sure she's ready but don't want to overwhelm her. Any advice would be greatly appreciated!`,
-    replies: 24,
-    likes: 18,
-    createdAt: "2 days ago",
-    isPinned: true,
-    isPopular: true,
-    tags: ["transition", "primary-1", "preparation"],
-  }
+  replies: 24,
+  likes: 18,
+  createdAt: "2 days ago",
+  isPinned: true,
+  isPopular: true,
+  tags: ["transition", "primary-1", "preparation"],
+}
 
-  const replies = [
-    {
-      id: "1",
-      author: "TeacherVolunteer",
-      isAnonymous: false,
-      isVolunteer: true,
-      content: `As a former K3 teacher, I can share some insights that might help:
+const discussionZh = {
+  title: "K3 升小一過渡小秘訣",
+  category: "general",
+  author: "Parent_Mom123",
+  isAnonymous: true,
+  content: `我女兒明年要升小一，我有點擔心過渡期。她在 K3 表現不錯，但聽說小一要求高很多。
+
+有沒有最近經歷過這個階段的家長？我應該如何幫她準備？例如：
+- 學術準備
+- 社交適應
+- 每日作息調整
+- 功課要求
+
+我想幫她做好準備，但不想讓她壓力太大。任何建議都非常感謝！`,
+  replies: 24,
+  likes: 18,
+  createdAt: "2 天前",
+  isPinned: true,
+  isPopular: true,
+  tags: ["過渡", "小一", "準備"],
+}
+
+const repliesEn = [
+  {
+    id: "1",
+    author: "TeacherVolunteer",
+    isAnonymous: false,
+    isVolunteer: true,
+    content: `As a former K3 teacher, I can share some insights that might help:
 
 **Academic Preparation:**
 - Focus on basic reading fluency - she should be comfortable reading simple sentences
@@ -70,44 +86,44 @@ I want to make sure she's ready but don't want to overwhelm her. Any advice woul
 - Help her express her needs clearly to adults
 
 The transition is gradual, so don't worry too much! Most children adapt well within the first month.`,
-      likes: 12,
-      createdAt: "1 day ago",
-      isHelpful: true,
-    },
-    {
-      id: "2",
-      author: "ExperiencedMom",
-      isAnonymous: false,
-      isVolunteer: false,
-      content: `I went through this with my eldest last year. The biggest change was the homework routine! 
+    likes: 12,
+    createdAt: "1 day ago",
+    isHelpful: true,
+  },
+  {
+    id: "2",
+    author: "ExperiencedMom",
+    isAnonymous: false,
+    isVolunteer: false,
+    content: `I went through this with my eldest last year. The biggest change was the homework routine! 
 
 Start establishing a quiet study time now, even if it's just 15-20 minutes. We found that having a dedicated homework space really helped.
 
 Also, don't underestimate the importance of good sleep habits. P1 days are longer and more tiring.`,
-      likes: 8,
-      createdAt: "1 day ago",
-      isHelpful: false,
-    },
-    {
-      id: "3",
-      author: "Anonymous_Parent",
-      isAnonymous: true,
-      isVolunteer: false,
-      content: `Thank you both for the advice! @TeacherVolunteer your tips are really helpful. I'm going to start working on the independence skills you mentioned.
+    likes: 8,
+    createdAt: "1 day ago",
+    isHelpful: false,
+  },
+  {
+    id: "3",
+    author: "Anonymous_Parent",
+    isAnonymous: true,
+    isVolunteer: false,
+    content: `Thank you both for the advice! @TeacherVolunteer your tips are really helpful. I'm going to start working on the independence skills you mentioned.
 
 @ExperiencedMom good point about the homework routine. We'll start practicing that now.
 
 One more question - how much Chinese should she know? We speak mostly English at home and I'm worried about the Chinese lessons.`,
-      likes: 3,
-      createdAt: "18 hours ago",
-      isHelpful: false,
-    },
-    {
-      id: "4",
-      author: "BilingualDad",
-      isAnonymous: false,
-      isVolunteer: true,
-      content: `@Anonymous_Parent Don't worry too much about Chinese! Many families are in the same situation.
+    likes: 3,
+    createdAt: "18 hours ago",
+    isHelpful: false,
+  },
+  {
+    id: "4",
+    author: "BilingualDad",
+    isAnonymous: false,
+    isVolunteer: true,
+    content: `@Anonymous_Parent Don't worry too much about Chinese! Many families are in the same situation.
 
 Here are some practical tips:
 - Start with basic characters for everyday items (水, 火, 人, etc.)
@@ -116,11 +132,92 @@ Here are some practical tips:
 - Most importantly, communicate with her P1 teacher about your concerns
 
 Schools are very understanding about different language backgrounds at home.`,
-      likes: 15,
-      createdAt: "12 hours ago",
-      isHelpful: true,
-    },
-  ]
+    likes: 15,
+    createdAt: "12 hours ago",
+    isHelpful: true,
+  },
+]
+
+const repliesZh = [
+  {
+    id: "1",
+    author: "TeacherVolunteer",
+    isAnonymous: false,
+    isVolunteer: true,
+    content: `作為前 K3 老師，分享一些可能有用的建議：
+
+**學術準備：**
+- 加強基礎閱讀流暢度，能讀簡單句子
+- 練習清楚地寫名字與基本字
+- 認識數字與簡單加減
+
+**社交技巧：**
+- 鼓勵自理，例如整理書包
+- 練習遵循多步驟指示
+- 練習向大人清楚表達需要
+
+過渡是漸進的，不用太擔心！大多數孩子在第一個月就能適應。`,
+    likes: 12,
+    createdAt: "1 天前",
+    isHelpful: true,
+  },
+  {
+    id: "2",
+    author: "ExperiencedMom",
+    isAnonymous: false,
+    isVolunteer: false,
+    content: `我去年陪大女兒經歷過這段時間，最大變化是功課作息！
+
+現在就建立安靜學習時間，即使只有 15-20 分鐘也好。我們發現有專屬的功課空間幫助很大。
+
+另外，別忽略良好睡眠習慣。小一天數較長，也更容易疲倦。`,
+    likes: 8,
+    createdAt: "1 天前",
+    isHelpful: false,
+  },
+  {
+    id: "3",
+    author: "Anonymous_Parent",
+    isAnonymous: true,
+    isVolunteer: false,
+    content: `謝謝大家的建議！@TeacherVolunteer 你的提示很實用。我會開始練習你提到的自理能力。
+
+@ExperiencedMom 關於功課作息的提醒很好。我們會開始練習。
+
+還有一個問題：中文要學到什麼程度？我們在家主要說英文，我擔心中文課程。`,
+    likes: 3,
+    createdAt: "18 小時前",
+    isHelpful: false,
+  },
+  {
+    id: "4",
+    author: "BilingualDad",
+    isAnonymous: false,
+    isVolunteer: true,
+    content: `@Anonymous_Parent 不用太擔心中文！很多家庭情況相似。
+
+一些實用建議：
+- 先從生活常用字開始（例如：水、火、人 等）
+- 多看中文圖畫書，即使不會讀，也能熟悉字形
+- 可考慮有趣的中文學習 App
+- 最重要的是與小一班主任溝通你的擔心
+
+學校普遍理解家庭語言背景不同。`,
+    likes: 15,
+    createdAt: "12 小時前",
+    isHelpful: true,
+  },
+]
+
+export default function DiscussionDetailPage({ params }: { params: { id: string } }) {
+  const { t, i18n } = useTranslation()
+  const [newReply, setNewReply] = useState("")
+  const [isAnonymous, setIsAnonymous] = useState(false)
+
+  const isZh = i18n.language?.startsWith('zh')
+  const discussionBase = isZh ? discussionZh : discussionEn
+  const discussion = { id: params.id, ...discussionBase }
+  const replies = isZh ? repliesZh : repliesEn
 
   const handleSubmitReply = () => {
     if (newReply.trim()) {
@@ -260,7 +357,7 @@ Schools are very understanding about different language backgrounds at home.`,
                       {reply.isHelpful && (
                         <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-800">
                           <ThumbsUp className="w-3 h-3 mr-1" />
-                          Helpful
+                          {t('community.discussion.helpful')}
                         </Badge>
                       )}
                       <p className="text-sm text-muted-foreground">{reply.createdAt}</p>

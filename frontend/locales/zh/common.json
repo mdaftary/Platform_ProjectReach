@@ -122,7 +122,24 @@
     "viewRecommendedPractice": "查看建議練習",
     "downloadExtraWorksheet": "下載額外工作紙（PDF）",
     "done": "完成",
-    "signOut": "登出"
+    "signOut": "登出",
+    "weeklyTasks": {
+      "0": {
+        "title": "上傳工作紙",
+        "subtitle": "第 12 週－字母練習"
+      },
+      "1": {
+        "title": "觀看教學影片",
+        "subtitle": "字母辨識技巧"
+      },
+      "2": {
+        "title": "確認功課遞交",
+        "subtitle": "今日 6:00 截止"
+      }
+    },
+    "aiInsight": {
+      "sentence": "Emma 在昨日的工作紙中把 <bold>b</bold> 與 <bold>d</bold> 顛倒。建議額外練習 {{minutes}} 分鐘。"
+    }
   },
   "common": {
     "or": "或",
@@ -445,23 +462,67 @@
   "community": {
     "page": {
       "title": "社群",
-      "subtitle": "一起連結、學習與成長",
+      "subtitle": "一起連結、學習、成長",
       "search": "搜尋社群...",
       "tabs": {
         "discussions": "討論",
         "resources": "資源",
-        "groups": "小組"
+        "groups": "練習小組"
       },
       "discussions": {
         "recent": "最新討論",
-        "newPost": "發表貼文",
+        "newPost": "發佈貼文",
         "latestReplies": "最新回覆：",
-        "follow": "追蹤"
+        "follow": "追蹤",
+        "roles": {
+          "teacher": "老師",
+          "volunteer": "義工",
+          "staff": "職員",
+          "parent": "家長"
+        },
+        "posts": {
+          "0": {
+            "title": "K3 升小一過渡小秘訣",
+            "author": "匿名家長",
+            "timeAgo": "2 小時前",
+            "category": "一般",
+            "recentReplies": {
+              "0": "睡前閱讀—每天 10 分鐘，對常見詞很有幫助。",
+              "1": "試試帶圖卡片！把學習變成遊戲..."
+            }
+          },
+          "1": {
+            "title": "需要英語閱讀協助",
+            "author": "Sarah_HK",
+            "timeAgo": "4 小時前",
+            "category": "作業協助",
+            "recentReplies": {
+              "0": "孩子具體遇到哪些閱讀困難呢？",
+              "1": "我女兒也有類似情況。這些方法對我們有幫助..."
+            }
+          },
+          "2": {
+            "title": "功課動機策略分享",
+            "author": "TeacherVolunteer",
+            "timeAgo": "6 小時前",
+            "category": "技巧與策略",
+            "recentReplies": {
+              "0": "獎勵表非常有效！",
+              "1": "我常建議把任務拆小步驟來完成。"
+            }
+          }
+        },
+        "tags": {
+          "general": "一般",
+          "transition": "過渡",
+          "primary1": "小一",
+          "preparation": "準備"
+        }
       },
       "resources": {
         "title": "共享資源",
         "share": "分享",
-        "by": "由",
+        "by": "作者",
         "preview": "預覽",
         "favourite": "收藏",
         "download": "下載"
@@ -469,18 +530,19 @@
       "groups": {
         "title": "練習小組",
         "create": "建立",
-        "members": "位成員",
+        "members": "人",
         "join": "加入小組（+25 分）"
       }
     },
     "discussion": {
       "title": "討論",
       "reach": "REACH 社群",
-      "generalDiscussion": "一般討論",
+      "generalDiscussion": "綜合討論",
       "replies": "回覆",
       "report": "檢舉",
+      "helpful": "有幫助",
       "addReply": "新增回覆",
-      "addReplyDesc": "分享你的想法並幫助其他家長",
+      "addReplyDesc": "分享你的想法，幫助其他家長",
       "replyPlaceholder": "在此撰寫你的回覆...",
       "postAnonymously": "匿名發佈",
       "cancel": "取消",
@@ -578,7 +640,26 @@
       "phonics": "自然拼讀",
       "reading": "閱讀",
       "homework": "功課協助",
-      "motivation": "動機"
+      "motivation": "動機",
+      "resources": "資源"
+    },
+    "roles": {
+      "formerK3Teacher": "前 K3 老師",
+      "parentOf3": "三孩家長",
+      "childPsychologist": "兒童心理學家"
+    },
+    "badges": {
+      "goldMentor": "金級導師",
+      "silverHelper": "銀級幫手",
+      "platinumExpert": "白金專家"
+    },
+    "specialties": {
+      "phonics": "自然拼讀",
+      "reading": "閱讀",
+      "homework": "功課協助",
+      "motivation": "學習動機",
+      "learningDifficulties": "學習困難",
+      "development": "發展"
     },
     "impact": {
       "title": "我的影響",

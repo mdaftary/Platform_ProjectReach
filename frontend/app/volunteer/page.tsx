@@ -26,8 +26,8 @@ import {
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
 
-// Mock data for volunteers with Time Auction integration
-const volunteers = [
+// Mock data for volunteers with Time Auction integration (localized)
+const volunteersEn = [
   {
     id: 1,
     name: "Sarah Chen",
@@ -69,8 +69,50 @@ const volunteers = [
   }
 ]
 
-// Mock recent questions
-const recentQuestions = [
+const volunteersZh = [
+  {
+    id: 1,
+    name: "Sarah Chen",
+    role: "前 K3 老師",
+    avatar: "👩‍🏫",
+    rating: 4.9,
+    hoursContributed: 42,
+    timeAuctionBadge: "金級導師",
+    badgeColor: "bg-yellow-100 text-yellow-700",
+    totalAnswers: 156,
+    isOnline: true,
+    specialties: ["自然拼讀", "閱讀"]
+  },
+  {
+    id: 2,
+    name: "David Wong",
+    role: "三孩家長",
+    avatar: "👨‍👨‍👧‍👦",
+    rating: 4.8,
+    hoursContributed: 28,
+    timeAuctionBadge: "銀級幫手",
+    badgeColor: "bg-gray-100 text-gray-700",
+    totalAnswers: 89,
+    isOnline: false,
+    specialties: ["功課協助", "學習動機"]
+  },
+  {
+    id: 3,
+    name: "Ms. Liu",
+    role: "兒童心理學家",
+    avatar: "👩‍⚕️",
+    rating: 5.0,
+    hoursContributed: 65,
+    timeAuctionBadge: "白金專家",
+    badgeColor: "bg-purple-100 text-purple-700",
+    totalAnswers: 203,
+    isOnline: true,
+    specialties: ["學習困難", "發展"]
+  }
+]
+
+// Mock recent questions (localized)
+const recentQuestionsEn = [
   {
     id: 1,
     question: "My 5-year-old struggles with letter 'b' and 'd' - any tips?",
@@ -100,6 +142,36 @@ const recentQuestions = [
   }
 ]
 
+const recentQuestionsZh = [
+  {
+    id: 1,
+    question: "我家 5 歲孩子分不清 b 與 d，有什麼技巧？",
+    author: "匿名家長",
+    timeAgo: "2 小時前",
+    answers: 3,
+    isAnswered: true,
+    category: "自然拼讀"
+  },
+  {
+    id: 2,
+    question: "如何激勵不太想閱讀的孩子每天練習？",
+    author: "擔心的媽媽",
+    timeAgo: "5 小時前", 
+    answers: 7,
+    isAnswered: true,
+    category: "動機"
+  },
+  {
+    id: 3,
+    question: "有哪些適合在家練習常見詞的 App？",
+    author: "科技爸爸",
+    timeAgo: "1 天前",
+    answers: 12,
+    isAnswered: true,
+    category: "資源"
+  }
+]
+
 // Mock user's volunteer progress (if they're a volunteer)
 const myProgress = {
   hoursThisMonth: 12,
@@ -112,10 +184,14 @@ const myProgress = {
 
 export default function VolunteerPage() {
   const { t } = useTranslation()
+  const { i18n } = useTranslation()
   const [showAskQuestion, setShowAskQuestion] = useState(false)
   const [question, setQuestion] = useState("")
   const [category, setCategory] = useState("General")
   const { isLarge } = useFontSize()
+  const isZh = i18n.language?.startsWith('zh')
+  const volunteers = isZh ? volunteersZh : volunteersEn
+  const recentQuestions = isZh ? recentQuestionsZh : recentQuestionsEn
 
   return (
     <div className={`min-h-screen bg-gray-50 ${isLarge ? 'min-text-lg text-lg' : ''}`}>
