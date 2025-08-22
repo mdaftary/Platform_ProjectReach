@@ -32,7 +32,7 @@ async def lifespan(app: FastAPI):
 
     app.login_dal = LoginDAL(student_collection, volunteer_collection, admin_collection)
 
-    assignment_collection = database.get_collection("assignments")
+    # assignment_collection = database.get_collection("assignments")
 
     # Yield back to FastAPI Application:
     yield
@@ -101,3 +101,13 @@ async def api_sign_in_admin(username: str, password: str) -> bool:
 @app.post("/api/create_assignment")
 async def api_create_assignment(assignment: Assignment) -> str:
     return app.assignment_dal.create_assignment(assignment)
+
+def main(argv=sys.argv[1:]):
+    try:
+        uvicorn.run("server:app", host="0.0.0.0", port=3001, reload=DEBUG)
+    except KeyboardInterrupt:
+        pass
+
+
+if __name__ == "__main__":
+    main()
