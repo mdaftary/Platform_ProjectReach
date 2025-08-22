@@ -1,4 +1,4 @@
-name: todo-app
+name: platform_projectreach
 services:
   nginx:
     image: nginx:1.17
@@ -10,20 +10,19 @@ services:
       - backend
       - frontend
   frontend:
-    image: node:21-bullseye
+    image: platform_projectreach/frontend
+    build: ./frontend
     working_dir: /home/node/app
     environment:
       - NODE_ENV=development
       - WDS_SOCKET_PORT=0
-    volumes:
-      - ./frontend/:/home/node/app
     expose:
       - "3000"
     ports:
       - "3000:3000"
-    command: "npm start"
+    command: "pnpm run dev"
   backend:
-    image: todo-app/backend
+    image: platform_projectreach/backend
     build: ./backend
     volumes:
       - ./backend/:/usr/src/app
