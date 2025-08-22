@@ -8,6 +8,9 @@ interface User {
   username: string
   email?: string
   phone?: string
+  studentName?: string
+  parentName?: string
+  school?: string
   createdAt: string
 }
 
@@ -28,12 +31,14 @@ interface LoginCredentials {
 }
 
 interface SignupData {
-  method: 'email' | 'phone' | 'invitation'
+  method: 'email' | 'phone' | 'manual'
   email?: string
   phone?: string
-  invitationCode?: string
   username: string
   password: string
+  studentName: string
+  parentName: string
+  school: string
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -58,40 +63,34 @@ const MOCK_USERS = [
 ]
 
 // Routes that don't require authentication
-const PUBLIC_ROUTES = ['/login', '/signup', '/forgot-password']
+const PUBLIC_ROUTES = ['/login', '/signup', '/forgot-password', '/admin']
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false) // Start with false instead of true
   const router = useRouter()
   const pathname = usePathname()
+  
+  // Note: Starting with isLoading = false for frontend-only mode
 
   // Check if current route is public
   const isPublicRoute = PUBLIC_ROUTES.some(route => pathname.startsWith(route))
 
   // Initialize auth state from localStorage
   useEffect(() => {
-    const initializeAuth = async () => {
-      try {
-        const storedUser = localStorage.getItem('auth_user')
-        const storedToken = localStorage.getItem('auth_token')
-        
-        if (storedUser && storedToken) {
-          // In a real app, you'd validate the token with your backend
-          const userData = JSON.parse(storedUser)
-          setUser(userData)
-        }
-      } catch (error) {
-        console.error('Error initializing auth:', error)
-        // Clear invalid data
-        localStorage.removeItem('auth_user')
-        localStorage.removeItem('auth_token')
-      } finally {
-        setIsLoading(false)
+    try {
+      const storedUser = localStorage.getItem('auth_user')
+      const storedToken = localStorage.getItem('auth_token')
+      
+      if (storedUser && storedToken) {
+        const userData = JSON.parse(storedUser)
+        setUser(userData)
       }
+    } catch (error) {
+      console.error('Error initializing auth:', error)
+      localStorage.removeItem('auth_user')
+      localStorage.removeItem('auth_token')
     }
-
-    initializeAuth()
   }, [])
 
   // Redirect logic
@@ -100,8 +99,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (!user && !isPublicRoute) {
         // Redirect to login if not authenticated and trying to access protected route
         router.push('/login')
-      } else if (user && isPublicRoute) {
-        // Redirect to dashboard if authenticated and trying to access auth pages
+      } else if (user && isPublicRoute && !pathname.startsWith('/admin')) {
+        // Redirect to dashboard if authenticated and trying to access auth pages (but not admin)
         router.push('/')
       }
     }
@@ -149,7 +148,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     
     try {
       // Mock Google authentication
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      await new Promise(resolve => setTimeout(resolve, 500))
       
       // Create mock Google user
       const googleUser: User = {
@@ -163,6 +162,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('auth_token', 'mock_google_token_' + Date.now())
 
       setUser(googleUser)
+      setIsLoading(false) // Fix: Set loading to false after successful login
       router.push('/')
     } catch (error) {
       setIsLoading(false)
@@ -189,6 +189,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         username: userData.username,
         email: userData.email,
         phone: userData.phone,
+        studentName: userData.studentName,
+        parentName: userData.parentName,
+        school: userData.school,
         createdAt: new Date().toISOString()
       }
 
@@ -202,6 +205,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('auth_token', 'mock_signup_token_' + Date.now())
 
       setUser(newUser)
+      setIsLoading(false) // Fix: Set loading to false after successful signup
       router.push('/')
     } catch (error) {
       setIsLoading(false)

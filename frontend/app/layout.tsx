@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="light">
       <head>
         <style>{`
 html {
@@ -35,7 +35,7 @@ html {
 }
         `}</style>
       </head>
-      <body className="bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+      <body className="bg-gray-50 dark:bg-gray-900 transition-colors duration-200" suppressHydrationWarning={true}>
         <I18nProvider>
           <ThemeProvider>
             <AuthProvider>
@@ -53,6 +53,26 @@ html {
             </AuthProvider>
           </ThemeProvider>
         </I18nProvider>
+        
+        {/* Script to handle browser extension hydration issues */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Handle browser extension attributes that cause hydration warnings
+              if (typeof window !== 'undefined') {
+                // Remove Grammarly attributes that cause hydration issues
+                setTimeout(() => {
+                  const body = document.body;
+                  if (body) {
+                    body.removeAttribute('data-new-gr-c-s-check-loaded');
+                    body.removeAttribute('data-gr-ext-installed');
+                  }
+                }, 0);
+              }
+            `,
+          }}
+          suppressHydrationWarning={true}
+        />
       </body>
     </html>
   )

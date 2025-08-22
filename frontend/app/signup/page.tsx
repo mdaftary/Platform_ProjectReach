@@ -11,8 +11,8 @@ import { useAuth } from "@/contexts/auth-context"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
 
-type SignUpStep = 'method' | 'credentials' | 'complete'
-type SignUpMethod = 'email' | 'phone' | 'invitation'
+type SignUpStep = 'method' | 'details' | 'complete'
+type SignUpMethod = 'email' | 'phone' | 'manual'
 
 export default function SignUpPage() {
   const { t } = useTranslation()
@@ -20,10 +20,12 @@ export default function SignUpPage() {
   const [signUpMethod, setSignUpMethod] = useState<SignUpMethod>('email')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
-  const [invitationCode, setInvitationCode] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [studentName, setStudentName] = useState('')
+  const [parentName, setParentName] = useState('')
+  const [school, setSchool] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState('')
@@ -33,22 +35,30 @@ export default function SignUpPage() {
     e.preventDefault()
     setError('')
     
-    // Simple validation
-    const value = getMethodValue()
-    if (!value) {
+    // For email and phone, validate the input
+    if (signUpMethod === 'email' && !email) {
+      setError(t('signup.errorRequired'))
+      return
+    }
+    if (signUpMethod === 'phone' && !phone) {
       setError(t('signup.errorRequired'))
       return
     }
     
-    // Move to credentials step
-    setStep('credentials')
+    // Move to details step
+    setStep('details')
   }
 
-  const handleCredentialsSubmit = async (e: React.FormEvent) => {
+  const handleDetailsSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     
     // Validation
+    if (!username || !password || !studentName || !parentName || !school) {
+      setError(t('signup.errorAllFieldsRequired'))
+      return
+    }
+    
     if (password !== confirmPassword) {
       setError(t('signup.errorPasswordMismatch'))
       return
@@ -64,11 +74,13 @@ export default function SignUpPage() {
         method: signUpMethod,
         email: signUpMethod === 'email' ? email : undefined,
         phone: signUpMethod === 'phone' ? phone : undefined,
-        invitationCode: signUpMethod === 'invitation' ? invitationCode : undefined,
         username,
-        password
+        password,
+        studentName,
+        parentName,
+        school
       })
-      // Auth provider will handle redirect to dashboard
+      setStep('complete')
     } catch (error) {
       setError(error instanceof Error ? error.message : t('signup.errorSignupFailed'))
     }
@@ -91,8 +103,8 @@ export default function SignUpPage() {
         return email
       case 'phone':
         return phone
-      case 'invitation':
-        return invitationCode
+      case 'manual':
+        return 'manual-verification'
       default:
         return ''
     }
@@ -106,8 +118,8 @@ export default function SignUpPage() {
       case 'phone':
         setPhone(value)
         break
-      case 'invitation':
-        setInvitationCode(value)
+      case 'manual':
+        // No input needed for manual verification
         break
     }
   }
@@ -118,8 +130,8 @@ export default function SignUpPage() {
         return t('signup.emailAddress')
       case 'phone':
         return t('signup.phoneNumber')
-      case 'invitation':
-        return t('signup.invitationCode')
+      case 'manual':
+        return t('signup.manualVerification')
       default:
         return ''
     }
@@ -131,7 +143,7 @@ export default function SignUpPage() {
         return <Mail className="w-4 h-4 text-gray-500" />
       case 'phone':
         return <Phone className="w-4 h-4 text-gray-500" />
-      case 'invitation':
+      case 'manual':
         return <TicketCheck className="w-4 h-4 text-gray-500" />
       default:
         return null
@@ -151,12 +163,12 @@ export default function SignUpPage() {
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
               {step === 'method' && t('signup.titles.method')}
-              {step === 'credentials' && t('signup.titles.credentials')}
+              {step === 'details' && t('signup.titles.details')}
               {step === 'complete' && t('signup.titles.complete')}
             </h1>
             <p className="text-base text-gray-500 mt-1 font-medium">
               {step === 'method' && t('signup.subtitles.method')}
-              {step === 'credentials' && t('signup.subtitles.credentials')}
+              {step === 'details' && t('signup.subtitles.details')}
               {step === 'complete' && t('signup.subtitles.complete')}
             </p>
           </div>
@@ -193,12 +205,12 @@ export default function SignUpPage() {
                     </Button>
                     <Button
                       type="button"
-                      variant={signUpMethod === 'invitation' ? 'default' : 'outline'}
-                      onClick={() => setSignUpMethod('invitation')}
+                      variant={signUpMethod === 'manual' ? 'default' : 'outline'}
+                      onClick={() => setSignUpMethod('manual')}
                       className="flex items-center gap-3 text-sm font-medium rounded-xl py-3 justify-start"
                     >
                       <TicketCheck className="w-4 h-4" />
-                      {t('signup.invitationCode')}
+                      {t('signup.manualVerification')}
                     </Button>
                   </div>
                 </div>
@@ -213,44 +225,55 @@ export default function SignUpPage() {
                   </div>
                 )}
 
-                {/* Method Input */}
-                <form onSubmit={handleMethodSubmit} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="method-input" className="text-sm font-medium text-gray-900">
-                      {signUpMethod === 'email' ? t('signup.emailAddress') : 
-                       signUpMethod === 'phone' ? t('signup.phoneNumber') : t('signup.invitationCode')}
-                    </Label>
-                    <div className="relative">
-                      <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
-                        {getIconForMethod()}
+                {/* Method Input - Only show for email and phone */}
+                {signUpMethod !== 'manual' && (
+                  <form onSubmit={handleMethodSubmit} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="method-input" className="text-sm font-medium text-gray-900">
+                        {signUpMethod === 'email' ? t('signup.emailAddress') : t('signup.phoneNumber')}
+                      </Label>
+                      <div className="relative">
+                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                          {getIconForMethod()}
+                        </div>
+                        <Input
+                          id="method-input"
+                          type={signUpMethod === 'email' ? 'email' : 'tel'}
+                          value={getMethodValue()}
+                          onChange={(e) => setMethodValue(e.target.value)}
+                          placeholder={getPlaceholderText()}
+                          className="pl-10 rounded-xl"
+                          required
+                        />
                       </div>
-                      <Input
-                        id="method-input"
-                        type={signUpMethod === 'email' ? 'email' : signUpMethod === 'phone' ? 'tel' : 'text'}
-                        value={getMethodValue()}
-                        onChange={(e) => setMethodValue(e.target.value)}
-                        placeholder={getPlaceholderText()}
-                        className="pl-10 rounded-xl"
-                        required
-                      />
                     </div>
-                  </div>
 
+                    <Button
+                      type="submit"
+                      disabled={isLoading}
+                      className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold py-3"
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader className="w-4 h-4 mr-2 animate-spin" />
+                          {t('signup.verifying')}
+                        </>
+                      ) : (
+                        t('signup.continue')
+                      )}
+                    </Button>
+                  </form>
+                )}
+
+                {/* Manual verification - direct continue */}
+                {signUpMethod === 'manual' && (
                   <Button
-                    type="submit"
-                    disabled={isLoading}
+                    onClick={() => setStep('details')}
                     className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold py-3"
                   >
-                    {isLoading ? (
-                      <>
-                        <Loader className="w-4 h-4 mr-2 animate-spin" />
-                        {t('signup.verifying')}
-                      </>
-                    ) : (
-                      t('signup.continue')
-                    )}
+                    {t('signup.continue')}
                   </Button>
-                </form>
+                )}
 
                 {/* Divider */}
                 <div className="relative">
@@ -298,8 +321,8 @@ export default function SignUpPage() {
               </>
             )}
 
-            {/* Step 2: Username and Password Setup */}
-            {step === 'credentials' && (
+            {/* Step 2: Account Details */}
+            {step === 'details' && (
               <>
                 {/* Back button */}
                 <div className="flex items-center gap-3">
@@ -314,7 +337,7 @@ export default function SignUpPage() {
                   </Button>
                   <div className="text-sm text-gray-500">
                     {signUpMethod === 'email' ? email : 
-                     signUpMethod === 'phone' ? phone : t('signup.viaInvitation')}
+                     signUpMethod === 'phone' ? phone : t('signup.manualVerification')}
                   </div>
                 </div>
 
@@ -328,7 +351,7 @@ export default function SignUpPage() {
                   </div>
                 )}
 
-                <form onSubmit={handleCredentialsSubmit} className="space-y-4">
+                <form onSubmit={handleDetailsSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="username" className="text-sm font-medium text-gray-900">
                       {t('signup.username')}
@@ -342,7 +365,7 @@ export default function SignUpPage() {
                         type="text"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        placeholder={t('signup.username')}
+                        placeholder={t('signup.usernamePlaceholder')}
                         className="pl-10 rounded-xl"
                         required
                       />
@@ -395,6 +418,51 @@ export default function SignUpPage() {
                         {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="student-name" className="text-sm font-medium text-gray-900">
+                      {t('signup.studentName')}
+                    </Label>
+                    <Input
+                      id="student-name"
+                      type="text"
+                      value={studentName}
+                      onChange={(e) => setStudentName(e.target.value)}
+                      placeholder={t('signup.studentNamePlaceholder')}
+                      className="rounded-xl"
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="parent-name" className="text-sm font-medium text-gray-900">
+                      {t('signup.parentName')}
+                    </Label>
+                    <Input
+                      id="parent-name"
+                      type="text"
+                      value={parentName}
+                      onChange={(e) => setParentName(e.target.value)}
+                      placeholder={t('signup.parentNamePlaceholder')}
+                      className="rounded-xl"
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="school" className="text-sm font-medium text-gray-900">
+                      {t('signup.school')}
+                    </Label>
+                    <Input
+                      id="school"
+                      type="text"
+                      value={school}
+                      onChange={(e) => setSchool(e.target.value)}
+                      placeholder={t('signup.schoolPlaceholder')}
+                      className="rounded-xl"
+                      required
+                    />
                   </div>
 
                   <Button
