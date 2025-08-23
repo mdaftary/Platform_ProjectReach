@@ -140,7 +140,7 @@ export default function SettingsPage() {
                 checked={isLarge} 
                 onCheckedChange={toggle} 
                 aria-label="Toggle large text"
-                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-green-500" 
+                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-primary" 
               />
             </div>
             
@@ -157,7 +157,7 @@ export default function SettingsPage() {
                 checked={highContrast} 
                 onCheckedChange={setHighContrast} 
                 aria-label="Toggle high contrast mode"
-                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-green-500" 
+                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-primary" 
               />
             </div>
             
@@ -174,7 +174,7 @@ export default function SettingsPage() {
                 checked={reducedMotion} 
                 onCheckedChange={setReducedMotion} 
                 aria-label="Toggle reduced motion"
-                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-green-500" 
+                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-primary" 
               />
             </div>
             
@@ -191,7 +191,7 @@ export default function SettingsPage() {
                 checked={soundEnabled} 
                 onCheckedChange={setSoundEnabled} 
                 aria-label="Toggle sound effects"
-                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-green-500" 
+                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-primary" 
               />
             </div>
             
@@ -208,7 +208,7 @@ export default function SettingsPage() {
                 checked={focusIndicators} 
                 onCheckedChange={setFocusIndicators} 
                 aria-label="Toggle enhanced focus indicators"
-                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-green-500" 
+                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-primary" 
               />
             </div>
             
@@ -222,7 +222,7 @@ export default function SettingsPage() {
                 checked={screenReaderMode} 
                 onCheckedChange={setScreenReaderMode} 
                 aria-label="Toggle screen reader mode"
-                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-green-500" 
+                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-primary" 
               />
             </div>
             
@@ -290,7 +290,7 @@ export default function SettingsPage() {
               </div>
               <Switch 
                 defaultChecked 
-                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-green-500" 
+                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-primary" 
               />
             </div>
             <div className="flex items-center justify-between">
@@ -300,7 +300,7 @@ export default function SettingsPage() {
               </div>
               <Switch 
                 defaultChecked 
-                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-green-500" 
+                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-primary" 
               />
             </div>
             <div className="flex items-center justify-between">
@@ -310,7 +310,7 @@ export default function SettingsPage() {
               </div>
               <Switch 
                 defaultChecked 
-                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-green-500" 
+                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-primary" 
               />
             </div>
           </CardContent>
@@ -330,7 +330,7 @@ export default function SettingsPage() {
                 <p className="font-medium text-gray-900">{t('settings.anonymousMode')}</p>
                 <p className="text-sm text-gray-500">{t('settings.anonymousModeDesc')}</p>
               </div>
-              <Switch className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-green-500" />
+              <Switch className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-primary" />
             </div>
             <Button variant="outline" className="w-full bg-transparent">
               {t('settings.changePassword')}

@@ -178,7 +178,7 @@ export default function VolunteerPage() {
                     {/* Action Buttons: call & video next to message */}
                     <div className="flex gap-2">
                       <Button 
-                        className="flex-1 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium"
+                        className="flex-1 bg-primary hover:bg-primary/90 text-white rounded-lg font-medium"
                         disabled={!volunteer.isOnline}
                       >
                         <MessageCircle className="w-4 h-4 mr-2 stroke-2" />

@@ -118,7 +118,7 @@
     "progressSnapshot": "Progress Snapshot",
     "daysStreak": "Days Streak",
     "activityHours": "Activity Hours",
-    "starsEarned": "Stars Earned",
+    "starsEarned": "Points Earned",
     "modalUploadWorksheet": "Upload Worksheet",
     "uploading": "Uploading...",
     "processingWorksheet": "Processing your worksheet",
@@ -695,7 +695,7 @@
       "title": "Available Volunteers",
       "answers": "answers",
       "hoursContributed": "{{hours}} hours contributed",
-      "answerQuestions": "Answer Questions",
+      "answerQuestions": "Request Help",
       "offline": "Offline"
     },
     "recent": {

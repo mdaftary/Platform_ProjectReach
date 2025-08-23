@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Trophy, TrendingUp, Star, Medal, EyeOff, Eye, Flame, Clock } from "lucide-react"
+import { Trophy, TrendingUp, Star, Medal, EyeOff, Eye, Flame, Clock, ArrowRight } from "lucide-react"
 import { useFontSize } from "@/app/font-size-provider"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
@@ -71,42 +71,70 @@ export default function LeaderboardPage() {
         {/* Removed top header per request */}
 
         {/* Personal Stats */}
-        <div className={`flex ${isLarge ? 'flex-col gap-3' : 'justify-between items-center gap-4'} mb-6`}>
-          <div className="duolingo-gradient-light rounded-2xl p-4 shadow-sm flex-1">
-            <div className={`flex ${isLarge ? 'flex-row items-center gap-4' : 'flex-col items-center gap-2 text-center'}`}>
-              <div className={`${isLarge ? 'w-12 h-12' : 'w-10 h-10'} rounded-full duolingo-gradient-primary flex items-center justify-center shadow`}>
-                <Flame className={`${isLarge ? 'w-6 h-6' : 'w-5 h-5'} text-white`} />
+        <div className={`flex ${isLarge ? 'flex-col gap-3' : 'justify-between items-stretch gap-4'} mb-4`}>
+          <Card className="bg-white border border-gray-200 shadow-sm flex-1">
+            <CardContent className="p-4">
+              <div className={`flex ${isLarge ? 'flex-row items-center gap-4' : 'flex-col items-center gap-2 text-center'}`}>
+                <div className={`${isLarge ? 'w-12 h-12' : 'w-10 h-10'} rounded-full bg-green-100 flex items-center justify-center`}>
+                  <Flame className={`${isLarge ? 'w-6 h-6' : 'w-5 h-5'} text-primary`} />
+                </div>
+                <div className={`${isLarge ? 'flex-1' : ''}`}>
+                  <div className={`${isLarge ? 'text-3xl' : 'text-2xl'} font-extrabold text-gray-900 tabular-nums`}>12</div>
+                  <div className={`${isLarge ? 'text-sm' : 'text-xs'} text-gray-700 mt-0.5`}>{t('home.daysStreak')}</div>
+                </div>
               </div>
-              <div className={`${isLarge ? 'flex-1' : ''}`}>
-                <div className={`${isLarge ? 'text-3xl' : 'text-2xl'} font-extrabold text-gray-900 tabular-nums`}>12</div>
-                <div className={`${isLarge ? 'text-sm' : 'text-xs'} text-gray-700 mt-0.5`}>{t('home.daysStreak')}</div>
-              </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
 
-          <div className="duolingo-gradient-light rounded-2xl p-4 shadow-sm flex-1">
-            <div className={`flex ${isLarge ? 'flex-row items-center gap-4' : 'flex-col items-center gap-2 text-center'}`}>
-              <div className={`${isLarge ? 'w-12 h-12' : 'w-10 h-10'} rounded-full duolingo-gradient-success flex items-center justify-center shadow`}>
-                <Clock className={`${isLarge ? 'w-6 h-6' : 'w-5 h-5'} text-white`} />
+          <Card className="bg-white border border-gray-200 shadow-sm flex-1">
+            <CardContent className="p-4">
+              <div className={`flex ${isLarge ? 'flex-row items-center gap-4' : 'flex-col items-center gap-2 text-center'}`}>
+                <div className={`${isLarge ? 'w-12 h-12' : 'w-10 h-10'} rounded-full bg-green-100 flex items-center justify-center`}>
+                  <Clock className={`${isLarge ? 'w-6 h-6' : 'w-5 h-5'} text-primary`} />
+                </div>
+                <div className={`${isLarge ? 'flex-1' : ''}`}>
+                  <div className={`${isLarge ? 'text-3xl' : 'text-2xl'} font-extrabold text-gray-900 tabular-nums`}>2.5h</div>
+                  <div className={`${isLarge ? 'text-sm' : 'text-xs'} text-gray-700 mt-0.5`}>{t('home.activityHours')}</div>
+                </div>
               </div>
-              <div className={`${isLarge ? 'flex-1' : ''}`}>
-                <div className={`${isLarge ? 'text-3xl' : 'text-2xl'} font-extrabold text-gray-900 tabular-nums`}>2.5h</div>
-                <div className={`${isLarge ? 'text-sm' : 'text-xs'} text-gray-700 mt-0.5`}>{t('home.activityHours')}</div>
-              </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
 
-          <div className="duolingo-gradient-light rounded-2xl p-4 shadow-sm flex-1">
-            <div className={`flex ${isLarge ? 'flex-row items-center gap-4' : 'flex-col items-center gap-2 text-center'}`}>
-              <div className={`${isLarge ? 'w-12 h-12' : 'w-10 h-10'} rounded-full duolingo-gradient-primary flex items-center justify-center shadow`}>
-                <Star className={`${isLarge ? 'w-6 h-6' : 'w-5 h-5'} text-white`} />
+          <Card className="bg-white border border-gray-200 shadow-sm flex-1">
+            <CardContent className="p-4">
+              <div className={`flex ${isLarge ? 'flex-row items-center gap-4' : 'flex-col items-center gap-2 text-center'}`}>
+                <div className={`${isLarge ? 'w-12 h-12' : 'w-10 h-10'} rounded-full bg-green-100 flex items-center justify-center`}>
+                  <Star className={`${isLarge ? 'w-6 h-6' : 'w-5 h-5'} text-primary`} />
+                </div>
+                <div className={`${isLarge ? 'flex-1' : ''}`}>
+                  <div className={`${isLarge ? 'text-3xl' : 'text-2xl'} font-extrabold text-gray-900 tabular-nums`}>847</div>
+                  <div className={`${isLarge ? 'text-sm' : 'text-xs'} text-gray-700 mt-0.5`}>{t('home.starsEarned')}</div>
+                </div>
               </div>
-              <div className={`${isLarge ? 'flex-1' : ''}`}>
-                <div className={`${isLarge ? 'text-3xl' : 'text-2xl'} font-extrabold text-gray-900 tabular-nums`}>847</div>
-                <div className={`${isLarge ? 'text-sm' : 'text-xs'} text-gray-700 mt-0.5`}>{t('home.starsEarned')}</div>
+            </CardContent>
+          </Card>
+        </div>
+        {/* Redeem Points - styled like AI Insights card */}
+        <div className="mb-6">
+          <Card className="bg-white border border-gray-200 shadow-sm">
+            <CardContent className="p-5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 bg-green-100 rounded-full flex items-center justify-center">
+                    <Star className="w-5 h-5 text-primary stroke-2" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-900 font-medium">Redeem Points</p>
+                    <p className="text-xs text-gray-600">Use your points for rewards</p>
+                  </div>
+                </div>
+                <Button className="bg-primary hover:bg-primary/90 text-white border-0 rounded-xl font-semibold shadow-sm">
+                  <ArrowRight className="w-4 h-4 mr-2 stroke-2" />
+                  Redeem
+                </Button>
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
         {optedOut && (
           <Card className="duolingo-card border-0 shadow-lg">

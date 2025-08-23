@@ -142,9 +142,9 @@ export default function ProgressPage() {
         {/* Five-Dimension Radar Chart */}
         {!isLarge && (
         <>
-          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 text-center`}>{t('progress.radar.title')}</h2>
+          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>{t('progress.radar.title')}</h2>
           <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-lg">
-          <CardContent className="p-6">
+          <CardContent className="p-4">
         <div className="space-y-6">
               
               <div className="flex justify-center w-full">
@@ -219,7 +219,7 @@ export default function ProgressPage() {
                   {/* Current progress polygon - Duolingo green */}
                   <path
                     d={currentPathData}
-                    fill="rgba(34, 197, 94, 0.08)"
+                    fill="rgba(34, 197, 94, 0.10)"
                     stroke="#22c55e"
                     strokeWidth="2.5"
                     filter="url(#chartShadow)"
@@ -279,7 +279,7 @@ export default function ProgressPage() {
                           x={pos.x}
                           y={pos.percentY}
                           textAnchor={pos.anchor}
-                          className="fill-green-600 select-none"
+                          className="fill-green-500 select-none"
                           style={{ 
                             fontSize: '10px', 
                             fontWeight: '700',
@@ -355,7 +355,7 @@ export default function ProgressPage() {
                           isNeedsFocus ? 'bg-orange-100' : 'bg-green-100'
                         }`}>
                           <skill.icon className={`w-4 h-4 stroke-2 ${
-                            isNeedsFocus ? 'text-orange-600' : 'text-green-600'
+                            isNeedsFocus ? 'text-orange-600' : 'text-green-500'
                           }`} />
                         </div>
                       )}
@@ -373,13 +373,13 @@ export default function ProgressPage() {
                             )}
                           </div>
                           <span className={`font-bold tabular-nums ${
-                            isNeedsFocus ? 'text-orange-600' : 'text-green-600'
+                            isNeedsFocus ? 'text-orange-600' : 'text-green-500'
                           }`}>{skill.progress}%</span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
                           <div
                             className={`h-2 rounded-full transition-all duration-500 ${
-                              isNeedsFocus ? 'bg-orange-500' : 'bg-green-500'
+                              isNeedsFocus ? 'bg-orange-500' : 'bg-primary'
                             }`}
                             style={{ width: `${skill.progress}%` }}
                           />
@@ -390,7 +390,7 @@ export default function ProgressPage() {
                         <div className="mt-2 text-xs text-gray-500">
                           {t(`progress.skills.goalLabel`)} {skill.Goal}% • 
                           {skill.progress >= skill.Goal ? (
-                            <span className="text-green-600 font-medium">{t('progress.skills.aboveGoal')}</span>
+                            <span className="text-primary font-medium">{t('progress.skills.aboveGoal')}</span>
                           ) : (
                             <span className="text-gray-600 font-medium">{t('progress.skills.onTrack', { remaining: skill.Goal - skill.progress })}</span>
                           )}
@@ -411,7 +411,7 @@ export default function ProgressPage() {
         <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
           <CardContent className="p-5">
         <div className="space-y-4">
-          { !isLarge && <TrendingUp className="w-5 h-5 text-green-600 stroke-2" />}
+          { !isLarge && <TrendingUp className="w-5 h-5 text-green-500 stroke-2" />}
 
               <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
@@ -434,7 +434,7 @@ export default function ProgressPage() {
                       stroke="#22c55e"
                   strokeWidth="3"
                       dot={{ fill: "#22c55e", strokeWidth: 0, r: 5 }}
-                      activeDot={{ r: 7, fill: "#16a34a" }}
+                      activeDot={{ r: 7, fill: "#22c55e" }}
                 />
               </LineChart>
             </ResponsiveContainer>

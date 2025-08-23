@@ -31,14 +31,14 @@ export function MobileNavigation() {
               className={cn(
                 "flex flex-col items-center gap-1 p-2 transition-all duration-200 min-w-[60px]",
                 isActive 
-                  ? "text-green-600" 
+                  ? "text-primary" 
                   : "text-gray-500 hover:text-gray-700",
               )}
             >
               <item.icon className="w-5 h-5" strokeWidth={isActive ? 2.5 : 2} />
               <span className={cn(
                 "text-xs font-medium",
-                isActive ? "text-green-600" : "text-gray-500"
+                isActive ? "text-primary" : "text-gray-500"
               )}>
                 {t(`components.${item.label}`)}
               </span>

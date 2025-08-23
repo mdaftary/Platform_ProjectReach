@@ -239,7 +239,7 @@ export default function HomePage() {
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
                   <div className="w-9 h-9 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-                    <Eye className="w-5 h-5 text-green-600 stroke-2" />
+                    <Eye className="w-5 h-5 text-primary stroke-2" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-gray-900 leading-relaxed">
@@ -265,7 +265,7 @@ export default function HomePage() {
                     <div className="flex items-start gap-3">
                       {!isLarge && (
                         <div className="w-10 h-10 bg-green-100 rounded-2xl flex items-center justify-center flex-shrink-0">
-                          <rec.icon className="w-5 h-5 stroke-2 text-green-600" />
+                          <rec.icon className="w-5 h-5 stroke-2 text-primary" />
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
@@ -288,15 +288,15 @@ export default function HomePage() {
                               </span>
                             </div>
                           </div>
+                          <Button 
+                            size="sm" 
+                            className="bg-primary hover:bg-primary/90 text-white px-4 py-2 font-semibold text-sm rounded-xl border-0 shadow-sm transition-all ml-3"
+                          >
+                            <Play className="w-4 h-4 mr-1.5 stroke-2" />
+                            {t('progress.ai.startPractice')}
+                          </Button>
                         </div>
-                        <p className="text-sm text-gray-600 leading-relaxed mb-3">{t(`progress.ai.recs.${index}.description`, { defaultValue: rec.description })}</p>
-                        <Button 
-                          size="sm" 
-                          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 font-semibold text-sm rounded-xl border-0 shadow-sm transition-all"
-                        >
-                          <Play className="w-4 h-4 mr-1.5 stroke-2" />
-                          {t('progress.ai.startPractice')}
-                        </Button>
+                        <p className="text-sm text-gray-600 leading-relaxed">{t(`progress.ai.recs.${index}.description`, { defaultValue: rec.description })}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -465,7 +465,7 @@ export default function HomePage() {
                           <h4 className="font-semibold text-gray-900 mb-3">{t('home.suggestedNextSteps')}</h4>
                           
                           <div className="space-y-3">
-                            <Button className="w-full bg-green-500 hover:bg-green-600 text-white border-0 rounded-xl font-semibold">
+                            <Button className="w-full bg-primary hover:bg-primary/90 text-white border-0 rounded-xl font-semibold">
                               <ArrowRight className="w-4 h-4 mr-2 stroke-2" />
                               {t('home.viewRecommendedPractice')}
                             </Button>

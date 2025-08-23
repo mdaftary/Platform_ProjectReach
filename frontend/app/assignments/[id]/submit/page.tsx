@@ -87,9 +87,9 @@ export default function SubmitAssignmentPage({ params }: { params: Promise<{ id:
   const getFileIcon = (type: string) => {
     switch (type) {
       case "image":
-        return <Camera className="w-4 h-4 text-green-500" />
+        return <Camera className="w-4 h-4 text-primary" />
       case "video":
-        return <Video className="w-4 h-4 text-green-500" />
+        return <Video className="w-4 h-4 text-primary" />
       case "document":
         return <FileText className="w-4 h-4 text-red-500" />
       default:
@@ -245,19 +245,19 @@ export default function SubmitAssignmentPage({ params }: { params: Promise<{ id:
                 </CardHeader>
                 <CardContent className="space-y-3 text-sm">
                   <div className="flex items-start space-x-2">
-                    <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                     <p>{t('assignments.submit.guidelines.clearMedia')}</p>
                   </div>
                   <div className="flex items-start space-x-2">
-                    <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                     <p>{t('assignments.submit.guidelines.readableText')}</p>
                   </div>
                   <div className="flex items-start space-x-2">
-                    <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                     <p>{t("assignments.submit.guidelines.includeName")}</p>
                   </div>
                   <div className="flex items-start space-x-2">
-                    <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                     <p>{t('assignments.submit.guidelines.beforeDue')}</p>
                   </div>
                 </CardContent>
