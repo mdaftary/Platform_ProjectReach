@@ -189,7 +189,7 @@ export default function LoginPage() {
               </div>
 
               <div className="flex justify-end">
-                <Link href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                <Link href="/forgot-password" className="text-sm text-green-600 hover:text-green-700 font-medium">
                   {t('login.forgotPassword')}
                 </Link>
               </div>
@@ -197,7 +197,7 @@ export default function LoginPage() {
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold py-3"
+                className="w-full bg-green-500 hover:bg-green-600 text-white border-0 rounded-xl font-semibold py-3"
               >
                 {isLoading ? (
                   <>
@@ -249,7 +249,7 @@ export default function LoginPage() {
             {/* Sign Up Link */}
             <div className="text-center text-sm">
               <span className="text-gray-500">{t('login.signupPrompt')}</span>
-              <Link href="/signup" className="text-blue-600 hover:text-blue-700 font-semibold">
+              <Link href="/signup" className="text-green-600 hover:text-green-700 font-semibold">
                 {t('login.signupLink')}
               </Link>
             </div>

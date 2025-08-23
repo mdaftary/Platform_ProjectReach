@@ -66,17 +66,9 @@ export default function LeaderboardPage() {
   return (
     <div className={`min-h-screen bg-background ${isLarge ? 'min-text-lg text-lg' : ''}`}>
       <div className="max-w-md mx-auto px-4 py-6 space-y-6">
-        {/* User Badge - Center Top */}
-        <div className="flex justify-center mb-6">
-          <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto shadow-lg">
-            <span className="text-lg font-bold text-white">{optedOut ? "?" : "#12"}</span>
-          </div>
-        </div>
+        {/* Removed user badge per request */}
 
-        {/* Welcome Section */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">{t('leaderboard.title')}</h1>
-        </div>
+        {/* Removed top header per request */}
 
         {/* Personal Stats */}
         <div className={`flex ${isLarge ? 'flex-col gap-3' : 'justify-between items-center gap-4'} mb-6`}>
@@ -179,9 +171,10 @@ export default function LeaderboardPage() {
               </div>
             </Card>
 
+            <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>{t('leaderboard.overall.topPerformers')}</h2>
             <Card className="duolingo-card border-0 shadow-lg">
               <CardHeader>
-                <CardTitle className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>{t('leaderboard.overall.topPerformers')}</CardTitle>
+                {/* header moved outside */}
               </CardHeader>
               <CardContent className="space-y-3">
                 {leaderboardData.map((user) => (
@@ -230,9 +223,10 @@ export default function LeaderboardPage() {
               </div>
             </Card>
 
+            <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>{t('leaderboard.improved.title')}</h2>
             <Card className="duolingo-card border-0 shadow-lg">
               <CardHeader>
-                <CardTitle className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>{t('leaderboard.improved.title')}</CardTitle>
+                {/* header moved outside */}
               </CardHeader>
               <CardContent className="space-y-3">
                 {mostImprovedData.map((user) => (
@@ -259,9 +253,11 @@ export default function LeaderboardPage() {
 
         {/* Point System Info */}
         {!optedOut && (
+        <>
+        <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>{t('leaderboard.pointsInfo.title')}</h2>
         <Card className="duolingo-card border-0 shadow-lg">
           <CardHeader>
-            <CardTitle className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>{t('leaderboard.pointsInfo.title')}</CardTitle>
+            {/* header moved outside */}
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex justify-between items-center p-3 bg-muted/30 rounded-xl">
@@ -282,6 +278,7 @@ export default function LeaderboardPage() {
             </div>
           </CardContent>
         </Card>
+        </>
         )}
 
         {/* Opt-out / Opt-in Control */}

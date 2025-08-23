@@ -186,7 +186,7 @@ export default function HomePage() {
             <CardContent className="p-0">
               <div className="divide-y divide-gray-100">
                 {sortedWeeklyTasks.map((task, index) => (
-                  <div key={task.id} className={`p-4 flex gap-4 ${task.isPrimary && !task.completed ? 'bg-blue-50/50' : ''} ${isLarge ? "flex-col" : ""}`}>
+                  <div key={task.id} className={`p-4 flex gap-4 ${task.isPrimary && !task.completed ? 'bg-green-50/50' : ''} ${isLarge ? "flex-col" : ""}`}>
                     { !isLarge && (
                       <div className="flex-shrink-0 flex items-center justify-center">
                         {task.completed ? (
@@ -210,7 +210,7 @@ export default function HomePage() {
                       <Button 
                         size="sm" 
                         onClick={handleUploadClick}
-                        className="bg-blue-500 hover:bg-blue-600 text-white border-0 px-4 py-2 text-sm font-semibold rounded-xl shadow-sm"
+                        className="bg-green-500 hover:bg-green-600 text-white border-0 px-4 py-2 text-sm font-semibold rounded-xl shadow-sm"
                       >
                         <task.icon className="w-4 h-4 mr-2" />
                         {t('home.upload')}
@@ -238,8 +238,8 @@ export default function HomePage() {
             <CardContent className="p-5">
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-                    <Eye className="w-5 h-5 text-blue-600 stroke-2" />
+                  <div className="w-9 h-9 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                    <Eye className="w-5 h-5 text-green-600 stroke-2" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-gray-900 leading-relaxed">
@@ -334,8 +334,8 @@ export default function HomePage() {
               {/* Upload State: Uploading */}
               {uploadState === 'uploading' && (
                                   <div className="text-center space-y-4">
-                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                      <Loader className="w-8 h-8 text-blue-600 animate-spin stroke-2" />
+                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                      <Loader className="w-8 h-8 text-green-600 animate-spin stroke-2" />
                     </div>
                   <div>
                     <p className="text-lg font-semibold text-gray-900">{t('home.uploading')}</p>
@@ -374,8 +374,8 @@ export default function HomePage() {
 
                   {/* OCR Processing */}
                   <div className="text-center space-y-4">
-                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                      <Loader className="w-6 h-6 text-blue-600 animate-spin stroke-2" />
+                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                      <Loader className="w-6 h-6 text-green-600 animate-spin stroke-2" />
                     </div>
                     <div>
                       <p className="font-semibold text-gray-900">{t('home.analyzing')}</p>
@@ -402,23 +402,24 @@ export default function HomePage() {
                   </div>
 
                   {/* Progress Bump */}
-                  <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4">
+                  <div className="bg-green-50 border border-green-200 rounded-2xl p-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                         <ArrowRight className="w-4 h-4 text-white stroke-2" />
                       </div>
                       <div>
-                        <p className="font-semibold text-blue-900">{t('home.progressUpdated')}</p>
-                        <p className="text-sm text-blue-700">{t('home.progressDelta')}</p>
+                        <p className="font-semibold text-green-900">{t('home.progressUpdated')}</p>
+                        <p className="text-sm text-green-700">{t('home.progressDelta')}</p>
                       </div>
                     </div>
                   </div>
 
-                  {/* AI Feedback Card */}
-                  <Card className="bg-white border border-gray-200 shadow-sm">
-                    <CardContent className="p-5">
-                      <div className="space-y-5">
-                        <h3 className="text-lg font-bold text-gray-900">{t('home.aiFeedback')}</h3>
+                  {/* AI Feedback Section */}
+                  <div className="space-y-3">
+                    <h3 className="text-lg font-bold text-gray-900">{t('home.aiFeedback')}</h3>
+                    <Card className="bg-white border border-gray-200 shadow-sm">
+                      <CardContent className="p-5">
+                        <div className="space-y-5">
                         
                         {/* What Went Well Section */}
                         <div className="space-y-3">
@@ -449,10 +450,10 @@ export default function HomePage() {
                         {/* General Notes Section */}
                         <div className="space-y-3">
                           <div className="flex items-center gap-2">
-                            <Eye className="w-4 h-4 text-blue-600 stroke-2" />
-                            <h4 className="text-sm font-semibold text-blue-800">{t('home.generalNotes')}</h4>
+                            <Eye className="w-4 h-4 text-green-600 stroke-2" />
+                            <h4 className="text-sm font-semibold text-green-800">{t('home.generalNotes')}</h4>
                           </div>
-                          <div className="bg-blue-50/50 rounded-xl p-3">
+                          <div className="bg-green-50/50 rounded-xl p-3">
                             <p className="text-sm text-gray-900 leading-relaxed">
                               Good tracing, but spacing between <span className="font-semibold">"p"</span> and <span className="font-semibold">"a"</span> in "panda" needs work.
                             </p>
@@ -464,7 +465,7 @@ export default function HomePage() {
                           <h4 className="font-semibold text-gray-900 mb-3">{t('home.suggestedNextSteps')}</h4>
                           
                           <div className="space-y-3">
-                            <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold">
+                            <Button className="w-full bg-green-500 hover:bg-green-600 text-white border-0 rounded-xl font-semibold">
                               <ArrowRight className="w-4 h-4 mr-2 stroke-2" />
                               {t('home.viewRecommendedPractice')}
                             </Button>
@@ -478,6 +479,7 @@ export default function HomePage() {
                       </div>
                     </CardContent>
                   </Card>
+                </div>
 
                   {/* Close Button */}
                   <Button 

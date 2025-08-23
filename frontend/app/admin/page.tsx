@@ -511,7 +511,7 @@ export default function AdminDashboard() {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground">{t('admin.dashboard.assignments.aiPreGraded')}</span>
-                    <span className="font-bold text-blue-600">12</span>
+                    <span className="font-bold text-green-600">12</span>
                   </div>
                 </CardContent>
               </Card>
@@ -652,9 +652,9 @@ export default function AdminDashboard() {
                     <p className="text-sm font-medium text-orange-800">{t('admin.dashboard.reports.attentionNeeded')}</p>
                     <p className="text-sm text-orange-700">{t('admin.dashboard.reports.attentionNeededDesc')}</p>
                   </div>
-                  <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                    <p className="text-sm font-medium text-blue-800">{t('admin.dashboard.reports.opportunity')}</p>
-                    <p className="text-sm text-blue-700">{t('admin.dashboard.reports.opportunityDesc')}</p>
+                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <p className="text-sm font-medium text-green-800">{t('admin.dashboard.reports.opportunity')}</p>
+                    <p className="text-sm text-green-700">{t('admin.dashboard.reports.opportunityDesc')}</p>
                   </div>
                 </CardContent>
               </Card>

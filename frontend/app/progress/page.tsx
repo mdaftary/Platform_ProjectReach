@@ -135,24 +135,17 @@ export default function ProgressPage() {
   return (
     <div className={`min-h-screen bg-gray-50 ${isLarge ? 'min-text-lg text-lg' : ''}`}>
       <div className="max-w-md mx-auto px-6 py-6 space-y-6">
-        {/* Header with top icon circle (match leaderboard style) */}
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 rounded-full bg-green-500 flex items-center justify-center shadow">
-              <Smile className="w-8 h-8 text-white" />
-            </div>
-          </div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">{t('progress.header.title')}</h1>
-        </div>
+        {/* Removed top header per request */}
         {/* Removed separate top icon card to keep only header circle */}
 
 
         {/* Five-Dimension Radar Chart */}
         {!isLarge && (
-        <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-lg">
+        <>
+          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 text-center`}>{t('progress.radar.title')}</h2>
+          <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-lg">
           <CardContent className="p-6">
         <div className="space-y-6">
-              <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 text-center`}>{t('progress.radar.title')}</h2>
               
               <div className="flex justify-center w-full">
                 <svg width="100%" height="280" viewBox="0 0 360 280" className="max-w-sm mx-auto">
@@ -336,6 +329,7 @@ export default function ProgressPage() {
             </div>
           </CardContent>
         </Card>
+        </>
         )}
 
         {/* Skills Breakdown */}
@@ -413,13 +407,11 @@ export default function ProgressPage() {
         {/* (AI Personalized Practices removed from Progress page) */}
 
         {/* Progress Over Time */}
+        <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>{t('progress.trend.title')}</h2>
         <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
           <CardContent className="p-5">
         <div className="space-y-4">
-          <div className="flex items-center gap-2">
-                { !isLarge && <TrendingUp className="w-5 h-5 text-green-600 stroke-2" />}
-                <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 text-center`}>{t('progress.trend.title')}</h2>
-          </div>
+          { !isLarge && <TrendingUp className="w-5 h-5 text-green-600 stroke-2" />}
 
               <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
@@ -455,7 +447,7 @@ export default function ProgressPage() {
                   <span>{t('progress.trend.milestone1')}</span>
           </div>
                 <div className="flex items-center gap-2 text-xs text-gray-500">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                   <span>{t('progress.trend.milestone2')}</span>
                 </div>
               </div>

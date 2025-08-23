@@ -89,7 +89,7 @@ export default function SubmitAssignmentPage({ params }: { params: Promise<{ id:
       case "image":
         return <Camera className="w-4 h-4 text-green-500" />
       case "video":
-        return <Video className="w-4 h-4 text-blue-500" />
+        return <Video className="w-4 h-4 text-green-500" />
       case "document":
         return <FileText className="w-4 h-4 text-red-500" />
       default:
