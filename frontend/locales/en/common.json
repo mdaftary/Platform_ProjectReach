@@ -417,7 +417,8 @@
       "volunteer": "Volunteer",
       "volunteerLeaderboard": "Leaderboard",
       "qna": "Q&A",
-      "liveTutoring": "Live Tutoring"
+      "liveTutoring": "Live Tutoring",
+      "grading": "Grading"
     },
     "routeGuard": {
       "loading": "Loading...",

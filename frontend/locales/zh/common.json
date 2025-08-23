@@ -226,7 +226,8 @@
       "volunteerLeaderboard": "排行榜",
       "volunteer": "義工",
       "qna": "問答",
-      "liveTutoring": "實時輔導"
+      "liveTutoring": "實時輔導",
+      "grading": "評分"
     },
     "routeGuard": {
       "loading": "載入中...",
@@ -582,7 +583,7 @@
     "values": {
       "avgSessionTime": "24.5 min",
       "completionRate": "87.3%",
-      "returnRate": "92.1%",
+      "returnRate": "92.1%",    
       "mostDifficultSubject": "常見字",
       "fastestImprovementSubject": "字母",
       "peakLearningTime": "2:00 PM",

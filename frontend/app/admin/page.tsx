@@ -129,7 +129,7 @@ export default function AdminDashboard() {
       {/* Header */}
       <header className="">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between flex-wrap">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
                 <div className="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center">
@@ -142,12 +142,6 @@ export default function AdminDashboard() {
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <Link href="/admin/grading">
-                <Button variant="default" size="sm">
-                  <FileText className="w-4 h-4 mr-2" />
-                  {t('admin.grading.title')}
-                </Button>
-              </Link>
               <Button variant="outline" size="sm">
                 <Download className="w-4 h-4 mr-2" />
                 {t('admin.exportData')}
