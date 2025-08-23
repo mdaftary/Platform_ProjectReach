@@ -305,9 +305,9 @@
       "progress": "Progress",
       "community": "Community",
       "help": "Help",
-      "leaderboard": "Leaderboard"
-      "volunteer": "Volunteer",
       "leaderboard": "Leaderboard",
+      "volunteer": "Volunteer",
+      "volunteerLeaderboard": "Leaderboard",
       "qna": "Q&A",
       "liveTutoring": "Live Tutoring"
     },
@@ -803,7 +803,8 @@
       "answers": "answers",
       "hoursContributed": "{{hours}} hours contributed",
       "answerQuestions": "Request Help",
-      "offline": "Offline"
+      "offline": "Offline",
+      "search": "Search Volunteers..."
     },
     "recent": {
       "title": "Recent Questions",

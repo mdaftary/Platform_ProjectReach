@@ -215,10 +215,6 @@ export default function CommunityPage() {
                 {!isLarge && <Plus className="w-4 h-4 mr-1" />}
                 {t('community.page.discussions.newPost')}
               </Button>
-              <Button size="sm" className="duolingo-button duolingo-gradient-primary border-0 text-white font-semibold">
-                {!isLarge && <Plus className="w-4 h-4 mr-1" />}
-                {t('community.page.questions.newPost')}
-              </Button>
               </div>
             </div>
 

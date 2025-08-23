@@ -305,9 +305,9 @@
       "progress": "進度",
       "community": "社群",
       "help": "幫助",
-      "leaderboard": "排行榜"
-      "volunteer": "義工",
       "leaderboard": "排行榜",
+      "volunteerLeaderboard": "排行榜",
+      "volunteer": "義工",
       "qna": "問答",
       "liveTutoring": "實時輔導"
     },
@@ -803,7 +803,8 @@
       "answers": "個解答",
       "hoursContributed": "已貢獻 {{hours}} 小時",
       "answerQuestions": "回答問題",
-      "offline": "離線"
+      "offline": "離線",
+      "search": "搜索義工..."
     },
     "recent": {
       "title": "最新問題",
