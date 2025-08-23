@@ -11,6 +11,7 @@ import { FontSizeProvider } from "./font-size-provider"
 import { AccessibilityProvider } from "./accessibility-provider"
 import { ThemeProvider } from "./theme-provider"
 import I18nProvider from "./i18n-provider"
+import LangProfile from "./lang-profile"
 
 export const metadata: Metadata = {
   title: "REACH Hong Kong - Assignment Hub",
@@ -41,7 +42,7 @@ html {
               <RouteGuard>
                 <FontSizeProvider>
                   <AccessibilityProvider>
-                    {/* Language switcher moved to home page header */}
+                    <LangProfile />
                     <ConditionalLayout>{children}</ConditionalLayout>
                     <ConditionalNavigation />
                   </AccessibilityProvider>

@@ -252,7 +252,7 @@
     "streak": "Streak",
     "timeSpent": "Time Spent",
     "alphabet": "Alphabet",
-    "sightWords": "Sight Words",
+    "sightwords": "Sight Words",
     "vocabulary": "Vocabulary",
     "phonics": "Phonics",
     "high": "High",
@@ -262,7 +262,116 @@
     "kowloonEast": "Kowloon East",
     "kowloonWest": "Kowloon West",
     "newTerritories": "New Territories",
-    "years": "years"
+    "years": "years",
+    "dashboard": {
+      "assignments": {
+        "graded": "Graded",
+        "pendingReview": "Pending Review",
+        "aiPreGraded": "AI Pre-graded"
+      },
+      "reports": {
+        "quickInsights": "Quick Insights",
+        "quickInsightsDesc": "Key findings and recommendations",
+        "positiveTrend": "Positive Trend",
+        "positiveTrendDesc": "Submission rate improved by 12% this month",
+        "attentionNeeded": "Attention Needed",
+        "attentionNeededDesc": "12 students showing decreased engagement",
+        "opportunity": "Opportunity",
+        "opportunityDesc": "Math assignments have highest completion rate"
+      }
+    },
+    "values": {
+      "avgSessionTime": "24.5 min",
+      "completionRate": "87.3%",
+      "returnRate": "92.1%",
+      "mostDifficultSubject": "Sight Words",
+      "fastestImprovementSubject": "Alphabet",
+      "peakLearningTime": "2:00 PM",
+      "avgQuestionsPerSession": "12.4"
+    },
+    "charts": {
+      "subjects": {
+        "alphabet": "Alphabet",
+        "sightwords": "Sight Words", 
+        "vocabulary": "Vocabulary",
+        "phonics": "Phonics"
+      },
+      "regions": {
+        "centralHongKong": "Central Hong Kong",
+        "kowloonEast": "Kowloon East",
+        "kowloonWest": "Kowloon West",
+        "newTerritories": "New Territories"
+      },
+      "time": {
+        "week1": "Week 1",
+        "week2": "Week 2", 
+        "week3": "Week 3",
+        "week4": "Week 4",
+        "years": "years"
+      }
+    },
+    "grading": {
+      "title": "Assignment Grading",
+      "subtitle": "Review and grade student assignment submissions",
+      "backToList": "Back to List",
+      "reviewSubmission": "Review Submission",
+      "studentInfo": "Student Information",
+      "studentName": "Student Name",
+      "subject": "Subject",
+      "submittedAt": "Submitted At",
+      "dueDate": "Due Date",
+      "scanResults": "Scan Results",
+      "accuracy": "Accuracy",
+      "questionsAnswered": "Questions Answered",
+      "autoFeedback": "Auto Scan Feedback",
+      "submissionPreview": "Submission Preview",
+      "gradeAssignment": "Grade Assignment",
+      "gradeDescription": "Review the submission and provide a score and feedback",
+      "score": "Score",
+      "outOf10": "out of 10",
+      "feedback": "Feedback",
+      "feedbackPlaceholder": "Provide constructive feedback for the student...",
+      "feedbackHint": "Include what the student did well and areas for improvement",
+      "currentGrade": "Current Grade",
+      "submitGrade": "Submit Grade",
+      "updateGrade": "Update Grade",
+      "download": "Download",
+      "quickActions": "Quick Actions",
+      "searchSubmissions": "Search submissions...",
+      "submissionsList": "Assignment Submissions",
+      "submissionsListDesc": "Click on any submission to review and grade",
+      "files": "files",
+      "review": "Review",
+      "scanAccuracy": "Scan Accuracy",
+      "exportGrades": "Export Grades",
+      "status": {
+        "pending": "Pending Review",
+        "graded": "Graded"
+      },
+      "confidence": {
+        "high": "High Confidence",
+        "medium": "Medium Confidence",
+        "low": "Low Confidence"
+      },
+      "filter": {
+        "all": "All",
+        "pending": "Pending",
+        "graded": "Graded"
+      },
+      "stats": {
+        "pending": "Pending Review",
+        "graded": "Graded",
+        "averageScore": "Average Score"
+      },
+      "templates": {
+        "excellentWork": "Excellent Work",
+        "excellent": "Excellent work! You demonstrated strong understanding of the concepts. Keep up the great effort!",
+        "goodWork": "Good Work",
+        "good": "Good work! You're making solid progress. Focus on the areas highlighted in the feedback for continued improvement.",
+        "needsWork": "Needs Improvement",
+        "needsImprovement": "This assignment needs some improvement. Please review the feedback and practice the highlighted areas. Don't hesitate to ask for help!"
+      }
+    }
   },
   "components": {
     "assignmentCard": {
@@ -308,7 +417,8 @@
       "volunteer": "Volunteer",
       "volunteerLeaderboard": "Leaderboard",
       "qna": "Q&A",
-      "liveTutoring": "Live Tutoring"
+      "liveTutoring": "Live Tutoring",
+      "grading": "Grading"
     },
     "routeGuard": {
       "loading": "Loading...",
