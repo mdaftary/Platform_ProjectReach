@@ -18,15 +18,19 @@ interface ThemeProviderProps {
   defaultTheme?: Theme
 }
 
-export function ThemeProvider({ children, defaultTheme = 'system' }: ThemeProviderProps) {
-  const [theme, setThemeState] = useState<Theme>(defaultTheme)
+export function ThemeProvider({ children, defaultTheme = 'light' }: ThemeProviderProps) {
+  const [theme, setThemeState] = useState<Theme>('light') // Force light mode initially
   const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light')
 
-  // Load theme from localStorage on mount
+  // Load theme from localStorage on mount, but default to light mode for new users
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') as Theme
     if (savedTheme) {
       setThemeState(savedTheme)
+    } else {
+      // For new users, explicitly set and save light mode
+      setThemeState('light')
+      localStorage.setItem('theme', 'light')
     }
   }, [])
 

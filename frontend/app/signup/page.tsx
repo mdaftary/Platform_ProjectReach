@@ -5,14 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Mail, Phone, TicketCheck, User, Eye, EyeOff, Loader, ArrowLeft, Check, AlertCircle } from "lucide-react"
+import { Mail, Phone, TicketCheck, User, Eye, EyeOff, Loader, ArrowLeft, Check, AlertCircle, Users, Heart } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
 
-type SignUpStep = 'method' | 'credentials' | 'complete'
-type SignUpMethod = 'email' | 'phone' | 'invitation'
+type SignUpStep = 'method' | 'role' | 'details' | 'complete'
+type SignUpMethod = 'email' | 'phone' | 'manual'
+type UserRole = 'parent' | 'volunteer'
 
 export default function SignUpPage() {
   const { t } = useTranslation()
@@ -20,10 +21,13 @@ export default function SignUpPage() {
   const [signUpMethod, setSignUpMethod] = useState<SignUpMethod>('email')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
-  const [invitationCode, setInvitationCode] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [studentName, setStudentName] = useState('')
+  const [parentName, setParentName] = useState('')
+  const [school, setSchool] = useState('')
+  const [role, setRole] = useState<UserRole>('parent')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState('')
@@ -33,22 +37,43 @@ export default function SignUpPage() {
     e.preventDefault()
     setError('')
     
-    // Simple validation
-    const value = getMethodValue()
-    if (!value) {
+    // For email and phone, validate the input
+    if (signUpMethod === 'email' && !email) {
+      setError(t('signup.errorRequired'))
+      return
+    }
+    if (signUpMethod === 'phone' && !phone) {
       setError(t('signup.errorRequired'))
       return
     }
     
-    // Move to credentials step
-    setStep('credentials')
+    // Move to role selection step
+    setStep('role')
   }
 
-  const handleCredentialsSubmit = async (e: React.FormEvent) => {
+  const handleRoleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     
-    // Validation
+    // Move to details step
+    setStep('details')
+  }
+
+  const handleDetailsSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+    
+    // Validation - adjust based on role
+    const requiredFields = [username, password]
+    if (role === 'parent') {
+      requiredFields.push(studentName, parentName, school)
+    }
+    
+    if (requiredFields.some(field => !field)) {
+      setError(t('signup.errorAllFieldsRequired'))
+      return
+    }
+    
     if (password !== confirmPassword) {
       setError(t('signup.errorPasswordMismatch'))
       return
@@ -64,11 +89,14 @@ export default function SignUpPage() {
         method: signUpMethod,
         email: signUpMethod === 'email' ? email : undefined,
         phone: signUpMethod === 'phone' ? phone : undefined,
-        invitationCode: signUpMethod === 'invitation' ? invitationCode : undefined,
         username,
-        password
+        password,
+        studentName: role === 'parent' ? studentName : undefined,
+        parentName: role === 'parent' ? parentName : undefined,
+        school: role === 'parent' ? school : undefined,
+        role
       })
-      // Auth provider will handle redirect to dashboard
+      setStep('complete')
     } catch (error) {
       setError(error instanceof Error ? error.message : t('signup.errorSignupFailed'))
     }
@@ -91,8 +119,8 @@ export default function SignUpPage() {
         return email
       case 'phone':
         return phone
-      case 'invitation':
-        return invitationCode
+      case 'manual':
+        return 'manual-verification'
       default:
         return ''
     }
@@ -106,8 +134,8 @@ export default function SignUpPage() {
       case 'phone':
         setPhone(value)
         break
-      case 'invitation':
-        setInvitationCode(value)
+      case 'manual':
+        // No input needed for manual verification
         break
     }
   }
@@ -118,8 +146,8 @@ export default function SignUpPage() {
         return t('signup.emailAddress')
       case 'phone':
         return t('signup.phoneNumber')
-      case 'invitation':
-        return t('signup.invitationCode')
+      case 'manual':
+        return t('signup.manualVerification')
       default:
         return ''
     }
@@ -131,7 +159,7 @@ export default function SignUpPage() {
         return <Mail className="w-4 h-4 text-gray-500" />
       case 'phone':
         return <Phone className="w-4 h-4 text-gray-500" />
-      case 'invitation':
+      case 'manual':
         return <TicketCheck className="w-4 h-4 text-gray-500" />
       default:
         return null
@@ -151,12 +179,14 @@ export default function SignUpPage() {
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
               {step === 'method' && t('signup.titles.method')}
-              {step === 'credentials' && t('signup.titles.credentials')}
+              {step === 'role' && t('signup.selectRole')}
+              {step === 'details' && t('signup.titles.details')}
               {step === 'complete' && t('signup.titles.complete')}
             </h1>
             <p className="text-base text-gray-500 mt-1 font-medium">
               {step === 'method' && t('signup.subtitles.method')}
-              {step === 'credentials' && t('signup.subtitles.credentials')}
+              {step === 'role' && 'Choose whether you are a parent or volunteer'}
+              {step === 'details' && t('signup.subtitles.details')}
               {step === 'complete' && t('signup.subtitles.complete')}
             </p>
           </div>
@@ -193,12 +223,12 @@ export default function SignUpPage() {
                     </Button>
                     <Button
                       type="button"
-                      variant={signUpMethod === 'invitation' ? 'default' : 'outline'}
-                      onClick={() => setSignUpMethod('invitation')}
+                      variant={signUpMethod === 'manual' ? 'default' : 'outline'}
+                      onClick={() => setSignUpMethod('manual')}
                       className="flex items-center gap-3 text-sm font-medium rounded-xl py-3 justify-start"
                     >
                       <TicketCheck className="w-4 h-4" />
-                      {t('signup.invitationCode')}
+                      {t('signup.manualVerification')}
                     </Button>
                   </div>
                 </div>
@@ -213,44 +243,55 @@ export default function SignUpPage() {
                   </div>
                 )}
 
-                {/* Method Input */}
-                <form onSubmit={handleMethodSubmit} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="method-input" className="text-sm font-medium text-gray-900">
-                      {signUpMethod === 'email' ? t('signup.emailAddress') : 
-                       signUpMethod === 'phone' ? t('signup.phoneNumber') : t('signup.invitationCode')}
-                    </Label>
-                    <div className="relative">
-                      <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
-                        {getIconForMethod()}
+                {/* Method Input - Only show for email and phone */}
+                {signUpMethod !== 'manual' && (
+                  <form onSubmit={handleMethodSubmit} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="method-input" className="text-sm font-medium text-gray-900">
+                        {signUpMethod === 'email' ? t('signup.emailAddress') : t('signup.phoneNumber')}
+                      </Label>
+                      <div className="relative">
+                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                          {getIconForMethod()}
+                        </div>
+                        <Input
+                          id="method-input"
+                          type={signUpMethod === 'email' ? 'email' : 'tel'}
+                          value={getMethodValue()}
+                          onChange={(e) => setMethodValue(e.target.value)}
+                          placeholder={getPlaceholderText()}
+                          className="pl-10 rounded-xl"
+                          required
+                        />
                       </div>
-                      <Input
-                        id="method-input"
-                        type={signUpMethod === 'email' ? 'email' : signUpMethod === 'phone' ? 'tel' : 'text'}
-                        value={getMethodValue()}
-                        onChange={(e) => setMethodValue(e.target.value)}
-                        placeholder={getPlaceholderText()}
-                        className="pl-10 rounded-xl"
-                        required
-                      />
                     </div>
-                  </div>
 
+                    <Button
+                      type="submit"
+                      disabled={isLoading}
+                      className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold py-3"
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader className="w-4 h-4 mr-2 animate-spin" />
+                          {t('signup.verifying')}
+                        </>
+                      ) : (
+                        t('signup.continue')
+                      )}
+                    </Button>
+                  </form>
+                )}
+
+                {/* Manual verification - direct continue */}
+                {signUpMethod === 'manual' && (
                   <Button
-                    type="submit"
-                    disabled={isLoading}
-                    className="w-full bg-primary hover:bg-primary/90 text-white border-0 rounded-xl font-semibold py-3"
+                    onClick={() => setStep('role')}
+                    className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold py-3"
                   >
-                    {isLoading ? (
-                      <>
-                        <Loader className="w-4 h-4 mr-2 animate-spin" />
-                        {t('signup.verifying')}
-                      </>
-                    ) : (
-                      t('signup.continue')
-                    )}
+                    {t('signup.continue')}
                   </Button>
-                </form>
+                )}
 
                 {/* Divider */}
                 <div className="relative">
@@ -298,8 +339,8 @@ export default function SignUpPage() {
               </>
             )}
 
-            {/* Step 2: Username and Password Setup */}
-            {step === 'credentials' && (
+            {/* Step 2: Role Selection */}
+            {step === 'role' && (
               <>
                 {/* Back button */}
                 <div className="flex items-center gap-3">
@@ -314,7 +355,7 @@ export default function SignUpPage() {
                   </Button>
                   <div className="text-sm text-gray-500">
                     {signUpMethod === 'email' ? email : 
-                     signUpMethod === 'phone' ? phone : t('signup.viaInvitation')}
+                     signUpMethod === 'phone' ? phone : t('signup.manualVerification')}
                   </div>
                 </div>
 
@@ -328,7 +369,77 @@ export default function SignUpPage() {
                   </div>
                 )}
 
-                <form onSubmit={handleCredentialsSubmit} className="space-y-4">
+                <form onSubmit={handleRoleSubmit} className="space-y-4">
+                  <div className="space-y-3">
+                    <Label className="text-sm font-semibold text-gray-900">{t('signup.selectRole')}</Label>
+                    <div className="grid grid-cols-1 gap-3">
+                      <Button
+                        type="button"
+                        variant={role === 'parent' ? 'default' : 'outline'}
+                        onClick={() => setRole('parent')}
+                        className="flex items-start gap-4 text-left font-medium rounded-xl py-4 px-4 h-auto"
+                      >
+                        <Users className="w-5 h-5 mt-0.5 flex-shrink-0" />
+                        <div className="space-y-1">
+                          <div className="font-semibold">{t('signup.roleParent')}</div>
+                          <div className="text-sm opacity-80">{t('signup.roleParentDescription')}</div>
+                        </div>
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={role === 'volunteer' ? 'default' : 'outline'}
+                        onClick={() => setRole('volunteer')}
+                        className="flex items-start gap-4 text-left font-medium rounded-xl py-4 px-4 h-auto"
+                      >
+                        <Heart className="w-5 h-5 mt-0.5 flex-shrink-0" />
+                        <div className="space-y-1">
+                          <div className="font-semibold">{t('signup.roleVolunteer')}</div>
+                          <div className="text-sm opacity-80">{t('signup.roleVolunteerDescription')}</div>
+                        </div>
+                      </Button>
+                    </div>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold py-3"
+                  >
+                    {t('signup.continue')}
+                  </Button>
+                </form>
+              </>
+            )}
+
+            {/* Step 3: Account Details */}
+            {step === 'details' && (
+              <>
+                {/* Back button */}
+                <div className="flex items-center gap-3">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setStep('role')}
+                    className="p-2 rounded-xl"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                  </Button>
+                  <div className="text-sm text-gray-500">
+                    {role === 'parent' ? t('signup.roleParent') : t('signup.roleVolunteer')}
+                  </div>
+                </div>
+
+                {/* Error Message */}
+                {error && (
+                  <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                    <div className="flex items-center gap-3">
+                      <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
+                      <p className="text-sm text-red-700">{error}</p>
+                    </div>
+                  </div>
+                )}
+
+                <form onSubmit={handleDetailsSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="username" className="text-sm font-medium text-gray-900">
                       {t('signup.username')}
@@ -342,7 +453,7 @@ export default function SignUpPage() {
                         type="text"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        placeholder={t('signup.username')}
+                        placeholder={t('signup.usernamePlaceholder')}
                         className="pl-10 rounded-xl"
                         required
                       />
@@ -397,6 +508,56 @@ export default function SignUpPage() {
                     </div>
                   </div>
 
+                  {/* Conditional fields based on role */}
+                  {role === 'parent' && (
+                    <>
+                      <div className="space-y-2">
+                        <Label htmlFor="student-name" className="text-sm font-medium text-gray-900">
+                          {t('signup.studentName')}
+                        </Label>
+                        <Input
+                          id="student-name"
+                          type="text"
+                          value={studentName}
+                          onChange={(e) => setStudentName(e.target.value)}
+                          placeholder={t('signup.studentNamePlaceholder')}
+                          className="rounded-xl"
+                          required
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="parent-name" className="text-sm font-medium text-gray-900">
+                          {t('signup.parentName')}
+                        </Label>
+                        <Input
+                          id="parent-name"
+                          type="text"
+                          value={parentName}
+                          onChange={(e) => setParentName(e.target.value)}
+                          placeholder={t('signup.parentNamePlaceholder')}
+                          className="rounded-xl"
+                          required
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="school" className="text-sm font-medium text-gray-900">
+                          {t('signup.school')}
+                        </Label>
+                        <Input
+                          id="school"
+                          type="text"
+                          value={school}
+                          onChange={(e) => setSchool(e.target.value)}
+                          placeholder={t('signup.schoolPlaceholder')}
+                          className="rounded-xl"
+                          required
+                        />
+                      </div>
+                    </>
+                  )}
+
                   <Button
                     type="submit"
                     disabled={isLoading || password !== confirmPassword}
@@ -415,7 +576,7 @@ export default function SignUpPage() {
               </>
             )}
 
-            {/* Step 3: Success */}
+            {/* Step 4: Success */}
             {step === 'complete' && (
               <div className="text-center space-y-6">
                 {/* Success Icon */}

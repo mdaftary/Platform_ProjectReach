@@ -210,10 +210,16 @@ export default function CommunityPage() {
           <div className="space-y-5">
             <div className="flex justify-between items-center">
               <h2 className={`${isLarge ? 'text-2xl' : 'text-xl'} font-bold text-foreground`}>{t('community.page.discussions.recent')}</h2>
+              <div className="flex items-center gap-2">
               <Button size="sm" className="duolingo-button duolingo-gradient-primary border-0 text-white font-semibold">
                 {!isLarge && <Plus className="w-4 h-4 mr-1" />}
                 {t('community.page.discussions.newPost')}
               </Button>
+              <Button size="sm" className="duolingo-button duolingo-gradient-primary border-0 text-white font-semibold">
+                {!isLarge && <Plus className="w-4 h-4 mr-1" />}
+                {t('community.page.questions.newPost')}
+              </Button>
+              </div>
             </div>
 
             <div className="space-y-3">

@@ -28,19 +28,25 @@
   "signup": {
     "titles": {
       "method": "建立帳戶",
-      "credentials": "設定你的帳戶",
+      "details": "帳戶詳情",
       "complete": "歡迎來到 REACH！"
     },
     "subtitles": {
       "method": "選擇你的註冊方式",
-      "credentials": "建立你的用戶名和密碼",
+      "details": "填寫你的帳戶資料",
       "complete": "你的帳戶已成功建立"
     },
     "signUpWith": "使用以下方式註冊",
     "emailAddress": "電郵地址",
     "phoneNumber": "電話號碼",
-    "invitationCode": "邀請碼",
+    "manualVerification": "手動驗證",
     "errorRequired": "請填寫必填欄位",
+    "errorAllFieldsRequired": "請填寫所有必填欄位",
+    "selectRole": "選擇您的角色",
+    "roleParent": "家長",
+    "roleVolunteer": "志願者",
+    "roleParentDescription": "我有孩子將與REACH一起學習",
+    "roleVolunteerDescription": "我想當志願者幫助學生學習",
     "verifying": "驗證中...",
     "continue": "繼續",
     "or": "或",
@@ -49,10 +55,17 @@
     "alreadyHave": "已經有帳戶？",
     "signIn": "登入",
     "username": "用戶名",
+    "usernamePlaceholder": "輸入你的用戶名",
     "password": "密碼",
     "createPassword": "建立密碼",
     "confirmPassword": "確認密碼",
     "confirmYourPassword": "確認你的密碼",
+    "studentName": "學生姓名",
+    "studentNamePlaceholder": "輸入學生全名",
+    "parentName": "家長姓名",
+    "parentNamePlaceholder": "輸入家長全名",
+    "school": "學校",
+    "schoolPlaceholder": "輸入學校名稱",
     "creatingAccount": "建立帳戶中...",
     "createAccount": "建立帳戶",
     "successAccountCreated": "帳戶已建立！",
@@ -154,6 +167,10 @@
       "2": {
         "title": "確認功課遞交",
         "subtitle": "今日 6:00 截止"
+      },
+      "3": {
+        "title": "實時輔導課程",
+        "subtitle": "閱讀理解 - 明天下午 2:00"
       }
     },
     "aiInsight": {
@@ -164,6 +181,89 @@
     "or": "或",
     "signOut": "登出",
     "settings": "設定"
+  },
+  "admin": {
+    "title": "NGO 管理員面板",
+    "subtitle": "追蹤所有 REACH 計劃的學生表現和學習分析",
+    "overview": "概覽",
+    "students": "學生",
+    "performance": "表現",
+    "analytics": "分析",
+    "reports": "報告",
+    "totalStudents": "總學生數",
+    "averageScore": "平均分數",
+    "totalAttempts": "總嘗試次數",
+    "avgTimePerAttempt": "平均每次嘗試時間",
+    "activeToday": "今日活躍",
+    "weeklyProgress": "每週進度趨勢",
+    "weeklyProgressDesc": "所有學生的平均分數和活動",
+    "regionalPerformance": "地區表現",
+    "regionalPerformanceDesc": "香港各地區的平均分數",
+    "ageGroupPerformance": "年齡組表現",
+    "ageGroupPerformanceDesc": "按年齡組的平均分數",
+    "subjectOverview": "科目表現概覽",
+    "subjectOverviewDesc": "所有科目的平均分數",
+    "studentDirectory": "學生名錄",
+    "studentDirectoryDesc": "所有註冊學生的綜合清單及表現指標",
+    "searchStudents": "搜尋學生...",
+    "filter": "篩選",
+    "overallScore": "總分",
+    "attempts": "嘗試次數",
+    "total": "總計",
+    "dayStreak": "天連續",
+    "lastActive": "最後活躍",
+    "view": "查看",
+    "subjectComparison": "科目表現比較",
+    "subjectComparisonDesc": "學習領域的詳細分析",
+    "learningEfficiency": "學習效率",
+    "learningEfficiencyDesc": "平均嘗試次數與花費時間分析",
+    "detailedMetrics": "詳細表現指標",
+    "detailedMetricsDesc": "學生學習模式的綜合分析",
+    "subject": "科目",
+    "avgScore": "平均分數",
+    "avgTime": "平均時間",
+    "successRate": "成功率",
+    "difficultyIndex": "難度指數",
+    "engagementMetrics": "參與度指標",
+    "dailyActiveUsers": "每日活躍用戶",
+    "avgSessionTime": "平均會話時間",
+    "completionRate": "完成率",
+    "returnRate": "回歸率",
+    "learningInsights": "學習洞察",
+    "mostDifficult": "最難主題",
+    "fastestImprovement": "進步最快",
+    "peakLearningTime": "學習高峰時間",
+    "avgQuestionsPerSession": "每會話平均問題數",
+    "regionalStats": "地區統計",
+    "generateReports": "生成報告",
+    "generateReportsDesc": "為利益相關者和資助者創建詳細報告",
+    "performanceReport": "表現報告",
+    "studentSummary": "學生摘要",
+    "progressReport": "進度報告",
+    "regionalAnalysis": "地區分析",
+    "timeAnalytics": "時間分析",
+    "exportData": "匯出資料",
+    "exportAllData": "匯出所有資料",
+    "age": "年齡",
+    "region": "地區",
+    "kindergarten": "幼稚園",
+    "grade": "年級",
+    "enrollment": "註冊日期",
+    "streak": "連續天數",
+    "timeSpent": "花費時間",
+    "alphabet": "字母",
+    "sightWords": "常見字",
+    "vocabulary": "詞彙",
+    "phonics": "語音",
+    "high": "高",
+    "medium": "中",
+    "low": "低",
+    "centralHongKong": "香港島中西區",
+    "kowloonEast": "九龍東",
+    "kowloonWest": "九龍西",
+    "newTerritories": "新界",
+    "years": "歲",
+    "students": "學生"
   },
   "components": {
     "assignmentCard": {
@@ -206,6 +306,10 @@
       "community": "社群",
       "help": "幫助",
       "leaderboard": "排行榜"
+      "volunteer": "義工",
+      "leaderboard": "排行榜",
+      "qna": "問答",
+      "liveTutoring": "實時輔導"
     },
     "routeGuard": {
       "loading": "載入中...",
@@ -489,6 +593,9 @@
         "resources": "資源",
         "groups": "練習小組"
       },
+      "questions": {
+        "newPost": "新問題"
+      },
       "discussions": {
         "recent": "最新討論",
         "newPost": "發佈貼文",
@@ -701,6 +808,78 @@
     "recent": {
       "title": "最新問題",
       "answered": "已解答"
+    },
+    "qna": {
+      "title": "問答中心",
+      "subtitle": "幫助家長和學生解決學習問題",
+      "searchPlaceholder": "按標題、內容或標籤搜索問題...",
+      "filters": {
+        "all": "全部",
+        "urgent": "緊急",
+        "unanswered": "未解答",
+        "answered": "已解答"
+      },
+      "priority": {
+        "urgent": "緊急",
+        "normal": "一般",
+        "low": "低"
+      },
+      "status": {
+        "open": "開放",
+        "answered": "已解答", 
+        "resolved": "已解決"
+      },
+      "actions": {
+        "answer": "回答",
+        "submitAnswer": "提交回答",
+        "cancel": "取消"
+      },
+      "form": {
+        "yourAnswer": "你的回答",
+        "answerPlaceholder": "分享你的知識，幫助這位家長...",
+        "submitted": "回答提交成功！"
+      },
+      "stats": {
+        "questions": "問題",
+        "upvotes": "讚數",
+        "answers": "回答"
+      },
+      "empty": {
+        "title": "沒有找到問題",
+        "subtitle": "嘗試調整你的搜索詞或篩選器。",
+        "noResults": "成為第一個提問的人！"
+      }
+    },
+    "liveTutoring": {
+      "title": "實時輔導",
+      "subtitle": "與學生進行一對一輔導課程",
+      "tabs": {
+        "upcoming": "即將開始",
+        "live": "進行中",
+        "completed": "已完成"
+      },
+      "session": {
+        "joinSession": "加入課程",
+        "startEarly": "提早開始",
+        "message": "發訊息",
+        "viewNotes": "查看筆記"
+      },
+      "videoCall": {
+        "you": "你",
+        "live": "直播中"
+      },
+      "time": {
+        "today": "今天",
+        "tomorrow": "明天"
+      },
+      "stats": {
+        "sessions": "課程"
+      },
+      "empty": {
+        "noLive": "目前沒有進行中的課程。",
+        "noUpcoming": "沒有預定的課程。",
+        "noCompleted": "還沒有完成的課程。"
+      }
     }
   }
   ,

@@ -39,6 +39,14 @@ const weeklyTasks = [
     isPrimary: false,
     icon: CheckCircle2,
   },
+  {
+    id: 4,
+    title: "Live Tutorial Session",
+    subtitle: "Reading Comprehension - Tomorrow 2:00 PM",
+    completed: false,
+    isPrimary: false,
+    icon: Video,
+  },
 ]
 
 const sortedWeeklyTasks = [...weeklyTasks].sort((a, b) => Number(a.completed) - Number(b.completed))
@@ -153,24 +161,32 @@ export default function HomePage() {
                     <p className="text-sm font-semibold text-gray-900">{user?.username}</p>
                     <p className="text-xs text-gray-500">{user?.email || user?.phone}</p>
                   </div>
-                  <Link
-                    href="/settings"
-                    onClick={() => setShowUserMenu(false)}
-                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                  >
-                    <Settings className="w-4 h-4" />
-                    {t('common.settings')}
-                  </Link>
-                  <button
-                    onClick={() => {
-                      logout()
-                      setShowUserMenu(false)
-                    }}
-                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    {t('common.signOut')}
-                  </button>
+                                <Link
+                href="/settings"
+                onClick={() => setShowUserMenu(false)}
+                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                <Settings className="w-4 h-4" />
+                {t('common.settings')}
+              </Link>
+              <Link
+                href="/admin"
+                onClick={() => setShowUserMenu(false)}
+                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-purple-600 hover:bg-purple-50 transition-colors"
+              >
+                <BarChart3 className="w-4 h-4" />
+                NGO Admin
+              </Link>
+              <button
+                onClick={() => {
+                  logout()
+                  setShowUserMenu(false)
+                }}
+                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+                {t('common.signOut')}
+              </button>
                 </div>
               )}
             </div>

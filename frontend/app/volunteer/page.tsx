@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
@@ -30,7 +30,7 @@ const volunteersEn = [
     badgeColor: "bg-yellow-100 text-yellow-700",
     totalAnswers: 156,
     isOnline: true,
-    specialties: ["Phonics", "Reading"]
+    specialties: ["Phonics", "Reading"],
   },
   {
     id: 2,
@@ -43,7 +43,7 @@ const volunteersEn = [
     badgeColor: "bg-gray-100 text-gray-700",
     totalAnswers: 89,
     isOnline: false,
-    specialties: ["Homework Help", "Motivation"]
+    specialties: ["Homework Help", "Motivation"],
   },
   {
     id: 3,
@@ -56,9 +56,9 @@ const volunteersEn = [
     badgeColor: "bg-purple-100 text-purple-700",
     totalAnswers: 203,
     isOnline: true,
-    specialties: ["Learning Difficulties", "Development"]
-  }
-]
+    specialties: ["Learning Difficulties", "Development"],
+  },
+];
 
 const volunteersZh = [
   {
@@ -72,7 +72,7 @@ const volunteersZh = [
     badgeColor: "bg-yellow-100 text-yellow-700",
     totalAnswers: 156,
     isOnline: true,
-    specialties: ["自然拼讀", "閱讀"]
+    specialties: ["自然拼讀", "閱讀"],
   },
   {
     id: 2,
@@ -85,7 +85,7 @@ const volunteersZh = [
     badgeColor: "bg-gray-100 text-gray-700",
     totalAnswers: 89,
     isOnline: false,
-    specialties: ["功課協助", "學習動機"]
+    specialties: ["功課協助", "學習動機"],
   },
   {
     id: 3,
@@ -98,9 +98,10 @@ const volunteersZh = [
     badgeColor: "bg-purple-100 text-purple-700",
     totalAnswers: 203,
     isOnline: true,
-    specialties: ["學習困難", "發展"]
-  }
-]
+    specialties: ["學習困難", "發展"],
+  },
+];
+
 
 
 
@@ -111,8 +112,8 @@ const myProgress = {
   totalHours: 67,
   rank: 5,
   rewardsAvailable: 3,
-  nextReward: "Free REACH Workshop"
-}
+  nextReward: "Free REACH Workshop",
+};
 
 export default function VolunteerPage() {
   const { t } = useTranslation()
@@ -121,8 +122,31 @@ export default function VolunteerPage() {
   const isZh = i18n.language?.startsWith('zh')
   const volunteers = isZh ? volunteersZh : volunteersEn
 
+  // Close user menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowUserMenu(false);
+      }
+    }
+
+    if (showUserMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showUserMenu]);
   return (
-    <div className={`min-h-screen bg-gray-50 ${isLarge ? 'min-text-lg text-lg' : ''}`}>
+    <div
+      className={`min-h-screen bg-gray-50 ${
+        isLarge ? "min-text-lg text-lg" : ""
+      }`}
+    >
       <div className="max-w-md mx-auto px-4 py-6 space-y-6">
         {/* Removed top header and start button per request */}
 
@@ -207,12 +231,9 @@ export default function VolunteerPage() {
             ))}
           </div>
         </div>
-
-
-
         {/* Bottom spacing for navigation */}
         <div className="h-20"></div>
       </div>
     </div>
-  )
+  );
 }

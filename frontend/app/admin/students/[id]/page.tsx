@@ -26,23 +26,92 @@ import {
 
 import { use } from "react"
 
-export default function StudentDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { t } = useTranslation()
-  const resolvedParams = use(params)
-  // Mock student data
-  const student = {
-    id: resolvedParams.id,
+// Mock student database - in real app this would come from API
+const mockStudentDatabase = {
+  "STU001": {
+    id: "STU001",
     name: "Emma Chen",
-    grade: "K3",
+    age: 6,
+    region: "Central Hong Kong",
+    kindergarten: "Happy Learning K1",
+    grade: "K1",
     parentName: "Sarah Chen",
     parentEmail: "sarah.chen@email.com",
     parentPhone: "+852 9123 4567",
-    enrollmentDate: "2024-09-01",
-    avgScore: 87,
-    totalSubmissions: 12,
-    onTimeSubmissions: 11,
+    enrollmentDate: "2024-01-15",
+    totalAttempts: 145,
+    correctAttempts: 123,
+    averageAttemptTime: 45,
+    overallScore: 87,
     status: "active",
     lastActive: "2 hours ago",
+    streakDays: 12,
+    totalTimeSpent: 2340,
+    subjects: {
+      alphabet: { score: 92, attempts: 45, avgTime: 38 },
+      sightWords: { score: 85, attempts: 38, avgTime: 52 },
+      vocabulary: { score: 89, attempts: 32, avgTime: 41 },
+      phonics: { score: 84, attempts: 30, avgTime: 48 }
+    }
+  },
+  "STU002": {
+    id: "STU002",
+    name: "Lucas Wong", 
+    age: 5,
+    region: "Kowloon East",
+    kindergarten: "Bright Future K2",
+    grade: "K2",
+    parentName: "Michael Wong",
+    parentEmail: "michael.wong@email.com",
+    parentPhone: "+852 9876 5433",
+    enrollmentDate: "2024-01-08",
+    totalAttempts: 189,
+    correctAttempts: 156,
+    averageAttemptTime: 52,
+    overallScore: 82,
+    status: "active",
+    lastActive: "1 day ago",
+    streakDays: 8,
+    totalTimeSpent: 3120,
+    subjects: {
+      alphabet: { score: 88, attempts: 52, avgTime: 45 },
+      sightWords: { score: 79, attempts: 47, avgTime: 58 },
+      vocabulary: { score: 85, attempts: 45, avgTime: 49 },
+      phonics: { score: 78, attempts: 45, avgTime: 55 }
+    }
+  }
+}
+
+export default function StudentDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { t } = useTranslation()
+  const resolvedParams = use(params)
+  
+  // Get student data from mock database or default
+  const student = mockStudentDatabase[resolvedParams.id as keyof typeof mockStudentDatabase] || {
+    id: resolvedParams.id,
+    name: "Student Not Found",
+    age: 0,
+    region: "Unknown",
+    kindergarten: "Unknown",
+    grade: "Unknown",
+    parentName: "Unknown",
+    parentEmail: "unknown@email.com",
+    parentPhone: "N/A",
+    enrollmentDate: "2024-01-01",
+    totalAttempts: 0,
+    correctAttempts: 0,
+    averageAttemptTime: 0,
+    overallScore: 0,
+    status: "inactive",
+    lastActive: "Never",
+    streakDays: 0,
+    totalTimeSpent: 0,
+    subjects: {
+      alphabet: { score: 0, attempts: 0, avgTime: 0 },
+      sightWords: { score: 0, attempts: 0, avgTime: 0 },
+      vocabulary: { score: 0, attempts: 0, avgTime: 0 },
+      phonics: { score: 0, attempts: 0, avgTime: 0 }
+    }
   }
 
   const progressData = [
@@ -195,16 +264,16 @@ export default function StudentDetailPage({ params }: { params: Promise<{ id: st
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground">{t('admin.student.avgScore')}</span>
-                  <span className="font-bold text-foreground">{student.avgScore}%</span>
+                  <span className="font-bold text-foreground">{student.overallScore}%</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">{t('admin.student.submissions')}</span>
-                  <span className="font-bold text-foreground">{student.totalSubmissions}</span>
+                  <span className="text-muted-foreground">Total Attempts</span>
+                  <span className="font-bold text-foreground">{student.totalAttempts}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">{t('admin.student.onTimeRate')}</span>
+                  <span className="text-muted-foreground">Success Rate</span>
                   <span className="font-bold text-foreground">
-                    {Math.round((student.onTimeSubmissions / student.totalSubmissions) * 100)}%
+                    {student.totalAttempts > 0 ? Math.round((student.correctAttempts / student.totalAttempts) * 100) : 0}%
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
