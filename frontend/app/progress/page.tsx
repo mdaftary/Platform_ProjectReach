@@ -1,4 +1,4 @@
-"use client"
+ "use client"
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -142,7 +142,10 @@ export default function ProgressPage() {
         {/* Five-Dimension Radar Chart */}
         {!isLarge && (
         <>
-          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>{t('progress.radar.title')}</h2>
+          <h2 className="text-3xl font-bold text-black text-center tracking-tight mb-2">
+  {t('progress.radar.title')}
+</h2>
+<div className="w-16 h-1 bg-primary rounded-full mx-auto mb-2"></div>
           <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-lg">
           <CardContent className="p-4">
         <div className="space-y-6">
@@ -334,7 +337,10 @@ export default function ProgressPage() {
 
         {/* Skills Breakdown */}
         <div className="space-y-4">
-          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>{t('progress.skills.title')}</h2>
+          <h2 className="text-3xl font-bold text-black text-center tracking-tight mb-2">
+  {t('progress.skills.title')}
+</h2>
+<div className="w-16 h-1 bg-primary rounded-full mx-auto mb-2"></div>
           <div className="space-y-3">
             {skillsData.map((skill, index) => {
               const isNeedsFocus = skill.status === 'needs-focus'
@@ -407,7 +413,10 @@ export default function ProgressPage() {
         {/* (AI Personalized Practices removed from Progress page) */}
 
         {/* Progress Over Time */}
-        <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>{t('progress.trend.title')}</h2>
+        <h2 className="text-3xl font-bold text-black text-center tracking-tight mb-2">
+  {t('progress.trend.title')}
+</h2>
+<div className="w-16 h-1 bg-primary rounded-full mx-auto mb-2"></div>
         <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
           <CardContent className="p-5">
         <div className="space-y-4">

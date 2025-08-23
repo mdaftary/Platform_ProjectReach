@@ -26,13 +26,21 @@ const volunteerNavItems = [
 
 ]
 
+// Navigation items for admin
+const adminNavItems = [
+  { href: "/admin", icon: Home, label: "mobileNav.home" },
+  { href: "/admin/", icon: Users, label: "mobileNav.users" },
+  { href: "/admin/reports", icon: BarChart3, label: "mobileNav.reports" },
+  { href: "/admin/settings", icon: Users, label: "mobileNav.settings" },
+]
+
 export function MobileNavigation() {
   const pathname = usePathname()
   const { t } = useTranslation()
   const { user } = useAuth()
 
   // Get navigation items based on user role
-  const navItems = user?.role === 'volunteer' ? volunteerNavItems : parentNavItems
+  const navItems = user?.role === 'volunteer' ? volunteerNavItems : (user?.role== 'parent' ? parentNavItems : adminNavItems)
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t border-gray-100 z-50">

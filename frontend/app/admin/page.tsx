@@ -562,8 +562,8 @@ export default function AdminDashboard() {
                     <MapPin className="w-6 h-6 mb-2" />
                     <span>{t('admin.regionalAnalysis')}</span>
                   </Button>
-                </CardContent>
-              </Card>
+                </div>
+              </CardContent>
 
               <Card>
                 <CardHeader>
@@ -585,7 +585,7 @@ export default function AdminDashboard() {
                   </div>
                 </CardContent>
               </Card>
-            </div>
+            </Card>
           </TabsContent>
         </Tabs>
       </main>

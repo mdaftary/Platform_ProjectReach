@@ -126,7 +126,7 @@
     "headerSubtitle": "Grade K3 • Parent Dashboard",
     "thisWeek": "This Week",
     "upload": "Upload",
-    "aiInsights": "AI Insights",
+    "aiInsights": "Insights",
     "viewExercises": "View Exercises",
     "progressSnapshot": "Progress Snapshot",
     "daysStreak": "Days Streak",
@@ -262,8 +262,7 @@
     "kowloonEast": "Kowloon East",
     "kowloonWest": "Kowloon West",
     "newTerritories": "New Territories",
-    "years": "years",
-    "students": "students"
+    "years": "years"
   },
   "components": {
     "assignmentCard": {
@@ -417,170 +416,6 @@
       "submitting": "Submitting...",
       "submitAssignment": "Submit Assignment",
       "uploadAtLeastOne": "Please upload at least one file to submit"
-    }
-  },
-  "admin": {
-    "dashboard": {
-      "header": "REACH Admin Dashboard",
-      "subtitle": "Analytics & Student Management",
-      "filters": {
-        "allStudents": "All Students",
-        "k3Only": "K3 Only",
-        "activeOnly": "Active Only"
-      },
-      "exportData": "Export Data",
-      "tabs": {
-        "overview": "Overview",
-        "students": "Students",
-        "assignments": "Assignments",
-        "community": "Community",
-        "reports": "Reports"
-      },
-      "overview": {
-        "totalStudents": "Total Students",
-        "activeAssignments": "Active Assignments",
-        "submissionRate": "Submission Rate",
-        "avgGrade": "Avg Grade",
-        "forumPosts": "Forum Posts",
-        "volunteerHours": "Volunteer Hours",
-        "submissionTrendsTitle": "Assignment Submission Trends",
-        "submissionTrendsDesc": "Weekly submission patterns and timeliness",
-        "gradeDistributionTitle": "Grade Distribution",
-        "gradeDistributionDesc": "Overall student performance breakdown",
-        "engagementTitle": "Daily Platform Engagement",
-        "engagementDesc": "Learning hours and community activity by day",
-        "series": {
-          "learningHours": "Learning Hours",
-          "forumPosts": "Forum Posts",
-          "submissions": "Submissions",
-          "onTime": "On Time",
-          "late": "Late"
-        }
-      },
-      "students": {
-        "subjectPerformanceTitle": "Subject Performance Overview",
-        "subjectPerformanceDesc": "Average grades and completion rates by subject",
-        "statusOverviewTitle": "Student Status Overview",
-        "statusOverviewDesc": "Current student engagement levels",
-        "activeStudents": "Active Students",
-        "atRisk": "At Risk",
-        "inactive": "Inactive",
-        "studentManagement": "Student Management",
-        "filter": "Filter",
-        "export": "Export",
-        "studentTrackingDesc": "Individual student progress and engagement tracking",
-        "avgScore": "Avg Score",
-        "submissions": "Submissions",
-        "lastActive": "Last Active",
-        "viewDetails": "View Details",
-        "dueDate": "Due Date",
-        "submitted": "Submitted",
-        "notSubmitted": "Not submitted",
-        "teacherFeedback": "Teacher Feedback",
-        "subjectProgressTitle": "Subject Progress",
-        "subjectProgressDesc": "Current performance by subject",
-        "learningGoalsTitle": "Learning Goals",
-        "learningGoalsDesc": "Areas for improvement and focus",
-        "focusArea": "Focus Area",
-        "strength": "Strength",
-        "achievement": "Achievement"
-      },
-      "assignments": {
-        "statsTitle": "Assignment Statistics",
-        "totalAssignments": "Total Assignments",
-        "currentlyActive": "Currently Active",
-        "avgCompletionRate": "Avg Completion Rate",
-        "avgGrade": "Avg Grade",
-        "timelinessTitle": "Submission Timeliness",
-        "onTime": "On Time",
-        "late": "Late",
-        "missing": "Missing",
-        "gradingStatusTitle": "Grading Status",
-        "graded": "Graded",
-        "pendingReview": "Pending Review",
-        "aiPreGraded": "AI Pre-graded",
-        "trendsTitle": "Assignment Performance Trends",
-        "trendsDesc": "Average scores and submission rates over time"
-      },
-      "community": {
-        "totalPosts": "Total Posts",
-        "activeUsers": "Active Users",
-        "volunteerHours": "Volunteer Hours",
-        "engagementRate": "Engagement Rate",
-        "activityTrendsTitle": "Community Activity Trends",
-        "activityTrendsDesc": "Forum posts and user engagement over time"
-      },
-      "reports": {
-        "generateReports": "Generate Reports",
-        "generateReportsDesc": "Create detailed analytics reports",
-        "studentProgressReport": "Student Progress Report",
-        "assignmentAnalytics": "Assignment Analytics",
-        "communityEngagement": "Community Engagement",
-        "platformUsage": "Platform Usage Statistics",
-        "quickInsights": "Quick Insights",
-        "quickInsightsDesc": "Key findings and recommendations",
-        "positiveTrend": "Positive Trend",
-        "positiveTrendDesc": "Submission rates increased by 12% this month",
-        "attentionNeeded": "Attention Needed",
-        "attentionNeededDesc": "12 students showing decreased engagement",
-        "opportunity": "Opportunity",
-        "opportunityDesc": "Math assignments have highest completion rates"
-      }
-    },
-    "student": {
-      "header": "Student Profile",
-      "contactParent": "Contact Parent",
-      "generateReport": "Generate Report",
-      "studentInfo": "Student Info",
-      "parent": "Parent",
-      "email": "Email",
-      "phone": "Phone",
-      "enrolled": "Enrolled",
-      "status": "Status",
-      "active": "Active",
-      "quickStats": "Quick Stats",
-      "avgScore": "Avg Score",
-      "submissions": "Submissions",
-      "onTimeRate": "On Time Rate",
-      "lastActive": "Last Active",
-      "tabs": {
-        "overview": "Overview",
-        "assignments": "Assignments",
-        "progress": "Progress",
-        "activity": "Activity"
-      },
-      "overview": {
-        "performanceTitle": "Academic Performance Trends",
-        "performanceDesc": "Subject performance over the past 4 weeks",
-        "skillsTitle": "Skills Assessment",
-        "skillsDesc": "Current skill levels across different areas",
-        "skillsSeries": "Skills"
-      },
-      "assignments": {
-        "historyTitle": "Assignment History",
-        "historyDesc": "Complete record of submitted assignments and grades",
-        "dueDate": "Due Date",
-        "submitted": "Submitted",
-        "notSubmitted": "Not submitted",
-        "teacherFeedback": "Teacher Feedback"
-      },
-      "progress": {
-        "subjectProgressTitle": "Subject Progress",
-        "subjectProgressDesc": "Current performance by subject",
-        "target": "Target",
-        "learningGoalsTitle": "Learning Goals",
-        "learningGoalsDesc": "Areas for improvement and focus",
-        "focusArea": "Focus Area",
-        "strength": "Strength",
-        "achievement": "Achievement"
-      },
-      "activity": {
-        "recentActivity": "Recent Activity",
-        "recentActivityDesc": "Student engagement and platform usage",
-        "submittedAssignment": "Submitted Math assignment",
-        "parentPosted": "Parent posted in assignment discussion",
-        "receivedGrade": "Received grade for English assignment"
-      }
     }
   },
   "community": {
@@ -925,7 +760,7 @@
       }
     },
     "ai": {
-      "title": "AI Recommendations",
+      "title": "Recommendations",
       "subtitle": "Personalized activities to boost your child's learning",
       "priority": "Priority",
       "startPractice": "Start Practice",

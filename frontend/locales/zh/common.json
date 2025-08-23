@@ -126,7 +126,7 @@
     "headerSubtitle": "K3 年級 • 家長主頁",
     "thisWeek": "本週",
     "upload": "上載",
-    "aiInsights": "AI 洞察",
+    "aiInsights": "洞察",
     "viewExercises": "查看練習",
     "progressSnapshot": "進度概覽",
     "daysStreak": "連續天數",
@@ -925,7 +925,7 @@
       }
     },
     "ai": {
-      "title": "AI 推薦練習",
+      "title": "推薦練習",
       "subtitle": "個人化活動，幫助孩子更快進步",
       "priority": "優先",
       "startPractice": "開始練習",
