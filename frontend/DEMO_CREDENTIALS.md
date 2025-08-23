@@ -15,6 +15,11 @@ For testing the authentication system, you can use these mock credentials:
 - **Username**: `testuser`
 - **Password**: `test123`
 
+### User 3 - Volunteer Account
+- **Email**: `volunteer@example.com`
+- **Username**: `volunteer_user`
+- **Password**: `volunteer123`
+
 ## Sign In Methods
 
 You can sign in using any of the following identifiers:

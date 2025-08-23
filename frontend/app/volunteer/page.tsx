@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { useFontSize } from "@/app/font-size-provider"
+import { useEffect, useRef, useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useFontSize } from "@/app/font-size-provider";
 import {
   HelpCircle,
   Users,
@@ -21,10 +21,15 @@ import {
   Award,
   CheckCircle,
   Heart,
-  User
-} from "lucide-react"
-import "@/lib/i18n"
-import { useTranslation } from "react-i18next"
+  User,
+  Settings,
+  BarChart3,
+  LogOut,
+} from "lucide-react";
+import "@/lib/i18n";
+import { useTranslation } from "react-i18next";
+import Link from "next/link";
+import { useAuth } from "@/contexts/auth-context";
 
 // Mock data for volunteers with Time Auction integration (localized)
 const volunteersEn = [
@@ -39,7 +44,7 @@ const volunteersEn = [
     badgeColor: "bg-yellow-100 text-yellow-700",
     totalAnswers: 156,
     isOnline: true,
-    specialties: ["Phonics", "Reading"]
+    specialties: ["Phonics", "Reading"],
   },
   {
     id: 2,
@@ -52,7 +57,7 @@ const volunteersEn = [
     badgeColor: "bg-gray-100 text-gray-700",
     totalAnswers: 89,
     isOnline: false,
-    specialties: ["Homework Help", "Motivation"]
+    specialties: ["Homework Help", "Motivation"],
   },
   {
     id: 3,
@@ -65,9 +70,9 @@ const volunteersEn = [
     badgeColor: "bg-purple-100 text-purple-700",
     totalAnswers: 203,
     isOnline: true,
-    specialties: ["Learning Difficulties", "Development"]
-  }
-]
+    specialties: ["Learning Difficulties", "Development"],
+  },
+];
 
 const volunteersZh = [
   {
@@ -81,7 +86,7 @@ const volunteersZh = [
     badgeColor: "bg-yellow-100 text-yellow-700",
     totalAnswers: 156,
     isOnline: true,
-    specialties: ["自然拼讀", "閱讀"]
+    specialties: ["自然拼讀", "閱讀"],
   },
   {
     id: 2,
@@ -94,7 +99,7 @@ const volunteersZh = [
     badgeColor: "bg-gray-100 text-gray-700",
     totalAnswers: 89,
     isOnline: false,
-    specialties: ["功課協助", "學習動機"]
+    specialties: ["功課協助", "學習動機"],
   },
   {
     id: 3,
@@ -107,9 +112,9 @@ const volunteersZh = [
     badgeColor: "bg-purple-100 text-purple-700",
     totalAnswers: 203,
     isOnline: true,
-    specialties: ["學習困難", "發展"]
-  }
-]
+    specialties: ["學習困難", "發展"],
+  },
+];
 
 // Mock recent questions (localized)
 const recentQuestionsEn = [
@@ -120,16 +125,16 @@ const recentQuestionsEn = [
     timeAgo: "2 hours ago",
     answers: 3,
     isAnswered: true,
-    category: "Phonics"
+    category: "Phonics",
   },
   {
     id: 2,
     question: "How to motivate reluctant reader for daily practice?",
     author: "Worried Mom",
-    timeAgo: "5 hours ago", 
+    timeAgo: "5 hours ago",
     answers: 7,
     isAnswered: true,
-    category: "Motivation"
+    category: "Motivation",
   },
   {
     id: 3,
@@ -138,9 +143,9 @@ const recentQuestionsEn = [
     timeAgo: "1 day ago",
     answers: 12,
     isAnswered: true,
-    category: "Resources"
-  }
-]
+    category: "Resources",
+  },
+];
 
 const recentQuestionsZh = [
   {
@@ -150,16 +155,16 @@ const recentQuestionsZh = [
     timeAgo: "2 小時前",
     answers: 3,
     isAnswered: true,
-    category: "自然拼讀"
+    category: "自然拼讀",
   },
   {
     id: 2,
     question: "如何激勵不太想閱讀的孩子每天練習？",
     author: "擔心的媽媽",
-    timeAgo: "5 小時前", 
+    timeAgo: "5 小時前",
     answers: 7,
     isAnswered: true,
-    category: "動機"
+    category: "動機",
   },
   {
     id: 3,
@@ -168,9 +173,9 @@ const recentQuestionsZh = [
     timeAgo: "1 天前",
     answers: 12,
     isAnswered: true,
-    category: "資源"
-  }
-]
+    category: "資源",
+  },
+];
 
 // Mock user's volunteer progress (if they're a volunteer)
 const myProgress = {
@@ -179,107 +184,109 @@ const myProgress = {
   totalHours: 67,
   rank: 5,
   rewardsAvailable: 3,
-  nextReward: "Free REACH Workshop"
-}
+  nextReward: "Free REACH Workshop",
+};
 
 export default function VolunteerPage() {
-  const { t } = useTranslation()
-  const { i18n } = useTranslation()
-  const [showAskQuestion, setShowAskQuestion] = useState(false)
-  const [question, setQuestion] = useState("")
-  const [category, setCategory] = useState("General")
-  const { isLarge } = useFontSize()
-  const isZh = i18n.language?.startsWith('zh')
-  const volunteers = isZh ? volunteersZh : volunteersEn
-  const recentQuestions = isZh ? recentQuestionsZh : recentQuestionsEn
+  const { t } = useTranslation();
+  const { i18n } = useTranslation();
+  const { user, logout } = useAuth();
+  const [showAskQuestion, setShowAskQuestion] = useState(false);
+  const [question, setQuestion] = useState("");
+  const [category, setCategory] = useState("General");
+  const { isLarge } = useFontSize();
+  const isZh = i18n.language?.startsWith("zh");
+  const volunteers = isZh ? volunteersZh : volunteersEn;
+  const recentQuestions = isZh ? recentQuestionsZh : recentQuestionsEn;
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
+  // Close user menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowUserMenu(false);
+      }
+    }
+
+    if (showUserMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showUserMenu]);
   return (
-    <div className={`min-h-screen bg-gray-50 ${isLarge ? 'min-text-lg text-lg' : ''}`}>
+    <div
+      className={`min-h-screen bg-gray-50 ${
+        isLarge ? "min-text-lg text-lg" : ""
+      }`}
+    >
       <div className="max-w-md mx-auto px-4 py-6 space-y-6">
+        {/* Ask a Question Section */}
+
+        <div className="absolute top-3 right-3" ref={userMenuRef}>
+          <button
+            onClick={() => setShowUserMenu(!showUserMenu)}
+            className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors cursor-pointer"
+          >
+            <User className="w-5 h-5 text-gray-600" />
+          </button>
+          {showUserMenu && (
+            <div className="absolute right-0 top-12 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
+              <div className="px-4 py-2 border-b border-gray-100">
+                <p className="text-sm font-semibold text-gray-900">
+                  {user?.username}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {user?.email || user?.phone}
+                </p>
+              </div>
+              <Link
+                href="/settings"
+                onClick={() => setShowUserMenu(false)}
+                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                <Settings className="w-4 h-4" />
+                {t("common.settings")}
+              </Link>
+              <Link
+                href="/admin"
+                onClick={() => setShowUserMenu(false)}
+                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-purple-600 hover:bg-purple-50 transition-colors"
+              >
+                <BarChart3 className="w-4 h-4" />
+                NGO Admin
+              </Link>
+              <button
+                onClick={() => {
+                  logout();
+                  setShowUserMenu(false);
+                }}
+                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+                {t("common.signOut")}
+              </button>
+            </div>
+          )}
+        </div>
         {/* Header */}
         <div className="text-center space-y-3">
           <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto shadow-lg">
             <Heart className="w-8 h-8 text-white stroke-2" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{t('volunteer.header.title')}</h1>
-            <p className="text-gray-600">{t('volunteer.header.subtitle')}</p>
+            <h1 className="text-2xl font-bold text-gray-900">
+              {t("volunteer.header.title")}
+            </h1>
+            <p className="text-gray-600">{t("volunteer.header.subtitle")}</p>
           </div>
-          <Button className="bg-green-500 hover:bg-green-600 text-white rounded-xl font-semibold px-6 py-3 shadow-sm">
-            <Timer className="w-5 h-5 mr-2 stroke-2" />
-            {t('volunteer.header.start')}
-          </Button>
         </div>
-
-        {/* Ask a Question Section */}
-        <Card className="bg-white border-0 shadow-sm">
-          <CardContent className="p-5">
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                  <HelpCircle className="w-5 h-5 text-blue-600 stroke-2" />
-                </div>
-                <div className="flex-1">
-                  <h2 className={`${isLarge ? 'text-2xl' : 'text-xl'} font-semibold text-gray-900`}>{t('volunteer.ask.title')}</h2>
-                  <p className="text-sm text-gray-600">{t('volunteer.ask.subtitle')}</p>
-                </div>
-              </div>
-              
-              {!showAskQuestion ? (
-                <Button 
-                  onClick={() => setShowAskQuestion(true)}
-                  variant="outline" 
-                  className="w-full text-blue-600 border-blue-200 hover:bg-blue-50"
-                >
-                  <Send className="w-4 h-4 mr-2 stroke-2" />
-                  {t('volunteer.ask.submitQuestion')}
-                </Button>
-              ) : (
-                <div className="space-y-3">
-                  <div>
-                    <label className="text-sm font-medium text-gray-700 mb-2 block">{t('volunteer.ask.category')}</label>
-                    <select 
-                      value={category}
-                      onChange={(e) => setCategory(e.target.value)}
-                      className="w-full p-2 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    >
-                      <option>{t('volunteer.categories.general')}</option>
-                      <option>{t('volunteer.categories.phonics')}</option>
-                      <option>{t('volunteer.categories.reading')}</option>
-                      <option>{t('volunteer.categories.homework')}</option>
-                      <option>{t('volunteer.categories.motivation')}</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium text-gray-700 mb-2 block">{t('volunteer.ask.yourQuestion')}</label>
-                    <Textarea 
-                      value={question}
-                      onChange={(e) => setQuestion(e.target.value)}
-                      placeholder={t('volunteer.ask.placeholder')}
-                      className="min-h-20 resize-none"
-                    />
-                  </div>
-                  <div className="flex gap-2">
-                    <Button 
-                      onClick={() => setShowAskQuestion(false)}
-                      variant="outline" 
-                      className="flex-1"
-                    >
-                      {t('volunteer.ask.cancel')}
-                    </Button>
-                    <Button 
-                      className="flex-1 bg-blue-500 hover:bg-blue-600 text-white"
-                      disabled={!question.trim()}
-                    >
-                      <Send className="w-4 h-4 mr-2 stroke-2" />
-                      {t('volunteer.ask.submit')}
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
 
         {/* My Impact Section (for volunteers) */}
         <Card className="bg-gradient-to-r from-green-50 to-emerald-50 border-0 shadow-sm">
@@ -290,21 +297,43 @@ export default function VolunteerPage() {
                   <Target className="w-5 h-5 text-green-600 stroke-2" />
                 </div>
                 <div className="flex-1">
-                  <h2 className={`${isLarge ? 'text-2xl' : 'text-xl'} font-semibold text-gray-900`}>{t('volunteer.impact.title')}</h2>
-                  <p className="text-sm text-gray-600">{t('volunteer.impact.subtitle')}</p>
+                  <h2
+                    className={`${
+                      isLarge ? "text-2xl" : "text-xl"
+                    } font-semibold text-gray-900`}
+                  >
+                    {t("volunteer.impact.title")}
+                  </h2>
+                  <p className="text-sm text-gray-600">
+                    {t("volunteer.impact.subtitle")}
+                  </p>
                 </div>
               </div>
 
               {/* Hours Progress */}
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="font-medium text-gray-700">{t('volunteer.impact.thisMonth', { hours: myProgress.hoursThisMonth, goal: myProgress.hoursGoal })}</span>
-                  <span className="text-green-600 font-semibold">{Math.round((myProgress.hoursThisMonth/myProgress.hoursGoal)*100)}%</span>
+                  <span className="font-medium text-gray-700">
+                    {t("volunteer.impact.thisMonth", {
+                      hours: myProgress.hoursThisMonth,
+                      goal: myProgress.hoursGoal,
+                    })}
+                  </span>
+                  <span className="text-green-600 font-semibold">
+                    {Math.round(
+                      (myProgress.hoursThisMonth / myProgress.hoursGoal) * 100
+                    )}
+                    %
+                  </span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
+                  <div
                     className="bg-green-500 h-2 rounded-full transition-all duration-500"
-                    style={{ width: `${(myProgress.hoursThisMonth/myProgress.hoursGoal)*100}%` }}
+                    style={{
+                      width: `${
+                        (myProgress.hoursThisMonth / myProgress.hoursGoal) * 100
+                      }%`,
+                    }}
                   />
                 </div>
               </div>
@@ -312,107 +341,62 @@ export default function VolunteerPage() {
               {/* Quick Stats */}
               <div className="grid grid-cols-3 gap-4">
                 <div className="text-center">
-                  <div className="text-lg font-bold text-gray-900">{myProgress.totalHours}</div>
-                  <div className="text-xs text-gray-600">{t('volunteer.impact.totalHours')}</div>
+                  <div className="text-lg font-bold text-gray-900">
+                    {myProgress.totalHours}
+                  </div>
+                  <div className="text-xs text-gray-600">
+                    {t("volunteer.impact.totalHours")}
+                  </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-lg font-bold text-gray-900">#{myProgress.rank}</div>
-                  <div className="text-xs text-gray-600">{t('volunteer.impact.thisWeek')}</div>
+                  <div className="text-lg font-bold text-gray-900">
+                    #{myProgress.rank}
+                  </div>
+                  <div className="text-xs text-gray-600">
+                    {t("volunteer.impact.thisWeek")}
+                  </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-lg font-bold text-green-600">{myProgress.rewardsAvailable}</div>
-                  <div className="text-xs text-gray-600">{t('volunteer.impact.rewards')}</div>
+                  <div className="text-lg font-bold text-green-600">
+                    {myProgress.rewardsAvailable}
+                  </div>
+                  <div className="text-xs text-gray-600">
+                    {t("volunteer.impact.rewards")}
+                  </div>
                 </div>
               </div>
 
               {/* Action Buttons */}
               <div className="flex gap-2">
-                <Button variant="outline" className="flex-1 text-green-600 border-green-200 hover:bg-green-50">
+                <Button
+                  variant="outline"
+                  className="flex-1 text-green-600 border-green-200 hover:bg-green-50"
+                >
                   <Gift className="w-4 h-4 mr-2 stroke-2" />
-                  {t('volunteer.impact.redeem')}
+                  {t("volunteer.impact.redeem")}
                 </Button>
-                <Button variant="outline" className="flex-1 text-orange-600 border-orange-200 hover:bg-orange-50">
+                <Button
+                  variant="outline"
+                  className="flex-1 text-orange-600 border-orange-200 hover:bg-orange-50"
+                >
                   <Trophy className="w-4 h-4 mr-2 stroke-2" />
-                  {t('volunteer.impact.leaderboard')}
+                  {t("volunteer.impact.leaderboard")}
                 </Button>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Available Volunteers */}
-        <div className="space-y-4">
-          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>{t('volunteer.volunteers.title')}</h2>
-          
-          <div className="space-y-3">
-            {volunteers.map((volunteer) => (
-              <Card key={volunteer.id} className="bg-white border-0 shadow-sm">
-                <CardContent className="p-4">
-                  <div className="space-y-3">
-                    {/* Volunteer Header */}
-                    <div className="flex items-start gap-3">
-                      <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-lg">
-                        {volunteer.avatar}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2">
-                          <h3 className="font-semibold text-gray-900">{volunteer.name}</h3>
-                          {volunteer.isOnline && (
-                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                          )}
-                        </div>
-                        <p className="text-sm text-gray-600">{volunteer.role}</p>
-                        <div className="flex items-center gap-1 mt-1">
-                          <Star className="w-4 h-4 text-yellow-500 fill-yellow-500 stroke-2" />
-                          <span className="text-sm font-medium text-gray-700">{volunteer.rating}</span>
-                          <span className="text-sm text-gray-500">• {volunteer.totalAnswers} {t('volunteer.volunteers.answers')}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Time Auction Badge & Hours */}
-                    <div className="flex items-center gap-2">
-                      <Badge className={`text-xs px-2 py-1 ${volunteer.badgeColor}`}>
-                        <Award className="w-3 h-3 mr-1 stroke-2" />
-                        {volunteer.timeAuctionBadge}
-                      </Badge>
-                      <span className="text-xs text-gray-600">
-                        {t('volunteer.volunteers.hoursContributed', { hours: volunteer.hoursContributed })}
-                      </span>
-                    </div>
-
-                    {/* Specialties */}
-                    <div className="flex flex-wrap gap-1">
-                      {volunteer.specialties.map((specialty) => (
-                        <Badge 
-                          key={specialty}
-                          variant="outline" 
-                          className="text-xs border-gray-200 text-gray-600"
-                        >
-                          {specialty}
-                        </Badge>
-                      ))}
-                    </div>
-
-                    {/* Action Button */}
-                    <Button 
-                      className="w-full bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium"
-                      disabled={!volunteer.isOnline}
-                    >
-                      <MessageCircle className="w-4 h-4 mr-2 stroke-2" />
-                      {volunteer.isOnline ? t('volunteer.volunteers.answerQuestions') : t('volunteer.volunteers.offline')}
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
         {/* Recent Questions */}
         <div className="space-y-4">
-          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>{t('volunteer.recent.title')}</h2>
-          
+          <h2
+            className={`${
+              isLarge ? "text-2xl" : "text-lg"
+            } font-semibold text-gray-900`}
+          >
+            {t("volunteer.recent.title")}
+          </h2>
+
           <div className="space-y-3">
             {recentQuestions.map((q) => (
               <Card key={q.id} className="bg-white border-0 shadow-sm">
@@ -423,7 +407,9 @@ export default function VolunteerPage() {
                         <HelpCircle className="w-4 h-4 text-blue-600 stroke-2" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-medium text-gray-900 leading-tight">{q.question}</h3>
+                        <h3 className="font-medium text-gray-900 leading-tight">
+                          {q.question}
+                        </h3>
                         <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
                           <span>{q.author}</span>
                           <span>•</span>
@@ -434,17 +420,20 @@ export default function VolunteerPage() {
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Badge variant="outline" className="text-xs border-blue-200 text-blue-600">
+                        <Badge
+                          variant="outline"
+                          className="text-xs border-blue-200 text-blue-600"
+                        >
                           {q.category}
                         </Badge>
                         {q.isAnswered && (
                           <Badge className="text-xs bg-green-100 text-green-700 border-green-200">
                             <CheckCircle className="w-3 h-3 mr-1 stroke-2" />
-                            {t('volunteer.recent.answered')}
+                            {t("volunteer.recent.answered")}
                           </Badge>
                         )}
                       </div>
-                      
+
                       <div className="flex items-center gap-1 text-sm text-gray-500">
                         <MessageCircle className="w-4 h-4 stroke-2" />
                         <span>{q.answers}</span>
@@ -461,5 +450,5 @@ export default function VolunteerPage() {
         <div className="h-20"></div>
       </div>
     </div>
-  )
+  );
 }

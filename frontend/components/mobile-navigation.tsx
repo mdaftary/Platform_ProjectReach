@@ -1,13 +1,15 @@
 "use client"
 
-import { Home, BarChart3, Users, HandHeart, Trophy } from "lucide-react"
+import { Home, BarChart3, Users, HandHeart, Trophy, MessageCircle, Video } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
+import { useAuth } from "@/contexts/auth-context"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
 
-const navItems = [
+// Navigation items for parents
+const parentNavItems = [
   { href: "/", icon: Home, label: "mobileNav.home" },
   { href: "/progress", icon: BarChart3, label: "mobileNav.progress" },
   { href: "/community", icon: Users, label: "mobileNav.community" },
@@ -15,9 +17,20 @@ const navItems = [
   { href: "/leaderboard", icon: Trophy, label: "mobileNav.leaderboard" },
 ]
 
+// Navigation items for volunteers
+const volunteerNavItems = [
+  { href: "/volunteer", icon: Home, label: "mobileNav.home" },
+  { href: "/volunteer/qna", icon: MessageCircle, label: "mobileNav.qna" },
+  { href: "/volunteer/live-tutoring", icon: Video, label: "mobileNav.liveTutoring" },
+]
+
 export function MobileNavigation() {
   const pathname = usePathname()
   const { t } = useTranslation()
+  const { user } = useAuth()
+
+  // Get navigation items based on user role
+  const navItems = user?.role === 'volunteer' ? volunteerNavItems : parentNavItems
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t border-gray-100 z-50">
