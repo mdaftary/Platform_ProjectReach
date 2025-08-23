@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Camera, Play, CheckCircle2, Flame, Clock, Circle, User, Eye, ChevronRight, X, Check, AlertCircle, Download, ArrowRight, Loader, LogOut, Settings, BookOpen, Edit3, Volume2, Video, BarChart3, Star } from "lucide-react"
+import { Camera, Play, CheckCircle2, Flame, Clock, Circle, User, Eye, ChevronRight, X, Check, AlertCircle, Download, ArrowRight, Loader, LogOut, Settings, BookOpen, Edit3, Volume2, Video, BarChart3, Star, Users } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import { useFontSize } from "@/app/font-size-provider"
@@ -18,27 +18,27 @@ import { SwipeableProgressCard } from "@/components/swipeable-progress-card"
 const weeklyTasksEn = [
   {
     id: 1,
-    title: "Upload Worksheet",
-    subtitle: "Week 12 - Alphabet Practice",
+    title: "Week 12 - Alphabet Practice",
+    subtitle: "Upload Worksheet",
     completed: false,
     isPrimary: true,
     icon: Camera,
   },
   {
     id: 2,
-    title: "Watch Tutorial Video",
-    subtitle: "Letter Recognition Tips",
+    title: "Letter Recognition Tips",
+    subtitle: "Watch Tutorial Video",
     completed: true,
     isPrimary: false,
     icon: Play,
   },
   {
     id: 3,
-    title: "Confirm Homework Submission",
-    subtitle: "Due Today at 6:00 PM",
+    title: "Alphabet practice tutoring",
+    subtitle: "Live tutoring at 25/8/2025 21:00",
     completed: false,
     isPrimary: false,
-    icon: CheckCircle2,
+    icon: Users,
   },
 ]
 
@@ -46,27 +46,27 @@ const weeklyTasksEn = [
 const weeklyTasksZh = [
   {
     id: 1,
-    title: "上传作业单",
-    subtitle: "第12周 - 字母练习",
+    title: "第12周 - 字母練習",
+    subtitle: "上傳功課",
     completed: false,
     isPrimary: true,
     icon: Camera,
   },
   {
     id: 2,
-    title: "观看教学视频",
-    subtitle: "字母识别技巧",
-    completed: true,
+    title: "字母識別技巧",
+    subtitle: "觀看教學視頻",
+    completed: false,
     isPrimary: false,
     icon: Play,
   },
   {
     id: 3,
-    title: "确认作业提交",
-    subtitle: "今日下午6:00截止",
+    title: "字母練習輔導",
+    subtitle: "25/8/2025 21:00實時輔導",
     completed: false,
     isPrimary: false,
-    icon: CheckCircle2,
+    icon: Users,
   },
 ]
 
@@ -74,43 +74,40 @@ const weeklyTasksZh = [
 const assignmentDetailsEn: AssignmentDetail[] = [
   {
     id: 1,
-    title: "Upload Worksheet",
-    subtitle: "Week 12 - Alphabet Practice",
+    title: "Week 12 - Alphabet Practice",
+    subtitle: "Upload Worksheet",
     description: "Complete the alphabet recognition worksheet by identifying and circling the correct letters. This assignment helps reinforce letter recognition skills and improves visual discrimination between similar letters.",
-    subject: "Language Arts",
-    dueDate: "Today at 6:00 PM",
+    subject: "Alphabet",
+    dueDate: "25/8/2025 23:00",
     estimatedTime: "15-20 minutes",
     difficulty: 'Easy',
     objectives: [
       "Identify uppercase and lowercase letters A-Z",
       "Distinguish between similar-looking letters (b/d, p/q)",
-      "Practice fine motor skills through circling activities",
       "Build confidence in letter recognition"
     ],
     materials: [
       "Printed worksheet (provided)",
       "Pencil or pen",
       "Eraser",
-      "Quiet workspace"
     ],
     instructions: [
       "Print the worksheet from the assignment materials section",
-      "Find a quiet place to work without distractions",
-      "Read each question carefully before answering",
       "Circle the correct letters as instructed in each section",
-      "Check your work before submitting",
       "Take a photo of your completed worksheet and upload it"
     ],
     completed: false,
+    buttonText: "Upload Worksheet",
+    pointReward: 10,
     icon: Camera
   },
   {
     id: 2,
-    title: "Watch Tutorial Video",
-    subtitle: "Letter Recognition Tips",
+    title: "Letter Recognition Tips",
+    subtitle: "Watch Tutorial Video",
     description: "Watch an educational video about effective letter recognition strategies. The video covers techniques for remembering letter shapes, common mistakes to avoid, and fun memory tricks.",
-    subject: "Language Arts",
-    dueDate: "Tomorrow at 5:00 PM",
+    subject: "Alphabet",
+    dueDate: "26/8/2025 23:00",
     estimatedTime: "10-15 minutes",
     difficulty: 'Easy',
     objectives: [
@@ -121,49 +118,40 @@ const assignmentDetailsEn: AssignmentDetail[] = [
     ],
     materials: [
       "Device with internet connection",
-      "Headphones (optional)",
-      "Notebook for taking notes"
     ],
     instructions: [
       "Click the video link provided in the assignment",
-      "Ensure you have a stable internet connection",
       "Watch the entire video without skipping",
-      "Take notes on key strategies mentioned",
-      "Pause and replay sections if needed",
       "Complete the short quiz after the video"
     ],
     completed: true,
+    buttonText: "Watch Tutorial Video",
+    pointReward: 10,
     icon: Play
   },
   {
     id: 3,
-    title: "Confirm Homework Submission",
-    subtitle: "Due Today at 6:00 PM",
-    description: "Review and confirm that all your homework assignments for this week have been properly submitted. Check your submission status and ensure all required materials are uploaded.",
-    subject: "General",
-    dueDate: "Today at 6:00 PM",
+    title: "Alphabet practice tutoring",
+    subtitle: "Live tutoring at 25/8/2025 21:00",
+    description: "Our volunteer tutors will be available to help you with your homework assignments.",
+    subject: "Alphabet",
+    dueDate: "26/8/2025 23:00",
     estimatedTime: "5-10 minutes",
     difficulty: 'Easy',
     objectives: [
-      "Verify all assignments are submitted",
-      "Check submission timestamps",
-      "Ensure file formats are correct",
-      "Confirm receipt of submission confirmations"
+      "Join the live tutoring session",
+      "Ask questions about the assignment",
+      "Get help with the assignment",
     ],
     materials: [
-      "Access to student portal",
-      "List of this week's assignments",
-      "Submission confirmation emails"
+      "Alphabet practice worksheet",
     ],
     instructions: [
-      "Log into your student portal",
-      "Navigate to the assignments section",
-      "Check the status of each assignment for this week",
-      "Verify that all files uploaded correctly",
-      "Contact your teacher if any submissions are missing",
-      "Print or save confirmation receipts"
+      "Join the live tutoring session at 25/8/2025 21:00 via Zoom",
     ],
     completed: false,
+    buttonText: "I am interested, remind me",
+    pointReward: 10,
     icon: CheckCircle2
   }
 ]
@@ -172,96 +160,84 @@ const assignmentDetailsEn: AssignmentDetail[] = [
 const assignmentDetailsZh: AssignmentDetail[] = [
   {
     id: 1,
-    title: "上传作业单",
-    subtitle: "第12周 - 字母练习",
-    description: "通过识别和圈出正确的字母来完成字母识别练习单。这项作业有助于加强字母识别技能，提高对相似字母的视觉辨别能力。",
-    subject: "语言艺术",
-    dueDate: "今日下午6:00",
-    estimatedTime: "15-20分钟",
+    title: "第12周 - 字母練習",
+    subtitle: "上傳功課",
+    description: "通過識別和圈出正確的字母來完成字母識別練習單。這項功課有助於加強字母識別技能，提高對相似字母的視覺辨別能力。",
+    subject: "字母",
+    dueDate: "25/8/2025 23:00",
+    estimatedTime: "15-20分鐘",
     difficulty: 'Easy',
     objectives: [
-      "识别大写和小写字母A-Z",
-      "区分相似字母（b/d, p/q）",
-      "通过圈圈活动练习精细动作技能",
-      "建立字母识别的信心"
+      "識別大寫和小寫字母A-Z",
+      "區分相似字母（b/d, p/q）",
+      "建立字母識別的信心"
     ],
     materials: [
-      "打印的练习单（已提供）",
-      "铅笔或钢笔",
-      "橡皮擦",
-      "安静的学习空间"
+      "打印的練習單（已提供）",
+      "鉛筆或鋼筆",
+      "橡皮擦"
     ],
     instructions: [
-      "从作业材料部分打印练习单",
-      "找一个安静无干扰的地方学习",
-      "仔细阅读每个问题后再回答",
-      "按照每部分的指示圈出正确的字母",
-      "提交前检查你的答案",
-      "拍摄完成的练习单照片并上传"
+      "從功課材料部分打印練習單",
+      "按照每部分的指示圈出正確的字母",
+      "拍攝完成的練習單照片並上傳"
     ],
     completed: false,
+    buttonText: "上傳功課",
+    pointReward: 10,
     icon: Camera
   },
   {
     id: 2,
-    title: "观看教学视频",
-    subtitle: "字母识别技巧",
-    description: "观看关于有效字母识别策略的教育视频。视频涵盖记忆字母形状的技巧、要避免的常见错误以及有趣的记忆诀窍。",
-    subject: "语言艺术",
-    dueDate: "明日下午5:00",
-    estimatedTime: "10-15分钟",
+    title: "字母識別技巧",
+    subtitle: "觀看教學視頻",
+    description: "觀看關於有效字母識別策略的教育視頻。視頻涵蓋記憶字母形狀的技巧、要避免的常見錯誤以及有趣的記憶訣竅。",
+    subject: "字母",
+    dueDate: "26/8/2025 23:00",
+    estimatedTime: "10-15分鐘",
     difficulty: 'Easy',
     objectives: [
-      "学习有效的字母识别策略",
-      "理解常见的字母混淆模式",
-      "发现更好记忆的技巧",
-      "应用技巧提高阅读技能"
+      "學習有效的字母識別策略",
+      "理解常見的字母混淆模式",
+      "發現更好記憶的技巧",
+      "應用技巧提高閱讀技能"
     ],
     materials: [
-      "有网络连接的设备",
-      "耳机（可选）",
-      "记笔记的笔记本"
+      "有網絡連接的設備"
     ],
     instructions: [
-      "点击作业中提供的视频链接",
-      "确保网络连接稳定",
-      "完整观看视频，不要跳过",
-      "记录提到的关键策略",
-      "需要时可以暂停和重播",
-      "完成视频后的简短测验"
+      "點擊功課中提供的視頻鏈接",
+      "完整觀看視頻，不要跳過",
+      "完成視頻後的簡短測驗"
     ],
-    completed: true,
+    completed: false,
+    buttonText: "觀看教學視頻",
+    pointReward: 10,
     icon: Play
   },
   {
     id: 3,
-    title: "确认作业提交",
-    subtitle: "今日下午6:00截止",
-    description: "审查并确认本周所有家庭作业已正确提交。检查提交状态并确保所有必需材料已上传。",
-    subject: "综合",
-    dueDate: "今日下午6:00",
-    estimatedTime: "5-10分钟",
+    title: "字母練習輔導",
+    subtitle: "25/8/2025 21:00實時輔導",
+    description: "我們的義工導師將協助您完成功課作業。",
+    subject: "字母",
+    dueDate: "26/8/2025 23:00",
+    estimatedTime: "5-10分鐘",
     difficulty: 'Easy',
     objectives: [
-      "验证所有作业已提交",
-      "检查提交时间戳",
-      "确保文件格式正确",
-      "确认收到提交确认"
+      "參加實時輔導課程",
+      "就功課提出問題",
+      "獲得功課協助"
     ],
     materials: [
-      "学生门户访问权限",
-      "本周作业清单",
-      "提交确认邮件"
+      "字母練習功課"
     ],
     instructions: [
-      "登录学生门户",
-      "导航到作业部分",
-      "检查本周每项作业的状态",
-      "验证所有文件正确上传",
-      "如有遗漏作业请联系老师",
-      "打印或保存确认收据"
+      "於25/8/2025 21:00通過Zoom參加實時輔導課程"
     ],
     completed: false,
+    buttonText: "我有興趣，請提醒我",
+    pointReward: 10,
     icon: CheckCircle2
   }
 ]
@@ -273,6 +249,234 @@ const progressCategories = [
   { name: "vocabulary", progress: 68, color: "text-blue-600", barColor: "bg-blue-400" },
   { name: "phonemicAwareness", progress: 79, color: "text-green-600", barColor: "bg-green-400" },
   { name: "pointAndRead", progress: 91, color: "text-green-600", barColor: "bg-green-500" },
+]
+
+// Previous assignments data - English version
+const previousAssignmentsEn = [
+  {
+    id: 11,
+    title: "Week 11 - Sight Words Practice",
+    subtitle: "Word Recognition Exercise",
+    subject: "Sight Words",
+    submittedDate: "15/8/2025",
+    score: 9,
+    status: "graded",
+    difficulty: "Easy",
+    pointsEarned: 15
+  },
+  {
+    id: 10,
+    title: "Week 10 - Letter Writing",
+    subtitle: "Handwriting Practice",
+    subject: "Alphabet",
+    submittedDate: "8/8/2025",
+    score: 8,
+    status: "graded",
+    difficulty: "Medium",
+    pointsEarned: 12
+  },
+  {
+    id: 9,
+    title: "Week 9 - Phonics Sounds",
+    subtitle: "Sound Recognition",
+    subject: "Phonemic Awareness",
+    submittedDate: "1/8/2025",
+    score: 9,
+    status: "graded",
+    difficulty: "Easy",
+    pointsEarned: 14
+  },
+  {
+    id: 8,
+    title: "Week 8 - Reading Comprehension",
+    subtitle: "Short Story Questions",
+    subject: "Point-and-Read",
+    submittedDate: "25/7/2025",
+    score: 7,
+    status: "graded",
+    difficulty: "Medium",
+    pointsEarned: 11
+  },
+  {
+    id: 7,
+    title: "Week 7 - Vocabulary Building",
+    subtitle: "New Words Exercise",
+    subject: "Vocabulary",
+    submittedDate: "18/7/2025",
+    score: 10,
+    status: "graded",
+    difficulty: "Easy",
+    pointsEarned: 16
+  },
+  {
+    id: 6,
+    title: "Week 6 - Grammar Basics",
+    subtitle: "Sentence Structure",
+    subject: "Sight Words",
+    submittedDate: "11/7/2025",
+    score: 8,
+    status: "graded",
+    difficulty: "Medium",
+    pointsEarned: 13
+  },
+  {
+    id: 5,
+    title: "Week 5 - Spelling Practice",
+    subtitle: "Common Words Test",
+    subject: "Alphabet",
+    submittedDate: "4/7/2025",
+    score: 9,
+    status: "graded",
+    difficulty: "Easy",
+    pointsEarned: 14
+  },
+  {
+    id: 4,
+    title: "Week 4 - Story Writing",
+    subtitle: "Creative Writing",
+    subject: "Point-and-Read",
+    submittedDate: "27/6/2025",
+    score: 6,
+    status: "graded",
+    difficulty: "Hard",
+    pointsEarned: 10
+  },
+  {
+    id: 3,
+    title: "Week 3 - Letter Sounds",
+    subtitle: "Phonetic Practice",
+    subject: "Phonemic Awareness",
+    submittedDate: "20/6/2025",
+    score: 9,
+    status: "graded",
+    difficulty: "Easy",
+    pointsEarned: 15
+  },
+  {
+    id: 2,
+    title: "Week 2 - Basic Reading",
+    subtitle: "Simple Sentences",
+    subject: "Vocabulary",
+    submittedDate: "13/6/2025",
+    score: 8,
+    status: "graded",
+    difficulty: "Easy",
+    pointsEarned: 13
+  }
+]
+
+// Previous assignments data - Chinese version
+const previousAssignmentsZh = [
+  {
+    id: 11,
+    title: "第11周 - 常見詞練習",
+    subtitle: "詞彙識別練習",
+    subject: "常見詞",
+    submittedDate: "15/8/2025",
+    score: 9,
+    status: "graded",
+    difficulty: "Easy",
+    pointsEarned: 15
+  },
+  {
+    id: 10,
+    title: "第10周 - 字母書寫",
+    subtitle: "書寫練習",
+    subject: "字母",
+    submittedDate: "8/8/2025",
+    score: 8,
+    status: "graded",
+    difficulty: "Medium",
+    pointsEarned: 12
+  },
+  {
+    id: 9,
+    title: "第9周 - 語音練習",
+    subtitle: "聲音識別",
+    subject: "語音意識",
+    submittedDate: "1/8/2025",
+    score: 9,
+    status: "graded",
+    difficulty: "Easy",
+    pointsEarned: 14
+  },
+  {
+    id: 8,
+    title: "第8周 - 閱讀理解",
+    subtitle: "短篇故事問題",
+    subject: "指讀",
+    submittedDate: "25/7/2025",
+    score: 7,
+    status: "graded",
+    difficulty: "Medium",
+    pointsEarned: 11
+  },
+  {
+    id: 7,
+    title: "第7周 - 詞彙建構",
+    subtitle: "新詞練習",
+    subject: "詞彙",
+    submittedDate: "18/7/2025",
+    score: 10,
+    status: "graded",
+    difficulty: "Easy",
+    pointsEarned: 16
+  },
+  {
+    id: 6,
+    title: "第6周 - 語法基礎",
+    subtitle: "句子結構",
+    subject: "常見詞",
+    submittedDate: "11/7/2025",
+    score: 8,
+    status: "graded",
+    difficulty: "Medium",
+    pointsEarned: 13
+  },
+  {
+    id: 5,
+    title: "第5周 - 拼寫練習",
+    subtitle: "常用詞測試",
+    subject: "字母",
+    submittedDate: "4/7/2025",
+    score: 9,
+    status: "graded",
+    difficulty: "Easy",
+    pointsEarned: 14
+  },
+  {
+    id: 4,
+    title: "第4周 - 故事寫作",
+    subtitle: "創意寫作",
+    subject: "指讀",
+    submittedDate: "27/6/2025",
+    score: 6,
+    status: "graded",
+    difficulty: "Hard",
+    pointsEarned: 10
+  },
+  {
+    id: 3,
+    title: "第3周 - 字母聲音",
+    subtitle: "語音練習",
+    subject: "語音意識",
+    submittedDate: "20/6/2025",
+    score: 9,
+    status: "graded",
+    difficulty: "Easy",
+    pointsEarned: 15
+  },
+  {
+    id: 2,
+    title: "第2周 - 基礎閱讀",
+    subtitle: "簡單句子",
+    subject: "詞彙",
+    submittedDate: "13/6/2025",
+    score: 8,
+    status: "graded",
+    difficulty: "Easy",
+    pointsEarned: 13
+  }
 ]
 
 
@@ -290,6 +494,7 @@ export default function HomePage() {
   // Select tasks based on current language
   const weeklyTasks = i18n.language === 'zh' ? weeklyTasksZh : weeklyTasksEn
   const assignmentDetails = i18n.language === 'zh' ? assignmentDetailsZh : assignmentDetailsEn
+  const previousAssignments = i18n.language === 'zh' ? previousAssignmentsZh : previousAssignmentsEn
 
   // Drawer state
   const [selectedAssignment, setSelectedAssignment] = useState<AssignmentDetail | null>(null)
@@ -360,7 +565,7 @@ export default function HomePage() {
           <div className="relative z-10">
             <div className="flex items-center gap-2 mb-3">
               <Clock className="w-4 h-4" />
-              <span className="text-sm">The deadline is almost up</span>
+              <span className="text-sm">{t('dashboard.overview.deadlineReminder')}</span>
               <div className="ml-auto bg-black/20 px-3 py-1 rounded-full">
                 <span className="text-sm font-medium">20:38</span>
               </div>
@@ -377,7 +582,7 @@ export default function HomePage() {
             {weeklyTasks[0] && !weeklyTasks[0].completed && (
                       <Button 
                         size="sm" 
-                        onClick={handleUploadClick}
+                        onClick={() => handleAssignmentClick(weeklyTasks[0].id)}
                 className="bg-white/20 hover:bg-white/30 text-white border border-white/30 px-4 py-2 text-sm font-semibold rounded-xl backdrop-blur-sm"
                       >
                 <Camera className="w-4 h-4 mr-2" />
@@ -401,8 +606,8 @@ export default function HomePage() {
         {/* Current Assignments Section */}
               <div className="space-y-4">
           <div className="flex items-center gap-4">
-            <h2 className="text-xl font-bold text-gray-900">Your current assignments</h2>
-            <span className="text-gray-500 text-sm">Tasks</span>
+            <h2 className="text-xl font-bold text-gray-900">{t('dashboard.overview.activeAssignments')}</h2>
+            <span className="text-gray-500 text-sm">{t('dashboard.overview.tasks')}</span>
                   </div>
           
           <div className="grid gap-4">
@@ -412,7 +617,7 @@ export default function HomePage() {
               const TaskIcon = task.icon;
               
               // Determine icon background color based on task type
-              let iconBgColor = "bg-blue-400";
+              let iconBgColor = "bg-green-400";
               
                             return (
                 <div 
@@ -450,6 +655,105 @@ export default function HomePage() {
                     <ChevronRight className="w-5 h-5 text-gray-400" />
               </div>
             </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Previous Assignments Section */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-4">
+            <h2 className="text-xl font-bold text-gray-900">{t('assignments.previousAssignments.title')}</h2>
+            <span className="text-gray-500 text-sm">{t('assignments.previousAssignments.completed')}</span>
+          </div>
+          
+          <div className="grid gap-3">
+            {previousAssignments.map((assignment, index) => {
+              // Helper function to get score color based on performance
+              const getScoreColor = (score: number) => {
+                if (score >= 9) return 'text-green-600 bg-green-50';
+                if (score >= 7) return 'text-blue-600 bg-blue-50';
+                if (score >= 5) return 'text-yellow-600 bg-yellow-50';
+                return 'text-red-600 bg-red-50';
+              };
+
+              // Helper function to get subject icon color
+              const getSubjectColor = (subject: string) => {
+                switch (subject.toLowerCase()) {
+                  case 'sight words':
+                  case '常見詞':
+                    return 'bg-blue-500';
+                  case 'vocabulary':
+                  case '詞彙':
+                    return 'bg-purple-500';
+                  case 'phonemic awareness':
+                  case '語音意識':
+                    return 'bg-green-500';
+                  case 'alphabet':
+                  case '字母':
+                    return 'bg-orange-500';
+                  case 'point-and-read':
+                  case '指讀':
+                    return 'bg-red-500';
+                  default:
+                    return 'bg-gray-500';
+                }
+              };
+
+              return (
+                <div 
+                  key={assignment.id} 
+                  className="bg-white rounded-2xl p-4 border border-gray-100 hover:shadow-sm transition-shadow cursor-pointer"
+                  onClick={() => console.log('View assignment details', assignment.id)}
+                >
+                  <div className="flex items-center justify-between">
+                    {/* Left side: Assignment info */}
+                    <div className="flex items-center gap-3 flex-1">
+                      {/* Subject indicator */}
+                      <div className={`w-3 h-12 ${getSubjectColor(assignment.subject)} rounded-full flex-shrink-0`}></div>
+                      
+                      {/* Assignment details */}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-gray-900 text-sm truncate">
+                          {assignment.title}
+                        </h3>
+                        <p className="text-gray-500 text-xs truncate">
+                          {assignment.subtitle}
+                        </p>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-xs text-gray-400">
+                            {t('assignments.previousAssignments.submitted')}: {assignment.submittedDate}
+                          </span>
+                          <span className="text-xs text-gray-300">•</span>
+                          <span className="text-xs text-gray-500">
+                            {assignment.subject}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right side: Score and points */}
+                    <div className="flex items-center gap-3 flex-shrink-0">
+                      {/* Points earned */}
+                      <div className="text-right">
+                        <div className="text-xs text-gray-500">
+                          {t('assignments.previousAssignments.points')}
+                        </div>
+                        <div className="text-sm font-semibold text-gray-900">
+                          +{assignment.pointsEarned}
+                        </div>
+                      </div>
+
+                      {/* Score badge */}
+                      <div className={`px-3 py-1 rounded-full text-sm font-semibold ${getScoreColor(assignment.score)}`}>
+                        {assignment.score}/10
+                      </div>
+
+                      {/* Arrow */}
+                      <ChevronRight className="w-4 h-4 text-gray-400" />
+                    </div>
+                  </div>
+                </div>
               );
             })}
           </div>

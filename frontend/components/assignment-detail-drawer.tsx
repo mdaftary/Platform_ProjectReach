@@ -25,6 +25,7 @@ import {
   Upload,
   User
 } from "lucide-react"
+import { useTranslation } from "react-i18next"
 
 export interface AssignmentDetail {
   id: number
@@ -40,6 +41,8 @@ export interface AssignmentDetail {
   instructions: string[]
   completed: boolean
   icon: any
+  buttonText: string
+  pointReward: number 
 }
 
 interface AssignmentDetailDrawerProps {
@@ -55,6 +58,7 @@ export function AssignmentDetailDrawer({
   onOpenChange,
   onComplete
 }: AssignmentDetailDrawerProps) {
+  const { t } = useTranslation()
   if (!assignment) return null
 
   const TaskIcon = assignment.icon
@@ -73,7 +77,7 @@ export function AssignmentDetailDrawer({
       <DrawerContent className="max-h-[90vh]">
         <DrawerHeader className="border-b border-gray-100">
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 bg-blue-500 rounded-2xl flex items-center justify-center flex-shrink-0">
+            <div className="w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center flex-shrink-0">
               <TaskIcon className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1 min-w-0">
@@ -88,7 +92,7 @@ export function AssignmentDetailDrawer({
                   {assignment.subject}
                 </Badge>
                 <Badge className={`text-xs ${getDifficultyColor(assignment.difficulty)}`}>
-                  {assignment.difficulty}
+                  {t(`assignmentDetail.difficulty.${assignment.difficulty}`)}
                 </Badge>
                 {assignment.completed && (
                   <Badge className="bg-green-100 text-green-700 text-xs">
@@ -109,15 +113,18 @@ export function AssignmentDetailDrawer({
         <div className="overflow-y-auto">
           <div className="p-6 space-y-6">
             {/* Assignment Info */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <Calendar className="w-4 h-4" />
-                <span>Due: {assignment.dueDate}</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <Clock className="w-4 h-4" />
-                <span>{assignment.estimatedTime}</span>
-              </div>
+                <span>{t("assignmentDetail.dueDate")}: {assignment.dueDate}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <Clock className="w-4 h-4" />
+                  <span>{assignment.estimatedTime}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <span>{t("assignmentDetail.pointReward")}: {assignment.pointReward}</span>
+                </div>
             </div>
 
             {/* Description */}
@@ -125,7 +132,7 @@ export function AssignmentDetailDrawer({
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <FileText className="w-4 h-4 text-gray-600" />
-                  <h3 className="font-semibold text-gray-900">Description</h3>
+                  <h3 className="font-semibold text-gray-900">{t("assignmentDetail.description")}</h3>
                 </div>
                 <p className="text-gray-700 leading-relaxed">
                   {assignment.description}
@@ -138,12 +145,12 @@ export function AssignmentDetailDrawer({
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <Target className="w-4 h-4 text-gray-600" />
-                  <h3 className="font-semibold text-gray-900">Learning Objectives</h3>
+                  <h3 className="font-semibold text-gray-900">{t("assignmentDetail.learningObjectives")}</h3>
                 </div>
                 <ul className="space-y-2">
                   {assignment.objectives.map((objective, index) => (
                     <li key={index} className="flex items-start gap-2 text-gray-700">
-                      <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0" />
                       <span>{objective}</span>
                     </li>
                   ))}
@@ -156,7 +163,7 @@ export function AssignmentDetailDrawer({
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <BookOpen className="w-4 h-4 text-gray-600" />
-                  <h3 className="font-semibold text-gray-900">Materials Needed</h3>
+                  <h3 className="font-semibold text-gray-900">{t("assignmentDetail.materials")}</h3>
                 </div>
                 <ul className="space-y-2">
                   {assignment.materials.map((material, index) => (
@@ -174,12 +181,12 @@ export function AssignmentDetailDrawer({
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <User className="w-4 h-4 text-gray-600" />
-                  <h3 className="font-semibold text-gray-900">Instructions</h3>
+                  <h3 className="font-semibold text-gray-900">{t("assignmentDetail.instructions")}</h3>
                 </div>
                 <ol className="space-y-3">
                   {assignment.instructions.map((instruction, index) => (
                     <li key={index} className="flex items-start gap-3 text-gray-700">
-                      <div className="w-6 h-6 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0 mt-0.5">
+                      <div className="w-6 h-6 bg-green-100 text-green-700 rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0 mt-0.5">
                         {index + 1}
                       </div>
                       <span>{instruction}</span>
@@ -193,38 +200,14 @@ export function AssignmentDetailDrawer({
 
         <DrawerFooter className="border-t border-gray-100 bg-gray-50/50">
           <div className="flex gap-3">
-            {!assignment.completed ? (
               <>
                 <Button 
-                  className="flex-1 bg-blue-500 hover:bg-blue-600 text-white"
+                  className="flex-1 bg-green-500 hover:bg-green-600 text-white"
                   onClick={() => onComplete?.(assignment.id)}
                 >
-                  {assignment.icon === Upload ? (
-                    <>
-                      <Upload className="w-4 h-4 mr-2" />
-                      Upload Work
-                    </>
-                  ) : assignment.icon === PlayCircle ? (
-                    <>
-                      <PlayCircle className="w-4 h-4 mr-2" />
-                      Start Video
-                    </>
-                  ) : (
-                    <>
-                      <CheckCircle2 className="w-4 h-4 mr-2" />
-                      Mark Complete
-                    </>
-                  )}
-                </Button>
-                <Button variant="outline" onClick={() => onOpenChange(false)}>
-                  Close
+                  {assignment.buttonText}
                 </Button>
               </>
-            ) : (
-              <Button className="flex-1" variant="outline" onClick={() => onOpenChange(false)}>
-                Close
-              </Button>
-            )}
           </div>
         </DrawerFooter>
       </DrawerContent>

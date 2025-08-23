@@ -466,6 +466,13 @@
         "description": "Check back later for new assignments from your teachers."
       }
     },
+    "previousAssignments": {
+      "title": "Previous Assignments",
+      "completed": "Completed",
+      "submitted": "Submitted",
+      "points": "Points",
+      "score": "Score"
+    },
     "detail": {
       "header": "Assignment Details",
       "reach": "REACH Hong Kong",
@@ -648,6 +655,7 @@
       "thisWeek": "This Week",
       "recentActivity": "Recent Activity",
       "upcomingDeadlines": "Upcoming Deadlines",
+      "deadlineReminder": "The deadline is almost up",
       "mathSubmitted": "Math assignment submitted",
       "earnedReadingStar": "Earned \"Reading Star\" badge",
       "joinedDiscussion": "Joined parent discussion",
@@ -655,7 +663,8 @@
       "dueTomorrow": "Due tomorrow",
       "dueInDays": "Due in {{days}} days",
       "dueNextWeek": "Due next week",
-      "pending": "Pending"
+      "pending": "Pending",
+      "tasks": "Tasks"
     },
     "progress": {
       "subjectOverTime": "Subject Progress Over Time",
@@ -1004,6 +1013,20 @@
     },
     "optOut": "Opt out of leaderboard",
     "optIn": "Opt in to leaderboard"
+  },
+  "assignmentDetail": {
+    "title": "Assignment Details",
+    "instructions": "Instructions",
+    "materials": "Materials",
+    "learningObjectives": "Learning Objectives",
+    "description": "Description",
+    "dueDate": "Due Date",
+    "difficulty": {
+      "Easy": "Easy",
+      "Medium": "Medium",
+      "Hard": "Hard"
+    },
+    "pointReward": "Point Reward"
   }
 }
 
