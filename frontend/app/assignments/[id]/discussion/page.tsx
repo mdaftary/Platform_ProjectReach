@@ -11,14 +11,17 @@ import Link from "next/link"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
 
-export default function AssignmentDiscussionPage({ params }: { params: { id: string } }) {
+import { use } from "react"
+
+export default function AssignmentDiscussionPage({ params }: { params: Promise<{ id: string }> }) {
   const { t } = useTranslation()
   const [newMessage, setNewMessage] = useState("")
   const [isAnonymous, setIsAnonymous] = useState(false)
+  const resolvedParams = use(params)
 
   // Mock assignment data
   const assignment = {
-    id: params.id,
+    id: resolvedParams.id,
     title: "English Reading Comprehension",
     subject: "English",
     dueDate: "2025-08-23",
@@ -152,7 +155,7 @@ The key is to make it interactive and fun, not stressful!`,
                         </Badge>
                       )}
                       {message.isOriginalPoster && (
-                        <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-800">
+                        <Badge variant="secondary" className="text-xs bg-green-100 text-green-800">
                           OP
                         </Badge>
                       )}

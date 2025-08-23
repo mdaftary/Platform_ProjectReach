@@ -3,11 +3,17 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react"
 import { useRouter, usePathname } from "next/navigation"
 
+type UserRole = "parent" | "volunteer" | "admin"
+
 interface User {
   id: string
   username: string
   email?: string
   phone?: string
+  studentName?: string
+  parentName?: string
+  school?: string
+  role: UserRole
   createdAt: string
 }
 
@@ -28,12 +34,15 @@ interface LoginCredentials {
 }
 
 interface SignupData {
-  method: 'email' | 'phone' | 'invitation'
+  method: 'email' | 'phone' | 'manual'
   email?: string
   phone?: string
-  invitationCode?: string
   username: string
   password: string
+  studentName?: string
+  parentName?: string
+  school?: string
+  role: UserRole
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -46,6 +55,7 @@ const MOCK_USERS = [
     email: "parent@example.com",
     phone: "+852 9876 5432",
     password: "password123",
+    role: "parent" as UserRole,
     createdAt: new Date().toISOString()
   },
   {
@@ -53,7 +63,24 @@ const MOCK_USERS = [
     username: "testuser",
     email: "test@example.com",
     password: "test123",
+    role: "parent" as UserRole,
     createdAt: new Date().toISOString()
+  },
+  {
+    id: "3",
+    username: "volunteer_user",
+    email: "volunteer@example.com",
+    password: "volunteer123",
+    role: "volunteer" as UserRole,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: "4",
+    username: "admin_user",
+    email: "admin@example.com",
+    password: "admin123",
+    role: "admin" as UserRole,
+    createdAt: new Date().toISOString() 
   }
 ]
 
@@ -62,47 +89,49 @@ const PUBLIC_ROUTES = ['/login', '/signup', '/forgot-password']
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false) // Start with false instead of true
   const router = useRouter()
   const pathname = usePathname()
+  
+  // Note: Starting with isLoading = false for frontend-only mode
 
   // Check if current route is public
+  console.log('Pathname', pathname)
   const isPublicRoute = PUBLIC_ROUTES.some(route => pathname.startsWith(route))
 
   // Initialize auth state from localStorage
   useEffect(() => {
-    const initializeAuth = async () => {
-      try {
-        const storedUser = localStorage.getItem('auth_user')
-        const storedToken = localStorage.getItem('auth_token')
-        
-        if (storedUser && storedToken) {
-          // In a real app, you'd validate the token with your backend
-          const userData = JSON.parse(storedUser)
-          setUser(userData)
-        }
-      } catch (error) {
-        console.error('Error initializing auth:', error)
-        // Clear invalid data
-        localStorage.removeItem('auth_user')
-        localStorage.removeItem('auth_token')
-      } finally {
-        setIsLoading(false)
+    try {
+      const storedUser = localStorage.getItem('auth_user')
+      const storedToken = localStorage.getItem('auth_token')
+      
+      if (storedUser && storedToken) {
+        const userData = JSON.parse(storedUser)
+        setUser(userData)
       }
+    } catch (error) {
+      console.error('Error initializing auth:', error)
+      localStorage.removeItem('auth_user')
+      localStorage.removeItem('auth_token')
     }
-
-    initializeAuth()
   }, [])
 
-  // Redirect logic
+  // Redirect logic when visiting /login
   useEffect(() => {
     if (!isLoading) {
       if (!user && !isPublicRoute) {
         // Redirect to login if not authenticated and trying to access protected route
         router.push('/login')
-      } else if (user && isPublicRoute) {
-        // Redirect to dashboard if authenticated and trying to access auth pages
+      } else if (user && user.role === 'admin' && isPublicRoute) {
+        // Redirect to dashboard if authenticated and trying to access auth pages (for admin)
+        console.log('Redirecting to admin', isPublicRoute)
+        router.push('/admin')
+      } else if (user && user.role === 'parent' && isPublicRoute) {
+        // Redirect to dashboard if authenticated and trying to access auth pages (for parents)
         router.push('/')
+      } else if (user && user.role === 'volunteer' && isPublicRoute) {
+        // Redirect to dashboard if authenticated and trying to access auth pages (for volunteers)
+        router.push('/volunteer')
       }
     }
   }, [user, isLoading, isPublicRoute, router, pathname])
@@ -136,7 +165,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('auth_token', 'mock_jwt_token_' + Date.now())
 
       setUser(authenticatedUser)
-      router.push('/')
+      // Role-based redirect
+      if (authenticatedUser.role === 'volunteer') {
+        router.push('/volunteer')
+      } else if (authenticatedUser.role === 'admin') {
+        router.push('/admin')
+      } else {
+        router.push('/')
+      }
       setIsLoading(false)
     } catch (error) {
       setIsLoading(false)
@@ -149,13 +185,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     
     try {
       // Mock Google authentication
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      await new Promise(resolve => setTimeout(resolve, 500))
       
-      // Create mock Google user
+      // Create mock Google user - default to parent role
       const googleUser: User = {
         id: "google_" + Date.now(),
         username: "google_user",
         email: "user@gmail.com",
+        role: "parent",
         createdAt: new Date().toISOString()
       }
 
@@ -163,7 +200,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('auth_token', 'mock_google_token_' + Date.now())
 
       setUser(googleUser)
-      router.push('/')
+      setIsLoading(false) // Fix: Set loading to false after successful login
+      // Role-based redirect
+      if (googleUser.role === 'volunteer') {
+        router.push('/volunteer')
+      } else if (googleUser.role === 'admin') {
+        router.push('/admin')
+      } else {
+        router.push('/')
+      }
     } catch (error) {
       setIsLoading(false)
       throw error
@@ -189,6 +234,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         username: userData.username,
         email: userData.email,
         phone: userData.phone,
+        studentName: userData.studentName,
+        parentName: userData.parentName,
+        school: userData.school,
+        role: userData.role,
         createdAt: new Date().toISOString()
       }
 
@@ -202,7 +251,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('auth_token', 'mock_signup_token_' + Date.now())
 
       setUser(newUser)
-      router.push('/')
+      setIsLoading(false) // Fix: Set loading to false after successful signup
+      // Role-based redirect
+      if (newUser.role === 'volunteer') {
+        router.push('/volunteer')
+      } else if (newUser.role === 'admin') {
+        router.push('/admin')
+      } else {
+        router.push('/')
+      }
     } catch (error) {
       setIsLoading(false)
       throw error
@@ -213,6 +270,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem('auth_user')
     localStorage.removeItem('auth_token')
     setUser(null)
+    console.log('Logging out')
     router.push('/login')
   }
 

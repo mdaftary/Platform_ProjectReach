@@ -8,8 +8,10 @@ import { RouteGuard } from "@/components/route-guard"
 import { ConditionalNavigation, ConditionalLayout } from "@/components/conditional-navigation"
 import { MobileNavigation } from "@/components/mobile-navigation"
 import { FontSizeProvider } from "./font-size-provider"
+import { AccessibilityProvider } from "./accessibility-provider"
+import { ThemeProvider } from "./theme-provider"
 import I18nProvider from "./i18n-provider"
-import LanguageSwitcher from "@/components/language-switcher"
+import LangProfile from "./lang-profile"
 
 export const metadata: Metadata = {
   title: "REACH Hong Kong - Assignment Hub",
@@ -23,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="light">
       <head>
         <style>{`
 html {
@@ -33,20 +35,42 @@ html {
 }
         `}</style>
       </head>
-      <body className="bg-gray-50">
+      <body className="bg-gray-50 dark:bg-gray-900 transition-colors duration-200" suppressHydrationWarning={true}>
         <I18nProvider>
-          <AuthProvider>
-            <RouteGuard>
-              <FontSizeProvider>
-                <div className="absolute top-3 left-3 z-50">
-                  <LanguageSwitcher />
-                </div>
-                <ConditionalLayout>{children}</ConditionalLayout>
-                <ConditionalNavigation />
-              </FontSizeProvider>
-            </RouteGuard>
-          </AuthProvider>
+          <ThemeProvider>
+            <AuthProvider>
+              <RouteGuard>
+                <FontSizeProvider>
+                  <AccessibilityProvider>
+                    <LangProfile />
+                    <ConditionalLayout>{children}</ConditionalLayout>
+                    <ConditionalNavigation />
+                  </AccessibilityProvider>
+                </FontSizeProvider>
+              </RouteGuard>
+            </AuthProvider>
+          </ThemeProvider>
         </I18nProvider>
+        
+        {/* Script to handle browser extension hydration issues */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Handle browser extension attributes that cause hydration warnings
+              if (typeof window !== 'undefined') {
+                // Remove Grammarly attributes that cause hydration issues
+                setTimeout(() => {
+                  const body = document.body;
+                  if (body) {
+                    body.removeAttribute('data-new-gr-c-s-check-loaded');
+                    body.removeAttribute('data-gr-ext-installed');
+                  }
+                }, 0);
+              }
+            `,
+          }}
+          suppressHydrationWarning={true}
+        />
       </body>
     </html>
   )

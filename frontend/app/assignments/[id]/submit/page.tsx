@@ -13,9 +13,11 @@ import { BookOpen, Upload, Camera, Video, FileText, ArrowLeft, X, Check } from "
 import Link from "next/link"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
+import { use } from "react"
 
-export default function SubmitAssignmentPage({ params }: { params: { id: string } }) {
+export default function SubmitAssignmentPage({ params }: { params: Promise<{ id: string }> }) {
   const { t } = useTranslation()
+  const resolvedParams = use(params)
   const [uploadedFiles, setUploadedFiles] = useState<
     Array<{
       id: string
@@ -31,7 +33,7 @@ export default function SubmitAssignmentPage({ params }: { params: { id: string 
 
   // Mock assignment data
   const assignment = {
-    id: params.id,
+    id: resolvedParams.id,
     title: "English Reading Comprehension",
     subject: "English",
     dueDate: "2025-08-23",
@@ -85,9 +87,9 @@ export default function SubmitAssignmentPage({ params }: { params: { id: string 
   const getFileIcon = (type: string) => {
     switch (type) {
       case "image":
-        return <Camera className="w-4 h-4 text-green-500" />
+        return <Camera className="w-4 h-4 text-primary" />
       case "video":
-        return <Video className="w-4 h-4 text-blue-500" />
+        return <Video className="w-4 h-4 text-primary" />
       case "document":
         return <FileText className="w-4 h-4 text-red-500" />
       default:
@@ -243,19 +245,19 @@ export default function SubmitAssignmentPage({ params }: { params: { id: string 
                 </CardHeader>
                 <CardContent className="space-y-3 text-sm">
                   <div className="flex items-start space-x-2">
-                    <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                     <p>{t('assignments.submit.guidelines.clearMedia')}</p>
                   </div>
                   <div className="flex items-start space-x-2">
-                    <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                     <p>{t('assignments.submit.guidelines.readableText')}</p>
                   </div>
                   <div className="flex items-start space-x-2">
-                    <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                     <p>{t("assignments.submit.guidelines.includeName")}</p>
                   </div>
                   <div className="flex items-start space-x-2">
-                    <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                     <p>{t('assignments.submit.guidelines.beforeDue')}</p>
                   </div>
                 </CardContent>

@@ -82,7 +82,7 @@ export default function ParentDashboard() {
       case "medium":
         return "text-orange-600 bg-orange-50 border-orange-200"
       case "low":
-        return "text-blue-600 bg-blue-50 border-blue-200"
+        return "text-green-600 bg-green-50 border-green-200"
       default:
         return "text-gray-600 bg-gray-50 border-gray-200"
     }
@@ -211,7 +211,7 @@ export default function ParentDashboard() {
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
                     <div>
                       <p className="text-sm font-medium text-foreground">{t('dashboard.overview.earnedReadingStar')}</p>
                       <p className="text-xs text-muted-foreground">{t('dashboard.overview.yesterday')}</p>
@@ -290,46 +290,7 @@ export default function ParentDashboard() {
                   </ResponsiveContainer>
                 </CardContent>
               </Card>
-
-              {/* Subject Breakdown */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>{t('dashboard.progress.currentSubject')}</CardTitle>
-                  <CardDescription>{t('dashboard.progress.currentSubjectDesc')}</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">English</span>
-                      <span className="font-medium text-foreground">85%</span>
-                    </div>
-                    <Progress value={85} className="h-2" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Mathematics</span>
-                      <span className="font-medium text-foreground">90%</span>
-                    </div>
-                    <Progress value={90} className="h-2" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Science</span>
-                      <span className="font-medium text-foreground">88%</span>
-                    </div>
-                    <Progress value={88} className="h-2" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Art & Creativity</span>
-                      <span className="font-medium text-foreground">92%</span>
-                    </div>
-                    <Progress value={92} className="h-2" />
-                  </div>
-                </CardContent>
-              </Card>
             </div>
-
             {/* Achievement Badges */}
             <Card>
               <CardHeader>
@@ -534,7 +495,7 @@ export default function ParentDashboard() {
                     <span className="text-sm text-foreground">Phonics blending</span>
                   </div>
                   <div className="flex items-center space-x-3 p-2 border rounded">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                     <span className="text-sm text-foreground">Following multi-step instructions</span>
                   </div>
                 </CardContent>

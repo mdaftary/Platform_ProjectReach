@@ -2,6 +2,7 @@
   "name": "my-v0-project",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3001",
   "scripts": {
     "build": "next build",
     "dev": "next dev",

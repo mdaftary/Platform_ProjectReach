@@ -4,23 +4,23 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Trophy, TrendingUp, Star, Medal, EyeOff, Eye, Flame, Clock, ArrowRight } from "lucide-react"
+import { Trophy, TrendingUp, Star, Medal, EyeOff, Eye, Flame, Clock, ArrowRight, Heart } from "lucide-react"
 import { useFontSize } from "@/app/font-size-provider"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
 
 const leaderboardData = [
-	{ rank: 1, name: "Parent A", points: 2450, streak: 15, badge: "gold" },
-	{ rank: 2, name: "Parent B", points: 2380, streak: 12, badge: "silver" },
-	{ rank: 3, name: "Parent C", points: 2250, streak: 8, badge: "bronze" },
-	{ rank: 4, name: "Parent D", points: 2100, streak: 10, badge: null },
-	{ rank: 5, name: "Parent E", points: 1950, streak: 6, badge: null },
+	{ rank: 1, name: "Volunteer A", likes: 2450, streak: 15, badge: "gold" },
+	{ rank: 2, name: "Volunteer B", likes: 2380, streak: 12, badge: "silver" },
+	{ rank: 3, name: "Volunteer C", likes: 2250, streak: 8, badge: "bronze" },
+	{ rank: 4, name: "Volunteer D", likes: 2100, streak: 10, badge: null },
+	{ rank: 5, name: "Volunteer E", likes: 1950, streak: 6, badge: null },
 ]
 
 const mostImprovedData = [
-	{ rank: 1, name: "Parent F", improvement: "+450 pts", period: "This week" },
-	{ rank: 2, name: "Parent G", improvement: "+380 pts", period: "This week" },
-	{ rank: 3, name: "Parent H", improvement: "+320 pts", period: "This week" },
+	{ rank: 1, name: "Volunteer F", improvement: "+450 likes", period: "This week" },
+	{ rank: 2, name: "Volunteer G", improvement: "+380 likes", period: "This week" },
+	{ rank: 3, name: "Volunteer H", improvement: "+320 likes", period: "This week" },
 ]
 
 export default function LeaderboardPage() {
@@ -66,35 +66,49 @@ export default function LeaderboardPage() {
 	return (
 		<div className={`min-h-screen bg-background ${isLarge ? 'min-text-lg text-lg' : ''}`}>
 			<div className="max-w-md mx-auto px-4 py-6 space-y-6">
+				{/* Removed Personal Stats section (Days Streak, Activity Hours, Points Earned) */}
+
+				{/* Removed Redeem Points button/card */}
+
+				{optedOut && (
+					<Card className="duolingo-card border-0 shadow-lg">
+						<CardHeader>
+							<CardTitle className="text-xl font-bold text-foreground">{t('leaderboard.hiddenTitle')}</CardTitle>
+						</CardHeader>
+						<CardContent>
+							<p className="text-sm text-muted-foreground">{t('leaderboard.hiddenDesc')}</p>
+						</CardContent>
+					</Card>
+				)}
 
 				{/* Tab Navigation */}
 				{!optedOut && (
-					<div className="grid grid-cols-2 gap-3">
-						<Button
-							variant={activeTab === "overall" ? "default" : "outline"}
-							className={`duolingo-button ${isLarge ? 'py-4 text-base' : 'py-3'} ${
-								activeTab === "overall" 
-									? "duolingo-gradient-primary border-0 text-white shadow-lg" 
-									: "border-border bg-card hover:bg-accent/50"
-							}`}
-							onClick={() => setActiveTab("overall")}
-						>
-							{!isLarge && <Star className="w-4 h-4 mr-2" />}
-							{t('leaderboard.tabs.overall')}
-						</Button>
-						<Button
-							variant={activeTab === "improved" ? "default" : "outline"}
-							className={`duolingo-button ${isLarge ? 'py-4 text-base' : 'py-3'} ${
-								activeTab === "improved" 
-									? "duolingo-gradient-primary border-0 text-white shadow-lg" 
-									: "border-border bg-card hover:bg-accent/50"
-							}`}
-							onClick={() => setActiveTab("improved")}
-						>
-							{!isLarge && <TrendingUp className="w-4 h-4 mr-2" />}
-							{t('leaderboard.tabs.improved')}
-						</Button>
-					</div>
+				<div className="grid grid-cols-2 gap-3">
+					<Button
+						variant={activeTab === "overall" ? "default" : "outline"}
+						className={`duolingo-button ${isLarge ? 'py-4 text-base' : 'py-3'} ${
+							activeTab === "overall" 
+								? "duolingo-gradient-primary border-0 text-white shadow-lg" 
+								: "border-border bg-card hover:bg-accent/50"
+						}`}
+						onClick={() => setActiveTab("overall")}
+					>
+						{!isLarge && <Heart className="w-4 h-4 mr-2" />}
+						{t('Most Likes')}
+					</Button>
+					<Button
+						variant={activeTab === "improved" ? "default" : "outline"}
+						className={`duolingo-button ${isLarge ? 'py-4 text-base' : 'py-3'} ${
+							activeTab === "improved" 
+								? "duolingo-gradient-primary border-0 text-white shadow-lg" 
+								: "border-border bg-card hover:bg-accent/50"
+						}`}
+						onClick={() => setActiveTab("improved")}
+					>
+						{!isLarge && <TrendingUp className="w-4 h-4 mr-2" />}
+						{t('leaderboard.tabs.improved')}
+					</Button>
+				</div>
 				)}
 
 				{/* Overall Leaderboard */}
@@ -111,14 +125,14 @@ export default function LeaderboardPage() {
 										<p className="font-semibold text-primary">{t('leaderboard.overall.you')}</p>
 										<p className="text-sm text-primary/70">5 {t('leaderboard.overall.dayStreak')}</p>
 									</div>
-									<div className="text-right">
+									<div className="text-right flex items-center gap-1">
 										<p className="font-bold text-primary text-lg">1250</p>
-										<p className="text-xs text-primary/70">{t('leaderboard.overall.points')}</p>
+										<Heart className="w-5 h-5 text-red-600 fill-red-600 inline" />
 									</div>
 								</div>
 							</div>
 						</Card>
-						{/* Top Performers */}
+
 						<h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>{t('leaderboard.overall.topPerformers')}</h2>
 						<Card className="duolingo-card border-0 shadow-lg">
 							<CardHeader>
@@ -138,9 +152,9 @@ export default function LeaderboardPage() {
 											<p className="font-semibold text-foreground">{user.name}</p>
 											<p className="text-sm text-muted-foreground">{user.streak} {t('leaderboard.overall.dayStreak')}</p>
 										</div>
-										<div className="text-right">
-											<p className="font-bold text-primary text-lg">{user.points}</p>
-											<p className="text-xs text-muted-foreground">{t('leaderboard.overall.points')}</p>
+										<div className="text-right flex items-center gap-1">
+											<p className="font-bold text-primary text-lg">{user.likes}</p>
+											<Heart className="w-5 h-5 text-red-600 fill-red-600 inline" />
 										</div>
 									</div>
 								))}
@@ -161,7 +175,7 @@ export default function LeaderboardPage() {
 									</div>
 									<div className="flex-1">
 										<p className="font-semibold text-primary">{t('leaderboard.overall.you')}</p>
-										<p className="text-sm text-primary/70">+75 pts this week</p>
+										<p className="text-sm text-primary/70">+75 likes this week</p>
 									</div>
 									<div className="text-right">
 										<p className="font-bold text-primary text-lg">{optedOut ? "?" : "#8"}</p>
@@ -186,11 +200,9 @@ export default function LeaderboardPage() {
 											<p className="font-semibold text-foreground">{user.name}</p>
 											<p className="text-sm text-muted-foreground">{user.period}</p>
 										</div>
-										<div className="text-right">
-											<p className="font-bold text-primary text-lg">{user.improvement}</p>
-											<Badge className="text-xs duolingo-gradient-success text-white border-0">
-												{t('leaderboard.improved.rising')}
-											</Badge>
+										<div className="text-right flex items-center gap-1">
+											<p className="font-bold text-primary text-lg">{user.improvement.replace("pts", "likes")}</p>
+											<Heart className="w-5 h-5 text-red-600 fill-red-600 inline" />
 										</div>
 									</div>
 								))}
