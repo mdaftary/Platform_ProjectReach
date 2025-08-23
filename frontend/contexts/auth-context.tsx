@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react"
 import { useRouter, usePathname } from "next/navigation"
 
-type UserRole = "parent" | "volunteer"
+type UserRole = "parent" | "volunteer" | "admin"
 
 interface User {
   id: string
@@ -73,6 +73,14 @@ const MOCK_USERS = [
     password: "volunteer123",
     role: "volunteer" as UserRole,
     createdAt: new Date().toISOString()
+  },
+  {
+    id: "4",
+    username: "admin_user",
+    email: "admin@example.com",
+    password: "admin123",
+    role: "admin" as UserRole,
+    createdAt: new Date().toISOString() 
   }
 ]
 
@@ -107,16 +115,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  // Redirect logic
+  // Redirect logic when visiting /login
   useEffect(() => {
     if (!isLoading) {
       if (!user && !isPublicRoute) {
         // Redirect to login if not authenticated and trying to access protected route
         router.push('/login')
-      } else if (user && user.role === 'parent' && isPublicRoute && !pathname.startsWith('/admin')) {
+      } else if (user && user.role === 'admin' && isPublicRoute) {
+        // Redirect to dashboard if authenticated and trying to access auth pages (for admin)
+        router.push('/admin')
+      } else if (user && user.role === 'parent' && isPublicRoute) {
         // Redirect to dashboard if authenticated and trying to access auth pages (for parents)
         router.push('/')
-      } else if (user && user.role === 'volunteer' && isPublicRoute && !pathname.startsWith('/admin')) {
+      } else if (user && user.role === 'volunteer' && isPublicRoute) {
         // Redirect to dashboard if authenticated and trying to access auth pages (for volunteers)
         router.push('/volunteer')
       }
@@ -155,6 +166,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Role-based redirect
       if (authenticatedUser.role === 'volunteer') {
         router.push('/volunteer')
+      } else if (authenticatedUser.role === 'admin') {
+        router.push('/admin')
       } else {
         router.push('/')
       }
@@ -189,6 +202,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Role-based redirect
       if (googleUser.role === 'volunteer') {
         router.push('/volunteer')
+      } else if (googleUser.role === 'admin') {
+        router.push('/admin')
       } else {
         router.push('/')
       }
@@ -238,6 +253,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Role-based redirect
       if (newUser.role === 'volunteer') {
         router.push('/volunteer')
+      } else if (newUser.role === 'admin') {
+        router.push('/admin')
       } else {
         router.push('/')
       }

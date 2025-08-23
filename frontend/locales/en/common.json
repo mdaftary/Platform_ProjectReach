@@ -252,7 +252,7 @@
     "streak": "Streak",
     "timeSpent": "Time Spent",
     "alphabet": "Alphabet",
-    "sightWords": "Sight Words",
+    "sightwords": "Sight Words",
     "vocabulary": "Vocabulary",
     "phonics": "Phonics",
     "high": "High",
@@ -262,7 +262,54 @@
     "kowloonEast": "Kowloon East",
     "kowloonWest": "Kowloon West",
     "newTerritories": "New Territories",
-    "years": "years"
+    "years": "years",
+    "dashboard": {
+      "assignments": {
+        "graded": "Graded",
+        "pendingReview": "Pending Review",
+        "aiPreGraded": "AI Pre-graded"
+      },
+      "reports": {
+        "quickInsights": "Quick Insights",
+        "quickInsightsDesc": "Key findings and recommendations",
+        "positiveTrend": "Positive Trend",
+        "positiveTrendDesc": "Submission rate improved by 12% this month",
+        "attentionNeeded": "Attention Needed",
+        "attentionNeededDesc": "12 students showing decreased engagement",
+        "opportunity": "Opportunity",
+        "opportunityDesc": "Math assignments have highest completion rate"
+      }
+    },
+    "values": {
+      "avgSessionTime": "24.5 min",
+      "completionRate": "87.3%",
+      "returnRate": "92.1%",
+      "mostDifficultSubject": "Sight Words",
+      "fastestImprovementSubject": "Alphabet",
+      "peakLearningTime": "2:00 PM",
+      "avgQuestionsPerSession": "12.4"
+    },
+    "charts": {
+      "subjects": {
+        "alphabet": "Alphabet",
+        "sightwords": "Sight Words", 
+        "vocabulary": "Vocabulary",
+        "phonics": "Phonics"
+      },
+      "regions": {
+        "centralHongKong": "Central Hong Kong",
+        "kowloonEast": "Kowloon East",
+        "kowloonWest": "Kowloon West",
+        "newTerritories": "New Territories"
+      },
+      "time": {
+        "week1": "Week 1",
+        "week2": "Week 2", 
+        "week3": "Week 3",
+        "week4": "Week 4",
+        "years": "years"
+      }
+    }
   },
   "components": {
     "assignmentCard": {

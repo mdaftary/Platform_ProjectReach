@@ -28,10 +28,7 @@ const volunteerNavItems = [
 
 // Navigation items for admin
 const adminNavItems = [
-  { href: "/admin", icon: Home, label: "mobileNav.home" },
-  { href: "/admin/", icon: Users, label: "mobileNav.users" },
-  { href: "/admin/reports", icon: BarChart3, label: "mobileNav.reports" },
-  { href: "/admin/settings", icon: Users, label: "mobileNav.settings" },
+  { href: "/admin", icon: Home, label: "mobileNav.home" }
 ]
 
 export function MobileNavigation() {
