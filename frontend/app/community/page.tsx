@@ -179,15 +179,11 @@ export default function CommunityPage() {
   return (
     <div className={`min-h-screen bg-background ${isLarge ? 'min-text-lg text-lg' : ''}`}>
       <div className="max-w-md mx-auto px-4 py-6 space-y-6">
-        {/* Welcome Section */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">{t('community.page.title')}</h1>
-          <p className="text-muted-foreground">{t('community.page.subtitle')}</p>
-        </div>
+        {/* Removed top header per request */}
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-          <Input placeholder={t('community.page.search')} className="pl-10 duolingo-card border-0 shadow-lg" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary w-6 h-6 stroke-2 z-10 pointer-events-none" />
+          <Input placeholder={t('community.page.search')} className="pl-12 duolingo-card border-0 shadow-lg" />
         </div>
 
         {/* Tab Navigation */}
@@ -239,9 +235,10 @@ export default function CommunityPage() {
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <span>{discussion.author}</span>
                         <Badge className={`text-xs px-2 py-0.5 ${
-                          discussion.authorRole === 'Teacher' ? 'bg-purple-100 text-purple-700 border-purple-200' :
-                          discussion.authorRole === 'Volunteer' ? 'bg-orange-100 text-orange-700 border-orange-200' :
-                          discussion.authorRole === 'Staff' ? 'bg-blue-100 text-blue-700 border-blue-200' :
+                          discussion.authorRole === 'Teacher' ? 'bg-purple-100 text-white border-purple-200' :
+                          discussion.authorRole === 'Volunteer' ? 'bg-orange-100 text-white border-orange-200' :
+                          discussion.authorRole === 'Parent' ? 'bg-teal-100 text-white border-teal-200' :
+                          discussion.authorRole === 'Staff' ? 'bg-green-100 text-green-700 border-green-200' :
                           'bg-green-100 text-green-700 border-green-200'
                         }`}>
                           {roleLabels[discussion.authorRole] || discussion.authorRole}
@@ -263,8 +260,9 @@ export default function CommunityPage() {
                                 <div className="flex items-center gap-1.5 mb-1">
                                   <span className="text-xs font-medium text-gray-700">{reply.author}</span>
                                   <Badge className={`text-xs px-1.5 py-0.5 ${
-                                    reply.role === 'Teacher' ? 'bg-purple-100 text-purple-600' :
-                                    reply.role === 'Volunteer' ? 'bg-orange-100 text-orange-600' :
+                                    reply.role === 'Teacher' ? 'bg-purple-100 text-white' :
+                                    reply.role === 'Volunteer' ? 'bg-orange-100 text-white' :
+                                    reply.role === 'Parent' ? 'bg-teal-100 text-white' :
                                     'bg-green-100 text-green-600'
                                   }`}>
                                     {roleLabels[reply.role] || reply.role}
@@ -363,7 +361,7 @@ export default function CommunityPage() {
                               {t('community.page.resources.preview')}
                             </Button>
                           )}
-                          <Button variant="outline" size="sm" className="text-blue-700 border-blue-400 hover:bg-blue-100">
+                          <Button variant="outline" size="sm" className="text-green-700 border-green-400 hover:bg-green-100">
                             {!isLarge && <Heart className="w-3 h-3 mr-1 stroke-2" />}
                             {t('community.page.resources.favourite')}
                           </Button>

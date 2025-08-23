@@ -4,13 +4,14 @@ import { useState, useEffect, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Camera, Play, CheckCircle2, Circle, User, Eye, ChevronRight, X, Check, AlertCircle, Download, ArrowRight, Loader, LogOut, Flame, Clock, Star, Settings, BarChart3, Video } from "lucide-react"
+import { Camera, Play, CheckCircle2, Circle, User, Eye, ChevronRight, X, Check, AlertCircle, Download, ArrowRight, Loader, LogOut, Settings, BookOpen, Edit3, Volume2 } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import { useFontSize } from "@/app/font-size-provider"
 import { Trans } from "react-i18next"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
+import LanguageSwitcher from "@/components/language-switcher"
 
 // Weekly tasks data
 const weeklyTasks = [
@@ -48,14 +49,41 @@ const weeklyTasks = [
   },
 ]
 
-// Progress categories data
-const progressCategories = [
-  { name: "alphabet", progress: 85, color: "text-green-600", barColor: "bg-green-500" },
-  { name: "sightWords", progress: 72, color: "text-blue-600", barColor: "bg-blue-500" },
-  { name: "vocabulary", progress: 68, color: "text-blue-600", barColor: "bg-blue-400" },
-  { name: "phonemicAwareness", progress: 79, color: "text-green-600", barColor: "bg-green-400" },
-  { name: "pointAndRead", progress: 91, color: "text-green-600", barColor: "bg-green-500" },
+const sortedWeeklyTasks = [...weeklyTasks].sort((a, b) => Number(a.completed) - Number(b.completed))
+
+
+// AI Recommendations grouped by skill (mirrored from Progress page)
+const aiRecommendations = [
+  {
+    skill: "sightWords",
+    skillProgress: 60,
+    title: "Practice Sight Words",
+    description: "Play \"find the word\" game in today's storybook.",
+    timeNeeded: "5 min",
+    icon: BookOpen,
+    priority: "high"
+  },
+  {
+    skill: "alphabet", 
+    skillProgress: 85,
+    title: "Letter Practice",
+    description: "Trace lowercase letters \"b\" and \"d\" for clarity.",
+    timeNeeded: "5 min",
+    icon: Edit3,
+    priority: "medium"
+  },
+  {
+    skill: "phonemicAwareness",
+    skillProgress: 79, 
+    title: "Sound Matching",
+    description: "Try sound-blending exercise in the student app.",
+    timeNeeded: "10 min",
+    icon: Volume2,
+    priority: "low"
+  },
 ]
+
+
 
 export default function HomePage() {
   const { t } = useTranslation()
@@ -111,17 +139,15 @@ export default function HomePage() {
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-xl border-b border-gray-100">
         <div className="max-w-md mx-auto px-6 py-6">
-          {/* REACH Logo */}
-          <div className="flex justify-center mb-4">
-            <img src="/reach-logo.webp" alt="REACH Hong Kong" className="h-8 w-auto opacity-90" />
-          </div>
-          
-          <div className="flex items-start justify-between">
-            <div className="flex-1">
-              <h1 className="text-2xl font-bold text-gray-900 tracking-tight">{t('home.headerTitle')}</h1>
-              <p className="text-base text-gray-500 mt-1 font-medium">{t('home.headerSubtitle')}</p>
+          {/* Language Switcher, Centered REACH Logo, and User Menu */}
+          <div className="grid grid-cols-3 items-center gap-4">
+            <div className="flex items-center gap-2 justify-self-start">
+              <LanguageSwitcher />
             </div>
-            <div className="relative ml-4" ref={userMenuRef}>
+            <div className="flex justify-center justify-self-center">
+              <img src="/reach-logo.webp" alt="REACH Hong Kong" className="h-10 w-auto opacity-90" />
+            </div>
+            <div className="relative justify-self-end" ref={userMenuRef}>
               <button
                 onClick={() => setShowUserMenu(!showUserMenu)}
                 className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors cursor-pointer"
@@ -172,23 +198,21 @@ export default function HomePage() {
         {/* Weekly Tasks */}
         <div className="space-y-3">
           <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>{t('home.thisWeek')}</h2>
-          <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
+          <Card className="bg-white border border-gray-200 shadow-sm">
             <CardContent className="p-0">
               <div className="divide-y divide-gray-100">
-                {weeklyTasks.map((task, index) => (
-                  <div key={task.id} className={`p-4 flex gap-4 ${task.isPrimary && !task.completed ? 'bg-blue-50/50' : ''} ${isLarge ? "flex-col" : ""}`}>
+                {sortedWeeklyTasks.map((task, index) => (
+                  <div key={task.id} className={`p-4 flex gap-4 ${task.isPrimary && !task.completed ? 'bg-green-50/50' : ''} ${isLarge ? "flex-col" : ""}`}>
                     { !isLarge && (
-                      <div>
-                    <div className="flex-shrink-0">
-                    {task.completed ? (
-                      <div className="w-6 h-6 bg-green-500 rounded-full flex justify-center">
-                        <CheckCircle2 className="w-4 h-4 text-white stroke-2" />
+                      <div className="flex-shrink-0 flex items-center justify-center">
+                        {task.completed ? (
+                          <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                            <CheckCircle2 className="w-4 h-4 text-white stroke-2" />
+                          </div>
+                        ) : (
+                          <div className="w-6 h-6 border-2 border-gray-300 rounded-full"></div>
+                        )}
                       </div>
-                    ) : (
-                      <div className="w-6 h-6 border-2 border-gray-300 rounded-full"></div>
-                    )}
-                  </div>
-                  </div>
                     )}
                     <div className={`flex-1 min-w-0 `}>
                       <p className={`${isLarge ? 'text-lg' : 'text-sm'} font-medium ${task.completed ? 'text-gray-500 line-through' : 'text-gray-900'}`}>
@@ -202,7 +226,7 @@ export default function HomePage() {
                       <Button 
                         size="sm" 
                         onClick={handleUploadClick}
-                        className="bg-blue-500 hover:bg-blue-600 text-white border-0 px-4 py-2 text-sm font-semibold rounded-xl shadow-sm"
+                        className="bg-green-500 hover:bg-green-600 text-white border-0 px-4 py-2 text-sm font-semibold rounded-xl shadow-sm"
                       >
                         <task.icon className="w-4 h-4 mr-2" />
                         {t('home.upload')}
@@ -216,17 +240,22 @@ export default function HomePage() {
               </div>
             </CardContent>
           </Card>
+          <div className="pt-2">
+            <Button variant="outline" size="sm" className="w-full border-gray-200 text-gray-700 hover:bg-gray-50 text-xs font-medium rounded-lg">
+              {t('home.viewPastAssignments')}
+            </Button>
+          </div>
         </div>
 
         {/* AI Insights - Priority Section */}
         <div className="space-y-3">
           <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>{t('home.aiInsights')}</h2>
-          <Card className="bg-white/65 backdrop-blur-xl border border-white/30 shadow-lg">
+          <Card className="bg-white border border-gray-200 shadow-sm">
             <CardContent className="p-5">
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
-                    <Eye className="w-5 h-5 text-blue-600 stroke-2" />
+                  <div className="w-9 h-9 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                    <Eye className="w-5 h-5 text-primary stroke-2" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-gray-900 leading-relaxed">
@@ -234,92 +263,67 @@ export default function HomePage() {
                     </p>
                   </div>
                 </div>
-                <div className="border-t border-gray-100/60 pt-3 flex justify-end">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="border-gray-200 text-gray-700 hover:bg-gray-50 text-xs font-medium rounded-lg px-4 py-2"
-                  >
-                    {t('home.viewExercises')}
-                  </Button>
-                </div>
+                {/* Removed "View Exercises" button per request */}
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Progress Snapshot */}
+        {/* AI Recommendations - header outside, list of sub-cards only */}
         <div className="space-y-3">
-          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>{t('home.progressSnapshot')}</h2>
-          <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
-            <CardContent className={`p-5 ${isLarge ? 'text-lg' : ''}`}>
-              <div className="space-y-4">
-                {progressCategories.map((category, index) => (
-                  <div key={category.name}>
-                    <div className="flex items-center justify-between">
+          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 tracking-tight`}>{t('progress.ai.title')}</h2>
+          <div className="space-y-3">
+            {aiRecommendations.map((rec, index) => {
+              const isPriority = rec.priority === 'high'
+              return (
+                <Card key={index} className="bg-white border border-gray-200 shadow-sm">
+                  <CardContent className="p-4">
+                    <div className="flex items-start gap-3">
+                      {!isLarge && (
+                        <div className="w-10 h-10 bg-green-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                          <rec.icon className="w-5 h-5 stroke-2 text-primary" />
+                        </div>
+                      )}
                       <div className="flex-1 min-w-0">
-                        <p className={`${isLarge ? 'text-xl' : 'text-sm'} font-medium text-gray-900`}>
-                          {t(`progress.skills.${category.name}.name`, { defaultValue: category.name })}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-3 ml-4">
-                        {!isLarge && (
-                          <div className="flex-1 bg-gray-200 rounded-full h-2 w-20">
-                            <div
-                              className={`h-2 rounded-full transition-all duration-500 ${category.barColor}`}
-                              style={{ width: `${category.progress}%` }}
-                            />
+                        <div className="flex items-start justify-between mb-2">
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <h3 className={`font-semibold text-gray-900 ${isLarge ? 'text-lg' : 'text-sm'}`}>
+                                {t(`progress.ai.recs.${index}.title`, { defaultValue: rec.title })} ({rec.skillProgress}%)
+                              </h3>
+                              {isPriority && (
+                                <Badge className="bg-orange-100 text-orange-700 border-orange-200 text-xs px-1.5 py-0.5">
+                                  {t('progress.ai.priority')}
+                                </Badge>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className="text-xs text-gray-500 font-medium">{t(`progress.skills.${rec.skill}.name`, { defaultValue: rec.skill })}</span>
+                              <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
+                                {t('progress.ai.minutes_one', { count: parseInt(rec.timeNeeded) || 5 })}
+                              </span>
+                            </div>
                           </div>
-                        )}
-                        <span className={`${isLarge ? 'text-xl min-w-[40px]' : 'text-xs min-w-[32px]'} font-semibold tabular-nums ${category.color} text-right`}>
-                          {category.progress}%
-                        </span>
+                          <Button 
+                            size="sm" 
+                            className="bg-primary hover:bg-primary/90 text-white px-4 py-2 font-semibold text-sm rounded-xl border-0 shadow-sm transition-all ml-3"
+                          >
+                            <Play className="w-4 h-4 mr-1.5 stroke-2" />
+                            {t('progress.ai.startPractice')}
+                          </Button>
+                        </div>
+                        <p className="text-sm text-gray-600 leading-relaxed">{t(`progress.ai.recs.${index}.description`, { defaultValue: rec.description })}</p>
                       </div>
                     </div>
-                    {index < progressCategories.length - 1 && (
-                      <div className="border-b border-gray-100/50 mt-4"></div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Quick Stats */}
-        <div className={`grid ${isLarge ? 'grid-cols-1' : 'grid-cols-1'} gap-3`}>
-          <div className="duolingo-gradient-light rounded-2xl p-4 shadow-sm">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full duolingo-gradient-primary flex items-center justify-center shadow">
-                <Flame className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex-1">
-                <div className="text-2xl font-extrabold text-gray-900 tabular-nums">12</div>
-                <div className="text-xs text-gray-700 mt-0.5">{t('home.daysStreak')}</div>
-              </div>
-            </div>
+                  </CardContent>
+                </Card>
+              )
+            })}
           </div>
-          <div className="duolingo-gradient-light rounded-2xl p-4 shadow-sm">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full duolingo-gradient-success flex items-center justify-center shadow">
-                <Clock className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex-1">
-                <div className="text-2xl font-extrabold text-gray-900 tabular-nums">2.5h</div>
-                <div className="text-xs text-gray-700 mt-0.5">{t('home.activityHours')}</div>
-              </div>
-            </div>
-          </div>
-          <div className="duolingo-gradient-light rounded-2xl p-4 shadow-sm">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full duolingo-gradient-primary flex items-center justify-center shadow">
-                <Star className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex-1">
-                <div className="text-2xl font-extrabold text-gray-900 tabular-nums">847</div>
-                <div className="text-xs text-gray-700 mt-0.5">{t('home.starsEarned')}</div>
-              </div>
-            </div>
+          <div className="p-3 bg-green-50 border border-green-200 rounded-xl">
+            <p className="text-xs text-green-700 font-medium text-center">
+              {t('progress.ai.tip')}
+            </p>
           </div>
         </div>
 
@@ -346,8 +350,8 @@ export default function HomePage() {
               {/* Upload State: Uploading */}
               {uploadState === 'uploading' && (
                                   <div className="text-center space-y-4">
-                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                      <Loader className="w-8 h-8 text-blue-600 animate-spin stroke-2" />
+                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                      <Loader className="w-8 h-8 text-green-600 animate-spin stroke-2" />
                     </div>
                   <div>
                     <p className="text-lg font-semibold text-gray-900">{t('home.uploading')}</p>
@@ -386,8 +390,8 @@ export default function HomePage() {
 
                   {/* OCR Processing */}
                   <div className="text-center space-y-4">
-                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                      <Loader className="w-6 h-6 text-blue-600 animate-spin stroke-2" />
+                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                      <Loader className="w-6 h-6 text-green-600 animate-spin stroke-2" />
                     </div>
                     <div>
                       <p className="font-semibold text-gray-900">{t('home.analyzing')}</p>
@@ -414,23 +418,24 @@ export default function HomePage() {
                   </div>
 
                   {/* Progress Bump */}
-                  <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4">
+                  <div className="bg-green-50 border border-green-200 rounded-2xl p-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                         <ArrowRight className="w-4 h-4 text-white stroke-2" />
                       </div>
                       <div>
-                        <p className="font-semibold text-blue-900">{t('home.progressUpdated')}</p>
-                        <p className="text-sm text-blue-700">{t('home.progressDelta')}</p>
+                        <p className="font-semibold text-green-900">{t('home.progressUpdated')}</p>
+                        <p className="text-sm text-green-700">{t('home.progressDelta')}</p>
                       </div>
                     </div>
                   </div>
 
-                  {/* AI Feedback Card */}
-                  <Card className="bg-white border border-gray-200 shadow-sm">
-                    <CardContent className="p-5">
-                      <div className="space-y-5">
-                        <h3 className="text-lg font-bold text-gray-900">{t('home.aiFeedback')}</h3>
+                  {/* AI Feedback Section */}
+                  <div className="space-y-3">
+                    <h3 className="text-lg font-bold text-gray-900">{t('home.aiFeedback')}</h3>
+                    <Card className="bg-white border border-gray-200 shadow-sm">
+                      <CardContent className="p-5">
+                        <div className="space-y-5">
                         
                         {/* What Went Well Section */}
                         <div className="space-y-3">
@@ -461,10 +466,10 @@ export default function HomePage() {
                         {/* General Notes Section */}
                         <div className="space-y-3">
                           <div className="flex items-center gap-2">
-                            <Eye className="w-4 h-4 text-blue-600 stroke-2" />
-                            <h4 className="text-sm font-semibold text-blue-800">{t('home.generalNotes')}</h4>
+                            <Eye className="w-4 h-4 text-green-600 stroke-2" />
+                            <h4 className="text-sm font-semibold text-green-800">{t('home.generalNotes')}</h4>
                           </div>
-                          <div className="bg-blue-50/50 rounded-xl p-3">
+                          <div className="bg-green-50/50 rounded-xl p-3">
                             <p className="text-sm text-gray-900 leading-relaxed">
                               Good tracing, but spacing between <span className="font-semibold">"p"</span> and <span className="font-semibold">"a"</span> in "panda" needs work.
                             </p>
@@ -476,7 +481,7 @@ export default function HomePage() {
                           <h4 className="font-semibold text-gray-900 mb-3">{t('home.suggestedNextSteps')}</h4>
                           
                           <div className="space-y-3">
-                            <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold">
+                            <Button className="w-full bg-primary hover:bg-primary/90 text-white border-0 rounded-xl font-semibold">
                               <ArrowRight className="w-4 h-4 mr-2 stroke-2" />
                               {t('home.viewRecommendedPractice')}
                             </Button>
@@ -490,6 +495,7 @@ export default function HomePage() {
                       </div>
                     </CardContent>
                   </Card>
+                </div>
 
                   {/* Close Button */}
                   <Button 

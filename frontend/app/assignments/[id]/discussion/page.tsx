@@ -155,7 +155,7 @@ The key is to make it interactive and fun, not stressful!`,
                         </Badge>
                       )}
                       {message.isOriginalPoster && (
-                        <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-800">
+                        <Badge variant="secondary" className="text-xs bg-green-100 text-green-800">
                           OP
                         </Badge>
                       )}

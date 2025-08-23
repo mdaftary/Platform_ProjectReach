@@ -96,7 +96,12 @@ export default function DiscussionPost() {
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
                       <span className="font-semibold text-gray-900">{discussionPost.author}</span>
-                      <Badge className="bg-blue-100 text-blue-700 border-blue-200 text-xs px-2 py-0.5">
+                      <Badge className={`text-xs px-2 py-0.5 ${
+                        discussionPost.authorRole === 'Teacher' ? 'bg-purple-100 text-white border-purple-200' :
+                        discussionPost.authorRole === 'Volunteer' ? 'bg-orange-100 text-white border-orange-200' :
+                        discussionPost.authorRole === 'Parent' ? 'bg-teal-100 text-white border-teal-200' :
+                        'bg-green-100 text-green-700 border-green-200'
+                      }`}>
                         {discussionPost.authorRole}
                       </Badge>
                     </div>
@@ -143,7 +148,7 @@ export default function DiscussionPost() {
                     </div>
                     
                     <button className="flex items-center gap-1.5 group">
-                      <Share className="w-5 h-5 text-gray-500 stroke-2 group-hover:text-green-500 transition-colors" />
+                      <Share className="w-5 h-5 text-gray-500 stroke-2 group-hover:text-primary transition-colors" />
                       <span className="text-sm font-medium text-gray-600">{discussionPost.engagement.shares}</span>
                     </button>
                   </div>
@@ -181,9 +186,10 @@ export default function DiscussionPost() {
                           <div className="flex items-center gap-2">
                             <span className="font-semibold text-gray-900 text-sm">{reply.author}</span>
                             <Badge className={`text-xs px-2 py-0.5 ${
-                              reply.authorRole === 'Teacher' ? 'bg-purple-100 text-purple-700 border-purple-200' :
-                              reply.authorRole === 'Volunteer' ? 'bg-orange-100 text-orange-700 border-orange-200' :
-                              'bg-blue-100 text-blue-700 border-blue-200'
+                              reply.authorRole === 'Teacher' ? 'bg-purple-100 text-white border-purple-200' :
+                              reply.authorRole === 'Volunteer' ? 'bg-orange-100 text-white border-orange-200' :
+                              reply.authorRole === 'Parent' ? 'bg-teal-100 text-white border-teal-200' :
+                              'bg-green-100 text-green-700 border-green-200'
                             }`}>
                               {reply.authorRole}
                             </Badge>
@@ -228,7 +234,12 @@ export default function DiscussionPost() {
                             <div className="flex-1">
                               <div className="flex items-center gap-2">
                                 <span className="font-semibold text-gray-900 text-xs">{nestedReply.author}</span>
-                                <Badge className="bg-blue-100 text-blue-700 border-blue-200 text-xs px-1.5 py-0.5">
+                                <Badge className={`text-xs px-1.5 py-0.5 ${
+                                  nestedReply.authorRole === 'Teacher' ? 'bg-purple-100 text-white border-purple-200' :
+                                  nestedReply.authorRole === 'Volunteer' ? 'bg-orange-100 text-white border-orange-200' :
+                                  nestedReply.authorRole === 'Parent' ? 'bg-teal-100 text-white border-teal-200' :
+                                  'bg-green-100 text-green-700 border-green-200'
+                                }`}>
                                   {nestedReply.authorRole}
                                 </Badge>
                               </div>
@@ -273,7 +284,7 @@ export default function DiscussionPost() {
               />
               <Button 
                 size="sm" 
-                className="absolute right-1 top-1 bg-green-500 hover:bg-green-600 text-white rounded-full h-8 w-8 p-0"
+                className="absolute right-1 top-1 bg-primary hover:bg-primary/90 text-white rounded-full h-8 w-8 p-0"
               >
                 <Send className="w-4 h-4 stroke-2" />
               </Button>

@@ -394,29 +394,19 @@ export default function AdminDashboard() {
                   <CardTitle>{t('admin.learningEfficiency')}</CardTitle>
                   <CardDescription>{t('admin.learningEfficiencyDesc')}</CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <ResponsiveContainer width="100%" height={300}>
-                    <LineChart data={SUBJECT_PERFORMANCE}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="subject" />
-                      <YAxis />
-                      <Tooltip />
-                      <Line 
-                        type="monotone" 
-                        dataKey="totalAttempts" 
-                        stroke="#3B82F6" 
-                        strokeWidth={2}
-                        name="Total Attempts"
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="avgTime" 
-                        stroke="#EF4444" 
-                        strokeWidth={2}
-                        name="Avg Time (seconds)"
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">{t('admin.dashboard.assignments.graded')}</span>
+                    <span className="font-bold text-green-600">142</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">{t('admin.dashboard.assignments.pendingReview')}</span>
+                    <span className="font-bold text-orange-500">18</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">{t('admin.dashboard.assignments.aiPreGraded')}</span>
+                    <span className="font-bold text-green-600">12</span>
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -572,17 +562,30 @@ export default function AdminDashboard() {
                     <MapPin className="w-6 h-6 mb-2" />
                     <span>{t('admin.regionalAnalysis')}</span>
                   </Button>
-                  <Button variant="outline" className="h-20 flex-col">
-                    <Clock className="w-6 h-6 mb-2" />
-                    <span>{t('admin.timeAnalytics')}</span>
-                  </Button>
-                  <Button variant="outline" className="h-20 flex-col">
-                    <Download className="w-6 h-6 mb-2" />
-                    <span>{t('admin.exportAllData')}</span>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>{t('admin.dashboard.reports.quickInsights')}</CardTitle>
+                  <CardDescription>{t('admin.dashboard.reports.quickInsightsDesc')}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <p className="text-sm font-medium text-green-800">{t('admin.dashboard.reports.positiveTrend')}</p>
+                    <p className="text-sm text-green-700">{t('admin.dashboard.reports.positiveTrendDesc')}</p>
+                  </div>
+                  <div className="p-3 bg-orange-50 border border-orange-200 rounded-lg">
+                    <p className="text-sm font-medium text-orange-800">{t('admin.dashboard.reports.attentionNeeded')}</p>
+                    <p className="text-sm text-orange-700">{t('admin.dashboard.reports.attentionNeededDesc')}</p>
+                  </div>
+                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <p className="text-sm font-medium text-green-800">{t('admin.dashboard.reports.opportunity')}</p>
+                    <p className="text-sm text-green-700">{t('admin.dashboard.reports.opportunityDesc')}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
         </Tabs>
       </main>

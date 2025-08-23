@@ -1,9 +1,8 @@
 "use client"
 
 import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { BookOpen, Edit3, Volume2, TrendingUp, Play } from "lucide-react"
+import { BookOpen, Edit3, Volume2, TrendingUp, Smile } from "lucide-react"
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from "recharts"
 import { useFontSize } from "@/app/font-size-provider"
 import "@/lib/i18n"
@@ -17,6 +16,7 @@ const skillsDataRaw = [
     insight: "Fantastic progress! Ready for extra practice with letter pairs like b/d.",
     icon: Edit3,
     Goal: 80,
+    teacherComment: "Great improvement on lowercase shapes. Keep spacing consistent between letters.",
   },
   {
     name: "sightWords", 
@@ -24,6 +24,7 @@ const skillsDataRaw = [
     insight: "Great foundation! On track, just 15% more to go for the next milestone.",
     icon: BookOpen,
     Goal: 75,
+    teacherComment: "Practice high-frequency words daily. Try flashcards during reading time.",
   },
   {
     name: "vocabulary",
@@ -31,6 +32,7 @@ const skillsDataRaw = [
     insight: "Wonderful word collection! Ahead of schedule and ready for new challenges.",
     icon: BookOpen,
     Goal: 70,
+    teacherComment: "Introduce new words in conversation and ask for examples in sentences.",
   },
   {
     name: "phonemicAwareness",
@@ -38,6 +40,7 @@ const skillsDataRaw = [
     insight: "Excellent listening skills! Blending sounds beautifully every day.",
     icon: Volume2,
     Goal: 75,
+    teacherComment: "Keep practicing sound blending with simple CVC words (e.g., cat, map).",
   },
   {
     name: "pointAndRead",
@@ -45,6 +48,7 @@ const skillsDataRaw = [
     insight: "Amazing confidence! Reading independently like a champion.",
     icon: BookOpen,
     Goal: 85,
+    teacherComment: "Encourage finger-tracking for tricky lines to maintain steady pace.",
   },
 ]
 
@@ -56,37 +60,6 @@ const skillsData = skillsDataRaw
     status: skill.progress < skill.Goal ? 'needs-focus' : 'good'
   }))
   .sort((a, b) => a.priority - b.priority)
-
-// AI Recommendations grouped by skill
-const aiRecommendations = [
-  {
-    skill: "sightWords",
-    skillProgress: 60,
-    title: "Practice Sight Words",
-    description: "Play \"find the word\" game in today's storybook.",
-    timeNeeded: "5 min",
-    icon: BookOpen,
-    priority: "high"
-  },
-  {
-    skill: "alphabet", 
-    skillProgress: 85,
-    title: "Letter Practice",
-    description: "Trace lowercase letters \"b\" and \"d\" for clarity.",
-    timeNeeded: "5 min",
-    icon: Edit3,
-    priority: "medium"
-  },
-  {
-    skill: "phonemicAwareness",
-    skillProgress: 79, 
-    title: "Sound Matching",
-    description: "Try sound-blending exercise in the student app.",
-    timeNeeded: "10 min",
-    icon: Volume2,
-    priority: "low"
-  },
-]
 
 // Progress timeline data
 const progressData = [
@@ -162,31 +135,17 @@ export default function ProgressPage() {
   return (
     <div className={`min-h-screen bg-gray-50 ${isLarge ? 'min-text-lg text-lg' : ''}`}>
       <div className="max-w-md mx-auto px-6 py-6 space-y-6">
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-bold text-gray-900 tracking-tight`}>{t('progress.header.title')}</h1>
-          <p className={`${isLarge ? 'text-base' : 'text-sm'} text-gray-500`}>{t('progress.header.subtitle')}</p>
-        </div>
-        {/* Overall Score */}
-        <div className="duolingo-gradient-light rounded-2xl p-4 shadow-sm">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full duolingo-gradient-primary flex items-center justify-center shadow">
-              <TrendingUp className="w-5 h-5 text-white" />
-            </div>
-            <div className="flex-1">
-              <div className="text-2xl font-extrabold text-gray-900 tabular-nums">{overallScore}</div>
-              <div className="text-xs text-gray-700 mt-0.5">{t('progress.header.overallScore')}</div>
-            </div>
-          </div>
-        </div>
+        {/* Removed top header per request */}
+        {/* Removed separate top icon card to keep only header circle */}
 
 
         {/* Five-Dimension Radar Chart */}
         {!isLarge && (
-        <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-lg">
-          <CardContent className="p-6">
+        <>
+          <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>{t('progress.radar.title')}</h2>
+          <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-lg">
+          <CardContent className="p-4">
         <div className="space-y-6">
-              <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 text-center`}>{t('progress.radar.title')}</h2>
               
               <div className="flex justify-center w-full">
                 <svg width="100%" height="280" viewBox="0 0 360 280" className="max-w-sm mx-auto">
@@ -260,7 +219,7 @@ export default function ProgressPage() {
                   {/* Current progress polygon - Duolingo green */}
                   <path
                     d={currentPathData}
-                    fill="rgba(34, 197, 94, 0.08)"
+                    fill="rgba(34, 197, 94, 0.10)"
                     stroke="#22c55e"
                     strokeWidth="2.5"
                     filter="url(#chartShadow)"
@@ -320,7 +279,7 @@ export default function ProgressPage() {
                           x={pos.x}
                           y={pos.percentY}
                           textAnchor={pos.anchor}
-                          className="fill-green-600 select-none"
+                          className="fill-green-500 select-none"
                           style={{ 
                             fontSize: '10px', 
                             fontWeight: '700',
@@ -370,6 +329,7 @@ export default function ProgressPage() {
             </div>
           </CardContent>
         </Card>
+        </>
         )}
 
         {/* Skills Breakdown */}
@@ -395,7 +355,7 @@ export default function ProgressPage() {
                           isNeedsFocus ? 'bg-orange-100' : 'bg-green-100'
                         }`}>
                           <skill.icon className={`w-4 h-4 stroke-2 ${
-                            isNeedsFocus ? 'text-orange-600' : 'text-green-600'
+                            isNeedsFocus ? 'text-orange-600' : 'text-green-500'
                           }`} />
                         </div>
                       )}
@@ -413,13 +373,13 @@ export default function ProgressPage() {
                             )}
                           </div>
                           <span className={`font-bold tabular-nums ${
-                            isNeedsFocus ? 'text-orange-600' : 'text-green-600'
+                            isNeedsFocus ? 'text-orange-600' : 'text-green-500'
                           }`}>{skill.progress}%</span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
                           <div
                             className={`h-2 rounded-full transition-all duration-500 ${
-                              isNeedsFocus ? 'bg-orange-500' : 'bg-green-500'
+                              isNeedsFocus ? 'bg-orange-500' : 'bg-primary'
                             }`}
                             style={{ width: `${skill.progress}%` }}
                           />
@@ -430,7 +390,7 @@ export default function ProgressPage() {
                         <div className="mt-2 text-xs text-gray-500">
                           {t(`progress.skills.goalLabel`)} {skill.Goal}% • 
                           {skill.progress >= skill.Goal ? (
-                            <span className="text-green-600 font-medium">{t('progress.skills.aboveGoal')}</span>
+                            <span className="text-primary font-medium">{t('progress.skills.aboveGoal')}</span>
                           ) : (
                             <span className="text-gray-600 font-medium">{t('progress.skills.onTrack', { remaining: skill.Goal - skill.progress })}</span>
                           )}
@@ -444,82 +404,14 @@ export default function ProgressPage() {
           </div>
         </div>
 
-        {/* AI Personalized Practices */}
-        <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
-          <CardContent className="p-5">
-            <div className="space-y-4">
-              <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>{t('progress.ai.title')}</h2>
-              <p className="text-sm text-gray-600">{t('progress.ai.subtitle')}</p>
-              
-              <div className="space-y-3">
-                {aiRecommendations.map((rec, index) => {
-                  const isPriority = rec.priority === 'high'
-                  
-                  return (
-                    <Card key={index} className="bg-white border border-gray-200 shadow-sm">
-                      <CardContent className="p-4">
-                        <div className="flex items-start gap-3">
-                          {!isLarge && (
-                            <div className="w-10 h-10 bg-green-100 rounded-2xl flex items-center justify-center flex-shrink-0">
-                              <rec.icon className="w-5 h-5 stroke-2 text-green-600" />
-                            </div>
-                          )}
-                          
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-start justify-between mb-2">
-                              <div>
-                                <div className="flex items-center gap-2">
-                                  <h3 className={`font-semibold text-gray-900 ${isLarge ? 'text-lg' : 'text-sm'}`}>
-                                    {t(`progress.ai.recs.${index}.title`, { defaultValue: rec.title })} ({rec.skillProgress}%)
-                                  </h3>
-                                  {isPriority && (
-                                    <Badge className="bg-orange-100 text-orange-700 border-orange-200 text-xs px-1.5 py-0.5">
-                                      {t('progress.ai.priority')}
-                                    </Badge>
-                                  )}
-                                </div>
-                                <div className="flex items-center gap-2 mt-1">
-                                  <span className="text-xs text-gray-500 font-medium">{t(`progress.skills.${rec.skill}.name`, { defaultValue: rec.skill })}</span>
-                                  <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
-                                    {t('progress.ai.minutes_one', { count: parseInt(rec.timeNeeded) || 5 })}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <p className="text-sm text-gray-600 leading-relaxed mb-3">{t(`progress.ai.recs.${index}.description`, { defaultValue: rec.description })}</p>
-                            
-                            <Button 
-                              size="sm" 
-                              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 font-semibold text-sm rounded-xl border-0 shadow-sm transition-all"
-                            >
-                              <Play className="w-4 h-4 mr-1.5 stroke-2" />
-                              {t('progress.ai.startPractice')}
-                            </Button>
-                          </div>
-                        </div>
-                      </CardContent>
-      </Card>
-                  )
-                })}
-              </div>
-              
-              <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-xl">
-                <p className="text-xs text-green-700 font-medium text-center">
-                  {t('progress.ai.tip')}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-          </Card>
+        {/* (AI Personalized Practices removed from Progress page) */}
 
         {/* Progress Over Time */}
+        <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900`}>{t('progress.trend.title')}</h2>
         <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
           <CardContent className="p-5">
         <div className="space-y-4">
-          <div className="flex items-center gap-2">
-                { !isLarge && <TrendingUp className="w-5 h-5 text-green-600 stroke-2" />}
-                <h2 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-semibold text-gray-900 text-center`}>{t('progress.trend.title')}</h2>
-          </div>
+          { !isLarge && <TrendingUp className="w-5 h-5 text-green-500 stroke-2" />}
 
               <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
@@ -542,7 +434,7 @@ export default function ProgressPage() {
                       stroke="#22c55e"
                   strokeWidth="3"
                       dot={{ fill: "#22c55e", strokeWidth: 0, r: 5 }}
-                      activeDot={{ r: 7, fill: "#16a34a" }}
+                      activeDot={{ r: 7, fill: "#22c55e" }}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -555,7 +447,7 @@ export default function ProgressPage() {
                   <span>{t('progress.trend.milestone1')}</span>
           </div>
                 <div className="flex items-center gap-2 text-xs text-gray-500">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                   <span>{t('progress.trend.milestone2')}</span>
                 </div>
               </div>

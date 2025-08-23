@@ -131,7 +131,7 @@
     "progressSnapshot": "Progress Snapshot",
     "daysStreak": "Days Streak",
     "activityHours": "Activity Hours",
-    "starsEarned": "Stars Earned",
+    "starsEarned": "Points Earned",
     "modalUploadWorksheet": "Upload Worksheet",
     "uploading": "Uploading...",
     "processingWorksheet": "Processing your worksheet",
@@ -149,6 +149,7 @@
     "whatWentWell": "What Went Well",
     "needsPractice": "Needs Practice",
     "generalNotes": "General Notes",
+    "viewPastAssignments": "View Past Assignments",
     "suggestedNextSteps": "Suggested Next Steps",
     "viewRecommendedPractice": "View Recommended Practice",
     "downloadExtraWorksheet": "Download extra worksheet (PDF)",
@@ -303,6 +304,8 @@
       "home": "Home",
       "progress": "Progress",
       "community": "Community",
+      "help": "Help",
+      "leaderboard": "Leaderboard"
       "volunteer": "Volunteer",
       "leaderboard": "Leaderboard",
       "qna": "Q&A",
@@ -799,7 +802,7 @@
       "title": "Available Volunteers",
       "answers": "answers",
       "hoursContributed": "{{hours}} hours contributed",
-      "answerQuestions": "Answer Questions",
+      "answerQuestions": "Request Help",
       "offline": "Offline"
     },
     "recent": {

@@ -149,6 +149,7 @@
     "whatWentWell": "做得好的地方",
     "needsPractice": "需要改進",
     "generalNotes": "一般備註",
+    "viewPastAssignments": "查看過往作業",
     "suggestedNextSteps": "建議下一步",
     "viewRecommendedPractice": "查看建議練習",
     "downloadExtraWorksheet": "下載額外工作紙（PDF）",
@@ -303,6 +304,8 @@
       "home": "主頁",
       "progress": "進度",
       "community": "社群",
+      "help": "幫助",
+      "leaderboard": "排行榜"
       "volunteer": "義工",
       "leaderboard": "排行榜",
       "qna": "問答",

@@ -332,7 +332,7 @@ export default function SignUpPage() {
                 {/* Sign In Link */}
                 <div className="text-center text-sm">
                   <span className="text-gray-500">{t('signup.alreadyHave')}</span>
-                  <Link href="/login" className="text-blue-600 hover:text-blue-700 font-semibold">
+                  <Link href="/login" className="text-green-600 hover:text-green-700 font-semibold">
                     {t('signup.signIn')}
                   </Link>
                 </div>
@@ -561,7 +561,7 @@ export default function SignUpPage() {
                   <Button
                     type="submit"
                     disabled={isLoading || password !== confirmPassword}
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold py-3"
+                    className="w-full bg-primary hover:bg-primary/90 text-white border-0 rounded-xl font-semibold py-3"
                   >
                     {isLoading ? (
                       <>
@@ -608,14 +608,14 @@ export default function SignUpPage() {
                 {/* Continue Button */}
                 <Button
                   onClick={() => window.location.href = '/'}
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold py-3"
+                  className="w-full bg-primary hover:bg-primary/90 text-white border-0 rounded-xl font-semibold py-3"
                 >
                   {t('signup.continueToDashboard')}
                 </Button>
 
                 {/* Sign In Link */}
                 <div className="text-center text-sm">
-                  <Link href="/login" className="text-blue-600 hover:text-blue-700 font-semibold">
+                  <Link href="/login" className="text-green-600 hover:text-green-700 font-semibold">
                     {t('signup.signInExisting')}
                   </Link>
                 </div>
