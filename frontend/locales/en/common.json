@@ -166,6 +166,10 @@
       "2": {
         "title": "Confirm Homework Submission",
         "subtitle": "Due Today at 6:00 PM"
+      },
+      "3": {
+        "title": "Live Tutorial Session",
+        "subtitle": "Reading Comprehension - Tomorrow 2:00 PM"
       }
     },
     "aiInsight": {
@@ -634,6 +638,9 @@
           "transition": "Transition",
           "primary1": "Primary 1",
           "preparation": "Preparation"
+        },
+        "questions": {
+          "newPost": "New Question"
         }
       },
       "resources": {

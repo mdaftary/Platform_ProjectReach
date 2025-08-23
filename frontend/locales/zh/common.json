@@ -166,6 +166,10 @@
       "2": {
         "title": "確認功課遞交",
         "subtitle": "今日 6:00 截止"
+      },
+      "3": {
+        "title": "實時輔導課程",
+        "subtitle": "閱讀理解 - 明天下午 2:00"
       }
     },
     "aiInsight": {
@@ -585,6 +589,9 @@
         "discussions": "討論",
         "resources": "資源",
         "groups": "練習小組"
+      },
+      "questions": {
+        "newPost": "新問題"
       },
       "discussions": {
         "recent": "最新討論",
