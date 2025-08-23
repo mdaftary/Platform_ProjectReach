@@ -1165,7 +1165,40 @@
       "Medium": "中等",
       "Hard": "困難"
     },
-    "pointReward": "積分獎勵"
+    "pointReward": "積分獎勵",
+    "uploadedFiles": "已上傳檔案",
+    "addMoreFiles": "新增更多檔案",
+    "cancel": "取消",
+    "confirmUpload": "確認上傳",
+    "file": "檔案",
+    "files": "檔案",
+    "viewUploadedFiles": "查看已上傳檔案",
+    "uploadSuccess": "檔案上傳成功！功課已標記為完成。",
+    "fileTypeError": "不支援此檔案類型。請只上傳圖片或PDF檔案。",
+    "fileSizeError": "檔案大小必須小於10MB。",
+    "previewImage": "預覽圖片"
+  },
+  "previousAssignment": {
+    "completed": "已完成",
+    "finalScore": "最終成績",
+    "pointsEarned": "獲得積分",
+    "submittedDate": "提交日期",
+    "submittedFiles": "提交檔案",
+    "download": "下載",
+    "downloadAll": "下載全部",
+    "rubric": "評分標準",
+    "teacherFeedback": "老師回饋",
+    "timeline": "時間軸",
+    "submitted": "已提交",
+    "timeSpent": "花費時間",
+    "reviewSimilar": "複習相似",
+    "performance": {
+      "label": "表現",
+      "excellent": "優秀",
+      "good": "良好",
+      "satisfactory": "滿意",
+      "needsImprovement": "需要改進"
+    }
   }
 }
 

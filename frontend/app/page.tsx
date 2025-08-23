@@ -12,6 +12,7 @@ import { Trans } from "react-i18next"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
 import { AssignmentDetailDrawer, type AssignmentDetail } from "@/components/assignment-detail-drawer"
+import { PreviousAssignmentDetailDrawer, type PreviousAssignment } from "@/components/previous-assignment-detail-drawer"
 import { SwipeableProgressCard } from "@/components/swipeable-progress-card"
 
 // Weekly tasks data - English version
@@ -23,6 +24,8 @@ const weeklyTasksEn = [
     completed: false,
     isPrimary: true,
     icon: Camera,
+    subject: "Alphabet",
+    pointReward: 10,
   },
   {
     id: 2,
@@ -31,6 +34,8 @@ const weeklyTasksEn = [
     completed: true,
     isPrimary: false,
     icon: Play,
+    subject: "Alphabet",
+    pointReward: 10,
   },
   {
     id: 3,
@@ -39,6 +44,8 @@ const weeklyTasksEn = [
     completed: false,
     isPrimary: false,
     icon: Users,
+    subject: "Alphabet",
+    pointReward: 10,
   },
 ]
 
@@ -51,6 +58,8 @@ const weeklyTasksZh = [
     completed: false,
     isPrimary: true,
     icon: Camera,
+    subject: "字母",
+    pointReward: 10,
   },
   {
     id: 2,
@@ -59,6 +68,8 @@ const weeklyTasksZh = [
     completed: false,
     isPrimary: false,
     icon: Play,
+    subject: "字母",
+    pointReward: 10,
   },
   {
     id: 3,
@@ -67,6 +78,8 @@ const weeklyTasksZh = [
     completed: false,
     isPrimary: false,
     icon: Users,
+    subject: "字母",
+    pointReward: 10,
   },
 ]
 
@@ -306,7 +319,8 @@ const previousAssignmentsEn = [
     score: 10,
     status: "graded",
     difficulty: "Easy",
-    pointsEarned: 16
+    pointsEarned: 16,
+    feedback: "Good job!"
   },
   {
     id: 6,
@@ -317,7 +331,8 @@ const previousAssignmentsEn = [
     score: 8,
     status: "graded",
     difficulty: "Medium",
-    pointsEarned: 13
+    pointsEarned: 13,
+    feedback: "Good job!"
   },
   {
     id: 5,
@@ -328,7 +343,8 @@ const previousAssignmentsEn = [
     score: 9,
     status: "graded",
     difficulty: "Easy",
-    pointsEarned: 14
+      pointsEarned: 14,
+    feedback: "Good job!"
   },
   {
     id: 4,
@@ -339,7 +355,8 @@ const previousAssignmentsEn = [
     score: 6,
     status: "graded",
     difficulty: "Hard",
-    pointsEarned: 10
+    pointsEarned: 10,
+    feedback: "Good job!"
   },
   {
     id: 3,
@@ -350,7 +367,8 @@ const previousAssignmentsEn = [
     score: 9,
     status: "graded",
     difficulty: "Easy",
-    pointsEarned: 15
+    pointsEarned: 15,
+    feedback: "Good job!"
   },
   {
     id: 2,
@@ -361,7 +379,8 @@ const previousAssignmentsEn = [
     score: 8,
     status: "graded",
     difficulty: "Easy",
-    pointsEarned: 13
+    pointsEarned: 13,
+    feedback: "Good job!"
   }
 ]
 
@@ -376,7 +395,8 @@ const previousAssignmentsZh = [
     score: 9,
     status: "graded",
     difficulty: "Easy",
-    pointsEarned: 15
+    pointsEarned: 15,
+    feedback: "Good job!"
   },
   {
     id: 10,
@@ -387,7 +407,8 @@ const previousAssignmentsZh = [
     score: 8,
     status: "graded",
     difficulty: "Medium",
-    pointsEarned: 12
+    pointsEarned: 12,
+    feedback: "Good job!"
   },
   {
     id: 9,
@@ -398,7 +419,8 @@ const previousAssignmentsZh = [
     score: 9,
     status: "graded",
     difficulty: "Easy",
-    pointsEarned: 14
+    pointsEarned: 14,
+    feedback: "Good job!"
   },
   {
     id: 8,
@@ -409,7 +431,8 @@ const previousAssignmentsZh = [
     score: 7,
     status: "graded",
     difficulty: "Medium",
-    pointsEarned: 11
+    pointsEarned: 11,
+    feedback: "Good job!"
   },
   {
     id: 7,
@@ -431,7 +454,8 @@ const previousAssignmentsZh = [
     score: 8,
     status: "graded",
     difficulty: "Medium",
-    pointsEarned: 13
+    pointsEarned: 13,
+    feedback: "Good job!"
   },
   {
     id: 5,
@@ -442,7 +466,8 @@ const previousAssignmentsZh = [
     score: 9,
     status: "graded",
     difficulty: "Easy",
-    pointsEarned: 14
+    pointsEarned: 14,
+    feedback: "Good job!"
   },
   {
     id: 4,
@@ -453,7 +478,8 @@ const previousAssignmentsZh = [
     score: 6,
     status: "graded",
     difficulty: "Hard",
-    pointsEarned: 10
+    pointsEarned: 10,
+    feedback: "Good job!"
   },
   {
     id: 3,
@@ -464,7 +490,8 @@ const previousAssignmentsZh = [
     score: 9,
     status: "graded",
     difficulty: "Easy",
-    pointsEarned: 15
+    pointsEarned: 15,
+    feedback: "Good job!"
   },
   {
     id: 2,
@@ -475,7 +502,8 @@ const previousAssignmentsZh = [
     score: 8,
     status: "graded",
     difficulty: "Easy",
-    pointsEarned: 13
+    pointsEarned: 13,
+    feedback: "Good job!"
   }
 ]
 
@@ -499,6 +527,62 @@ export default function HomePage() {
   // Drawer state
   const [selectedAssignment, setSelectedAssignment] = useState<AssignmentDetail | null>(null)
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [selectedPreviousAssignment, setSelectedPreviousAssignment] = useState<PreviousAssignment | null>(null)
+  const [previousDrawerOpen, setPreviousDrawerOpen] = useState(false)
+  const [isAssignmentCompleted, setIsAssignmentCompleted] = useState(false)
+  const [assignmentScore, setAssignmentScore] = useState<number | null>(null)
+  const [assignmentFeedback, setAssignmentFeedback] = useState('')
+
+  useEffect(() => {
+    // Check if assignment 1 is completed
+      const isAssignmentCompleted = localStorage.getItem(`assignment_files_1`)
+      if (isAssignmentCompleted) {
+        setIsAssignmentCompleted(true)
+      }
+
+    // Check if assignment 1 is graded
+    const assignmentGrade = localStorage.getItem(`assignment_1_grade`)
+    if (assignmentGrade) {
+      setAssignmentScore(Number(assignmentGrade))
+    }
+
+    // Check if assignment 1 is feedback
+    const assignmentFeedback = localStorage.getItem(`assignment_1_feedback`)
+    if (assignmentFeedback) {
+      setAssignmentFeedback(assignmentFeedback)
+    }
+  }, [])
+
+
+  const getScoreColor = (score: number) => {
+    if (score >= 9) return 'text-green-600 bg-green-50';
+    if (score >= 7) return 'text-blue-600 bg-blue-50';
+    if (score >= 5) return 'text-yellow-600 bg-yellow-50';
+    return 'text-red-600 bg-red-50';
+  };
+
+  // Helper function to get subject icon color
+  const getSubjectColor = (subject: string) => {
+    switch (subject.toLowerCase()) {
+      case 'sight words':
+      case '常見詞':
+        return 'bg-blue-500';
+      case 'vocabulary':
+      case '詞彙':
+        return 'bg-purple-500';
+      case 'phonemic awareness':
+      case '語音意識':
+        return 'bg-green-500';
+      case 'alphabet':
+      case '字母':
+        return 'bg-orange-500';
+      case 'point-and-read':
+      case '指讀':
+        return 'bg-red-500';
+      default:
+        return 'bg-gray-500';
+    }
+  };
 
   // Close user menu when clicking outside
   useEffect(() => {
@@ -539,6 +623,68 @@ export default function HomePage() {
     setUploadedImage(null)
   }
 
+  const handlePreviousAssignmentClick = (assignmentId: number) => {
+    // Convert the basic assignment data to full PreviousAssignment format
+    const basicAssignment = previousAssignments.find(a => a.id === assignmentId)
+    if (basicAssignment) {
+      const fullAssignment: PreviousAssignment = {
+        ...basicAssignment,
+        status: basicAssignment.status as 'graded' | 'pending' | 'returned',
+        difficulty: basicAssignment.difficulty as 'Easy' | 'Medium' | 'Hard',
+        submissionFiles: basicAssignment.id === 11 ? [
+          { id: "1", name: "sight_words_worksheet.pdf", type: "application/pdf", url: "/files/sight_words.pdf" },
+          { id: "2", name: "reading_practice.jpg", type: "image/jpeg", url: "/files/reading.jpg" }
+        ] : basicAssignment.id === 10 ? [
+          { id: "3", name: "handwriting_practice.jpg", type: "image/jpeg", url: "/files/handwriting.jpg" }
+        ] : undefined,
+        rubric: basicAssignment.id === 11 ? [
+          { criteria: "Word Recognition", score: 9, maxScore: 10, feedback: "Excellent recognition of all sight words" },
+          { criteria: "Reading Fluency", score: 8, maxScore: 10, feedback: "Good pace, work on expression" }
+        ] : basicAssignment.id === 10 ? [
+          { criteria: "Letter Formation", score: 8, maxScore: 10, feedback: "Good letter shapes" },
+          { criteria: "Spacing", score: 6, maxScore: 10, feedback: "Work on consistent spacing" }
+        ] : undefined,
+        timeSpent: "25 minutes",
+        completionDate: basicAssignment.submittedDate,
+        teacherComments: basicAssignment.feedback
+      }
+      setSelectedPreviousAssignment(fullAssignment)
+      setPreviousDrawerOpen(true)
+    }
+  }
+
+  const handleSubmittedAssignmentClick = () => {
+    // Convert the basic assignment data to full PreviousAssignment format
+    const basicAssignment = assignmentDetails[0]
+    if (basicAssignment) {
+      const fullAssignment: PreviousAssignment = {
+        ...basicAssignment,
+        status: isAssignmentCompleted ? 'graded' : 'pending',
+        difficulty: 'Easy',
+        submissionFiles: basicAssignment.id === 11 ? [
+          { id: "1", name: "sight_words_worksheet.pdf", type: "application/pdf", url: "/files/sight_words.pdf" },
+          { id: "2", name: "reading_practice.jpg", type: "image/jpeg", url: "/files/reading.jpg" }
+        ] : basicAssignment.id === 10 ? [
+          { id: "3", name: "handwriting_practice.jpg", type: "image/jpeg", url: "/files/handwriting.jpg" }
+        ] : undefined,
+        rubric: basicAssignment.id === 11 ? [
+          { criteria: "Word Recognition", score: 9, maxScore: 10, feedback: "Excellent recognition of all sight words" },
+          { criteria: "Reading Fluency", score: 8, maxScore: 10, feedback: "Good pace, work on expression" }
+        ] : basicAssignment.id === 10 ? [
+          { criteria: "Letter Formation", score: 8, maxScore: 10, feedback: "Good letter shapes" },
+          { criteria: "Spacing", score: 6, maxScore: 10, feedback: "Work on consistent spacing" }
+        ] : undefined,
+        timeSpent: "25 minutes",
+        submittedDate: new Date().toLocaleDateString(),
+        score: assignmentScore,
+        pointsEarned: 10,
+        teacherComments: assignmentFeedback
+      }
+      setSelectedPreviousAssignment(fullAssignment)
+      setPreviousDrawerOpen(true)
+    }
+  }
+  
   const handleAssignmentClick = (taskId: number) => {
     const assignment = assignmentDetails.find(detail => detail.id === taskId)
     if (assignment) {
@@ -551,7 +697,10 @@ export default function HomePage() {
     // Handle assignment completion logic here
     console.log(`Completing assignment ${assignmentId}`)
     setDrawerOpen(false)
+    setIsAssignmentCompleted(true)
   }
+
+
 
   return (
     <div className={`min-h-screen bg-gray-50 ${isLarge ? 'min-text-lg text-lg' : ''}`}>
@@ -561,6 +710,7 @@ export default function HomePage() {
         <SwipeableProgressCard />
 
         {/* Urgent Assignment Card */}
+        { weeklyTasks[0] && !isAssignmentCompleted && (
         <div className="bg-gradient-to-br from-purple-400 to-purple-500 rounded-3xl p-6 text-white relative overflow-hidden">
           <div className="relative z-10">
             <div className="flex items-center gap-2 mb-3">
@@ -590,7 +740,6 @@ export default function HomePage() {
                       </Button>
                     )}
           </div>
-          
           {/* Camera/upload icon decoration */}
           <div className="absolute bottom-4 right-6 text-6xl font-bold text-white/20">
             <Camera className="w-16 h-16" />
@@ -602,6 +751,7 @@ export default function HomePage() {
             <div className="absolute bottom-8 left-4 w-16 h-16 border border-white rounded-full"></div>
               </div>
         </div>
+        )}
 
         {/* Current Assignments Section */}
               <div className="space-y-4">
@@ -668,6 +818,67 @@ export default function HomePage() {
           </div>
           
           <div className="grid gap-3">
+            {isAssignmentCompleted && (
+                <div 
+                key={weeklyTasks[0].id} 
+                className="bg-white rounded-2xl p-4 border border-gray-100 hover:shadow-sm transition-shadow cursor-pointer"
+                onClick={() => handleSubmittedAssignmentClick()}
+              >
+                <div className="flex items-center justify-between">
+                  {/* Left side: Assignment info */}
+                  <div className="flex items-center gap-3 flex-1">
+                    {/* Subject indicator */}
+                    <div className={`w-3 h-12 ${getSubjectColor(weeklyTasks[0].subject)} rounded-full flex-shrink-0`}></div>
+                    
+                    {/* Assignment details */}
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-gray-900 text-sm truncate">
+                        {weeklyTasks[0].title}
+                      </h3>
+                      <p className="text-gray-500 text-xs truncate">
+                        {weeklyTasks[0].subtitle}
+                      </p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="text-xs text-gray-400">
+                          {t('assignments.previousAssignments.submitted')}: {new Date().toLocaleDateString()}
+                        </span>
+                        <span className="text-xs text-gray-300">•</span>
+                        <span className="text-xs text-gray-500">
+                          {weeklyTasks[0].subject}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right side: Score and points */}
+                  <div className="flex items-center gap-3 flex-shrink-0">
+                    {/* Points earned */}
+                    <div className="text-right">
+                      <div className="text-xs text-gray-500">
+                        {t('assignments.previousAssignments.points')}
+                      </div>
+                      <div className="text-sm font-semibold text-gray-900">
+                        +{weeklyTasks[0].pointReward}
+                      </div>
+                    </div>
+
+                    {/* Score badge */}
+                    { assignmentScore !== null ? (
+                      <div className={`px-3 py-1 rounded-full text-sm font-semibold ${getScoreColor(assignmentScore)}`}>
+                        {assignmentScore}/10
+                      </div>
+                    ) : (
+                      <div className="px-3 py-1 rounded-full text-sm font-semibold text-gray-500 bg-gray-50">
+                        N/A
+                      </div>
+                    )}
+
+                    {/* Arrow */}
+                    <ChevronRight className="w-4 h-4 text-gray-400" />
+                  </div>
+                </div>
+              </div>
+            )}
             {previousAssignments.map((assignment, index) => {
               // Helper function to get score color based on performance
               const getScoreColor = (score: number) => {
@@ -704,7 +915,7 @@ export default function HomePage() {
                 <div 
                   key={assignment.id} 
                   className="bg-white rounded-2xl p-4 border border-gray-100 hover:shadow-sm transition-shadow cursor-pointer"
-                  onClick={() => console.log('View assignment details', assignment.id)}
+                  onClick={() => handlePreviousAssignmentClick(assignment.id)}
                 >
                   <div className="flex items-center justify-between">
                     {/* Left side: Assignment info */}
@@ -950,6 +1161,13 @@ export default function HomePage() {
         open={drawerOpen}
         onOpenChange={setDrawerOpen}
         onComplete={handleAssignmentComplete}
+      />
+
+      {/* Previous Assignment Detail Drawer */}
+      <PreviousAssignmentDetailDrawer
+        assignment={selectedPreviousAssignment}
+        open={previousDrawerOpen}
+        onOpenChange={setPreviousDrawerOpen}
       />
     </div>
   )

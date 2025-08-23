@@ -1026,7 +1026,40 @@
       "Medium": "Medium",
       "Hard": "Hard"
     },
-    "pointReward": "Point Reward"
+    "pointReward": "Point Reward",
+    "uploadedFiles": "Uploaded Files",
+    "addMoreFiles": "Add More Files",
+    "cancel": "Cancel",
+    "confirmUpload": "Confirm Upload",
+    "file": "file",
+    "files": "files",
+    "viewUploadedFiles": "View Uploaded Files",
+    "uploadSuccess": "Files uploaded successfully! Assignment marked as complete.",
+    "fileTypeError": "File type not supported. Please upload images or PDFs only.",
+    "fileSizeError": "File size must be less than 10MB.",
+    "previewImage": "Preview Image"
+  },
+  "previousAssignment": {
+    "completed": "Completed",
+    "finalScore": "Final Score",
+    "pointsEarned": "Points Earned",
+    "submittedDate": "Submitted",
+    "submittedFiles": "Submitted Files",
+    "download": "Download",
+    "downloadAll": "Download All",
+    "rubric": "Grading Rubric",
+    "teacherFeedback": "Teacher Feedback",
+    "timeline": "Timeline",
+    "submitted": "Submitted",
+    "timeSpent": "Time Spent",
+    "reviewSimilar": "Review Similar",
+    "performance": {
+      "label": "Performance",
+      "excellent": "Excellent",
+      "good": "Good",
+      "satisfactory": "Satisfactory",
+      "needsImprovement": "Needs Improvement"
+    }
   }
 }
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { 
   Drawer,
   DrawerContent,
@@ -10,6 +10,13 @@ import {
   DrawerFooter,
   DrawerClose
 } from "@/components/ui/drawer"
+import { 
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
@@ -23,7 +30,10 @@ import {
   X,
   PlayCircle,
   Upload,
-  User
+  User,
+  Trash2,
+  Plus,
+  Eye
 } from "lucide-react"
 import { useTranslation } from "react-i18next"
 
@@ -45,6 +55,15 @@ export interface AssignmentDetail {
   pointReward: number 
 }
 
+interface UploadedFile {
+  id: string
+  name: string
+  type: string
+  size: number
+  dataUrl: string
+  preview?: string
+}
+
 interface AssignmentDetailDrawerProps {
   assignment: AssignmentDetail | null
   open: boolean
@@ -58,10 +77,36 @@ export function AssignmentDetailDrawer({
   onOpenChange,
   onComplete
 }: AssignmentDetailDrawerProps) {
-  const { t } = useTranslation()
+  // Early return must be before any hooks
   if (!assignment) return null
 
+  const { t } = useTranslation()
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([])
+  const [showFileUpload, setShowFileUpload] = useState(false)
+
   const TaskIcon = assignment.icon
+
+  // Check if this assignment requires file upload
+  const isUploadAssignment = assignment.buttonText.toLowerCase().includes('upload') || 
+                           assignment.buttonText.includes('上傳')
+
+  // Load uploaded files from localStorage on component mount
+  useEffect(() => {
+    if (isUploadAssignment && assignment) {
+      const savedFiles = localStorage.getItem(`assignment_files_${assignment.id}`)
+      if (savedFiles) {
+        setUploadedFiles(JSON.parse(savedFiles))
+      }
+    }
+  }, [assignment, isUploadAssignment])
+
+  // Save files to localStorage whenever uploadedFiles changes
+  useEffect(() => {
+    if (assignment && uploadedFiles.length > 0) {
+      localStorage.setItem(`assignment_files_${assignment.id}`, JSON.stringify(uploadedFiles))
+    }
+  }, [uploadedFiles, assignment])
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -69,6 +114,86 @@ export function AssignmentDetailDrawer({
       case 'Medium': return 'bg-yellow-100 text-yellow-700'
       case 'Hard': return 'bg-red-100 text-red-700'
       default: return 'bg-gray-100 text-gray-700'
+    }
+  }
+
+  const handleFileSelect = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click()
+    }
+  }
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files
+    if (!files) return
+
+    Array.from(files).forEach(file => {
+      // Validate file type (images and PDFs only)
+      const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'application/pdf']
+      if (!validTypes.includes(file.type)) {
+        alert(t("assignmentDetail.fileTypeError"))
+        return
+      }
+
+      // Validate file size (max 10MB)
+      if (file.size > 10 * 1024 * 1024) {
+        alert(t("assignmentDetail.fileSizeError"))
+        return
+      }
+
+      const reader = new FileReader()
+      reader.onload = () => {
+        const newFile: UploadedFile = {
+          id: Math.random().toString(36).substr(2, 9),
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          dataUrl: reader.result as string
+        }
+
+        setUploadedFiles(prev => [...prev, newFile])
+        setShowFileUpload(true)
+      }
+      reader.readAsDataURL(file)
+    })
+
+    // Reset file input
+    if (event.target) {
+      event.target.value = ''
+    }
+  }
+
+  const removeFile = (fileId: string) => {
+    setUploadedFiles(prev => prev.filter(file => file.id !== fileId))
+  }
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes'
+    const k = 1024
+    const sizes = ['Bytes', 'KB', 'MB', 'GB']
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+  }
+
+  const handleConfirmUpload = () => {
+    if (uploadedFiles.length > 0) {
+      // Mark assignment as completed
+      onComplete?.(assignment.id)
+      setShowFileUpload(false)
+      // Show success message
+      alert(t("assignmentDetail.uploadSuccess"))
+    }
+  }
+
+  const handleMainButtonClick = () => {
+    if (isUploadAssignment) {
+      if (uploadedFiles.length > 0) {
+        setShowFileUpload(true)
+      } else {
+        handleFileSelect()
+      }
+    } else {
+      onComplete?.(assignment.id)
     }
   }
 
@@ -198,18 +323,129 @@ export function AssignmentDetailDrawer({
           </div>
         </div>
 
+        {/* File Upload Interface */}
+        {isUploadAssignment && showFileUpload && (
+          <div className="border-t border-gray-100 bg-gray-50/50 p-4">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="font-semibold text-gray-900">{t("assignmentDetail.uploadedFiles")}</h3>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleFileSelect}
+                  className="flex items-center gap-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  {t("assignmentDetail.addMoreFiles")}
+                </Button>
+              </div>
+
+              {/* File Preview Grid */}
+              <div className="grid grid-cols-1 gap-3 max-h-40 overflow-y-auto">
+                {uploadedFiles.map((file) => (
+                  <div key={file.id} className="flex items-center gap-3 p-3 bg-white rounded-lg border">
+                    {/* File Preview */}
+                    <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+                      {file.type.startsWith('image/') ? (
+                        <img 
+                          src={file.dataUrl} 
+                          alt={file.name}
+                          className="w-full h-full object-cover rounded-lg"
+                        />
+                      ) : (
+                        <FileText className="w-6 h-6 text-red-500" />
+                      )}
+                    </div>
+
+                    {/* File Info */}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">{file.name}</p>
+                      <p className="text-xs text-gray-500">{formatFileSize(file.size)}</p>
+                    </div>
+
+                    {/* File Actions */}
+                    <div className="flex items-center gap-2">
+                      {file.type.startsWith('image/') && (
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="p-1 h-8 w-8"
+                              aria-label={t("assignmentDetail.previewImage")}
+                              title={t("assignmentDetail.previewImage")}
+                            >
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-4xl max-h-[90vh] p-0">
+                            <DialogHeader className="p-6 pb-0">
+                              <DialogTitle className="text-left">{file.name}</DialogTitle>
+                            </DialogHeader>
+                            <div className="flex items-center justify-center p-6 pt-2">
+                              <img 
+                                src={file.dataUrl} 
+                                alt={file.name}
+                                className="max-w-full max-h-[70vh] object-contain rounded-lg"
+                              />
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      )}
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeFile(file.id)}
+                        className="p-1 h-8 w-8 text-red-500 hover:text-red-700"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Confirm Upload Button */}
+              <div className="flex gap-3 pt-2 border-t">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowFileUpload(false)}
+                  className="flex-1"
+                >
+                  {t("assignmentDetail.cancel")}
+                </Button>
+                <Button
+                  onClick={handleConfirmUpload}
+                  className="flex-1 bg-green-500 hover:bg-green-600 text-white"
+                  disabled={uploadedFiles.length === 0}
+                >
+                  {t("assignmentDetail.confirmUpload")} ({uploadedFiles.length} {uploadedFiles.length !== 1 ? t("assignmentDetail.files") : t("assignmentDetail.file")})
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <DrawerFooter className="border-t border-gray-100 bg-gray-50/50">
           <div className="flex gap-3">
-              <>
-                <Button 
-                  className="flex-1 bg-green-500 hover:bg-green-600 text-white"
-                  onClick={() => onComplete?.(assignment.id)}
-                >
-                  {assignment.buttonText}
-                </Button>
-              </>
+            <Button 
+              className="flex-1 bg-green-500 hover:bg-green-600 text-white"
+              onClick={handleMainButtonClick}
+            >
+              {isUploadAssignment && uploadedFiles.length > 0 ? t("assignmentDetail.viewUploadedFiles") : assignment.buttonText}
+            </Button>
           </div>
         </DrawerFooter>
+
+        {/* Hidden File Input */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          multiple
+          accept="image/*,.pdf"
+          onChange={handleFileChange}
+          className="hidden"
+        />
       </DrawerContent>
     </Drawer>
   )
