@@ -568,7 +568,7 @@ export default function AdminGradingPage() {
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-4 flex-1">
-                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                      <div className="hidden md:flex w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full items-center justify-center text-white font-bold">
                         {submission.studentName.split(' ').map(n => n[0]).join('')}
                       </div>
                       <div className="flex-1">
