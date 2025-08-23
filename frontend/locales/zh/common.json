@@ -1042,6 +1042,15 @@
       "milestone1": "三月：達成 30 個常見詞",
       "milestone2": "五月：完成字母掌握",
       "motivation": "進步很大！本月提升 +15% 🎉"
+    },
+    "stats": {
+      "totalPoints": "總積分",
+      "totalHours": "總學習時數",
+      "hoursThisWeek": "本週學習時數",
+      "hoursLearnedOverall": "總學習時數",
+      "hoursLearnedThisWeek": "本週學習時數",
+      "starsEarnedThisMonth": "本月獲得積分",
+      "swipeHint": "左右滑動或點擊指示器查看更多統計"
     }
   }
   ,

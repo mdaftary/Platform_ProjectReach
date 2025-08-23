@@ -155,6 +155,11 @@
     "downloadExtraWorksheet": "Download extra worksheet (PDF)",
     "done": "Done",
     "signOut": "Sign Out",
+    "stats": {
+      "totalPoints": "Total points earned",
+      "totalHours": "Total hours spent",
+      "hoursThisWeek": "Hours this week"
+    },
     "weeklyTasks": {
       "0": {
         "title": "Upload Worksheet",
@@ -897,6 +902,15 @@
       "milestone1": "Mar: Reached 30 sight words",
       "milestone2": "May: Completed alphabet mastery",
       "motivation": "Great Progress! +15% improvement this month 🎉"
+    },
+    "stats": {
+      "totalPoints": "Total points earned",
+      "totalHours": "Total hours spent",
+      "hoursThisWeek": "Hours this week",
+      "starsEarnedThisMonth": "Stars earned this month",
+      "hoursLearnedOverall": "Hours learned overall",
+      "hoursLearnedThisWeek": "Hours learned this week",
+      "swipeHint": "Swipe left/right or tap indicators to see more stats"
     }
   }
   ,
@@ -985,7 +999,8 @@
       "plus50": "+50 pts",
       "plus75": "+75 pts",
       "plus25": "+25 pts",
-      "plus10": "+10 pts"
+      "plus10": "+10 pts",
+      "totalPoints": "Total points earned"
     },
     "optOut": "Opt out of leaderboard",
     "optIn": "Opt in to leaderboard"
