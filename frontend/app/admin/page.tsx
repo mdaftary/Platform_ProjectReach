@@ -21,7 +21,8 @@ import {
   Calendar,
   BookOpen,
   Brain,
-  Timer
+  Timer,
+  FileText
 } from "lucide-react"
 import Link from "next/link"
 import "@/lib/i18n"
@@ -141,6 +142,12 @@ export default function AdminDashboard() {
               </p>
             </div>
             <div className="flex items-center gap-3">
+              <Link href="/admin/grading">
+                <Button variant="default" size="sm">
+                  <FileText className="w-4 h-4 mr-2" />
+                  {t('admin.grading.title')}
+                </Button>
+              </Link>
               <Button variant="outline" size="sm">
                 <Download className="w-4 h-4 mr-2" />
                 {t('admin.exportData')}

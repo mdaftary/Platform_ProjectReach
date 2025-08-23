@@ -85,7 +85,7 @@ const MOCK_USERS = [
 ]
 
 // Routes that don't require authentication
-const PUBLIC_ROUTES = ['/login', '/signup', '/forgot-password', '/admin']
+const PUBLIC_ROUTES = ['/login', '/signup', '/forgot-password']
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
@@ -96,6 +96,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Note: Starting with isLoading = false for frontend-only mode
 
   // Check if current route is public
+  console.log('Pathname', pathname)
   const isPublicRoute = PUBLIC_ROUTES.some(route => pathname.startsWith(route))
 
   // Initialize auth state from localStorage
@@ -123,6 +124,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         router.push('/login')
       } else if (user && user.role === 'admin' && isPublicRoute) {
         // Redirect to dashboard if authenticated and trying to access auth pages (for admin)
+        console.log('Redirecting to admin', isPublicRoute)
         router.push('/admin')
       } else if (user && user.role === 'parent' && isPublicRoute) {
         // Redirect to dashboard if authenticated and trying to access auth pages (for parents)

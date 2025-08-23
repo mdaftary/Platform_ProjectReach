@@ -601,15 +601,77 @@
         "kowloonWest": "九龍西",
         "newTerritories": "新界"
       },
-      "time": {
-        "week1": "第一週",
-        "week2": "第二週", 
-        "week3": "第三週",
-        "week4": "第四週",
-        "years": "年"
-      }
-    } 
-  },
+             "time": {
+         "week1": "第一週",
+         "week2": "第二週", 
+         "week3": "第三週",
+         "week4": "第四週",
+         "years": "年"
+       }
+     },
+     "grading": {
+       "title": "作業評分",
+       "subtitle": "審閱和評分學生作業提交",
+       "backToList": "返回列表",
+       "reviewSubmission": "審閱提交",
+       "studentInfo": "學生資訊",
+       "studentName": "學生姓名",
+       "subject": "科目",
+       "submittedAt": "提交時間",
+       "dueDate": "截止日期",
+       "scanResults": "掃描結果",
+       "accuracy": "準確率",
+       "questionsAnswered": "已回答問題",
+       "autoFeedback": "自動掃描回饋",
+       "submissionPreview": "提交預覽",
+       "gradeAssignment": "評分作業",
+       "gradeDescription": "審閱提交並提供分數和回饋",
+       "score": "分數",
+       "outOf10": "滿分10分",
+       "feedback": "回饋",
+       "feedbackPlaceholder": "為學生提供建設性回饋...",
+       "feedbackHint": "包含學生做得好的地方和需要改進的領域",
+       "currentGrade": "目前分數",
+       "submitGrade": "提交評分",
+       "updateGrade": "更新評分",
+       "download": "下載",
+       "quickActions": "快速操作",
+       "searchSubmissions": "搜尋提交...",
+       "submissionsList": "作業提交列表",
+       "submissionsListDesc": "點擊任何提交以審閱和評分",
+       "files": "個檔案",
+       "review": "審閱",
+       "scanAccuracy": "掃描準確率",
+       "exportGrades": "匯出成績",
+       "status": {
+         "pending": "待審閱",
+         "graded": "已評分"
+       },
+       "confidence": {
+         "high": "高信心度",
+         "medium": "中信心度",
+         "low": "低信心度"
+       },
+       "filter": {
+         "all": "全部",
+         "pending": "待審閱",
+         "graded": "已評分"
+       },
+       "stats": {
+         "pending": "待審閱",
+         "graded": "已評分",
+         "averageScore": "平均分數"
+       },
+       "templates": {
+         "excellentWork": "優秀作業",
+         "excellent": "優秀的作業！你展現了對概念的深刻理解。繼續保持出色的努力！",
+         "goodWork": "良好作業",
+         "good": "良好的作業！你正在穩步進步。專注於回饋中重點提到的領域以持續改進。",
+         "needsWork": "需要改進",
+         "needsImprovement": "這份作業需要一些改進。請檢視回饋並練習重點領域。如有需要請不要猶豫尋求幫助！"
+       }
+     }
+   },
   "community": {
     "page": {
       "title": "社群",
