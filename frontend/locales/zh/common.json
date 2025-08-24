@@ -1283,7 +1283,8 @@
     "hiddenDesc": "你已選擇退出。在你重新加入前，你不會顯示於排行榜。",
     "tabs": {
       "overall": "總積分",
-      "improved": "進步最多"
+      "improved": "進步最多",
+      "volunteers": "最佳義工"
     },
     "overall": {
       "topPerformers": "表現最佳",
@@ -1294,6 +1295,11 @@
     "improved": {
       "title": "本週進步最多",
       "rising": "上升中"
+    },
+    "volunteers": {
+      "title": "最佳義工",
+      "likes": "讚數",
+      "answers": "回答"
     },
     "pointsInfo": {
       "title": "如何獲取積分",

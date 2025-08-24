@@ -95,6 +95,30 @@ const DEFAULT_MOCK_USERS: MockUser[] = [
     password: "phone123",
     role: "parent" as UserRole,
     createdAt: new Date().toISOString()
+  },
+  {
+    id: "6", 
+    username: "p",
+    email: "p@example.com",
+    password: "p",
+    role: "parent" as UserRole,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: "7",
+    username: "v",
+    email: "v@example.com",
+    password: "v",
+    role: "volunteer" as UserRole,
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: "8",
+    username: "a",
+    email: "a@example.com",
+    password: "a",
+    role: "admin" as UserRole,
+    createdAt: new Date().toISOString()
   }
 ]
 

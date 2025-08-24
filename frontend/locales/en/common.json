@@ -1147,7 +1147,8 @@
     "hiddenDesc": "You have opted out. You won't appear on the leaderboard until you opt back in.",
     "tabs": {
       "overall": "Top Points",
-      "improved": "Most Improved"
+      "improved": "Most Improved",
+      "volunteers": "Top Volunteers"
     },
     "overall": {
       "topPerformers": "Top Performers",
@@ -1158,6 +1159,10 @@
     "improved": {
       "title": "Most Improved This Week",
       "rising": "Rising"
+    },
+    "volunteers": {
+      "title": "Top Volunteers",
+      "likes": "likes"
     },
     "pointsInfo": {
       "title": "How to Earn Points",
