@@ -34,7 +34,7 @@ export default function LanguageSwitcher() {
         <SelectValue placeholder="Language" />
       </SelectTrigger>
       <SelectContent className="w-[140px]">
-        <SelectItem value="en">English</SelectItem>
+        <SelectItem value="en">EN</SelectItem>
         <SelectItem value="zh">中文</SelectItem>
       </SelectContent>
     </Select>

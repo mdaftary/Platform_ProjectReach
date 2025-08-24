@@ -21,7 +21,8 @@ import {
   Calendar,
   BookOpen,
   Brain,
-  Timer
+  Timer,
+  FileText
 } from "lucide-react"
 import Link from "next/link"
 import "@/lib/i18n"
@@ -58,6 +59,58 @@ export default function AdminDashboard() {
   // Get recent students for the students tab
   const recentStudents = MOCK_STUDENTS.slice(0, 20)
 
+  // Helper functions to translate chart data
+  const translateSubject = (subject: string) => {
+    const subjectMap: Record<string, string> = {
+      'Alphabet': t('admin.charts.subjects.alphabet'),
+      'Sight Words': t('admin.charts.subjects.sightwords'),
+      'Vocabulary': t('admin.charts.subjects.vocabulary'),
+      'Phonics': t('admin.charts.subjects.phonics')
+    }
+    return subjectMap[subject]
+  }
+
+  const translateRegion = (region: string) => {
+    const regionMap: Record<string, string> = {
+      'Central Hong Kong': t('admin.charts.regions.centralHongKong'),
+      'Kowloon East': t('admin.charts.regions.kowloonEast'),
+      'Kowloon West': t('admin.charts.regions.kowloonWest'),
+      'New Territories': t('admin.charts.regions.newTerritories')
+    }
+    return regionMap[region] || region
+  }
+
+  const translateWeek = (week: string) => {
+    const weekMap: Record<string, string> = {
+      'Week 1': t('admin.charts.time.week1'),
+      'Week 2': t('admin.charts.time.week2'),
+      'Week 3': t('admin.charts.time.week3'),
+      'Week 4': t('admin.charts.time.week4')
+    }
+    return weekMap[week] || week
+  }
+
+  // Translate chart data
+  const translatedWeeklyTrend = WEEKLY_TREND.map(item => ({
+    ...item,
+    week: translateWeek(item.week)
+  }))
+
+  const translatedRegionalStats = REGIONAL_STATS.map(item => ({
+    ...item,
+    region: translateRegion(item.region)
+  }))
+
+  const translatedSubjectPerformance = SUBJECT_PERFORMANCE.map(item => ({
+    ...item,
+    subject: translateSubject(item.subject)
+  }))
+
+  const translatedAgeGroupStats = AGE_GROUP_STATS.map(item => ({
+    ...item,
+    age: `${item.age.split(' ')[0]} ${t('admin.charts.time.years')}`
+  }))
+
   const getPerformanceColor = (score: number) => {
     if (score >= 90) return "text-green-600 bg-green-100"
     if (score >= 80) return "text-blue-600 bg-blue-100" 
@@ -74,9 +127,9 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900" suppressHydrationWarning={true}>
       {/* Header */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm border-b">
+      <header className="">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between flex-wrap">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
                 <div className="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center">
@@ -186,7 +239,7 @@ export default function AdminDashboard() {
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={300}>
-                    <AreaChart data={WEEKLY_TREND}>
+                    <AreaChart data={translatedWeeklyTrend}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="week" />
                       <YAxis />
@@ -197,7 +250,7 @@ export default function AdminDashboard() {
                         stroke="#3B82F6" 
                         fill="#3B82F6" 
                         fillOpacity={0.3}
-                        name="Average Score"
+                        name={t('admin.averageScore')}
                       />
                     </AreaChart>
                   </ResponsiveContainer>
@@ -212,7 +265,7 @@ export default function AdminDashboard() {
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={REGIONAL_STATS}>
+                    <BarChart data={translatedRegionalStats}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="region" />
                       <YAxis />
@@ -235,7 +288,7 @@ export default function AdminDashboard() {
                   <ResponsiveContainer width="100%" height={300}>
                     <PieChart>
                       <Pie
-                        data={AGE_GROUP_STATS}
+                        data={translatedAgeGroupStats}
                         cx="50%"
                         cy="50%"
                         outerRadius={80}
@@ -260,10 +313,10 @@ export default function AdminDashboard() {
                   <CardDescription>{t('admin.subjectOverviewDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {SUBJECT_PERFORMANCE.map((subject) => (
+                  {translatedSubjectPerformance.map((subject) => (
                     <div key={subject.subject} className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="font-medium">{t(`admin.${subject.subject.toLowerCase().replace(' ', '')}`) || subject.subject}</span>
+                        <span className="font-medium">{t(`${subject.subject.toLowerCase().replace(' ', '')}`) || subject.subject}</span>
                         <span className="text-gray-500">{subject.avgScore}%</span>
                       </div>
                       <Progress value={subject.avgScore} className="h-2" />
@@ -377,7 +430,7 @@ export default function AdminDashboard() {
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={SUBJECT_PERFORMANCE} layout="horizontal">
+                    <BarChart data={translatedSubjectPerformance} layout="horizontal">
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis type="number" />
                       <YAxis dataKey="subject" type="category" />
@@ -394,29 +447,19 @@ export default function AdminDashboard() {
                   <CardTitle>{t('admin.learningEfficiency')}</CardTitle>
                   <CardDescription>{t('admin.learningEfficiencyDesc')}</CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <ResponsiveContainer width="100%" height={300}>
-                    <LineChart data={SUBJECT_PERFORMANCE}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="subject" />
-                      <YAxis />
-                      <Tooltip />
-                      <Line 
-                        type="monotone" 
-                        dataKey="totalAttempts" 
-                        stroke="#3B82F6" 
-                        strokeWidth={2}
-                        name="Total Attempts"
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="avgTime" 
-                        stroke="#EF4444" 
-                        strokeWidth={2}
-                        name="Avg Time (seconds)"
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">{t('admin.dashboard.assignments.graded')}</span>
+                    <span className="font-bold text-green-600">142</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">{t('admin.dashboard.assignments.pendingReview')}</span>
+                    <span className="font-bold text-orange-500">18</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">{t('admin.dashboard.assignments.aiPreGraded')}</span>
+                    <span className="font-bold text-green-600">12</span>
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -441,13 +484,13 @@ export default function AdminDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {SUBJECT_PERFORMANCE.map((subject) => {
+                      {translatedSubjectPerformance.map((subject) => {
                         const successRate = (subject.avgScore / 100) * 100
                         const difficultyIndex = subject.avgTime / subject.avgScore * 100
                         
                         return (
                           <tr key={subject.subject} className="border-b hover:bg-gray-50 dark:hover:bg-gray-800">
-                            <td className="p-3 font-medium">{subject.subject}</td>
+                            <td className="p-3 font-medium">{t(`admin.charts.subjects.${subject.subject.toLowerCase().replace(' ', '')}`)}</td>
                             <td className="p-3 text-right">
                               <Badge className={getPerformanceColor(subject.avgScore)}>
                                 {subject.avgScore}%
@@ -486,15 +529,15 @@ export default function AdminDashboard() {
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm">{t('admin.avgSessionTime')}</span>
-                      <span className="font-bold">24.5 min</span>
+                      <span className="font-bold">{t('admin.values.avgSessionTime')}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm">{t('admin.completionRate')}</span>
-                      <span className="font-bold">87.3%</span>
+                      <span className="font-bold">{t('admin.values.completionRate')}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm">{t('admin.returnRate')}</span>
-                      <span className="font-bold">92.1%</span>
+                      <span className="font-bold">{t('admin.values.returnRate')}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -508,19 +551,19 @@ export default function AdminDashboard() {
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
                       <span className="text-sm">{t('admin.mostDifficult')}</span>
-                      <span className="font-bold text-red-600">Sight Words</span>
+                      <span className="font-bold text-red-600">{t('admin.values.mostDifficultSubject')}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm">{t('admin.fastestImprovement')}</span>
-                      <span className="font-bold text-green-600">Alphabet</span>
+                      <span className="font-bold text-green-600">{t('admin.values.fastestImprovementSubject')}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm">{t('admin.peakLearningTime')}</span>
-                      <span className="font-bold">2:00 PM</span>
+                      <span className="font-bold">{t('admin.values.peakLearningTime')}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm">{t('admin.avgQuestionsPerSession')}</span>
-                      <span className="font-bold">12.4</span>
+                      <span className="font-bold">{t('admin.values.avgQuestionsPerSession')}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -532,7 +575,7 @@ export default function AdminDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {REGIONAL_STATS.map((region) => (
+                    {translatedRegionalStats.map((region) => (
                       <div key={region.region} className="flex justify-between items-center">
                         <span className="text-sm">{region.region}</span>
                         <div className="text-right">
@@ -572,16 +615,29 @@ export default function AdminDashboard() {
                     <MapPin className="w-6 h-6 mb-2" />
                     <span>{t('admin.regionalAnalysis')}</span>
                   </Button>
-                  <Button variant="outline" className="h-20 flex-col">
-                    <Clock className="w-6 h-6 mb-2" />
-                    <span>{t('admin.timeAnalytics')}</span>
-                  </Button>
-                  <Button variant="outline" className="h-20 flex-col">
-                    <Download className="w-6 h-6 mb-2" />
-                    <span>{t('admin.exportAllData')}</span>
-                  </Button>
                 </div>
               </CardContent>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>{t('admin.dashboard.reports.quickInsights')}</CardTitle>
+                  <CardDescription>{t('admin.dashboard.reports.quickInsightsDesc')}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <p className="text-sm font-medium text-green-800">{t('admin.dashboard.reports.positiveTrend')}</p>
+                    <p className="text-sm text-green-700">{t('admin.dashboard.reports.positiveTrendDesc')}</p>
+                  </div>
+                  <div className="p-3 bg-orange-50 border border-orange-200 rounded-lg">
+                    <p className="text-sm font-medium text-orange-800">{t('admin.dashboard.reports.attentionNeeded')}</p>
+                    <p className="text-sm text-orange-700">{t('admin.dashboard.reports.attentionNeededDesc')}</p>
+                  </div>
+                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <p className="text-sm font-medium text-green-800">{t('admin.dashboard.reports.opportunity')}</p>
+                    <p className="text-sm text-green-700">{t('admin.dashboard.reports.opportunityDesc')}</p>
+                  </div>
+                </CardContent>
+              </Card>
             </Card>
           </TabsContent>
         </Tabs>

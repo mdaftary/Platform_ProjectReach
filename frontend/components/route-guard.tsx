@@ -33,8 +33,8 @@ export function RouteGuard({ children }: RouteGuardProps) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center" suppressHydrationWarning={true}>
         <div className="text-center space-y-4">
-          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-            <Loader className="w-8 h-8 text-blue-600 animate-spin stroke-2" />
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+            <Loader className="w-8 h-8 text-green-600 animate-spin stroke-2" />
           </div>
           <div>
             <p className="text-lg font-semibold text-gray-900">

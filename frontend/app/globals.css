@@ -150,7 +150,7 @@
   }
   
   .duolingo-gradient-success {
-    background: linear-gradient(135deg, #7EE068 0%, #9FE870 100%);
+    background: linear-gradient(135deg, #58CC02 0%, #7EE068 100%);
   }
   
   .duolingo-gradient-light {
@@ -298,15 +298,15 @@
   }
 
   /* Specific homepage improvements */
-  .dark .bg-blue-50 {
+  .dark .bg-green-50 {
     background-color: rgb(30 58 138) !important;
   }
 
-  .dark .bg-blue-500 {
+  .dark .bg-green-500 {
     background-color: rgb(59 130 246) !important;
   }
 
-  .dark .text-blue-600 {
+  .dark .text-green-600 {
     color: rgb(96 165 250) !important;
   }
 

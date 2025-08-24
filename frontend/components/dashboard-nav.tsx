@@ -3,11 +3,13 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { BookOpen, BarChart3, Users, Settings } from "lucide-react"
+import { BookOpen, BarChart3, Users, Settings, MessageCircle, Video } from "lucide-react"
+import { useAuth } from "@/contexts/auth-context"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
 
-const navigation = [
+// Navigation items for parents
+const parentNavigation = [
   { name: "dashboardNav.overview", href: "/", icon: BookOpen },
   { name: "dashboardNav.assignments", href: "/assignments", icon: BookOpen },
   { name: "dashboardNav.dashboard", href: "/dashboard", icon: BarChart3 },
@@ -15,9 +17,22 @@ const navigation = [
   { name: "dashboardNav.settings", href: "/settings", icon: Settings },
 ]
 
+// // Navigation items for volunteers
+const volunteerNavigation = [
+  { name: "dashboardNav.overview", href: "/volunteer", icon: BookOpen },
+  { name: "mobileNav.qna", href: "/volunteer/qna", icon: MessageCircle },
+  { name: "mobileNav.liveTutoring", href: "/volunteer/live-tutoring", icon: Video },
+  { name: "mobileNav.volunteerLeaderboard", href: "/volunteer/leaderboard", icon: Users },
+  { name: "dashboardNav.settings", href: "/settings", icon: Settings },
+]
+
 export function DashboardNav() {
   const pathname = usePathname()
   const { t } = useTranslation()
+  const { user } = useAuth()
+
+  // Get navigation items based on user role
+  const navigation = user?.role === 'volunteer' ? volunteerNavigation : parentNavigation
 
   return (
     <nav className="flex space-x-1">

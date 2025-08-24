@@ -435,9 +435,9 @@ export default function StudentDetailPage({ params }: { params: Promise<{ id: st
                         <p className="text-sm font-medium text-orange-800">{t('admin.student.progress.focusArea')}</p>
                         <p className="text-sm text-orange-700">Number formation (6, 9) - Practice needed</p>
                       </div>
-                      <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                        <p className="text-sm font-medium text-blue-800">{t('admin.student.progress.strength')}</p>
-                        <p className="text-sm text-blue-700">Creative expression and artistic skills</p>
+                      <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                        <p className="text-sm font-medium text-green-800">{t('admin.student.progress.strength')}</p>
+                        <p className="text-sm text-green-700">Creative expression and artistic skills</p>
                       </div>
                       <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
                         <p className="text-sm font-medium text-green-800">{t('admin.student.progress.achievement')}</p>
@@ -465,7 +465,7 @@ export default function StudentDetailPage({ params }: { params: Promise<{ id: st
                         </div>
                       </div>
                       <div className="flex items-start space-x-3">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                        <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
                         <div>
                           <p className="text-sm font-medium text-foreground">Parent posted in assignment discussion</p>
                           <p className="text-xs text-muted-foreground">1 day ago</p>

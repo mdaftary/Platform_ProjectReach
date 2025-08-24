@@ -1,7 +1,7 @@
 {
   "login": {
     "title": "Welcome Back",
-    "subtitle": "Sign in to continue your learning journey",
+    "subtitle": "Welcome back to REACH Hong Kong",
     "signInWith": "Sign in with",
     "email": "Email",
     "phone": "Phone",
@@ -14,27 +14,140 @@
     "identifierLabelUsername": "Username",
     "password": "Password",
     "passwordPlaceholder": "Enter your password",
+    "identifierLabel": "Phone, Email, or Username",
+    "identifierPlaceholder": "Enter your phone, email, or username", 
+    "identifierHelp": "Phone: 8 digits • Email: name@example.com • Username: your choice",
     "forgotPassword": "Forgot password?",
     "signIn": "Sign In",
     "signingIn": "Signing in...",
+    "processing": "Processing...",
+    "next": "Next",
     "or": "or",
     "continueWithGoogle": "Continue with Google",
     "connecting": "Connecting...",
     "signupPrompt": "Don't have an account? ",
     "signupLink": "Sign up",
+    "errorIdentifierRequired": "Please enter your phone number, email, or username",
+    "errorPasswordRequired": "Please enter your password", 
     "errorLoginFailed": "Login failed",
     "errorGoogleFailed": "Google sign in failed"
   },
   "signup": {
     "titles": {
+      "signup": "Sign Up",
+      "signin": "Sign In",
+      "verifyAccount": "Verify Your Account",
+      "enterPassword": "Enter Password", 
+      "chooseRole": "Choose Your Role",
+      "parentDetails": "Parent Information",
+      "volunteerDetails": "Volunteer Setup",
+      "complete": "Welcome!",
       "method": "Create Account",
-      "details": "Account Details",
-      "complete": "Welcome to REACH!"
+      "details": "Account Details"
     },
     "subtitles": {
+      "enterIdentifier": "Enter your phone number, email, or username",
+      "verifyEmail": "We sent a verification code to your email",
+      "verifyPhone": "We sent a verification code to your phone",
+      "verifyFromLogin": "Enter verification code sent to your",
+      "passwordPrompt": "Enter your password to sign in", 
+      "roleSelection": "Let us know how you want to use REACH",
+      "parentInfo": "Tell us about your child",
+      "volunteerSetupPassword": "Set up your password",
+      "volunteerSetupComplete": "Complete your registration",
+      "accountCreated": "Your account has been created successfully",
       "method": "Choose how you'd like to sign up",
       "details": "Fill in your account information",
       "complete": "Your account has been created successfully"
+    },
+    "labels": {
+      "identifierField": "Phone, Email, or Username",
+      "verificationCode": "Verification Code",
+      "password": "Password",
+      "roleQuestion": "How will you use REACH?",
+      "schoolCode": "School Code",
+      "schoolCodeOptional": "School Code (optional)",
+      "parentName": "Parent Name",
+      "studentName": "Student Name", 
+      "schoolName": "School Name",
+      "confirmPassword": "Confirm Password"
+    },
+    "placeholders": {
+      "enterIdentifier": "Enter your phone, email, or username",
+      "enterCode": "Enter 4-digit code",
+      "enterPassword": "Enter your password",
+      "createPassword": "Create a password",
+      "confirmPassword": "Confirm your password",
+      "schoolCode": "Enter school code if you have one",
+      "parentName": "Your full name",
+      "studentName": "Your child's full name",
+      "schoolName": "Your child's school"
+    },
+    "helper": {
+      "identifierHelp": "Phone: 8 digits • Email: name@example.com • Username: your choice",
+      "testingCode": "For testing, use code: 0000",
+      "schoolCodeHelp": "If you have a school code, enter it to complete registration quickly"
+    },
+    "buttons": {
+      "next": "Next",
+      "verify": "Verify",
+      "signIn": "Sign In",
+      "continue": "Continue",
+      "resendCode": "Resend Code",
+      "completeRegistration": "Complete Registration",
+      "continueToDashboard": "Continue to Dashboard",
+      "signUp": "Sign Up"
+    },
+    "loading": {
+      "processing": "Processing...",
+      "verifying": "Verifying...",
+      "signingIn": "Signing In...",
+      "connecting": "Connecting...",
+      "creatingAccount": "Creating Account..."
+    },
+    "roles": {
+      "parent": "Parent",
+      "volunteer": "Volunteer",
+      "parentDescription": "I want to help my child learn English",
+      "volunteerDescription": "I want to help teach and support students"
+    },
+    "fieldLabels": {
+      "required": "*",
+      "optional": "(optional)"
+    },
+    "links": {
+      "alreadyHaveAccount": "Already have an account? ",
+      "signInLink": "Sign In",
+      "forgotPassword": "Forgot password?",
+      "createNewAccount": "Want to create a new account? ",
+      "signUpLink": "Sign Up",
+      "backToSignIn": "Back to Sign In"
+    },
+    "success": {
+      "accountCreatedTitle": "Account Created Successfully!",
+      "welcomeMessage": "Welcome to REACH Hong Kong",
+      "accountLabel": "Account: ",
+      "roleLabel": "Role: "
+    },
+    "errors": {
+      "enterIdentifier": "Please enter your phone number, email, or username",
+      "enterPassword": "Please enter your password",
+      "enterConfirmPassword": "Please enter and confirm your password",
+      "passwordMismatch": "Passwords do not match",
+      "passwordTooShort": "Password must be at least 6 characters",
+      "fillAllFields": "Please fill in all required fields",
+      "invalidCode": "Invalid verification code. Please try 0000 for testing.",
+      "invalidSchoolCode": "Invalid school code. Please check and try again.",
+      "failedToProcess": "Failed to process input. Please try again.",
+      "failedToVerify": "Failed to verify. Please try again.",
+      "loginFailed": "Login failed. Please try again.",
+      "signupFailed": "Signup failed",
+      "googleFailed": "Google signup failed",
+      "failedToValidateSchool": "Failed to validate school code"
+    },
+    "messages": {
+      "userExists": "You're all set! Your volunteer account will be created with your",
+      "or": "or"
     },
     "signUpWith": "Sign up with",
     "emailAddress": "Email Address",
@@ -42,6 +155,11 @@
     "manualVerification": "Manual Verification",
     "errorRequired": "Please fill in the required field",
     "errorAllFieldsRequired": "Please fill in all required fields",
+    "selectRole": "Select your role",
+    "roleParent": "Parent",
+    "roleVolunteer": "Volunteer",
+    "roleParentDescription": "I have a child who will be learning with REACH",
+    "roleVolunteerDescription": "I want to volunteer and help students learn",
     "verifying": "Verifying...",
     "continue": "Continue",
     "or": "or",
@@ -123,12 +241,12 @@
     "headerSubtitle": "Grade K3 • Parent Dashboard",
     "thisWeek": "This Week",
     "upload": "Upload",
-    "aiInsights": "AI Insights",
+    "aiInsights": "Insights",
     "viewExercises": "View Exercises",
     "progressSnapshot": "Progress Snapshot",
     "daysStreak": "Days Streak",
     "activityHours": "Activity Hours",
-    "starsEarned": "Stars Earned",
+    "starsEarned": "Points Earned",
     "modalUploadWorksheet": "Upload Worksheet",
     "uploading": "Uploading...",
     "processingWorksheet": "Processing your worksheet",
@@ -146,11 +264,17 @@
     "whatWentWell": "What Went Well",
     "needsPractice": "Needs Practice",
     "generalNotes": "General Notes",
+    "viewPastAssignments": "View Past Assignments",
     "suggestedNextSteps": "Suggested Next Steps",
     "viewRecommendedPractice": "View Recommended Practice",
     "downloadExtraWorksheet": "Download extra worksheet (PDF)",
     "done": "Done",
     "signOut": "Sign Out",
+    "stats": {
+      "totalPoints": "Total points earned",
+      "totalHours": "Total hours spent",
+      "hoursThisWeek": "Hours this week"
+    },
     "weeklyTasks": {
       "0": {
         "title": "Upload Worksheet",
@@ -163,6 +287,10 @@
       "2": {
         "title": "Confirm Homework Submission",
         "subtitle": "Due Today at 6:00 PM"
+      },
+      "3": {
+        "title": "Live Tutorial Session",
+        "subtitle": "Reading Comprehension - Tomorrow 2:00 PM"
       }
     },
     "aiInsight": {
@@ -244,7 +372,7 @@
     "streak": "Streak",
     "timeSpent": "Time Spent",
     "alphabet": "Alphabet",
-    "sightWords": "Sight Words",
+    "sightwords": "Sight Words",
     "vocabulary": "Vocabulary",
     "phonics": "Phonics",
     "high": "High",
@@ -255,7 +383,115 @@
     "kowloonWest": "Kowloon West",
     "newTerritories": "New Territories",
     "years": "years",
-    "students": "students"
+    "dashboard": {
+      "assignments": {
+        "graded": "Graded",
+        "pendingReview": "Pending Review",
+        "aiPreGraded": "AI Pre-graded"
+      },
+      "reports": {
+        "quickInsights": "Quick Insights",
+        "quickInsightsDesc": "Key findings and recommendations",
+        "positiveTrend": "Positive Trend",
+        "positiveTrendDesc": "Submission rate improved by 12% this month",
+        "attentionNeeded": "Attention Needed",
+        "attentionNeededDesc": "12 students showing decreased engagement",
+        "opportunity": "Opportunity",
+        "opportunityDesc": "Math assignments have highest completion rate"
+      }
+    },
+    "values": {
+      "avgSessionTime": "24.5 min",
+      "completionRate": "87.3%",
+      "returnRate": "92.1%",
+      "mostDifficultSubject": "Sight Words",
+      "fastestImprovementSubject": "Alphabet",
+      "peakLearningTime": "2:00 PM",
+      "avgQuestionsPerSession": "12.4"
+    },
+    "charts": {
+      "subjects": {
+        "alphabet": "Alphabet",
+        "sightwords": "Sight Words", 
+        "vocabulary": "Vocabulary",
+        "phonics": "Phonics"
+      },
+      "regions": {
+        "centralHongKong": "Central Hong Kong",
+        "kowloonEast": "Kowloon East",
+        "kowloonWest": "Kowloon West",
+        "newTerritories": "New Territories"
+      },
+      "time": {
+        "week1": "Week 1",
+        "week2": "Week 2", 
+        "week3": "Week 3",
+        "week4": "Week 4",
+        "years": "years"
+      }
+    },
+    "grading": {
+      "title": "Assignment Grading",
+      "subtitle": "Review and grade student assignment submissions",
+      "backToList": "Back to List",
+      "reviewSubmission": "Review Submission",
+      "studentInfo": "Student Information",
+      "studentName": "Student Name",
+      "subject": "Subject",
+      "submittedAt": "Submitted At",
+      "dueDate": "Due Date",
+      "scanResults": "Scan Results",
+      "accuracy": "Accuracy",
+      "questionsAnswered": "Questions Answered",
+      "autoFeedback": "Auto Scan Feedback",
+      "submissionPreview": "Submission Preview",
+      "gradeAssignment": "Grade Assignment",
+      "gradeDescription": "Review the submission and provide a score and feedback",
+      "score": "Score",
+      "outOf10": "out of 10",
+      "feedback": "Feedback",
+      "feedbackPlaceholder": "Provide constructive feedback for the student...",
+      "feedbackHint": "Include what the student did well and areas for improvement",
+      "currentGrade": "Current Grade",
+      "submitGrade": "Submit Grade",
+      "updateGrade": "Update Grade",
+      "download": "Download",
+      "quickActions": "Quick Actions",
+      "searchSubmissions": "Search submissions...",
+      "submissionsList": "Assignment Submissions",
+      "submissionsListDesc": "Click on any submission to review and grade",
+      "files": "files",
+      "review": "Review",
+      "scanAccuracy": "Scan Accuracy",
+      "exportGrades": "Export Grades",
+      "status": {
+        "pending": "Pending Review",
+        "graded": "Graded"
+      },
+      "confidence": {
+        "high": "High Confidence",
+        "medium": "Medium Confidence",
+        "low": "Low Confidence"
+      },
+      "filter": {
+        "all": "All",
+        "pending": "Pending",
+        "graded": "Graded"
+      },
+      "stats": {
+        "pending": "Pending Review",
+        "graded": "Graded",
+        "averageScore": "Average Score"
+      },
+      "templates": {
+        "excellentWork": "Excellent Work",
+        "excellent": "Excellent work! You demonstrated strong understanding of the concepts. Keep up the great effort!",
+        "goodWork": "Good Work",
+        "good": "Good work! You're making solid progress. Focus on the areas highlighted in the feedback for continued improvement.",
+        "needsWork": "Needs Improvement",
+        "needsImprovement": "This assignment needs some improvement. Please review the feedback and practice the highlighted areas. Don't hesitate to ask for help!"
+      }
+    }
   },
   "components": {
     "assignmentCard": {
@@ -296,8 +532,13 @@
       "home": "Home",
       "progress": "Progress",
       "community": "Community",
+      "help": "Help",
+      "leaderboard": "Leaderboard",
       "volunteer": "Volunteer",
-      "leaderboard": "Leaderboard"
+      "volunteerLeaderboard": "Leaderboard",
+      "qna": "Q&A",
+      "liveTutoring": "Live Tutoring",
+      "grading": "Grading"
     },
     "routeGuard": {
       "loading": "Loading...",
@@ -340,6 +581,15 @@
         "description": "Check back later for new assignments from your teachers."
       }
     },
+    "previousAssignments": {
+      "title": "Previous Assignments",
+      "completed": "Completed",
+      "submitted": "Submitted",
+      "points": "Points",
+      "score": "Score"
+    },
+    "assignmentDetails": "Assignment Details",
+    "submittedFiles": "Submitted Files",
     "detail": {
       "header": "Assignment Details",
       "reach": "REACH Hong Kong",
@@ -407,170 +657,6 @@
       "uploadAtLeastOne": "Please upload at least one file to submit"
     }
   },
-  "admin": {
-    "dashboard": {
-      "header": "REACH Admin Dashboard",
-      "subtitle": "Analytics & Student Management",
-      "filters": {
-        "allStudents": "All Students",
-        "k3Only": "K3 Only",
-        "activeOnly": "Active Only"
-      },
-      "exportData": "Export Data",
-      "tabs": {
-        "overview": "Overview",
-        "students": "Students",
-        "assignments": "Assignments",
-        "community": "Community",
-        "reports": "Reports"
-      },
-      "overview": {
-        "totalStudents": "Total Students",
-        "activeAssignments": "Active Assignments",
-        "submissionRate": "Submission Rate",
-        "avgGrade": "Avg Grade",
-        "forumPosts": "Forum Posts",
-        "volunteerHours": "Volunteer Hours",
-        "submissionTrendsTitle": "Assignment Submission Trends",
-        "submissionTrendsDesc": "Weekly submission patterns and timeliness",
-        "gradeDistributionTitle": "Grade Distribution",
-        "gradeDistributionDesc": "Overall student performance breakdown",
-        "engagementTitle": "Daily Platform Engagement",
-        "engagementDesc": "Learning hours and community activity by day",
-        "series": {
-          "learningHours": "Learning Hours",
-          "forumPosts": "Forum Posts",
-          "submissions": "Submissions",
-          "onTime": "On Time",
-          "late": "Late"
-        }
-      },
-      "students": {
-        "subjectPerformanceTitle": "Subject Performance Overview",
-        "subjectPerformanceDesc": "Average grades and completion rates by subject",
-        "statusOverviewTitle": "Student Status Overview",
-        "statusOverviewDesc": "Current student engagement levels",
-        "activeStudents": "Active Students",
-        "atRisk": "At Risk",
-        "inactive": "Inactive",
-        "studentManagement": "Student Management",
-        "filter": "Filter",
-        "export": "Export",
-        "studentTrackingDesc": "Individual student progress and engagement tracking",
-        "avgScore": "Avg Score",
-        "submissions": "Submissions",
-        "lastActive": "Last Active",
-        "viewDetails": "View Details",
-        "dueDate": "Due Date",
-        "submitted": "Submitted",
-        "notSubmitted": "Not submitted",
-        "teacherFeedback": "Teacher Feedback",
-        "subjectProgressTitle": "Subject Progress",
-        "subjectProgressDesc": "Current performance by subject",
-        "learningGoalsTitle": "Learning Goals",
-        "learningGoalsDesc": "Areas for improvement and focus",
-        "focusArea": "Focus Area",
-        "strength": "Strength",
-        "achievement": "Achievement"
-      },
-      "assignments": {
-        "statsTitle": "Assignment Statistics",
-        "totalAssignments": "Total Assignments",
-        "currentlyActive": "Currently Active",
-        "avgCompletionRate": "Avg Completion Rate",
-        "avgGrade": "Avg Grade",
-        "timelinessTitle": "Submission Timeliness",
-        "onTime": "On Time",
-        "late": "Late",
-        "missing": "Missing",
-        "gradingStatusTitle": "Grading Status",
-        "graded": "Graded",
-        "pendingReview": "Pending Review",
-        "aiPreGraded": "AI Pre-graded",
-        "trendsTitle": "Assignment Performance Trends",
-        "trendsDesc": "Average scores and submission rates over time"
-      },
-      "community": {
-        "totalPosts": "Total Posts",
-        "activeUsers": "Active Users",
-        "volunteerHours": "Volunteer Hours",
-        "engagementRate": "Engagement Rate",
-        "activityTrendsTitle": "Community Activity Trends",
-        "activityTrendsDesc": "Forum posts and user engagement over time"
-      },
-      "reports": {
-        "generateReports": "Generate Reports",
-        "generateReportsDesc": "Create detailed analytics reports",
-        "studentProgressReport": "Student Progress Report",
-        "assignmentAnalytics": "Assignment Analytics",
-        "communityEngagement": "Community Engagement",
-        "platformUsage": "Platform Usage Statistics",
-        "quickInsights": "Quick Insights",
-        "quickInsightsDesc": "Key findings and recommendations",
-        "positiveTrend": "Positive Trend",
-        "positiveTrendDesc": "Submission rates increased by 12% this month",
-        "attentionNeeded": "Attention Needed",
-        "attentionNeededDesc": "12 students showing decreased engagement",
-        "opportunity": "Opportunity",
-        "opportunityDesc": "Math assignments have highest completion rates"
-      }
-    },
-    "student": {
-      "header": "Student Profile",
-      "contactParent": "Contact Parent",
-      "generateReport": "Generate Report",
-      "studentInfo": "Student Info",
-      "parent": "Parent",
-      "email": "Email",
-      "phone": "Phone",
-      "enrolled": "Enrolled",
-      "status": "Status",
-      "active": "Active",
-      "quickStats": "Quick Stats",
-      "avgScore": "Avg Score",
-      "submissions": "Submissions",
-      "onTimeRate": "On Time Rate",
-      "lastActive": "Last Active",
-      "tabs": {
-        "overview": "Overview",
-        "assignments": "Assignments",
-        "progress": "Progress",
-        "activity": "Activity"
-      },
-      "overview": {
-        "performanceTitle": "Academic Performance Trends",
-        "performanceDesc": "Subject performance over the past 4 weeks",
-        "skillsTitle": "Skills Assessment",
-        "skillsDesc": "Current skill levels across different areas",
-        "skillsSeries": "Skills"
-      },
-      "assignments": {
-        "historyTitle": "Assignment History",
-        "historyDesc": "Complete record of submitted assignments and grades",
-        "dueDate": "Due Date",
-        "submitted": "Submitted",
-        "notSubmitted": "Not submitted",
-        "teacherFeedback": "Teacher Feedback"
-      },
-      "progress": {
-        "subjectProgressTitle": "Subject Progress",
-        "subjectProgressDesc": "Current performance by subject",
-        "target": "Target",
-        "learningGoalsTitle": "Learning Goals",
-        "learningGoalsDesc": "Areas for improvement and focus",
-        "focusArea": "Focus Area",
-        "strength": "Strength",
-        "achievement": "Achievement"
-      },
-      "activity": {
-        "recentActivity": "Recent Activity",
-        "recentActivityDesc": "Student engagement and platform usage",
-        "submittedAssignment": "Submitted Math assignment",
-        "parentPosted": "Parent posted in assignment discussion",
-        "receivedGrade": "Received grade for English assignment"
-      }
-    }
-  },
   "community": {
     "page": {
       "title": "Community",
@@ -629,6 +715,9 @@
           "transition": "Transition",
           "primary1": "Primary 1",
           "preparation": "Preparation"
+        },
+        "questions": {
+          "newPost": "New Question"
         }
       },
       "resources": {
@@ -683,6 +772,7 @@
       "thisWeek": "This Week",
       "recentActivity": "Recent Activity",
       "upcomingDeadlines": "Upcoming Deadlines",
+      "deadlineReminder": "The deadline is almost up",
       "mathSubmitted": "Math assignment submitted",
       "earnedReadingStar": "Earned \"Reading Star\" badge",
       "joinedDiscussion": "Joined parent discussion",
@@ -690,7 +780,8 @@
       "dueTomorrow": "Due tomorrow",
       "dueInDays": "Due in {{days}} days",
       "dueNextWeek": "Due next week",
-      "pending": "Pending"
+      "pending": "Pending",
+      "tasks": "Tasks"
     },
     "progress": {
       "subjectOverTime": "Subject Progress Over Time",
@@ -787,12 +878,128 @@
       "title": "Available Volunteers",
       "answers": "answers",
       "hoursContributed": "{{hours}} hours contributed",
-      "answerQuestions": "Answer Questions",
-      "offline": "Offline"
+      "answerQuestions": "Request Help",
+      "offline": "Offline",
+      "search": "Search Volunteers..."
     },
     "recent": {
       "title": "Recent Questions",
       "answered": "Answered"
+    },
+    "qna": {
+      "title": "Q&A Hub",
+      "subtitle": "Help parents and students with their learning questions",
+      "searchPlaceholder": "Search questions by title, content, or tags...",
+      "filters": {
+        "all": "All",
+        "urgent": "Urgent",
+        "unanswered": "Unanswered",
+        "answered": "Answered"
+      },
+      "priority": {
+        "urgent": "Urgent",
+        "normal": "Normal",
+        "low": "Low"
+      },
+      "status": {
+        "open": "Open",
+        "answered": "Answered", 
+        "resolved": "Resolved"
+      },
+      "actions": {
+        "answer": "Answer",
+        "submitAnswer": "Submit Answer",
+        "cancel": "Cancel"
+      },
+      "form": {
+        "yourAnswer": "Your Answer",
+        "answerPlaceholder": "Share your knowledge and help this parent...",
+        "submitted": "Answer submitted successfully!"
+      },
+      "stats": {
+        "questions": "Questions",
+        "upvotes": "upvotes",
+        "answers": "answers"
+      },
+      "empty": {
+        "title": "No questions found",
+        "subtitle": "Try adjusting your search terms or filters.",
+        "noResults": "Be the first to ask a question!"
+      }
+    },
+    "liveTutoring": {
+      "title": "Live Tutoring",
+      "subtitle": "Conduct one-on-one tutoring sessions with students",
+      "tabs": {
+        "upcoming": "Upcoming",
+        "live": "Live",
+        "completed": "Completed"
+      },
+      "session": {
+        "joinSession": "Join Session",
+        "startEarly": "Start Early",
+        "message": "Message",
+        "viewNotes": "View Notes"
+      },
+      "videoCall": {
+        "you": "You",
+        "live": "LIVE"
+      },
+      "time": {
+        "today": "Today",
+        "tomorrow": "Tomorrow"
+      },
+      "stats": {
+        "sessions": "Sessions",
+        "upcomingTutorials": "Upcoming Tutorials",
+        "liveTutorials": "Live Tutorials", 
+        "previousTutorials": "Previous Tutorials",
+        "scheduledSessions": "Scheduled sessions this week",
+        "currentlyActive": "Currently active session",
+        "completedSessions": "Completed sessions this month"
+      },
+      "empty": {
+        "noLive": "No live sessions at the moment.",
+        "noUpcoming": "No upcoming sessions scheduled.",
+        "noCompleted": "No completed sessions yet."
+      },
+      "createSession": {
+        "title": "Create New Tutoring Session",
+        "description": "Schedule a new one-on-one tutoring session with a student",
+        "form": {
+          "sessionTitle": "Session Title",
+          "sessionTitlePlaceholder": "e.g., Alphabet Recognition Practice",
+          "subject": "Learning Area",
+          "subjectPlaceholder": "Select learning area",
+          "scheduledDate": "Scheduled Date",
+          "scheduledTime": "Scheduled Time",
+          "duration": "Duration (minutes)",
+          "durationPlaceholder": "e.g., 30",
+          "description": "Session Description",
+          "descriptionPlaceholder": "Describe what will be covered in this session..."
+        },
+        "subjects": {
+          "alphabet": "Alphabet",
+          "sightwords": "Sight Words", 
+          "vocabulary": "Vocabulary",
+          "phonemicAwareness": "Phonemic Awareness",
+          "pointAndRead": "Point and Read"
+        },
+        "buttons": {
+          "createSession": "Create Session",
+          "cancel": "Cancel",
+          "creating": "Creating..."
+        },
+        "validation": {
+          "titleRequired": "Session title is required",
+          "subjectRequired": "Learning area is required",
+          "dateRequired": "Scheduled date is required",
+          "timeRequired": "Scheduled time is required",
+          "durationRequired": "Duration is required",
+          "durationInvalid": "Duration must be a valid number"
+        },
+        "success": "Session created successfully!"
+      }
     }
   }
   ,
@@ -837,7 +1044,7 @@
       }
     },
     "ai": {
-      "title": "AI Recommendations",
+      "title": "Recommendations",
       "subtitle": "Personalized activities to boost your child's learning",
       "priority": "Priority",
       "startPractice": "Start Practice",
@@ -864,6 +1071,15 @@
       "milestone1": "Mar: Reached 30 sight words",
       "milestone2": "May: Completed alphabet mastery",
       "motivation": "Great Progress! +15% improvement this month 🎉"
+    },
+    "stats": {
+      "totalPoints": "Total points earned",
+      "totalHours": "Total hours spent",
+      "hoursThisWeek": "Hours this week",
+      "starsEarnedThisMonth": "Stars earned this month",
+      "hoursLearnedOverall": "Hours learned overall",
+      "hoursLearnedThisWeek": "Hours learned this week",
+      "swipeHint": "Swipe left/right or tap indicators to see more stats"
     }
   }
   ,
@@ -952,10 +1168,59 @@
       "plus50": "+50 pts",
       "plus75": "+75 pts",
       "plus25": "+25 pts",
-      "plus10": "+10 pts"
+      "plus10": "+10 pts",
+      "totalPoints": "Total points earned"
     },
     "optOut": "Opt out of leaderboard",
     "optIn": "Opt in to leaderboard"
+  },
+  "assignmentDetail": {
+    "title": "Assignment Details",
+    "instructions": "Instructions",
+    "materials": "Materials",
+    "learningObjectives": "Learning Objectives",
+    "description": "Description",
+    "dueDate": "Due Date",
+    "difficulty": {
+      "Easy": "Easy",
+      "Medium": "Medium",
+      "Hard": "Hard"
+    },
+    "pointReward": "Point Reward",
+    "uploadedFiles": "Uploaded Files",
+    "addMoreFiles": "Add More Files",
+    "cancel": "Cancel",
+    "confirmUpload": "Confirm Upload",
+    "file": "file",
+    "files": "files",
+    "viewUploadedFiles": "View Uploaded Files",
+    "uploadSuccess": "Files uploaded successfully! Assignment marked as complete.",
+    "fileTypeError": "File type not supported. Please upload images or PDFs only.",
+    "fileSizeError": "File size must be less than 10MB.",
+    "previewImage": "Preview Image",
+    "registered": "Registered"
+  },
+  "previousAssignment": {
+    "completed": "Completed",
+    "finalScore": "Final Score",
+    "pointsEarned": "Points Earned",
+    "submittedDate": "Submitted",
+    "submittedFiles": "Submitted Files",
+    "download": "Download",
+    "downloadAll": "Download All",
+    "rubric": "Grading Rubric",
+    "teacherFeedback": "Teacher Feedback",
+    "timeline": "Timeline",
+    "submitted": "Submitted",
+    "timeSpent": "Time Spent",
+    "reviewSimilar": "Review Similar",
+    "performance": {
+      "label": "Performance",
+      "excellent": "Excellent",
+      "good": "Good",
+      "satisfactory": "Satisfactory",
+      "needsImprovement": "Needs Improvement"
+    }
   }
 }
 

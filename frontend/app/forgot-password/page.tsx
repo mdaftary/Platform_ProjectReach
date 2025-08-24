@@ -9,11 +9,14 @@ import { Mail, ArrowLeft, Loader, Check } from "lucide-react"
 import Link from "next/link"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
+import { useFontSize } from "@/app/font-size-provider"
+import { cn } from "@/lib/utils"
 
 type ResetStep = 'email' | 'sent'
 
 export default function ForgotPasswordPage() {
   const { t } = useTranslation()
+  const { isLarge } = useFontSize()
   const [step, setStep] = useState<ResetStep>('email')
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -30,7 +33,7 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={cn("min-h-screen bg-gray-50", isLarge && "min-text-lg")}>
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-xl border-b border-gray-100">
         <div className="max-w-md mx-auto px-6 py-6">
@@ -96,7 +99,7 @@ export default function ForgotPasswordPage() {
                   <Button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold py-3"
+                    className="w-full bg-primary hover:bg-primary/90 text-white border-0 rounded-xl font-semibold py-3"
                   >
                     {isLoading ? (
                       <>
@@ -111,7 +114,7 @@ export default function ForgotPasswordPage() {
 
                 <div className="text-center text-sm">
                   <span className="text-gray-500">{t('forgotPassword.remember')}</span>
-                  <Link href="/login" className="text-blue-600 hover:text-blue-700 font-semibold">
+                  <Link href="/login" className="text-green-600 hover:text-green-700 font-semibold">
                     {t('forgotPassword.signIn')}
                   </Link>
                 </div>
@@ -134,9 +137,9 @@ export default function ForgotPasswordPage() {
                 </div>
 
                 {/* Instructions */}
-                <div className="bg-blue-50 rounded-xl p-4 space-y-2">
-                  <h4 className="text-sm font-semibold text-blue-900">{t('forgotPassword.nextSteps')}</h4>
-                  <ol className="text-sm text-blue-800 space-y-1 list-decimal list-inside">
+                <div className="bg-green-50 rounded-xl p-4 space-y-2">
+                  <h4 className="text-sm font-semibold text-green-900">{t('forgotPassword.nextSteps')}</h4>
+                  <ol className="text-sm text-green-800 space-y-1 list-decimal list-inside">
                     <li>{t('forgotPassword.steps.check')}</li>
                     <li>{t('forgotPassword.steps.click')}</li>
                     <li>{t('forgotPassword.steps.create')}</li>
@@ -158,14 +161,14 @@ export default function ForgotPasswordPage() {
                     <span className="text-gray-500">{t('forgotPassword.noEmail')}</span>
                     <button
                       onClick={() => setStep('email')}
-                      className="text-blue-600 hover:text-blue-700 font-semibold"
+                      className="text-green-600 hover:text-green-700 font-semibold"
                     >
                       {t('forgotPassword.tryAgain')}
                     </button>
                   </div>
 
                   <div className="text-center text-sm">
-                    <Link href="/login" className="text-blue-600 hover:text-blue-700 font-semibold">
+                    <Link href="/login" className="text-green-600 hover:text-green-700 font-semibold">
                       {t('forgotPassword.backToSignIn')}
                     </Link>
                   </div>

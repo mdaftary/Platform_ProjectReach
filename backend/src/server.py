@@ -4,7 +4,7 @@ import os
 import sys
 
 from bson import ObjectId
-from fastapi import FastAPI, status
+from fastapi import FastAPI, status, UploadFile, Form, File
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel
 import uvicorn
@@ -32,7 +32,9 @@ async def lifespan(app: FastAPI):
 
     app.login_dal = LoginDAL(student_collection, volunteer_collection, admin_collection)
 
-    # assignment_collection = database.get_collection("assignments")
+    assignment_collection = database.get_collection("assignments")
+
+    app.assignment_dal = AssignmentDAL(assignment_collection)
 
     # Yield back to FastAPI Application:
     yield
@@ -46,16 +48,16 @@ app = FastAPI(lifespan=lifespan, debug=DEBUG)
 # -------------------------------------------  LOGIN APIS -------------------------------------------
 # -------------------------------------------  sign up  -------------------------------------------
 @app.post("/api/sign_up_student")
-async def api_sign_up_student(newStudent: Student) -> str:
-    return app.login_dal.sign_up_student(newStudent)
+async def api_sign_u_student(newStudent: Student) -> str:
+    return await app.login_dal.sign_up_student(newStudent)
 
 @app.post("/api/sign_up_volunteer")
 async def api_sign_up_volunteer(newVolunteer: Volunteer) -> str:
-    return app.login_dal.sign_up_volunteer(newVolunteer)
+    return await app.login_dal.sign_up_volunteer(newVolunteer)
 
 @app.post("/api/sign_up_admin")
 async def api_sign_up_admin(newAdmin: Admin) -> str:
-    return app.login_dal.sign_up_admin(newAdmin)
+    return await app.login_dal.sign_up_admin(newAdmin)
 
 
 # ------------------------------------------- verification -------------------------------------------
@@ -73,34 +75,38 @@ async def api_send_verification_code_admin(admin_id: str):
 
 @app.post("/api/verify_student")
 async def api_verify_student(student_id: str, verification_code: str) -> bool:
-    return app.login_dal.verify_student(student_id, verification_code)
+    return await app.login_dal.verify_student(student_id, verification_code)
 
 @app.post("/api/verify_volunteer")
 async def api_verify_volunteer(volunteer_id: str, verification_code: str) -> bool:
-    return app.login_dal.verify_volunteer(volunteer_id, verification_code)
+    return await app.login_dal.verify_volunteer(volunteer_id, verification_code)
 
 @app.post("/api/verify_admin")
 async def api_verify_admin(admin_id: str, verification_code: str) -> bool:
-    return app.login_dal.verify_admin(admin_id, verification_code)
+    return await app.login_dal.verify_admin(admin_id, verification_code)
 
 # ------------------------------------------- sign in -------------------------------------------
 @app.post("/api/sign_in_student")
 async def api_sign_in_student(username: str, password: str) -> bool:
-    return app.login_dal.sign_in_student(username, password)
+    return await app.login_dal.sign_in_student(username, password)
 
 @app.post("/api/sign_in_volunteer")
 async def api_sign_in_volunteer(username: str, password: str) -> bool:
-    return app.login_dal.sign_in_volunteer(username, password)
+    return await app.login_dal.sign_in_volunteer(username, password)
 
 @app.post("/api/sign_in_admin")
 async def api_sign_in_admin(username: str, password: str) -> bool:
-    return app.login_dal.sign_in_admin(username, password)
+    return await app.login_dal.sign_in_admin(username, password)
 
 
 # -------------------------------------------  ASSIGNMENT HUB APIS -------------------------------------------
 @app.post("/api/create_assignment")
-async def api_create_assignment(assignment: Assignment) -> str:
-    return app.assignment_dal.create_assignment(assignment)
+async def api_create_assignment(    
+        title: str = Form(...),
+        description: str = Form(...),
+        due_date: datetime = Form(...),
+        file: UploadFile = File(...)) -> str:
+    return await app.assignment_dal.create_assignment(title, description, due_date, file)
 
 def main(argv=sys.argv[1:]):
     try:

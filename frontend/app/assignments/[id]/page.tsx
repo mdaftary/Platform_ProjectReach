@@ -50,7 +50,7 @@ export default function AssignmentDetailPage({ params }: { params: Promise<{ id:
       case "pdf":
         return <FileText className="w-4 h-4 text-red-500" />
       case "video":
-        return <Video className="w-4 h-4 text-blue-500" />
+        return <Video className="w-4 h-4 text-green-500" />
       case "image":
         return <ImageIcon className="w-4 h-4 text-green-500" />
       default:
