@@ -18,13 +18,13 @@ const parentNavigation = [
 ]
 
 // // Navigation items for volunteers
-// const volunteerNavigation = [
-//   { name: "dashboardNav.overview", href: "/volunteer", icon: BookOpen },
-//   { name: "mobileNav.qna", href: "/volunteer/qna", icon: MessageCircle },
-//   { name: "mobileNav.liveTutoring", href: "/volunteer/live-tutoring", icon: Video },
-//   { name: "mobileNav.volunteerLeaderboard", href: "/volunteer/leaderboard", icon: Users },
-//   { name: "dashboardNav.settings", href: "/settings", icon: Settings },
-// ]
+const volunteerNavigation = [
+  { name: "dashboardNav.overview", href: "/volunteer", icon: BookOpen },
+  { name: "mobileNav.qna", href: "/volunteer/qna", icon: MessageCircle },
+  { name: "mobileNav.liveTutoring", href: "/volunteer/live-tutoring", icon: Video },
+  { name: "mobileNav.volunteerLeaderboard", href: "/volunteer/leaderboard", icon: Users },
+  { name: "dashboardNav.settings", href: "/settings", icon: Settings },
+]
 
 export function DashboardNav() {
   const pathname = usePathname()
