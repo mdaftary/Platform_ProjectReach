@@ -90,12 +90,17 @@ export function AssignmentDetailDrawer({
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([])
   const [showFileUpload, setShowFileUpload] = useState(false)
+  const [isRegistered, setIsRegistered] = useState(false)
 
   const TaskIcon = assignment.icon
 
   // Check if this assignment requires file upload
   const isUploadAssignment = assignment.buttonText.toLowerCase().includes('upload') || 
                            assignment.buttonText.includes('上傳')
+
+  // Check if this assignment is a livestream/interest registration
+  const isInterestAssignment = assignment.buttonText.toLowerCase().includes('interest') || 
+                              assignment.buttonText.includes('興趣')
 
   // Load uploaded files from localStorage on component mount
   useEffect(() => {
@@ -106,6 +111,14 @@ export function AssignmentDetailDrawer({
       }
     }
   }, [assignment, isUploadAssignment])
+
+  // Load registration status from localStorage on component mount
+  useEffect(() => {
+    if (isInterestAssignment && assignment) {
+      const registrationStatus = localStorage.getItem(`assignment_registration_${assignment.id}`)
+      setIsRegistered(registrationStatus === 'true')
+    }
+  }, [assignment, isInterestAssignment])
 
   // Save files to localStorage whenever uploadedFiles changes
   useEffect(() => {
@@ -191,8 +204,31 @@ export function AssignmentDetailDrawer({
     }
   }
 
+  const handleRegistrationToggle = () => {
+    const newRegistrationStatus = !isRegistered
+    setIsRegistered(newRegistrationStatus)
+    localStorage.setItem(`assignment_registration_${assignment.id}`, newRegistrationStatus.toString())
+  }
+
+  const getButtonText = () => {
+    if (isInterestAssignment) {
+      if (isRegistered) {
+        // Check if original button text contains Chinese characters
+        return assignment.buttonText.includes('興趣') ? '取消登記' : 'Cancel Registration'
+      } else {
+        return assignment.buttonText
+      }
+    } else if (isUploadAssignment && uploadedFiles.length > 0) {
+      return t("assignmentDetail.viewUploadedFiles")
+    } else {
+      return assignment.buttonText
+    }
+  }
+
   const handleMainButtonClick = () => {
-    if (isUploadAssignment) {
+    if (isInterestAssignment) {
+      handleRegistrationToggle()
+    } else if (isUploadAssignment) {
       if (uploadedFiles.length > 0) {
         setShowFileUpload(true)
       } else {
@@ -214,6 +250,11 @@ export function AssignmentDetailDrawer({
             <div className="flex-1 min-w-0">
               <DrawerTitle className="text-xl font-bold text-gray-900 text-left">
                 {assignment.title}
+                {isInterestAssignment && isRegistered && (
+                  <span className="text-green-600 font-normal text-base ml-2">
+                    ({t("assignmentDetail.registered")})
+                  </span>
+                )}
               </DrawerTitle>
               <DrawerDescription className="text-gray-600 mt-1 text-left">
                 {assignment.subtitle}
@@ -629,7 +670,7 @@ export function AssignmentDetailDrawer({
               className="flex-1 bg-green-500 hover:bg-green-600 text-white"
               onClick={handleMainButtonClick}
             >
-              {isUploadAssignment && uploadedFiles.length > 0 ? t("assignmentDetail.viewUploadedFiles") : assignment.buttonText}
+              {getButtonText()}
             </Button>
           </div>
         </DrawerFooter>

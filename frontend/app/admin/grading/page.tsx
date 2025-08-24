@@ -140,7 +140,7 @@ export default function AdminGradingPage() {
         const files = JSON.parse(assignmentFiles)
         const realSubmission = {
           id: "real_sub_001",
-          studentName: "Current Student",
+          studentName: "Anonymous Student",
           studentId: "real_st_001",
           assignmentTitle: "Week 12 - Alphabet Practice",
           assignmentId: "assign_real_001",

@@ -25,7 +25,7 @@ export function ThemeProvider({ children, defaultTheme = 'light' }: ThemeProvide
   // Load theme from localStorage on mount, but default to light mode for new users
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') as Theme
-    if (savedTheme) {
+    if (savedTheme && ['light', 'dark', 'system'].includes(savedTheme)) {
       setThemeState(savedTheme)
     } else {
       // For new users, explicitly set and save light mode
@@ -38,29 +38,60 @@ export function ThemeProvider({ children, defaultTheme = 'light' }: ThemeProvide
   useEffect(() => {
     const updateResolvedTheme = () => {
       if (theme === 'system') {
-        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-        setResolvedTheme(systemTheme)
+        // Check if we're in a browser environment
+        if (typeof window !== 'undefined') {
+          const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+          console.log('System theme detected:', systemTheme) // Debug log
+          setResolvedTheme(systemTheme)
+        } else {
+          // Fallback to light theme on server
+          setResolvedTheme('light')
+        }
       } else {
+        console.log('Setting theme to:', theme) // Debug log
         setResolvedTheme(theme)
       }
     }
 
-    updateResolvedTheme()
+    // Small delay to ensure DOM is ready
+    const timeoutId = setTimeout(updateResolvedTheme, 10)
 
-    // Listen for system theme changes
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-    const handleChange = () => {
-      if (theme === 'system') {
-        updateResolvedTheme()
+    // Listen for system theme changes only in browser environment
+    let mediaQuery: MediaQueryList | null = null
+    let handleChange: (() => void) | null = null
+    
+    if (typeof window !== 'undefined') {
+      mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+      handleChange = () => {
+        if (theme === 'system') {
+          updateResolvedTheme()
+        }
+      }
+      
+      // Use the newer addEventListener if available, fallback to addListener
+      if (mediaQuery.addEventListener) {
+        mediaQuery.addEventListener('change', handleChange)
+      } else {
+        mediaQuery.addListener(handleChange)
       }
     }
 
-    mediaQuery.addEventListener('change', handleChange)
-    return () => mediaQuery.removeEventListener('change', handleChange)
+    return () => {
+      clearTimeout(timeoutId)
+      if (mediaQuery && handleChange) {
+        if (mediaQuery.removeEventListener) {
+          mediaQuery.removeEventListener('change', handleChange)
+        } else {
+          mediaQuery.removeListener(handleChange)
+        }
+      }
+    }
   }, [theme])
 
   // Apply theme to document
   useEffect(() => {
+    if (typeof window === 'undefined') return // Skip on server
+    
     const root = document.documentElement
     
     // Remove previous theme classes
@@ -71,6 +102,11 @@ export function ThemeProvider({ children, defaultTheme = 'light' }: ThemeProvide
     
     // Update data attribute for CSS selectors
     root.setAttribute('data-theme', resolvedTheme)
+    
+    // Force a repaint to ensure styles are applied
+    root.style.colorScheme = resolvedTheme
+    
+    console.log('Applied theme:', resolvedTheme, 'to document') // Debug log
   }, [resolvedTheme])
 
   const setTheme = (newTheme: Theme) => {

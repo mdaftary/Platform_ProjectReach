@@ -146,6 +146,9 @@ importers:
       react-i18next:
         specifier: ^15.7.1
         version: 15.7.1(i18next@25.4.0(typescript@5.0.2))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.0.2)
+      react-is:
+        specifier: ^19.1.1
+        version: 19.1.1
       react-resizable-panels:
         specifier: ^2.1.7
         version: 2.1.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0)

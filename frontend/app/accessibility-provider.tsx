@@ -11,8 +11,6 @@ interface AccessibilityContextType {
   toggleScreenReaderMode: () => void
   reducedMotion: boolean
   setReducedMotion: (enabled: boolean) => void
-  soundEnabled: boolean
-  setSoundEnabled: (enabled: boolean) => void
   focusIndicators: boolean
   setFocusIndicators: (enabled: boolean) => void
 }
@@ -27,7 +25,6 @@ export function AccessibilityProvider({ children }: AccessibilityProviderProps) 
   const [highContrast, setHighContrastState] = useState(false)
   const [screenReaderMode, setScreenReaderModeState] = useState(false)
   const [reducedMotion, setReducedMotionState] = useState(false)
-  const [soundEnabled, setSoundEnabledState] = useState(true)
   const [focusIndicators, setFocusIndicatorsState] = useState(true)
 
   // Load settings from localStorage on mount
@@ -35,7 +32,6 @@ export function AccessibilityProvider({ children }: AccessibilityProviderProps) 
     const savedHighContrast = localStorage.getItem('accessibility-high-contrast')
     const savedScreenReader = localStorage.getItem('accessibility-screen-reader')
     const savedReducedMotion = localStorage.getItem('accessibility-reduced-motion')
-    const savedSoundEnabled = localStorage.getItem('accessibility-sound-enabled')
     const savedFocusIndicators = localStorage.getItem('accessibility-focus-indicators')
 
     if (savedHighContrast) {
@@ -46,9 +42,6 @@ export function AccessibilityProvider({ children }: AccessibilityProviderProps) 
     }
     if (savedReducedMotion) {
       setReducedMotionState(savedReducedMotion === 'true')
-    }
-    if (savedSoundEnabled) {
-      setSoundEnabledState(savedSoundEnabled === 'true')
     }
     if (savedFocusIndicators) {
       setFocusIndicatorsState(savedFocusIndicators === 'true')
@@ -68,7 +61,6 @@ export function AccessibilityProvider({ children }: AccessibilityProviderProps) 
   useEffect(() => {
     if (screenReaderMode) {
       document.documentElement.classList.add('screen-reader-mode')
-      // Add screen reader optimizations
       document.documentElement.setAttribute('aria-enhanced', 'true')
     } else {
       document.documentElement.classList.remove('screen-reader-mode')
@@ -117,11 +109,6 @@ export function AccessibilityProvider({ children }: AccessibilityProviderProps) 
     localStorage.setItem('accessibility-reduced-motion', enabled.toString())
   }
 
-  const setSoundEnabled = (enabled: boolean) => {
-    setSoundEnabledState(enabled)
-    localStorage.setItem('accessibility-sound-enabled', enabled.toString())
-  }
-
   const setFocusIndicators = (enabled: boolean) => {
     setFocusIndicatorsState(enabled)
     localStorage.setItem('accessibility-focus-indicators', enabled.toString())
@@ -136,8 +123,6 @@ export function AccessibilityProvider({ children }: AccessibilityProviderProps) 
     toggleScreenReaderMode,
     reducedMotion,
     setReducedMotion,
-    soundEnabled,
-    setSoundEnabled,
     focusIndicators,
     setFocusIndicators,
   }

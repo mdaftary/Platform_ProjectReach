@@ -32,7 +32,7 @@ const weeklyTasksEn = [
     id: 2,
     title: "Letter Recognition Tips",
     subtitle: "Watch Tutorial Video",
-    completed: true,
+    completed: false,
     isPrimary: false,
     icon: Play,
     subject: "Alphabet",
@@ -138,7 +138,7 @@ const assignmentDetailsEn: AssignmentDetail[] = [
       "Watch the entire video without skipping",
       "Complete the short quiz after the video"
     ],
-    completed: true,
+    completed: false,
     buttonText: "Watch Tutorial Video",
     pointReward: 10,
     icon: Play
@@ -534,6 +534,7 @@ export default function HomePage() {
   const [assignmentFiles, setAssignmentFiles] = useState<{id: string, name: string, type: string, dataUrl: string}[]>([])  // Store uploaded files array
   const [assignmentScore, setAssignmentScore] = useState<number | null>(null)
   const [assignmentFeedback, setAssignmentFeedback] = useState('')
+  const [registrationStatuses, setRegistrationStatuses] = useState<{[key: number]: boolean}>({})
 
   useEffect(() => {
     // Check if assignment 1 is completed
@@ -559,6 +560,18 @@ export default function HomePage() {
     if (assignmentFeedback) {
       setAssignmentFeedback(assignmentFeedback)
     }
+
+    // Load registration statuses for all assignments
+    const newRegistrationStatuses: {[key: number]: boolean} = {}
+    assignmentDetails.forEach((assignment) => {
+      const isInterestAssignment = assignment.buttonText.toLowerCase().includes('interest') || 
+                                  assignment.buttonText.includes('興趣')
+      if (isInterestAssignment) {
+        const registrationStatus = localStorage.getItem(`assignment_registration_${assignment.id}`)
+        newRegistrationStatuses[assignment.id] = registrationStatus === 'true'
+      }
+    })
+    setRegistrationStatuses(newRegistrationStatuses)
   }, [])
 
 
@@ -567,6 +580,18 @@ export default function HomePage() {
     if (score >= 7) return 'text-blue-600 bg-blue-50';
     if (score >= 5) return 'text-yellow-600 bg-yellow-50';
     return 'text-red-600 bg-red-50';
+  };
+
+  // Helper function to get assignment title with registration status
+  const getAssignmentDisplayTitle = (task: any) => {
+    const isInterestAssignment = task.buttonText?.toLowerCase().includes('interest') || 
+                                task.buttonText?.includes('興趣')
+    const isRegistered = registrationStatuses[task.id]
+    
+    if (isInterestAssignment && isRegistered) {
+      return `${task.title} (${t('assignmentDetail.registered')})`
+    }
+    return task.title
   };
 
   // Helper function to get subject icon color
@@ -712,7 +737,6 @@ export default function HomePage() {
 
   return (
     <div className={`min-h-screen bg-gray-50 ${isLarge ? 'min-text-lg text-lg' : ''}`}>
-
       <div className="max-w-md mx-auto px-6 space-y-5">
         {/* Swipeable Progress Card */}
         <SwipeableProgressCard />
@@ -730,18 +754,20 @@ export default function HomePage() {
             </div>
             
             <h2 className="text-2xl font-bold mb-3 leading-tight">
-              {weeklyTasks[0]?.title || "Upload Worksheet"}
+              {getAssignmentDisplayTitle(weeklyTasks[0]) || "Upload Worksheet"}
             </h2>
             
             <p className="text-purple-100 text-sm mb-4">
               {weeklyTasks[0]?.subtitle || "Week 12 - Alphabet Practice"}
             </p>
-
             {weeklyTasks[0] && !weeklyTasks[0].completed && (
-                      <Button 
-                        size="sm" 
-                        onClick={() => handleAssignmentClick(weeklyTasks[0].id)}
-                className="bg-white/20 hover:bg-white/30 text-white border border-white/30 px-4 py-2 text-sm font-semibold rounded-xl backdrop-blur-sm"
+                      <Button
+                        size="sm"
+                        onClick={() => {
+                          handleUploadClick()
+                          handleAssignmentClick(weeklyTasks[0].id)
+                        }}
+                        className="bg-white/20 hover:bg-white/30 text-white border border-white/30 px-4 py-2 text-sm font-semibold rounded-xl backdrop-blur-sm"
                       >
                 <Camera className="w-4 h-4 mr-2" />
                         {t('home.upload')}
@@ -797,7 +823,7 @@ export default function HomePage() {
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
                       <h3 className={`font-semibold ${task.completed ? 'text-gray-500 line-through' : 'text-gray-900'}`}>
-                        {task.title}
+                        {getAssignmentDisplayTitle(task)}
                       </h3>
                       {task.completed && (
                         <CheckCircle2 className="w-4 h-4 text-green-500" />
@@ -837,6 +863,64 @@ export default function HomePage() {
                 onClick={() => handleSubmittedAssignmentClick()}
                 rightContent={
                   <>
+              >
+                <div className="flex items-center justify-between">
+                  {/* Left side: Assignment info */}
+                  <div className="flex items-center gap-3 flex-1">
+                    {/* Subject indicator */}
+                    <div className={`w-3 h-12 ${getSubjectColor(weeklyTasks[0].subject)} rounded-full flex-shrink-0`}></div>
+                    
+                    {/* Assignment details */}
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-gray-900 text-sm truncate">
+                        {getAssignmentDisplayTitle(weeklyTasks[0])}
+                      </h3>
+                      <p className="text-gray-500 text-xs truncate">
+                        {weeklyTasks[0].subtitle}
+                      </p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="text-xs text-gray-400">
+                          {t('assignments.previousAssignments.submitted')}: {new Date().toLocaleDateString()}
+                        </span>
+                        <span className="text-xs text-gray-300">•</span>
+                        <span className="text-xs text-gray-500">
+                          {weeklyTasks[0].subject}
+                        </span>
+                      </div>
+                      
+                      {/* File preview thumbnails */}
+                      {assignmentFiles.length > 0 && (
+                        <div className="flex items-center gap-2 mt-2">
+                          <span className="text-xs text-gray-400">{t('previousAssignment.submittedFiles')}:</span>
+                          <div className="flex gap-1">
+                            {assignmentFiles.slice(0, 3).map((file, index) => (
+                              <div key={file.id} className="w-6 h-6 bg-gray-100 rounded border overflow-hidden">
+                                {file.type.startsWith('image/') ? (
+                                  <img 
+                                    src={file.dataUrl} 
+                                    alt={file.name}
+                                    className="w-full h-full object-cover"
+                                  />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center">
+                                    <FileText className="w-3 h-3 text-gray-500" />
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                            {assignmentFiles.length > 3 && (
+                              <div className="w-6 h-6 bg-gray-100 rounded border flex items-center justify-center">
+                                <span className="text-xs text-gray-500">+{assignmentFiles.length - 3}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Right side: Score and points */}
+                  <div className="flex items-center gap-3 flex-shrink-0">
                     {/* Points earned */}
                     <div className="text-right">
                       <div className="text-xs text-gray-500">
@@ -1073,7 +1157,7 @@ export default function HomePage() {
                           </div>
                           <div className="bg-green-50/50 rounded-xl p-3">
                             <p className="text-sm text-gray-900 leading-relaxed">
-                              Correctly circled <span className="font-semibold">"see"</span> and <span className="font-semibold">"cat"</span>. Great recognition skills!
+                              I loved seeing you identify <span className="font-semibold">"see"</span> and <span className="font-semibold">"cat"</span> so quickly! You're really getting the hang of these sight words.
                             </p>
                           </div>
                         </div>
@@ -1086,7 +1170,7 @@ export default function HomePage() {
                           </div>
                           <div className="bg-orange-50/50 rounded-xl p-3">
                             <p className="text-sm text-gray-900 leading-relaxed">
-                              Didn't circle <span className="font-semibold">"apple"</span>. Try double-checking sight words.
+                              Let's work on the word <span className="font-semibold">"the"</span> - I noticed you hesitated a few times. Try practicing this sight word with flashcards or by finding it in your favorite books!
                             </p>
                           </div>
                         </div>
@@ -1099,7 +1183,7 @@ export default function HomePage() {
                           </div>
                           <div className="bg-green-50/50 rounded-xl p-3">
                             <p className="text-sm text-gray-900 leading-relaxed">
-                              Good tracing, but spacing between <span className="font-semibold">"p"</span> and <span className="font-semibold">"a"</span> in "panda" needs work.
+                              Your reading confidence is growing! I can see you're taking your time to sound out words carefully. Keep up the great work with your phonics skills.
                             </p>
                           </div>
                         </div>
@@ -1125,14 +1209,7 @@ export default function HomePage() {
                   </Card>
                 </div>
 
-                  {/* Close Button */}
-                  <Button 
-                    onClick={closeModal}
-                    variant="outline"
-                    className="w-full border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl font-semibold"
-                  >
-                    {t('home.done')}
-                  </Button>
+
                 </div>
               )}
             </div>
