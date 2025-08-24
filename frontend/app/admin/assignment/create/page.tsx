@@ -24,6 +24,8 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { useTranslation } from "react-i18next"
+import "@/lib/i18n"
 
 // Icon mapping for different assignment types
 const iconMap = {
@@ -37,6 +39,7 @@ const iconMap = {
 }
 
 export default function CreateAssignmentPage() {
+  const { t } = useTranslation()
   const router = useRouter()
   const [formData, setFormData] = useState({
     title: "",
@@ -128,13 +131,13 @@ export default function CreateAssignmentPage() {
       // Validate required fields
       console.log(formData)
       if (!formData.title || !formData.subtitle || !formData.description || !formData.subject || !formData.dueDate) {
-        alert("Please fill in all required fields")
+        alert(t('admin.create.messages.requiredFields'))
         return
       }
 
       // Validate date format
       if (!isValidDateFormat(formData.dueDate)) {
-        alert("Please enter a valid date in YYYYMMDD format (e.g., 20250825)")
+        alert(t('admin.create.messages.invalidDate'))
         return
       }
 
@@ -191,9 +194,9 @@ export default function CreateAssignmentPage() {
       // Create corresponding Chinese version
       const newAssignmentZh = {
         ...newAssignmentEn,
-        title: `${cleanedData.title} (中文版)`,
-        subtitle: `${cleanedData.subtitle} (中文版)`,
-        description: `${cleanedData.description} (中文版)`,
+        title: `${cleanedData.title}`,
+        subtitle: `${cleanedData.subtitle}`,
+        description: `${cleanedData.description}`,
         subject: subjectMapping[cleanedData.subject] || cleanedData.subject
       }
 
@@ -218,8 +221,8 @@ export default function CreateAssignmentPage() {
 
       const newTaskZh = {
         ...newTaskEn,
-        title: `${cleanedData.title} (中文版)`,
-        subtitle: `${cleanedData.subtitle} (中文版)`,
+        title: `${cleanedData.title}`,
+        subtitle: `${cleanedData.subtitle}`,
         subject: subjectMapping[cleanedData.subject] || cleanedData.subject
       }
 
@@ -233,7 +236,7 @@ export default function CreateAssignmentPage() {
 
     } catch (error) {
       console.error('Error saving assignment:', error)
-      alert('Error saving assignment. Please try again.')
+      alert(t('admin.create.messages.saveError'))
     } finally {
       setSaving(false)
     }
@@ -247,6 +250,20 @@ export default function CreateAssignmentPage() {
   ) => {
     const Icon = icon
     const items = formData[field as keyof typeof formData] as string[]
+    
+    // Get the appropriate add button text based on field type
+    const getAddButtonText = () => {
+      switch (field) {
+        case 'objectives':
+          return t('admin.create.buttons.addObjective')
+        case 'materials':
+          return t('admin.create.buttons.addMaterial')
+        case 'instructions':
+          return t('admin.create.buttons.addInstruction')
+        default:
+          return `Add ${title.slice(0, -1)}`
+      }
+    }
     
     return (
       <Card>
@@ -285,7 +302,7 @@ export default function CreateAssignmentPage() {
               className="w-full"
             >
               <Plus className="w-4 h-4 mr-2" />
-              Add {title.slice(0, -1)}
+              {getAddButtonText()}
             </Button>
           </div>
         </CardContent>
@@ -301,12 +318,12 @@ export default function CreateAssignmentPage() {
           <Link href="/admin/assignment">
             <Button variant="outline" size="sm">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
+              {t('admin.create.back')}
             </Button>
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Create Assignment</h1>
-            <p className="text-gray-600 mt-1 text-sm">Create assignments for the dashboard</p>
+            <h1 className="text-2xl font-bold text-gray-900">{t('admin.create.title')}</h1>
+            <p className="text-gray-600 mt-1 text-sm">{t('admin.create.subtitle')}</p>
           </div>
         </div>
 
@@ -315,14 +332,14 @@ export default function CreateAssignmentPage() {
           {/* Basic Information */}
           <Card>
             <CardContent className="p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Basic Information</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('admin.create.sections.basicInfo')}</h2>
               <div className="grid gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Title *
+                    {t('admin.create.fields.title')} {t('admin.create.required')}
                   </label>
                   <Input
-                    placeholder="e.g., Week 13 - Reading Comprehension"
+                    placeholder={t('admin.create.fields.titlePlaceholder')}
                     value={formData.title}
                     onChange={(e) => handleInputChange('title', e.target.value)}
                     required
@@ -331,10 +348,10 @@ export default function CreateAssignmentPage() {
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Subtitle *
+                    {t('admin.create.fields.subtitle')} {t('admin.create.required')}
                   </label>
                   <Input
-                    placeholder="e.g., Complete worksheet and upload photo"
+                    placeholder={t('admin.create.fields.subtitlePlaceholder')}
                     value={formData.subtitle}
                     onChange={(e) => handleInputChange('subtitle', e.target.value)}
                     required
@@ -343,10 +360,10 @@ export default function CreateAssignmentPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Description *
+                    {t('admin.create.fields.description')} {t('admin.create.required')}
                   </label>
                   <Textarea
-                    placeholder="Detailed description of the assignment..."
+                    placeholder={t('admin.create.fields.descriptionPlaceholder')}
                     value={formData.description}
                     onChange={(e) => handleInputChange('description', e.target.value)}
                     rows={4}
@@ -357,11 +374,11 @@ export default function CreateAssignmentPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Subject *
+                      {t('admin.create.fields.subject')} {t('admin.create.required')}
                     </label>
                     <Select value={formData.subject} onValueChange={(value) => handleInputChange('subject', value)}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select subject" />
+                        <SelectValue placeholder={t('admin.create.fields.subjectPlaceholder')} />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="Alphabet">Alphabet</SelectItem>
@@ -375,7 +392,7 @@ export default function CreateAssignmentPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Point Reward
+                      {t('admin.create.fields.pointReward')}
                     </label>
                     <Input
                       type="number"
@@ -393,34 +410,34 @@ export default function CreateAssignmentPage() {
           {/* Assignment Details */}
           <Card>
             <CardContent className="p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Assignment Details</h2>
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('admin.create.sections.assignmentDetails')}</h2>
               <div className="grid gap-4">
                 <div className="grid grid-cols-3 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Due Date *
+                      {t('admin.create.fields.dueDate')} {t('admin.create.required')}
                     </label>
                     <Input
                       type="text"
                       value={formData.dueDate}
                       onChange={(e) => handleInputChange('dueDate', e.target.value)}
-                      placeholder="YYYYMMDD (e.g., 20250825)"
+                      placeholder={t('admin.create.fields.dueDatePlaceholder')}
                       maxLength={8}
                       pattern="\d{8}"
                       required
                     />
                     <p className="text-xs text-gray-500 mt-1">
-                      Enter date in YYYYMMDD format (e.g., 20250825 for Aug 25, 2025)
+                      {t('admin.create.fields.dueDateHelp')}
                     </p>
                     {formData.dueDate && (
                       <div className="mt-1">
                         {isValidDateFormat(formData.dueDate) ? (
                           <p className="text-xs text-green-600">
-                            ✓ Will be saved as: {formatDateForDisplay(formData.dueDate)}
+                            {t('admin.create.fields.dueDateValid')} {formatDateForDisplay(formData.dueDate)}
                           </p>
                         ) : (
                           <p className="text-xs text-red-600">
-                            ✗ Invalid date format. Use YYYYMMDD (8 digits)
+                            {t('admin.create.fields.dueDateInvalid')}
                           </p>
                         )}
                       </div>
@@ -429,10 +446,10 @@ export default function CreateAssignmentPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Estimated Time
+                      {t('admin.create.fields.estimatedTime')}
                     </label>
                     <Input
-                      placeholder="e.g., 15-20 minutes"
+                      placeholder={t('admin.create.fields.estimatedTimePlaceholder')}
                       value={formData.estimatedTime}
                       onChange={(e) => handleInputChange('estimatedTime', e.target.value)}
                     />
@@ -440,16 +457,16 @@ export default function CreateAssignmentPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Difficulty
+                      {t('admin.create.fields.difficulty')}
                     </label>
                     <Select value={formData.difficulty} onValueChange={(value: "Easy" | "Medium" | "Hard") => handleInputChange('difficulty', value)}>
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Easy">Easy</SelectItem>
-                        <SelectItem value="Medium">Medium</SelectItem>
-                        <SelectItem value="Hard">Hard</SelectItem>
+                        <SelectItem value="Easy">{t('admin.create.difficulty.easy')}</SelectItem>
+                        <SelectItem value="Medium">{t('admin.create.difficulty.medium')}</SelectItem>
+                        <SelectItem value="Hard">{t('admin.create.difficulty.hard')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -458,10 +475,10 @@ export default function CreateAssignmentPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Button Text
+                      {t('admin.create.fields.buttonText')}
                     </label>
                     <Input
-                      placeholder="e.g., Upload Worksheet, Watch Video"
+                      placeholder={t('admin.create.fields.buttonTextPlaceholder')}
                       value={formData.buttonText}
                       onChange={(e) => handleInputChange('buttonText', e.target.value)}
                     />
@@ -469,20 +486,20 @@ export default function CreateAssignmentPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Icon
+                      {t('admin.create.fields.icon')}
                     </label>
                     <Select value={formData.icon} onValueChange={(value) => handleInputChange('icon', value)}>
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Camera">Camera (Upload)</SelectItem>
-                        <SelectItem value="Play">Play (Video)</SelectItem>
-                        <SelectItem value="Users">Users (Group Activity)</SelectItem>
-                        <SelectItem value="CheckCircle2">Check Circle (Complete)</SelectItem>
-                        <SelectItem value="BookOpen">Book (Reading)</SelectItem>
-                        <SelectItem value="User">User (Individual)</SelectItem>
-                        <SelectItem value="Target">Target (Goal)</SelectItem>
+                        <SelectItem value="Camera">{t('admin.create.icons.camera')}</SelectItem>
+                        <SelectItem value="Play">{t('admin.create.icons.play')}</SelectItem>
+                        <SelectItem value="Users">{t('admin.create.icons.users')}</SelectItem>
+                        <SelectItem value="CheckCircle2">{t('admin.create.icons.checkCircle')}</SelectItem>
+                        <SelectItem value="BookOpen">{t('admin.create.icons.bookOpen')}</SelectItem>
+                        <SelectItem value="User">{t('admin.create.icons.user')}</SelectItem>
+                        <SelectItem value="Target">{t('admin.create.icons.target')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -492,19 +509,19 @@ export default function CreateAssignmentPage() {
           </Card>
 
           {/* Learning Objectives */}
-          {renderArrayField("Learning Objectives", "objectives", "Enter objective", Target)}
+          {renderArrayField(t('admin.create.sections.learningObjectives'), "objectives", t('admin.create.fields.objectivePlaceholder'), Target)}
 
           {/* Materials Needed */}
-          {renderArrayField("Materials Needed", "materials", "Enter material", BookOpen)}
+          {renderArrayField(t('admin.create.sections.materialsNeeded'), "materials", t('admin.create.fields.materialPlaceholder'), BookOpen)}
 
           {/* Instructions */}
-          {renderArrayField("Instructions", "instructions", "Enter instruction step", User)}
+          {renderArrayField(t('admin.create.sections.instructions'), "instructions", t('admin.create.fields.instructionPlaceholder'), User)}
 
           {/* Save Button */}
           <div className="flex gap-4 pt-6">
             <Link href="/admin/assignment" className="flex-1">
               <Button variant="outline" className="w-full">
-                Cancel
+                {t('admin.create.buttons.cancel')}
               </Button>
             </Link>
             <Button
@@ -515,17 +532,17 @@ export default function CreateAssignmentPage() {
               {saving ? (
                 <>
                   <Clock className="w-4 h-4 mr-2 animate-spin" />
-                  Saving...
+                  {t('admin.create.buttons.saving')}
                 </>
               ) : saved ? (
                 <>
                   <CheckCircle2 className="w-4 h-4 mr-2" />
-                  Saved!
+                  {t('admin.create.buttons.saved')}
                 </>
               ) : (
                 <>
                   <Save className="w-4 h-4 mr-2" />
-                  Create Assignment
+                  {t('admin.create.buttons.create')}
                 </>
               )}
             </Button>
@@ -534,7 +551,7 @@ export default function CreateAssignmentPage() {
           {saved && (
             <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
               <p className="text-green-600 font-medium">
-                Assignment created successfully! Redirecting to assignment list...
+                {t('admin.create.messages.successMessage')}
               </p>
             </div>
           )}
