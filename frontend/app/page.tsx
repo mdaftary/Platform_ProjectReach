@@ -8,7 +8,6 @@ import { Camera, Play, CheckCircle2, Flame, Clock, Circle, User, Eye, ChevronRig
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import { useFontSize } from "@/app/font-size-provider"
-import { useSoundEffects } from "@/hooks/use-sound-effects"
 import { Trans } from "react-i18next"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
@@ -513,7 +512,6 @@ const previousAssignmentsZh = [
 export default function HomePage() {
   const { t, i18n } = useTranslation()
   const { isLarge } = useFontSize()
-  const { sounds } = useSoundEffects()
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
   const [uploadState, setUploadState] = useState<'idle' | 'uploading' | 'processing' | 'complete'>('idle')
   const [uploadedImage, setUploadedImage] = useState<string | null>(null)
@@ -636,7 +634,6 @@ export default function HomePage() {
   }, [showUserMenu])
 
   const handleUploadClick = () => {
-    sounds.upload()
     setUploadModalOpen(true)
     setUploadState('uploading')
     
@@ -644,18 +641,15 @@ export default function HomePage() {
     setTimeout(() => {
       setUploadedImage('/worksheet-example.jpg') // Mock uploaded image
       setUploadState('processing')
-      sounds.notification()
       
       // Simulate OCR processing
       setTimeout(() => {
         setUploadState('complete')
-        sounds.successSequence()
       }, 3000)
     }, 1500)
   }
 
   const closeModal = () => {
-    sounds.click()
     setUploadModalOpen(false)
     setUploadState('idle')
     setUploadedImage(null)
@@ -766,14 +760,13 @@ export default function HomePage() {
               {weeklyTasks[0]?.subtitle || "Week 12 - Alphabet Practice"}
             </p>
             {weeklyTasks[0] && !weeklyTasks[0].completed && (
-                      <Button 
+                      <Button
+                        size="sm"
                         onClick={() => {
-                          sounds.click()
                           handleUploadClick()
+                          handleAssignmentClick(weeklyTasks[0].id)
                         }}
-                        size="sm" 
-                        onClick={() => handleAssignmentClick(weeklyTasks[0].id)}
-                className="bg-white/20 hover:bg-white/30 text-white border border-white/30 px-4 py-2 text-sm font-semibold rounded-xl backdrop-blur-sm"
+                        className="bg-white/20 hover:bg-white/30 text-white border border-white/30 px-4 py-2 text-sm font-semibold rounded-xl backdrop-blur-sm"
                       >
                 <Camera className="w-4 h-4 mr-2" />
                         {t('home.upload')}

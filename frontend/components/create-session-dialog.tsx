@@ -44,6 +44,7 @@ interface FormErrors {
   scheduledDate?: string
   scheduledTime?: string
   duration?: string
+  description?: string
 }
 
 export function CreateSessionDialog({ open, onOpenChange, onSessionCreated }: CreateSessionDialogProps) {

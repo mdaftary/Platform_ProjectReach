@@ -621,7 +621,7 @@ export default function CommunityPage() {
                         <div className="bg-gray-50 rounded-lg p-3 space-y-2">
                           <div className="text-xs font-medium text-gray-600 mb-2">{t('community.page.discussions.latestReplies')}</div>
                           {discussion.recentReplies.slice(0, 2).map((reply, replyIndex) => (
-                            <div key={reply.id || replyIndex} className="flex items-start gap-2">
+                            <div key={replyIndex} className="flex items-start gap-2">
                               <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
                                 reply.isUserReply ? 'bg-blue-100' : 'bg-green-100'
                               }`}>

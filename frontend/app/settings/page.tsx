@@ -4,12 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Settings, User, Bell, Shield, HelpCircle, LogOut, Accessibility, Contrast, Volume2, Eye, MousePointer, ArrowLeft, Monitor, Sun, Moon } from "lucide-react"
+import { Settings, User, Bell, Shield, HelpCircle, LogOut, Accessibility, Contrast, Eye, MousePointer, ArrowLeft, Monitor, Sun, Moon } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { useFontSize } from "@/app/font-size-provider"
 import { useAccessibility } from "@/app/accessibility-provider"
 import { useTheme } from "@/app/theme-provider"
-import { useSoundEffects } from "@/hooks/use-sound-effects"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
@@ -21,7 +20,6 @@ export default function SettingsPage() {
   const { user, logout } = useAuth()
   const { mode, setMode, getFontSizeLabel, getFontSizeDescription } = useFontSize()
   const { theme, setTheme } = useTheme()
-  const { sounds } = useSoundEffects()
   const router = useRouter()
   
   // Use accessibility context
@@ -32,8 +30,6 @@ export default function SettingsPage() {
     setScreenReaderMode,
     reducedMotion,
     setReducedMotion,
-    soundEnabled,
-    setSoundEnabled,
     focusIndicators,
     setFocusIndicators
   } = useAccessibility()
@@ -205,23 +201,6 @@ export default function SettingsPage() {
               />
             </div>
             
-            {/* Sound Settings */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Volume2 className="w-4 h-4 text-gray-600" />
-                <div>
-                  <p className="font-medium text-gray-900">{t('settings.soundEffects')}</p>
-                  <p className="text-sm text-gray-500">{t('settings.soundEffectsDesc')}</p>
-                </div>
-              </div>
-              <Switch 
-                checked={soundEnabled} 
-                onCheckedChange={setSoundEnabled} 
-                aria-label="Toggle sound effects"
-                className="data-[state=unchecked]:bg-gray-200 data-[state=checked]:bg-primary" 
-              />
-            </div>
-            
             {/* Focus Indicators */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -262,7 +241,6 @@ export default function SettingsPage() {
                   setHighContrast(false)
                   setScreenReaderMode(false)
                   setReducedMotion(false)
-                  setSoundEnabled(true)
                   setFocusIndicators(true)
                 }}
               >
