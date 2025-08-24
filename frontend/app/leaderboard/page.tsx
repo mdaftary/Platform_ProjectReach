@@ -8,6 +8,7 @@ import { Trophy, TrendingUp, Star, Medal, EyeOff, Eye, Flame, Clock, ArrowRight 
 import { useFontSize } from "@/app/font-size-provider"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
+import { SwipeablePointsCard } from "@/components/swipeable-points-card"
 
 const leaderboardData = [
 	{ rank: 1, name: "Parent A", points: 2450, streak: 15, badge: "gold" },
@@ -66,6 +67,9 @@ export default function LeaderboardPage() {
 	return (
 		<div className={`min-h-screen bg-background ${isLarge ? 'min-text-lg text-lg' : ''}`}>
 			<div className="max-w-md mx-auto px-4 py-6 space-y-6">
+
+				{/* Points / Redeem swipeable card */}
+				<SwipeablePointsCard />
 
 				{/* Tab Navigation */}
 				{!optedOut && (

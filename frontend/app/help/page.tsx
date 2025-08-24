@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
@@ -136,19 +137,15 @@ export default function VolunteerPage() {
 
         {/* Removed My Impact section per request */}
 
-        {/* Available Volunteers */}
+        {/* Volunteers list */}
         <div className="space-y-4">
-          <div className="flex flex-col items-center mb-6">
-            <h2 className="text-3xl font-extrabold text-gray-900 text-center tracking-tight mb-2">
-              {t('volunteer.volunteers.title')}
-            </h2>
-            <div className="w-16 h-1 bg-primary rounded-full mb-2"></div>
-            <input
-              type="text"
+          <div className="relative">
+            <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary w-6 h-6 stroke-2 z-10 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"/></svg>
+            <Input
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder={t('volunteer.volunteers.search') || "Search volunteers..."}
-              className="mt-4 px-4 py-2 w-full max-w-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+              className="pl-12 duolingo-card border-0 shadow-lg w-full py-3"
             />
           </div>
 
