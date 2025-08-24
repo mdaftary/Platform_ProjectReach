@@ -34,14 +34,120 @@
   },
   "signup": {
     "titles": {
+      "signup": "註冊",
+      "signin": "登入",
+      "verifyAccount": "驗證你的帳戶",
+      "enterPassword": "輸入密碼",
+      "chooseRole": "選擇你的角色",
+      "parentDetails": "家長資料",
+      "volunteerDetails": "義工設定",
+      "complete": "歡迎！",
       "method": "建立帳戶",
-      "details": "帳戶詳情",
-      "complete": "歡迎來到 REACH！"
+      "details": "帳戶詳情"
     },
     "subtitles": {
+      "enterIdentifier": "輸入你的電話號碼、電郵或用戶名",
+      "verifyEmail": "我們已把驗證碼發送到你的電郵",
+      "verifyPhone": "我們已把驗證碼發送到你的電話",
+      "verifyFromLogin": "輸入已發送到你的驗證碼",
+      "passwordPrompt": "輸入你的密碼以登入",
+      "roleSelection": "告訴我們你想如何使用 REACH",
+      "parentInfo": "告訴我們你孩子的資料",
+      "volunteerSetupPassword": "設定你的密碼",
+      "volunteerSetupComplete": "完成你的註冊",
+      "accountCreated": "你的帳戶已成功建立",
       "method": "選擇你的註冊方式",
       "details": "填寫你的帳戶資料",
       "complete": "你的帳戶已成功建立"
+    },
+    "labels": {
+      "identifierField": "電話、電郵或用戶名",
+      "verificationCode": "驗證碼",
+      "password": "密碼",
+      "roleQuestion": "你將如何使用 REACH？",
+      "schoolCode": "學校代碼",
+      "schoolCodeOptional": "學校代碼（選填）",
+      "parentName": "家長姓名",
+      "studentName": "學生姓名",
+      "schoolName": "學校名稱",
+      "confirmPassword": "確認密碼"
+    },
+    "placeholders": {
+      "enterIdentifier": "輸入你的電話、電郵或用戶名",
+      "enterCode": "輸入 4 位數字代碼",
+      "enterPassword": "輸入你的密碼",
+      "createPassword": "建立密碼",
+      "confirmPassword": "確認你的密碼",
+      "schoolCode": "如有學校代碼請輸入",
+      "parentName": "你的全名",
+      "studentName": "你孩子的全名",
+      "schoolName": "你孩子的學校"
+    },
+    "helper": {
+      "identifierHelp": "電話：8位數字 • 電郵：name@example.com • 用戶名：你的選擇",
+      "testingCode": "測試時請使用代碼：0000",
+      "schoolCodeHelp": "如果你有學校代碼，請輸入以快速完成註冊"
+    },
+    "buttons": {
+      "next": "下一步",
+      "verify": "驗證",
+      "signIn": "登入",
+      "continue": "繼續",
+      "resendCode": "重新發送代碼",
+      "completeRegistration": "完成註冊",
+      "continueToDashboard": "前往主頁",
+      "signUp": "註冊"
+    },
+    "loading": {
+      "processing": "處理中...",
+      "verifying": "驗證中...",
+      "signingIn": "登入中...",
+      "connecting": "連接中...",
+      "creatingAccount": "建立帳戶中..."
+    },
+    "roles": {
+      "parent": "家長",
+      "volunteer": "義工",
+      "parentDescription": "我想幫助我的孩子學習英語",
+      "volunteerDescription": "我想幫助教學並支援學生"
+    },
+    "fieldLabels": {
+      "required": "*",
+      "optional": "（選填）"
+    },
+    "links": {
+      "alreadyHaveAccount": "已經有帳戶？",
+      "signInLink": "登入",
+      "forgotPassword": "忘記密碼？",
+      "createNewAccount": "想建立新帳戶？",
+      "signUpLink": "註冊",
+      "backToSignIn": "返回登入"
+    },
+    "success": {
+      "accountCreatedTitle": "帳戶建立成功！",
+      "welcomeMessage": "歡迎來到 REACH Hong Kong",
+      "accountLabel": "帳戶：",
+      "roleLabel": "角色："
+    },
+    "errors": {
+      "enterIdentifier": "請輸入你的電話號碼、電郵或用戶名",
+      "enterPassword": "請輸入你的密碼",
+      "enterConfirmPassword": "請輸入並確認你的密碼",
+      "passwordMismatch": "密碼不一致",
+      "passwordTooShort": "密碼至少需要 6 個字元",
+      "fillAllFields": "請填寫所有必填欄位",
+      "invalidCode": "驗證碼無效。測試請使用 0000。",
+      "invalidSchoolCode": "學校代碼無效。請檢查後再試。",
+      "failedToProcess": "處理輸入失敗。請重試。",
+      "failedToVerify": "驗證失敗。請重試。",
+      "loginFailed": "登入失敗。請重試。",
+      "signupFailed": "註冊失敗",
+      "googleFailed": "Google 註冊失敗",
+      "failedToValidateSchool": "驗證學校代碼失敗"
+    },
+    "messages": {
+      "userExists": "你已經準備好了！你的義工帳戶將使用你的",
+      "or": "或"
     },
     "signUpWith": "使用以下方式註冊",
     "emailAddress": "電郵地址",

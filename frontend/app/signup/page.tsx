@@ -129,7 +129,7 @@ export default function SignUpPage() {
     
     if (!inputValue.trim()) {
       console.log('❌ [SIGNUP] Empty input provided')
-      setError('Please enter your phone number, email, or username')
+      setError(t('signup.errors.enterIdentifier'))
       return
     }
 
@@ -160,7 +160,7 @@ export default function SignUpPage() {
       }
     } catch (error) {
       console.error('❌ [SIGNUP] Failed to process input:', error)
-      setError('Failed to process input. Please try again.')
+      setError(t('signup.errors.failedToProcess'))
     }
   }
 
@@ -172,7 +172,7 @@ export default function SignUpPage() {
     
     if (verificationCode !== '0000') {
       console.log('❌ [VERIFICATION] Invalid verification code')
-      setError('Invalid verification code. Please try 0000 for testing.')
+      setError(t('signup.errors.invalidCode'))
       return
     }
     
@@ -199,7 +199,7 @@ export default function SignUpPage() {
             console.log('✅ [VERIFICATION] Login successful')
           } catch (loginError) {
             console.error('❌ [VERIFICATION] Login failed:', loginError)
-            setError('Login failed. Please try again.')
+            setError(t('signup.errors.loginFailed'))
           }
         } else {
           // User exists, redirect to login
@@ -213,7 +213,7 @@ export default function SignUpPage() {
       }
     } catch (error) {
       console.error('❌ [VERIFICATION] Verification process failed:', error)
-      setError('Failed to verify. Please try again.')
+      setError(t('signup.errors.failedToVerify'))
     }
   }
 
@@ -222,7 +222,7 @@ export default function SignUpPage() {
     setError('')
     
     if (!password) {
-      setError('Please enter your password')
+      setError(t('signup.errors.enterPassword'))
       return
     }
 
@@ -234,7 +234,7 @@ export default function SignUpPage() {
       })
       // Auth provider will handle redirect
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Login failed')
+      setError(error instanceof Error ? error.message : t('signup.errors.loginFailed'))
     }
   }
 
@@ -258,18 +258,18 @@ export default function SignUpPage() {
       try {
         const isValidCode = await mockValidateSchoolCode(schoolCode)
         if (!isValidCode) {
-          setError('Invalid school code. Please check and try again.')
+          setError(t('signup.errors.invalidSchoolCode'))
           return
         }
         // If code is valid, complete signup
         await completeSignup()
       } catch (error) {
-        setError('Failed to validate school code')
+        setError(t('signup.errors.failedToValidateSchool'))
       }
     } else {
       // No school code, require additional fields
       if (!parentName || !studentName || !schoolName) {
-        setError('Please fill in all required fields')
+        setError(t('signup.errors.fillAllFields'))
         return
       }
       await completeSignup()
@@ -283,15 +283,15 @@ export default function SignUpPage() {
     if (inputType === 'username') {
       // For username, require password
       if (!password || !confirmPassword) {
-        setError('Please enter and confirm your password')
+        setError(t('signup.errors.enterConfirmPassword'))
       return
     }
     if (password !== confirmPassword) {
-        setError('Passwords do not match')
+        setError(t('signup.errors.passwordMismatch'))
       return
     }
     if (password.length < 6) {
-        setError('Password must be at least 6 characters')
+        setError(t('signup.errors.passwordTooShort'))
       return
       }
     }
@@ -324,7 +324,7 @@ export default function SignUpPage() {
       setStep('complete')
       }
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Signup failed')
+      setError(error instanceof Error ? error.message : t('signup.errors.signupFailed'))
     }
   }
 
@@ -334,7 +334,7 @@ export default function SignUpPage() {
     try {
       await loginWithGoogle()
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Google signup failed')
+      setError(error instanceof Error ? error.message : t('signup.errors.googleFailed'))
     }
   }
 
@@ -347,42 +347,42 @@ export default function SignUpPage() {
   const getStepTitle = () => {
     switch (step) {
       case 'input':
-        return 'Sign Up'
+        return t('signup.titles.signup')
       case 'verification':
-        return isRedirectFromLogin ? 'Sign In' : 'Verify Your Account'
+        return isRedirectFromLogin ? t('signup.titles.signin') : t('signup.titles.verifyAccount')
       case 'password':
-        return 'Enter Password'
+        return t('signup.titles.enterPassword')
       case 'role':
-        return 'Choose Your Role'
+        return t('signup.titles.chooseRole')
       case 'parent-details':
-        return 'Parent Information'
+        return t('signup.titles.parentDetails')
       case 'volunteer-details':
-        return 'Volunteer Setup'
+        return t('signup.titles.volunteerDetails')
       case 'complete':
-        return 'Welcome!'
+        return t('signup.titles.complete')
       default:
-        return 'Sign Up'
+        return t('signup.titles.signup')
     }
   }
 
   const getStepSubtitle = () => {
     switch (step) {
       case 'input':
-        return 'Enter your phone number, email, or username'
+        return t('signup.subtitles.enterIdentifier')
       case 'verification':
         return isRedirectFromLogin 
-          ? `Enter verification code sent to your ${inputType}` 
-          : `We sent a verification code to your ${inputType}`
+          ? `${t('signup.subtitles.verifyFromLogin')} ${inputType}` 
+          : inputType === 'email' ? t('signup.subtitles.verifyEmail') : t('signup.subtitles.verifyPhone')
       case 'password':
-        return 'Enter your password to sign in'
+        return t('signup.subtitles.passwordPrompt')
       case 'role':
-        return 'Let us know how you want to use REACH'
+        return t('signup.subtitles.roleSelection')
       case 'parent-details':
-        return 'Tell us about your child'
+        return t('signup.subtitles.parentInfo')
       case 'volunteer-details':
-        return inputType === 'username' ? 'Set up your password' : 'Complete your registration'
+        return inputType === 'username' ? t('signup.subtitles.volunteerSetupPassword') : t('signup.subtitles.volunteerSetupComplete')
       case 'complete':
-        return 'Your account has been created successfully'
+        return t('signup.subtitles.accountCreated')
       default:
         return ''
     }
@@ -443,7 +443,7 @@ export default function SignUpPage() {
                 <form onSubmit={handleInputSubmit} className="space-y-4">
                     <div className="space-y-2">
                     <Label htmlFor="input-field" className="text-sm font-medium text-gray-900">
-                      Phone, Email, or Username
+                      {t('signup.labels.identifierField')}
                       </Label>
                       <div className="relative">
                         <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
@@ -454,13 +454,13 @@ export default function SignUpPage() {
                         type="text"
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
-                        placeholder="Enter your phone, email, or username"
+                        placeholder={t('signup.placeholders.enterIdentifier')}
                           className="pl-10 rounded-xl"
                           required
                         />
                       </div>
                     <div className="text-xs text-gray-500">
-                      Phone: 8 digits • Email: name@example.com • Username: your choice
+                      {t('signup.helper.identifierHelp')}
                       </div>
                     </div>
 
@@ -472,10 +472,10 @@ export default function SignUpPage() {
                       {isLoading ? (
                         <>
                           <Loader className="w-4 h-4 mr-2 animate-spin" />
-                        Processing...
+                        {t('signup.loading.processing')}
                         </>
                       ) : (
-                      'Next'
+                      t('signup.buttons.next')
                       )}
                     </Button>
                   </form>
@@ -486,7 +486,7 @@ export default function SignUpPage() {
                     <div className="w-full border-t border-gray-200"></div>
                   </div>
                   <div className="relative flex justify-center text-sm">
-                    <span className="bg-white px-4 text-gray-500 font-medium">or</span>
+                    <span className="bg-white px-4 text-gray-500 font-medium">{t('signup.messages.or')}</span>
                   </div>
                 </div>
 
@@ -501,7 +501,7 @@ export default function SignUpPage() {
                   {isLoading ? (
                     <>
                       <Loader className="w-4 h-4 mr-2 animate-spin" />
-                      Connecting...
+                      {t('signup.loading.connecting')}
                     </>
                   ) : (
                     <>
@@ -511,16 +511,16 @@ export default function SignUpPage() {
                         <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                         <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                       </svg>
-                      Continue with Google
+                      {t('login.continueWithGoogle')}
                     </>
                   )}
                 </Button>
 
                 {/* Sign In Link */}
                 <div className="text-center text-sm">
-                  <span className="text-gray-500">Already have an account? </span>
+                  <span className="text-gray-500">{t('signup.links.alreadyHaveAccount')} </span>
                   <Link href="/login" className="text-green-600 hover:text-green-700 font-semibold">
-                    Sign In
+                    {t('signup.links.signInLink')}
                   </Link>
                 </div>
               </>
@@ -564,20 +564,20 @@ export default function SignUpPage() {
                 <form onSubmit={handleVerificationSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="verification-code" className="text-sm font-medium text-gray-900">
-                      Verification Code
+                      {t('signup.labels.verificationCode')}
                     </Label>
                     <Input
                       id="verification-code"
                       type="text"
                       value={verificationCode}
                       onChange={(e) => setVerificationCode(e.target.value)}
-                      placeholder="Enter 4-digit code"
+                      placeholder={t('signup.placeholders.enterCode')}
                       className="rounded-xl text-center text-lg tracking-widest"
                       maxLength={4}
                       required
                     />
                     <div className="text-xs text-gray-500 text-center">
-                      For testing, use code: 0000
+                      {t('signup.helper.testingCode')}
                     </div>
                   </div>
 
@@ -589,10 +589,10 @@ export default function SignUpPage() {
                     {isLoading ? (
                       <>
                         <Loader className="w-4 h-4 mr-2 animate-spin" />
-                        Verifying...
+                        {t('signup.loading.verifying')}
                       </>
                     ) : (
-                      'Verify'
+                      t('signup.buttons.verify')
                     )}
                   </Button>
                 </form>
@@ -606,7 +606,7 @@ export default function SignUpPage() {
                     className="text-sm text-blue-600 hover:text-blue-700"
                   >
                     <RefreshCw className="w-4 h-4 mr-2" />
-                    Resend Code
+                    {t('signup.buttons.resendCode')}
                   </Button>
                 </div>
               </>
@@ -644,7 +644,7 @@ export default function SignUpPage() {
                 <form onSubmit={handlePasswordSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="password" className="text-sm font-medium text-gray-900">
-                      Password
+                      {t('signup.labels.password')}
                     </Label>
                     <div className="relative">
                       <Input
@@ -652,7 +652,7 @@ export default function SignUpPage() {
                         type={showPassword ? 'text' : 'password'}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Enter your password"
+                        placeholder={t('signup.placeholders.enterPassword')}
                         className="pr-10 rounded-xl"
                         required
                       />
@@ -668,7 +668,7 @@ export default function SignUpPage() {
 
                   <div className="flex justify-end">
                     <Link href="/forgot-password" className="text-sm text-green-600 hover:text-green-700 font-medium">
-                      Forgot password?
+                      {t('signup.links.forgotPassword')}
                     </Link>
                   </div>
 
@@ -680,23 +680,23 @@ export default function SignUpPage() {
                     {isLoading ? (
                       <>
                         <Loader className="w-4 h-4 mr-2 animate-spin" />
-                        Signing In...
+                        {t('signup.loading.signingIn')}
                       </>
                     ) : (
-                      'Sign In'
+                      t('signup.buttons.signIn')
                     )}
                   </Button>
                 </form>
 
                 <div className="text-center text-sm">
-                  <span className="text-gray-500">Want to create a new account? </span>
+                  <span className="text-gray-500">{t('signup.links.createNewAccount')} </span>
                   <Button
                     type="button"
                     variant="ghost"
                     onClick={() => setStep('role')}
                     className="text-green-600 hover:text-green-700 font-semibold p-0 h-auto"
                   >
-                    Sign Up
+                    {t('signup.links.signUpLink')}
                   </Button>
                 </div>
               </>
@@ -739,7 +739,7 @@ export default function SignUpPage() {
 
                 <form onSubmit={handleRoleSubmit} className="space-y-4">
                   <div className="space-y-3">
-                    <Label className="text-sm font-semibold text-gray-900">How will you use REACH?</Label>
+                    <Label className="text-sm font-semibold text-gray-900">{t('signup.labels.roleQuestion')}</Label>
                     <div className="grid grid-cols-1 gap-3">
                       <Button
                         type="button"
@@ -749,8 +749,8 @@ export default function SignUpPage() {
                       >
                         <Users className="w-5 h-5 mt-0.5 flex-shrink-0" />
                         <div className="space-y-1">
-                          <div className="font-semibold">Parent</div>
-                          <div className="text-sm opacity-80">I want to help my child learn English</div>
+                          <div className="font-semibold">{t('signup.roles.parent')}</div>
+                          <div className="text-sm opacity-80">{t('signup.roles.parentDescription')}</div>
                         </div>
                       </Button>
                       <Button
@@ -761,8 +761,8 @@ export default function SignUpPage() {
                       >
                         <Heart className="w-5 h-5 mt-0.5 flex-shrink-0" />
                         <div className="space-y-1">
-                          <div className="font-semibold">Volunteer</div>
-                          <div className="text-sm opacity-80">I want to help teach and support students</div>
+                          <div className="font-semibold">{t('signup.roles.volunteer')}</div>
+                          <div className="text-sm opacity-80">{t('signup.roles.volunteerDescription')}</div>
                         </div>
                       </Button>
                     </div>
@@ -772,7 +772,7 @@ export default function SignUpPage() {
                     type="submit"
                     className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold py-3"
                   >
-                    Continue
+                    {t('signup.buttons.continue')}
                   </Button>
                 </form>
               </>
@@ -793,7 +793,7 @@ export default function SignUpPage() {
                     <ArrowLeft className="w-4 h-4" />
                   </Button>
                   <div className="text-sm text-gray-500">
-                    Parent Registration
+                    {t('signup.titles.parentDetails')}
                   </div>
                 </div>
 
@@ -810,18 +810,18 @@ export default function SignUpPage() {
                 <form onSubmit={handleParentDetailsSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="school-code" className="text-sm font-medium text-gray-900">
-                      School Code <span className="text-gray-500">(optional)</span>
+                      {t('signup.labels.schoolCodeOptional')}
                     </Label>
                     <Input
                       id="school-code"
                       type="text"
                       value={schoolCode}
                       onChange={(e) => setSchoolCode(e.target.value)}
-                      placeholder="Enter school code if you have one"
+                      placeholder={t('signup.placeholders.schoolCode')}
                       className="rounded-xl"
                     />
                     <div className="text-xs text-gray-500">
-                      If you have a school code, enter it to complete registration quickly
+                      {t('signup.helper.schoolCodeHelp')}
                     </div>
                   </div>
 
@@ -829,14 +829,14 @@ export default function SignUpPage() {
                     <>
                       <div className="space-y-2">
                         <Label htmlFor="parent-name" className="text-sm font-medium text-gray-900">
-                          Parent Name *
+                          {t('signup.labels.parentName')} {t('signup.fieldLabels.required')}
                         </Label>
                         <Input
                           id="parent-name"
                           type="text"
                           value={parentName}
                           onChange={(e) => setParentName(e.target.value)}
-                          placeholder="Your full name"
+                          placeholder={t('signup.placeholders.parentName')}
                           className="rounded-xl"
                           required
                         />
@@ -844,14 +844,14 @@ export default function SignUpPage() {
 
                       <div className="space-y-2">
                         <Label htmlFor="student-name" className="text-sm font-medium text-gray-900">
-                          Student Name *
+                          {t('signup.labels.studentName')} {t('signup.fieldLabels.required')}
                         </Label>
                         <Input
                           id="student-name"
                           type="text"
                           value={studentName}
                           onChange={(e) => setStudentName(e.target.value)}
-                          placeholder="Your child's full name"
+                          placeholder={t('signup.placeholders.studentName')}
                           className="rounded-xl"
                           required
                         />
@@ -859,14 +859,14 @@ export default function SignUpPage() {
 
                       <div className="space-y-2">
                         <Label htmlFor="school-name" className="text-sm font-medium text-gray-900">
-                          School Name *
+                          {t('signup.labels.schoolName')} {t('signup.fieldLabels.required')}
                         </Label>
                       <Input
                           id="school-name"
                         type="text"
                           value={schoolName}
                           onChange={(e) => setSchoolName(e.target.value)}
-                          placeholder="Your child's school"
+                          placeholder={t('signup.placeholders.schoolName')}
                           className="rounded-xl"
                         required
                       />
@@ -882,10 +882,10 @@ export default function SignUpPage() {
                     {isLoading ? (
                       <>
                         <Loader className="w-4 h-4 mr-2 animate-spin" />
-                        Creating Account...
+                        {t('signup.loading.creatingAccount')}
                       </>
                     ) : (
-                      'Complete Registration'
+                      t('signup.buttons.completeRegistration')
                     )}
                   </Button>
                 </form>
@@ -907,7 +907,7 @@ export default function SignUpPage() {
                     <ArrowLeft className="w-4 h-4" />
                   </Button>
                   <div className="text-sm text-gray-500">
-                    Volunteer Registration
+                    {t('signup.titles.volunteerDetails')}
                   </div>
                 </div>
 
@@ -926,7 +926,7 @@ export default function SignUpPage() {
                     <>
                   <div className="space-y-2">
                     <Label htmlFor="password" className="text-sm font-medium text-gray-900">
-                          Password *
+                          {t('signup.labels.password')} {t('signup.fieldLabels.required')}
                     </Label>
                     <div className="relative">
                       <Input
@@ -934,7 +934,7 @@ export default function SignUpPage() {
                         type={showPassword ? 'text' : 'password'}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Create a password"
+                            placeholder={t('signup.placeholders.createPassword')}
                         className="pr-10 rounded-xl"
                         required
                       />
@@ -950,7 +950,7 @@ export default function SignUpPage() {
 
                   <div className="space-y-2">
                     <Label htmlFor="confirm-password" className="text-sm font-medium text-gray-900">
-                          Confirm Password *
+                          {t('signup.labels.confirmPassword')} {t('signup.fieldLabels.required')}
                     </Label>
                     <div className="relative">
                       <Input
@@ -958,7 +958,7 @@ export default function SignUpPage() {
                         type={showConfirmPassword ? 'text' : 'password'}
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                            placeholder="Confirm your password"
+                            placeholder={t('signup.placeholders.confirmPassword')}
                         className="pr-10 rounded-xl"
                         required
                       />
@@ -977,7 +977,7 @@ export default function SignUpPage() {
                   {inputType !== 'username' && (
                     <div className="text-center py-4">
                       <p className="text-gray-600">
-                        You're all set! Your volunteer account will be created with your {inputType}.
+                        {t('signup.messages.userExists')} {inputType}.
                       </p>
                     </div>
                   )}
@@ -990,10 +990,10 @@ export default function SignUpPage() {
                     {isLoading ? (
                       <>
                         <Loader className="w-4 h-4 mr-2 animate-spin" />
-                        Creating Account...
+                        {t('signup.loading.creatingAccount')}
                       </>
                     ) : (
-                      'Complete Registration'
+                      t('signup.buttons.completeRegistration')
                     )}
                   </Button>
                 </form>
@@ -1010,19 +1010,19 @@ export default function SignUpPage() {
 
                 {/* Success Message */}
                 <div className="space-y-2">
-                  <h3 className="text-lg font-bold text-gray-900">Account Created Successfully!</h3>
-                  <p className="text-sm text-gray-500">Welcome to REACH Hong Kong</p>
+                  <h3 className="text-lg font-bold text-gray-900">{t('signup.success.accountCreatedTitle')}</h3>
+                  <p className="text-sm text-gray-500">{t('signup.success.welcomeMessage')}</p>
                 </div>
 
                 {/* Account Details */}
                 <div className="bg-gray-50 rounded-xl p-4 space-y-2">
                   <div className="text-sm">
-                    <span className="text-gray-500">Account: </span>
+                    <span className="text-gray-500">{t('signup.success.accountLabel')}</span>
                     <span className="font-semibold text-gray-900">{inputValue}</span>
                   </div>
                   <div className="text-sm">
-                    <span className="text-gray-500">Role: </span>
-                    <span className="font-semibold text-gray-900 capitalize">{role}</span>
+                    <span className="text-gray-500">{t('signup.success.roleLabel')}</span>
+                    <span className="font-semibold text-gray-900 capitalize">{t(`signup.roles.${role}`)}</span>
                   </div>
                 </div>
 
@@ -1031,13 +1031,13 @@ export default function SignUpPage() {
                   onClick={() => window.location.href = '/'}
                   className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold py-3"
                 >
-                  Continue to Dashboard
+                  {t('signup.buttons.continueToDashboard')}
                 </Button>
 
                 {/* Sign In Link */}
                 <div className="text-center text-sm">
                   <Link href="/login" className="text-green-600 hover:text-green-700 font-semibold">
-                    Back to Sign In
+                    {t('signup.links.backToSignIn')}
                   </Link>
                 </div>
               </div>
