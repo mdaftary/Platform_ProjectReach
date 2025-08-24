@@ -1086,7 +1086,13 @@
         "tomorrow": "明天"
       },
       "stats": {
-        "sessions": "課程"
+        "sessions": "課程",
+        "upcomingTutorials": "即將開始的輔導",
+        "liveTutorials": "進行中的輔導",
+        "previousTutorials": "已完成的輔導",
+        "scheduledSessions": "本週預定課程",
+        "currentlyActive": "目前活躍課程",
+        "completedSessions": "本月已完成課程"
       },
       "empty": {
         "noLive": "目前沒有進行中的課程。",

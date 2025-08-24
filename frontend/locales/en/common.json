@@ -948,7 +948,13 @@
         "tomorrow": "Tomorrow"
       },
       "stats": {
-        "sessions": "Sessions"
+        "sessions": "Sessions",
+        "upcomingTutorials": "Upcoming Tutorials",
+        "liveTutorials": "Live Tutorials", 
+        "previousTutorials": "Previous Tutorials",
+        "scheduledSessions": "Scheduled sessions this week",
+        "currentlyActive": "Currently active session",
+        "completedSessions": "Completed sessions this month"
       },
       "empty": {
         "noLive": "No live sessions at the moment.",

@@ -25,6 +25,7 @@ import {
 } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import "@/lib/i18n"
+import { SwipeableLiveTutoringCard } from "@/components/swipeable-live-tutoring-card"
 
 interface TutoringSession {
   id: string
@@ -262,7 +263,7 @@ export default function VolunteerLiveTutoringPage() {
           {/* Student Video (Main) */}
           <div className="w-full h-full bg-gray-800 flex items-center justify-center">
             <div className="text-center text-white">
-              <Avatar className="w-32 h-32 mx-auto mb-4 bg-blue-500">
+              <Avatar className="w-32 h-32 mx-auto mb-4 bg-green-500">
                 <span className="text-4xl font-bold">EC</span>
               </Avatar>
               <h2 className="text-2xl font-bold mb-2">Emma Chen</h2>
@@ -301,20 +302,7 @@ export default function VolunteerLiveTutoringPage() {
       <div className="max-w-6xl mx-auto px-6 py-8">
         {/* Tabs */}
         <div className="mb-8 mt-8">
-          <div className="flex space-x-1 bg-gray-100 rounded-xl p-1 w-fit">
-            {(['upcoming', 'live', 'completed'] as const).map((tab) => (
-              <Button
-                key={tab}
-                variant={selectedTab === tab ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setSelectedTab(tab)}
-                className="rounded-lg capitalize"
-              >
-                {tab === 'live' && <div className="w-2 h-2 bg-red-500 rounded-full mr-2 animate-pulse" />}
-                {t(`volunteer.liveTutoring.tabs.${tab}`)} ({mockSessions.filter(s => s.status === tab).length})
-              </Button>
-            ))}
-          </div>
+            <SwipeableLiveTutoringCard />
         </div>
 
         {/* Sessions List */}
@@ -324,8 +312,8 @@ export default function VolunteerLiveTutoringPage() {
               <CardContent className="p-6">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-4">
-                    <Avatar className="w-12 h-12 bg-blue-100">
-                      <span className="text-lg font-medium text-blue-600">
+                    <Avatar className="w-12 h-12 bg-green-100 flex items-center justify-center">
+                      <span className="text-lg font-medium text-green-600 text-center">
                         {session.student.split(' ').map(n => n[0]).join('')}
                       </span>
                     </Avatar>
