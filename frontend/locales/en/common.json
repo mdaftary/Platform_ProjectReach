@@ -491,6 +491,101 @@
         "needsWork": "Needs Improvement",
         "needsImprovement": "This assignment needs some improvement. Please review the feedback and practice the highlighted areas. Don't hesitate to ask for help!"
       }
+    },
+    "assignments": {
+      "title": "Assignment Management",
+      "createNew": "Create New Assignment",
+      "allAssignments": "All Assignments",
+      "showing": "Showing",
+      "assignment": "assignment",
+      "assignments": "assignments",
+      "noAssignments": "No assignments found",
+      "noCustomAssignments": "Create your first custom assignment!",
+      "tryFilters": "Try adjusting your filters.",
+      "template": "Template",
+      "custom": "Custom",
+      "subject": "Subject:",
+      "difficulty": "Difficulty:",
+      "due": "Due:",
+      "points": "points",
+      "action": "Action:",
+      "deleteConfirm": "Are you sure you want to delete this assignment?",
+      "types": {
+        "all": "All",
+        "template": "Templates", 
+        "custom": "Custom"
+      },
+      "languages": {
+        "english": "English",
+        "chinese": "中文"
+      }
+    },
+    "create": {
+      "title": "Create Assignment",
+      "subtitle": "Create assignments for the dashboard",
+      "back": "Back",
+      "sections": {
+        "basicInfo": "Basic Information",
+        "assignmentDetails": "Assignment Details",
+        "learningObjectives": "Learning Objectives",
+        "materialsNeeded": "Materials Needed",
+        "instructions": "Instructions"
+      },
+      "fields": {
+        "title": "Title",
+        "titlePlaceholder": "e.g., Week 13 - Reading Comprehension",
+        "subtitle": "Subtitle", 
+        "subtitlePlaceholder": "e.g., Complete worksheet and upload photo",
+        "description": "Description",
+        "descriptionPlaceholder": "Detailed description of the assignment...",
+        "subject": "Subject",
+        "subjectPlaceholder": "Select subject",
+        "pointReward": "Point Reward",
+        "dueDate": "Due Date",
+        "dueDatePlaceholder": "YYYYMMDD (e.g., 20250825)",
+        "dueDateHelp": "Enter date in YYYYMMDD format (e.g., 20250825 for Aug 25, 2025)",
+        "dueDateValid": "✓ Will be saved as:",
+        "dueDateInvalid": "✗ Invalid date format. Use YYYYMMDD (8 digits)",
+        "estimatedTime": "Estimated Time",
+        "estimatedTimePlaceholder": "e.g., 15-20 minutes",
+        "difficulty": "Difficulty",
+        "buttonText": "Button Text",
+        "buttonTextPlaceholder": "e.g., Upload Worksheet, Watch Video",
+        "icon": "Icon",
+        "objectivePlaceholder": "Enter objective",
+        "materialPlaceholder": "Enter material",
+        "instructionPlaceholder": "Enter instruction step"
+      },
+      "difficulty": {
+        "easy": "Easy",
+        "medium": "Medium",
+        "hard": "Hard"
+      },
+      "icons": {
+        "camera": "Camera (Upload)",
+        "play": "Play (Video)",
+        "users": "Users (Group Activity)",
+        "checkCircle": "Check Circle (Complete)",
+        "bookOpen": "Book (Reading)",
+        "user": "User (Individual)",
+        "target": "Target (Goal)"
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "create": "Create Assignment",
+        "saving": "Saving...",
+        "saved": "Saved!",
+        "addObjective": "Add Learning Objective",
+        "addMaterial": "Add Material",
+        "addInstruction": "Add Instruction"
+      },
+      "messages": {
+        "requiredFields": "Please fill in all required fields",
+        "invalidDate": "Please enter a valid date in YYYYMMDD format (e.g., 20250825)",
+        "saveError": "Error saving assignment. Please try again.",
+        "successMessage": "Assignment created successfully! Redirecting to assignment list..."
+      },
+      "required": "*"
     }
   },
   "components": {
@@ -538,6 +633,7 @@
       "volunteerLeaderboard": "Leaderboard",
       "qna": "Q&A",
       "liveTutoring": "Live Tutoring",
+      "assignments": "Assignments",
       "grading": "Grading"
     },
     "routeGuard": {

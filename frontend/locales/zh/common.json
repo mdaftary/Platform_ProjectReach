@@ -340,6 +340,7 @@
       "volunteer": "義工",
       "qna": "問答",
       "liveTutoring": "實時輔導",
+      "assignments": "功課",
       "grading": "評分"
     },
     "routeGuard": {
@@ -791,6 +792,101 @@
          "needsWork": "需要改進",
          "needsImprovement": "這份功課需要一些改進。請檢視回饋並練習重點領域。如有需要請不要猶豫尋求幫助！"
        }
+     },
+     "assignments": {
+       "title": "功課管理",
+       "createNew": "創建新功課",
+       "allAssignments": "所有功課",
+       "showing": "顯示",
+       "assignment": "功課",
+       "assignments": "功課",
+       "noAssignments": "找不到功課",
+       "noCustomAssignments": "創建您的第一個自定義功課！",
+       "tryFilters": "嘗試調整您的篩選器。",
+       "template": "模板",
+       "custom": "自定義",
+       "subject": "科目：",
+       "difficulty": "難度：",
+       "due": "到期：",
+       "points": "分數",
+       "action": "操作：",
+       "deleteConfirm": "您確定要刪除這個功課嗎？",
+       "types": {
+         "all": "全部",
+         "template": "模板", 
+         "custom": "自定義"
+       },
+       "languages": {
+         "english": "English",
+         "chinese": "中文"
+       }
+     },
+     "create": {
+       "title": "創建功課",
+       "subtitle": "為儀表板創建功課",
+       "back": "返回",
+       "sections": {
+         "basicInfo": "基本信息",
+         "assignmentDetails": "功課詳細信息",
+         "learningObjectives": "學習目標",
+         "materialsNeeded": "所需材料",
+         "instructions": "說明"
+       },
+       "fields": {
+         "title": "標題",
+         "titlePlaceholder": "例如，第13週 - 閱讀理解",
+         "subtitle": "副標題",
+         "subtitlePlaceholder": "例如，完成工作表並上傳照片",
+         "description": "描述",
+         "descriptionPlaceholder": "功課的詳細描述...",
+         "subject": "科目",
+         "subjectPlaceholder": "選擇科目",
+         "pointReward": "分數獎勵",
+         "dueDate": "截止日期",
+         "dueDatePlaceholder": "YYYYMMDD（例如，20250825）",
+         "dueDateHelp": "以YYYYMMDD格式輸入日期（例如，20250825表示2025年8月25日）",
+         "dueDateValid": "✓ 將保存為：",
+         "dueDateInvalid": "✗ 無效的日期格式。使用YYYYMMDD（8位數字）",
+         "estimatedTime": "預計時間",
+         "estimatedTimePlaceholder": "例如，15-20分鐘",
+         "difficulty": "難度",
+         "buttonText": "按鈕文字",
+         "buttonTextPlaceholder": "例如，上傳工作表，觀看視頻",
+         "icon": "圖標",
+         "objectivePlaceholder": "輸入目標",
+         "materialPlaceholder": "輸入材料",
+         "instructionPlaceholder": "輸入說明步驟"
+       },
+       "difficulty": {
+         "easy": "簡單",
+         "medium": "中等",
+         "hard": "困難"
+       },
+       "icons": {
+         "camera": "相機（上傳）",
+         "play": "播放（視頻）",
+         "users": "用戶（團體活動）",
+         "checkCircle": "勾選圓圈（完成）",
+         "bookOpen": "書本（閱讀）",
+         "user": "用戶（個人）",
+         "target": "目標（目標）"
+       },
+       "buttons": {
+         "cancel": "取消",
+         "create": "創建功課",
+         "saving": "保存中...",
+         "saved": "已保存！",
+         "addObjective": "添加學習目標",
+         "addMaterial": "添加材料",
+         "addInstruction": "添加說明"
+       },
+       "messages": {
+         "requiredFields": "請填寫所有必需欄位",
+         "invalidDate": "請以YYYYMMDD格式輸入有效日期（例如，20250825）",
+         "saveError": "保存功課時出錯。請重試。",
+         "successMessage": "功課創建成功！正在重定向到功課列表..."
+       },
+       "required": "*"
      }
    },
   "community": {

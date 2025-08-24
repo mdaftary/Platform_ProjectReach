@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, BarChart3, Users, HandHeart, Trophy, MessageCircle, Video, Newspaper } from "lucide-react"
+import { Home, BarChart3, Users, HandHeart, Trophy, MessageCircle, Video, Newspaper, BookOpen } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -29,6 +29,7 @@ const volunteerNavItems = [
 // Navigation items for admin
 const adminNavItems = [
   { href: "/admin", icon: Home, label: "mobileNav.home" },
+  { href: "/admin/assignment", icon: BookOpen, label: "mobileNav.assignments" },
   { href: "/admin/grading", icon: Newspaper, label: "mobileNav.grading" }
 ]
 
