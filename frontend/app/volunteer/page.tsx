@@ -31,6 +31,7 @@ import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { useAuth } from "@/contexts/auth-context";
 import LanguageSwitcher from "@/components/language-switcher"; // Add this import
+import { SwipeableVolunteerImpactCard } from "@/components/swipeable-volunteer-impact-card"
 
 // Mock data for volunteers with Time Auction integration (localized)
 const volunteersEn = [
@@ -205,114 +206,11 @@ export default function VolunteerPage() {
         isLarge ? "min-text-lg text-lg" : ""
       }`}
     >
-      <div className="max-w-md mx-auto px-4 py-6 space-y-6">
-        {/* Ask a Question Section */}
+      <div className="max-w-md mx-auto px-6 py-6 space-y-6">
+        {/* Swipeable volunteer impact card */}
+        <SwipeableVolunteerImpactCard impact={myProgress} />
 
-
-        {/* Header */}
-        <div className="text-center space-y-3">
-          <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto shadow-lg">
-            <Heart className="w-8 h-8 text-white stroke-2" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">
-              {t("volunteer.header.title")}
-            </h1>
-            <p className="text-gray-600">{t("volunteer.header.subtitle")}</p>
-          </div>
-        </div>
-
-        {/* My Impact Section (for volunteers) */}
-        <Card className="bg-gradient-to-r from-green-50 to-emerald-50 border-0 shadow-sm">
-          <CardContent className="p-5">
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                  <Target className="w-5 h-5 text-green-600 stroke-2" />
-                </div>
-                <div className="flex-1">
-                  <h2
-                    className={`${
-                      isLarge ? "text-2xl" : "text-xl"
-                    } font-semibold text-gray-900`}
-                  >
-                    {t("volunteer.impact.title")}
-                  </h2>
-                  <p className="text-sm text-gray-600">
-                    {t("volunteer.impact.subtitle")}
-                  </p>
-                </div>
-              </div>
-
-              {/* Hours Progress */}
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="font-medium text-gray-700">
-                    {t("volunteer.impact.thisMonth", {
-                      hours: myProgress.hoursThisMonth,
-                      goal: myProgress.hoursGoal,
-                    })}
-                  </span>
-                  <span className="text-green-600 font-semibold">
-                    {Math.round(
-                      (myProgress.hoursThisMonth / myProgress.hoursGoal) * 100
-                    )}
-                    %
-                  </span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-green-500 h-2 rounded-full transition-all duration-500"
-                    style={{
-                      width: `${
-                        (myProgress.hoursThisMonth / myProgress.hoursGoal) * 100
-                      }%`,
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Quick Stats */}
-              <div className="grid grid-cols-3 gap-4">
-                <div className="text-center">
-                  <div className="text-lg font-bold text-gray-900">
-                    {myProgress.totalHours}
-                  </div>
-                  <div className="text-xs text-gray-600">
-                    {t("volunteer.impact.totalHours")}
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="text-lg font-bold text-gray-900">
-                    #{myProgress.rank}
-                  </div>
-                  <div className="text-xs text-gray-600">
-                    {t("volunteer.impact.thisWeek")}
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="text-lg font-bold text-green-600">
-                    {myProgress.rewardsAvailable}
-                  </div>
-                  <div className="text-xs text-gray-600">
-                    {t("volunteer.impact.rewards")}
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  className="flex-1 text-green-600 border-green-200 hover:bg-green-50"
-                >
-                  <Gift className="w-4 h-4 mr-2 stroke-2" />
-                  {t("volunteer.impact.redeem")}
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        {/* My Impact section moved into swipeable card */}
 
         {/* Recent Questions */}
         <div className="space-y-4">

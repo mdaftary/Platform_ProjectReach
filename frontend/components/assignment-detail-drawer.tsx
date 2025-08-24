@@ -20,6 +20,10 @@ import {
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Avatar } from "@/components/ui/avatar"
+import { Textarea } from "@/components/ui/textarea"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { 
   Calendar,
   Clock,
@@ -36,6 +40,8 @@ import {
   Eye
 } from "lucide-react"
 import { useTranslation } from "react-i18next"
+import Link from "next/link"
+import { MessageSquare, HelpCircle, Search, MessageCircle, AlertCircle, ThumbsUp, Reply, Pin, Heart, Star } from "lucide-react"
 
 export interface AssignmentDetail {
   id: number
@@ -318,6 +324,197 @@ export function AssignmentDetailDrawer({
                     </li>
                   ))}
                 </ol>
+              </CardContent>
+            </Card>
+
+            {/* Support Tabs (Chat and Ask Volunteers) */}
+            <Card>
+              <CardContent className="p-4">
+                <div className="mb-4">
+                  <h3 className="font-semibold text-gray-900">Support</h3>
+                </div>
+                <Tabs defaultValue="chat" className="space-y-4">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="chat" className="flex items-center gap-2">
+                      <MessageSquare className="w-4 h-4" />
+                      Chat
+                    </TabsTrigger>
+                    <TabsTrigger value="volunteers" className="flex items-center gap-2">
+                      <HelpCircle className="w-4 h-4" />
+                      Ask Volunteers
+                    </TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="chat" className="space-y-3">
+                    {/* Embedded Community Discussions UI (simplified) */}
+                    <div className="space-y-4">
+                      <div className="relative">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                        <Input placeholder="Search discussions" className="pl-10" />
+                      </div>
+                      <div className="space-y-3">
+                        {/* Example cards copied from Community page style */}
+                        <Card className="duolingo-card border-0 shadow-lg cursor-pointer hover:shadow-xl transition-shadow">
+                          <CardContent className="p-5">
+                            <div className="space-y-4">
+                              <div className="flex items-start justify-between">
+                                <h3 className="font-semibold text-foreground flex-1 leading-tight">Tips for K3 to Primary 1 Transition</h3>
+                                <Pin className="w-4 h-4 text-primary flex-shrink-0 ml-2" />
+                              </div>
+                              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                <span>Anonymous Parent</span>
+                                <Badge className="text-xs px-2 py-0.5 bg-teal-100 text-white border-teal-200">Parent</Badge>
+                                <span>•</span>
+                                <span>2h ago</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <Badge variant="outline" className="text-xs border-primary/20 text-primary">General</Badge>
+                                <div className="flex items-center gap-4">
+                                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                    <MessageCircle className="w-4 h-4" />
+                                    <span>24</span>
+                                  </div>
+                                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                    <Heart className="w-4 h-4" />
+                                    <span>18</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        <Card className="duolingo-card border-0 shadow-lg cursor-pointer hover:shadow-xl transition-shadow">
+                          <CardContent className="p-5">
+                            <div className="space-y-4">
+                              <div className="flex items-start justify-between">
+                                <h3 className="font-semibold text-foreground flex-1 leading-tight">English Reading Help Needed</h3>
+                              </div>
+                              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                <span>Sarah_HK</span>
+                                <Badge className="text-xs px-2 py-0.5 bg-teal-100 text-white border-teal-200">Parent</Badge>
+                                <span>•</span>
+                                <span>4h ago</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <Badge variant="outline" className="text-xs border-primary/20 text-primary">Assignment Help</Badge>
+                                <div className="flex items-center gap-4">
+                                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                    <MessageCircle className="w-4 h-4" />
+                                    <span>12</span>
+                                  </div>
+                                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                    <Heart className="w-4 h-4" />
+                                    <span>8</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="volunteers" className="space-y-4">
+                    {/* Embedded Volunteers Help UI (static) */}
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary w-6 h-6 stroke-2 z-10 pointer-events-none" />
+                      <Input placeholder="Search volunteers..." className="pl-12 duolingo-card border-0 shadow-lg w-full py-3" />
+                    </div>
+
+                    <div className="space-y-3">
+                      {/* Sarah Chen */}
+                      <Card className="bg-white border-0 shadow-sm">
+                        <CardContent className="p-4">
+                          <div className="space-y-3">
+                            <div className="flex items-start gap-3">
+                              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-lg">
+                                👩‍🏫
+                              </div>
+                              <div className="flex-1">
+                                <h3 className="font-semibold text-gray-900">Sarah Chen</h3>
+                                <p className="text-sm text-gray-600">Former K3 Teacher</p>
+                                <div className="flex items-center gap-1 mt-1">
+                                  <Star className="w-4 h-4 text-yellow-500 fill-yellow-500 stroke-2" />
+                                  <span className="text-sm font-medium text-gray-700">4.9</span>
+                                  <span className="text-sm text-gray-500">• 156 answers</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex flex-wrap gap-1">
+                              <Badge variant="outline" className="text-xs border-gray-200 text-gray-600">Phonics</Badge>
+                              <Badge variant="outline" className="text-xs border-gray-200 text-gray-600">Reading</Badge>
+                            </div>
+                            <div className="flex gap-2">
+                              <Button className="flex-1 bg-primary hover:bg-primary/90 text-white rounded-lg font-medium">Request Help</Button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      {/* David Wong */}
+                      <Card className="bg-white border-0 shadow-sm">
+                        <CardContent className="p-4">
+                          <div className="space-y-3">
+                            <div className="flex items-start gap-3">
+                              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-lg">
+                                👨‍👨‍👧‍👦
+                              </div>
+                              <div className="flex-1">
+                                <h3 className="font-semibold text-gray-900">David Wong</h3>
+                                <p className="text-sm text-gray-600">Parent of 3</p>
+                                <div className="flex items-center gap-1 mt-1">
+                                  <Star className="w-4 h-4 text-yellow-500 fill-yellow-500 stroke-2" />
+                                  <span className="text-sm font-medium text-gray-700">4.8</span>
+                                  <span className="text-sm text-gray-500">• 89 answers</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex flex-wrap gap-1">
+                              <Badge variant="outline" className="text-xs border-gray-200 text-gray-600">Homework Help</Badge>
+                              <Badge variant="outline" className="text-xs border-gray-200 text-gray-600">Motivation</Badge>
+                            </div>
+                            <div className="flex gap-2">
+                              <Button variant="outline" className="flex-1 px-3 border-gray-200" disabled>
+                                Offline
+                              </Button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      {/* Ms. Liu */}
+                      <Card className="bg-white border-0 shadow-sm">
+                        <CardContent className="p-4">
+                          <div className="space-y-3">
+                            <div className="flex items-start gap-3">
+                              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-lg">
+                                👩‍⚕️
+                              </div>
+                              <div className="flex-1">
+                                <h3 className="font-semibold text-gray-900">Ms. Liu</h3>
+                                <p className="text-sm text-gray-600">Child Psychologist</p>
+                                <div className="flex items-center gap-1 mt-1">
+                                  <Star className="w-4 h-4 text-yellow-500 fill-yellow-500 stroke-2" />
+                                  <span className="text-sm font-medium text-gray-700">5</span>
+                                  <span className="text-sm text-gray-500">• 203 answers</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex flex-wrap gap-1">
+                              <Badge variant="outline" className="text-xs border-gray-200 text-gray-600">Learning Difficulties</Badge>
+                              <Badge variant="outline" className="text-xs border-gray-200 text-gray-600">Development</Badge>
+                            </div>
+                            <div className="flex gap-2">
+                              <Button className="flex-1 bg-primary hover:bg-primary/90 text-white rounded-lg font-medium">Request Help</Button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </TabsContent>
+                </Tabs>
               </CardContent>
             </Card>
           </div>
