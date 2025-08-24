@@ -2,12 +2,11 @@
 
 import React from 'react'
 
-type FontSizeMode = 'normal' | 'large' | 'extra-large' | 'grandparent'
+type FontSizeMode = 'normal' | 'large' | 'grandparent'
 
 type FontSizeContextValue = {
   mode: FontSizeMode
   isLarge: boolean
-  isExtraLarge: boolean
   isGrandparent: boolean
   setMode: (mode: FontSizeMode) => void
   toggle: () => void
@@ -34,13 +33,9 @@ function applyRootFontSize(mode: FontSizeMode) {
       fontSize = '20px'      // 125% increase
       lineHeight = '1.6'
       break
-    case 'extra-large':
+    case 'grandparent':
       fontSize = '24px'      // 150% increase
       lineHeight = '1.7'
-      break
-    case 'grandparent':
-      fontSize = '28px'      // 175% increase - much larger for elderly users
-      lineHeight = '1.8'
       break
     default: // 'normal'
       fontSize = '16px'      // 100% baseline
@@ -53,7 +48,7 @@ function applyRootFontSize(mode: FontSizeMode) {
   root.setAttribute('data-font-size', mode)
   
   // Add CSS custom properties for additional styling
-  root.style.setProperty('--font-scale', mode === 'grandparent' ? '1.75' : mode === 'extra-large' ? '1.5' : mode === 'large' ? '1.25' : '1')
+  root.style.setProperty('--font-scale', mode === 'grandparent' ? '1.5' : mode === 'large' ? '1.25' : '1')
   
   console.log(`Applied font size: ${fontSize} (${mode} mode)`) // Debug log
 }
@@ -69,7 +64,7 @@ export function FontSizeProvider({
   React.useEffect(() => {
     try {
       const stored = localStorage.getItem(LOCAL_STORAGE_KEY) as FontSizeMode | null
-      if (stored === 'normal' || stored === 'large' || stored === 'extra-large' || stored === 'grandparent') {
+      if (stored === 'normal' || stored === 'large' || stored === 'grandparent') {
         setMode(stored)
         applyRootFontSize(stored)
         return
@@ -90,16 +85,14 @@ export function FontSizeProvider({
     () => ({
       mode,
       isLarge: mode === 'large',
-      isExtraLarge: mode === 'extra-large',
       isGrandparent: mode === 'grandparent',
       setMode,
       toggle: () => {
-        // Cycle through all font sizes: normal -> large -> extra-large -> grandparent -> normal
+        // Cycle through all font sizes: normal -> large -> grandparent -> normal
         setMode((m) => {
           switch (m) {
             case 'normal': return 'large'
-            case 'large': return 'extra-large'
-            case 'extra-large': return 'grandparent'
+            case 'large': return 'grandparent'
             case 'grandparent': return 'normal'
             default: return 'normal'
           }
@@ -108,7 +101,6 @@ export function FontSizeProvider({
       getFontSizeLabel: () => {
         switch (mode) {
           case 'large': return 'Large Text'
-          case 'extra-large': return 'Extra Large Text'
           case 'grandparent': return 'Grandparent Mode'
           default: return 'Normal Text'
         }
@@ -116,7 +108,6 @@ export function FontSizeProvider({
       getFontSizeDescription: () => {
         switch (mode) {
           case 'large': return 'Slightly larger text for better readability'
-          case 'extra-large': return 'Much larger text for improved accessibility'
           case 'grandparent': return 'Very large text optimized for elderly users'
           default: return 'Standard text size'
         }

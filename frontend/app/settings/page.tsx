@@ -151,12 +151,6 @@ export default function SettingsPage() {
                       Large Text
                     </div>
                   </SelectItem>
-                  <SelectItem value="extra-large">
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">Aa</span>
-                      Extra Large Text
-                    </div>
-                  </SelectItem>
                   <SelectItem value="grandparent">
                     <div className="flex items-center gap-2">
                       <span className="text-xl">👴👵</span>
