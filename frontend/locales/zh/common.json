@@ -106,7 +106,7 @@
     "profile": "個人資料",
     "editProfile": "編輯個人資料",
     "notifications": "通知",
-    "assignmentReminders": "作業提醒",
+    "assignmentReminders": "功課提醒",
     "assignmentRemindersDesc": "接收到期通知",
     "communityUpdates": "社群更新",
     "communityUpdatesDesc": "新討論與回覆",
@@ -149,7 +149,7 @@
     "whatWentWell": "做得好的地方",
     "needsPractice": "需要改進",
     "generalNotes": "一般備註",
-    "viewPastAssignments": "查看過往作業",
+    "viewPastAssignments": "查看過往功課",
     "suggestedNextSteps": "建議下一步",
     "viewRecommendedPractice": "查看建議練習",
     "downloadExtraWorksheet": "下載額外工作紙（PDF）",
@@ -197,7 +197,7 @@
       },
       "actions": {
         "viewDetails": "查看詳情",
-        "submitWork": "提交作業",
+        "submitWork": "提交功課",
         "viewSubmission": "查看提交"
       }
     },
@@ -212,7 +212,7 @@
     },
     "dashboardNav": {
       "overview": "總覽",
-      "assignments": "作業",
+      "assignments": "功課",
       "dashboard": "儀表板",
       "community": "社群",
       "settings": "設定"
@@ -236,9 +236,9 @@
   },
   "assignments": {
     "list": {
-      "title": "作業中心",
-      "subtitle": "查看作業、提交作品，並追蹤孩子的學習進度",
-      "searchPlaceholder": "搜尋作業...",
+      "title": "功課中心",
+      "subtitle": "查看功課、提交作品，並追蹤孩子的學習進度",
+      "searchPlaceholder": "搜尋功課...",
       "filterBySubject": "按科目篩選",
       "subjects": {
         "all": "所有科目",
@@ -262,31 +262,38 @@
       },
       "actions": {
         "viewDetails": "查看詳情",
-        "submitWork": "提交作業",
+        "submitWork": "提交功課",
         "viewSubmission": "查看提交"
       },
-      "empty": {
-        "title": "未找到作業",
-        "description": "稍後再回來查看老師發佈的新作業。"
-      }
+              "empty": {
+          "title": "未找到功課",
+          "description": "稍後再回來查看老師發佈的新功課。"
+        }
+      },
+      "previousAssignments": {
+        "title": "過往功課",
+        "completed": "已完成",
+        "submitted": "提交日期",
+        "points": "積分",
+        "score": "分數"
     },
     "detail": {
-      "header": "作業詳情",
+      "header": "功課詳情",
       "reach": "REACH Hong Kong",
       "dueDate": "到期日",
       "instructions": "指引",
-      "materials": "作業檔案",
-      "materialsDesc": "下載這些檔案以完成作業",
+      "materials": "功課檔案",
+      "materialsDesc": "下載這些檔案以完成功課",
       "download": "下載",
-      "info": "作業資訊",
+      "info": "功課資訊",
       "teacher": "老師",
       "points": "分數",
       "estTime": "預計時間",
       "status": "狀態",
       "acceptedFormats": "可接受格式",
       "submitYourWork": "提交你的作品",
-      "submitDesc": "上載已完成作業的相片、影片或文件",
-      "submitAssignment": "提交作業",
+      "submitDesc": "上載已完成功課的相片、影片或文件",
+      "submitAssignment": "提交功課",
       "dueIn": "剩餘",
       "days": "天",
       "viewSubmission": "查看提交",
@@ -296,25 +303,25 @@
       "parentGuide": "家長指南"
     },
     "discussion": {
-      "header": "作業討論",
-      "help": "獲取幫助並分享此作業的技巧",
+      "header": "功課討論",
+      "help": "獲取幫助並分享此功課的技巧",
       "messagesCount": "條訊息",
       "lastActivity": "最後活動：",
       "reply": "回覆",
       "join": "加入討論",
-      "joinDesc": "就此作業發問或分享技巧",
+      "joinDesc": "就此功課發問或分享技巧",
       "placeholder": "輸入你的問題或分享小貼士...",
       "postAnonymously": "匿名發佈",
       "cancel": "取消",
       "postMessage": "發佈留言"
     },
     "submit": {
-      "header": "提交作業",
+      "header": "提交功課",
       "reach": "REACH Hong Kong",
       "submitDesc": "提交你的完成作品以供評分和回饋",
       "dueDate": "到期日",
       "uploadYourWork": "上載你的作品",
-      "uploadDesc": "上載已完成作業的相片、影片或文件",
+      "uploadDesc": "上載已完成功課的相片、影片或文件",
       "dragDrop": "拖放檔案到此",
       "orClick": "或點擊以瀏覽你的裝置",
       "chooseFiles": "選擇檔案",
@@ -333,7 +340,7 @@
       },
       "acceptedFormats": "可接受格式",
       "submitting": "提交中...",
-      "submitAssignment": "提交作業",
+      "submitAssignment": "提交功課",
       "uploadAtLeastOne": "請至少上載一個檔案再提交"
     }
   },
@@ -430,18 +437,18 @@
       "tabs": {
         "overview": "概覽",
         "students": "學生",
-        "assignments": "作業",
+        "assignments": "功課",
         "community": "社群",
         "reports": "報表"
       },
       "overview": {
         "totalStudents": "學生總數",
-        "activeAssignments": "活躍作業",
+        "activeAssignments": "功課",
         "submissionRate": "提交率",
         "avgGrade": "平均分",
         "forumPosts": "論壇貼文",
         "volunteerHours": "義工時數",
-        "submissionTrendsTitle": "作業提交趨勢",
+        "submissionTrendsTitle": "功課提交趨勢",
         "submissionTrendsDesc": "每週提交模式與準時率",
         "gradeDistributionTitle": "成績分佈",
         "gradeDistributionDesc": "整體學生表現概況",
@@ -484,8 +491,8 @@
         "achievement": "成就"
       },
       "assignments": {
-        "statsTitle": "作業統計",
-        "totalAssignments": "作業總數",
+        "statsTitle": "功課統計",
+        "totalAssignments": "功課總數",
         "currentlyActive": "目前活躍",
         "avgCompletionRate": "平均完成率",
         "avgGrade": "平均分",
@@ -497,7 +504,7 @@
         "graded": "已評分",
         "pendingReview": "待審閱",
         "aiPreGraded": "AI 預評分",
-        "trendsTitle": "作業表現趨勢",
+        "trendsTitle": "功課表現趨勢",
         "trendsDesc": "平均分與提交率趨勢"
       },
       "community": {
@@ -512,7 +519,7 @@
         "generateReports": "產生報表",
         "generateReportsDesc": "建立詳細的分析報表",
         "studentProgressReport": "學生進度報告",
-        "assignmentAnalytics": "作業分析",
+        "assignmentAnalytics": "功課分析",
         "communityEngagement": "社群互動",
         "platformUsage": "平台使用統計",
         "quickInsights": "重點洞察",
@@ -522,7 +529,7 @@
         "attentionNeeded": "需要關注",
         "attentionNeededDesc": "有 12 位學生參與度下降",
         "opportunity": "機會",
-        "opportunityDesc": "數學作業有最高完成率"
+        "opportunityDesc": "數學功課有最高完成率"
       }
     },
     "student": {
@@ -543,7 +550,7 @@
       "lastActive": "最後上線",
       "tabs": {
         "overview": "概覽",
-        "assignments": "作業",
+        "assignments": "功課",
         "progress": "進度",
         "activity": "活動"
       },
@@ -555,8 +562,8 @@
         "skillsSeries": "技能"
       },
       "assignments": {
-        "historyTitle": "作業紀錄",
-        "historyDesc": "已提交作業與分數的完整紀錄",
+        "historyTitle": "功課紀錄",
+        "historyDesc": "已提交功課與分數的完整紀錄",
         "dueDate": "到期日",
         "submitted": "提交日期",
         "notSubmitted": "未提交",
@@ -575,9 +582,9 @@
       "activity": {
         "recentActivity": "近期活動",
         "recentActivityDesc": "學生參與與平台使用情況",
-        "submittedAssignment": "提交了數學作業",
-        "parentPosted": "家長於作業討論區留言",
-        "receivedGrade": "獲得英文作業分數"
+        "submittedAssignment": "提交了數學功課",
+        "parentPosted": "家長於功課討論區留言",
+        "receivedGrade": "獲得英文功課分數"
       }
     },    
     "values": {
@@ -611,8 +618,8 @@
        }
      },
      "grading": {
-       "title": "作業評分",
-       "subtitle": "審閱和評分學生作業提交",
+       "title": "功課評分",
+       "subtitle": "審閱和評分學生功課提交",
        "backToList": "返回列表",
        "reviewSubmission": "審閱提交",
        "studentInfo": "學生資訊",
@@ -625,7 +632,7 @@
        "questionsAnswered": "已回答問題",
        "autoFeedback": "自動掃描回饋",
        "submissionPreview": "提交預覽",
-       "gradeAssignment": "評分作業",
+       "gradeAssignment": "評分功課",
        "gradeDescription": "審閱提交並提供分數和回饋",
        "score": "分數",
        "outOf10": "滿分10分",
@@ -638,7 +645,7 @@
        "download": "下載",
        "quickActions": "快速操作",
        "searchSubmissions": "搜尋提交...",
-       "submissionsList": "作業提交列表",
+       "submissionsList": "功課提交列表",
        "submissionsListDesc": "點擊任何提交以審閱和評分",
        "files": "個檔案",
        "review": "審閱",
@@ -664,12 +671,12 @@
          "averageScore": "平均分數"
        },
        "templates": {
-         "excellentWork": "優秀作業",
-         "excellent": "優秀的作業！你展現了對概念的深刻理解。繼續保持出色的努力！",
-         "goodWork": "良好作業",
-         "good": "良好的作業！你正在穩步進步。專注於回饋中重點提到的領域以持續改進。",
+         "excellentWork": "優秀功課",
+         "excellent": "優秀的功課！你展現了對概念的深刻理解。繼續保持出色的努力！",
+         "goodWork": "良好功課",
+         "good": "良好的功課！你正在穩步進步。專注於回饋中重點提到的領域以持續改進。",
          "needsWork": "需要改進",
-         "needsImprovement": "這份作業需要一些改進。請檢視回饋並練習重點領域。如有需要請不要猶豫尋求幫助！"
+         "needsImprovement": "這份功課需要一些改進。請檢視回饋並練習重點領域。如有需要請不要猶豫尋求幫助！"
        }
      }
    },
@@ -712,7 +719,7 @@
             "title": "需要英語閱讀協助",
             "author": "Sarah_HK",
             "timeAgo": "4 小時前",
-            "category": "作業協助",
+            "category": "功課協助",
             "recentReplies": {
               "0": "孩子具體遇到哪些閱讀困難呢？",
               "1": "我女兒也有類似情況。這些方法對我們有幫助..."
@@ -782,20 +789,22 @@
       "insights": "洞察"
     },
     "overview": {
-      "activeAssignments": "活躍作業",
+      "activeAssignments": "功課",
       "badgesEarned": "已獲徽章",
       "averageGrade": "平均分",
       "thisWeek": "本週",
       "recentActivity": "最近活動",
       "upcomingDeadlines": "即將到期",
-      "mathSubmitted": "已提交數學作業",
+      "deadlineReminder": "即將到期提醒",
+      "mathSubmitted": "已提交數學功課",
       "earnedReadingStar": "獲得「閱讀之星」徽章",
       "joinedDiscussion": "加入家長討論",
       "yesterday": "昨天",
       "dueTomorrow": "明天到期",
       "dueInDays": "還有 {{days}} 天到期",
       "dueNextWeek": "下週到期",
-      "pending": "待處理"
+      "pending": "待處理",
+      "tasks": "功課"
     },
     "progress": {
       "subjectOverTime": "科目進度變化",
@@ -808,7 +817,7 @@
     },
     "engagement": {
       "weeklyLearningTime": "每週學習時數",
-      "weeklyLearningTimeDesc": "在作業與活動上投入的時間",
+      "weeklyLearningTimeDesc": "在功課與活動上投入的時間",
       "communityEngagement": "社群參與",
       "communityEngagementDesc": "你在 REACH 社群的參與",
       "forumPosts": "論壇貼文",
@@ -1042,6 +1051,15 @@
       "milestone1": "三月：達成 30 個常見詞",
       "milestone2": "五月：完成字母掌握",
       "motivation": "進步很大！本月提升 +15% 🎉"
+    },
+    "stats": {
+      "totalPoints": "總積分",
+      "totalHours": "總學習時數",
+      "hoursThisWeek": "本週學習時數",
+      "hoursLearnedOverall": "總學習時數",
+      "hoursLearnedThisWeek": "本週學習時數",
+      "starsEarnedThisMonth": "本月獲得積分",
+      "swipeHint": "左右滑動或點擊指示器查看更多統計"
     }
   }
   ,
@@ -1123,7 +1141,7 @@
     },
     "pointsInfo": {
       "title": "如何獲取積分",
-      "submit": "提交作業",
+      "submit": "提交功課",
       "help": "於討論中幫助他人",
       "join": "加入練習小組",
       "streak": "每日連續登入",
@@ -1134,6 +1152,53 @@
     },
     "optOut": "退出排行榜",
     "optIn": "加入排行榜"
+  },
+  "assignmentDetail": {
+    "title": "功課詳情",
+    "instructions": "指示",
+    "materials": "材料",
+    "learningObjectives": "學習目標",
+    "description": "描述",
+    "dueDate": "截止日期",
+    "difficulty": {
+      "Easy": "簡單",
+      "Medium": "中等",
+      "Hard": "困難"
+    },
+    "pointReward": "積分獎勵",
+    "uploadedFiles": "已上傳檔案",
+    "addMoreFiles": "新增更多檔案",
+    "cancel": "取消",
+    "confirmUpload": "確認上傳",
+    "file": "檔案",
+    "files": "檔案",
+    "viewUploadedFiles": "查看已上傳檔案",
+    "uploadSuccess": "檔案上傳成功！功課已標記為完成。",
+    "fileTypeError": "不支援此檔案類型。請只上傳圖片或PDF檔案。",
+    "fileSizeError": "檔案大小必須小於10MB。",
+    "previewImage": "預覽圖片"
+  },
+  "previousAssignment": {
+    "completed": "已完成",
+    "finalScore": "最終成績",
+    "pointsEarned": "獲得積分",
+    "submittedDate": "提交日期",
+    "submittedFiles": "提交檔案",
+    "download": "下載",
+    "downloadAll": "下載全部",
+    "rubric": "評分標準",
+    "teacherFeedback": "老師回饋",
+    "timeline": "時間軸",
+    "submitted": "已提交",
+    "timeSpent": "花費時間",
+    "reviewSimilar": "複習相似",
+    "performance": {
+      "label": "表現",
+      "excellent": "優秀",
+      "good": "良好",
+      "satisfactory": "滿意",
+      "needsImprovement": "需要改進"
+    }
   }
 }
 

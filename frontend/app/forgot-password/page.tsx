@@ -9,11 +9,14 @@ import { Mail, ArrowLeft, Loader, Check } from "lucide-react"
 import Link from "next/link"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
+import { useFontSize } from "@/app/font-size-provider"
+import { cn } from "@/lib/utils"
 
 type ResetStep = 'email' | 'sent'
 
 export default function ForgotPasswordPage() {
   const { t } = useTranslation()
+  const { isLarge } = useFontSize()
   const [step, setStep] = useState<ResetStep>('email')
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -30,7 +33,7 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={cn("min-h-screen bg-gray-50", isLarge && "min-text-lg")}>
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-xl border-b border-gray-100">
         <div className="max-w-md mx-auto px-6 py-6">

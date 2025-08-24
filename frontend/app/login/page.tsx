@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -10,28 +10,92 @@ import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
+import { useFontSize } from "@/app/font-size-provider"
+import { cn } from "@/lib/utils"
+
+type InputType = 'phone' | 'email' | 'username'
 
 export default function LoginPage() {
   const { t } = useTranslation()
-  const [loginMethod, setLoginMethod] = useState<'email' | 'phone' | 'username'>('email')
+  const { isLarge } = useFontSize()
   const [identifier, setIdentifier] = useState('')
+  const [inputType, setInputType] = useState<InputType>('email')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const { login, loginWithGoogle, isLoading } = useAuth()
 
+  // Check for URL parameters (from signup redirect)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const email = urlParams.get('email')
+    const phone = urlParams.get('phone')
+    const username = urlParams.get('username')
+    
+    if (email) {
+      setIdentifier(email)
+      setInputType('email')
+    } else if (phone) {
+      setIdentifier(phone)
+      setInputType('phone')
+    } else if (username) {
+      setIdentifier(username)
+      setInputType('username')
+    }
+  }, [])
+
+  // Helper function to detect input type
+  const detectInputType = (value: string): InputType => {
+    // Check if it's 8 digits (phone number)
+    if (/^\d{8}$/.test(value)) {
+      return 'phone'
+    }
+    // Check if it's email format
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      return 'email'
+    }
+    // Otherwise treat as username
+    return 'username'
+  }
+
+  const handleIdentifierChange = (value: string) => {
+    setIdentifier(value)
+    if (value) {
+      setInputType(detectInputType(value))
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+    
+    if (!identifier.trim()) {
+      setError('Please enter your phone number, email, or username')
+      return
+    }
+    
+    const detectedType = detectInputType(identifier)
+    
+    if (detectedType === 'phone' || detectedType === 'email') {
+      // For phone/email, redirect to signup page which handles verification
+      window.location.href = `/signup?redirect=true&${detectedType}=${encodeURIComponent(identifier)}`
+      return
+    }
+    
+    // For username, require password
+    if (!password) {
+      setError('Please enter your password')
+      return
+    }
     
     try {
       await login({
         identifier,
         password,
-        method: loginMethod
+        method: inputType
       })
     } catch (error) {
-      setError(error instanceof Error ? error.message : t('login.errorLoginFailed'))
+      setError(error instanceof Error ? error.message : 'Login failed')
     }
   }
 
@@ -41,25 +105,13 @@ export default function LoginPage() {
     try {
       await loginWithGoogle()
     } catch (error) {
-      setError(error instanceof Error ? error.message : t('login.errorGoogleFailed'))
+      setError(error instanceof Error ? error.message : 'Google sign in failed')
     }
   }
 
-  const getPlaceholderText = () => {
-    switch (loginMethod) {
-      case 'email':
-        return t('login.emailPlaceholder')
-      case 'phone':
-        return t('login.phonePlaceholder')
-      case 'username':
-        return t('login.usernamePlaceholder')
-      default:
-        return ''
-    }
-  }
-
-  const getIconForMethod = () => {
-    switch (loginMethod) {
+  const getInputIcon = () => {
+    const detectedType = identifier ? detectInputType(identifier) : inputType
+    switch (detectedType) {
       case 'email':
         return <Mail className="w-4 h-4 text-gray-500" />
       case 'phone':
@@ -67,12 +119,12 @@ export default function LoginPage() {
       case 'username':
         return <User className="w-4 h-4 text-gray-500" />
       default:
-        return null
+        return <User className="w-4 h-4 text-gray-500" />
     }
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={cn("min-h-screen bg-gray-50", isLarge && "min-text-lg")}>
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-xl border-b border-gray-100">
         <div className="max-w-md mx-auto px-6 py-6">
@@ -83,10 +135,10 @@ export default function LoginPage() {
           
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-              {t('login.title')}
+              Sign In
             </h1>
             <p className="text-base text-gray-500 mt-1 font-medium">
-              {t('login.subtitle')}
+              Welcome back to REACH Hong Kong
             </p>
           </div>
         </div>
@@ -95,43 +147,6 @@ export default function LoginPage() {
       <div className="max-w-md mx-auto px-6 py-8">
         <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
           <CardContent className="p-6 space-y-6">
-            {/* Login Method Selection */}
-            <div className="space-y-3">
-              <Label className="text-sm font-semibold text-gray-900">{t('login.signInWith')}</Label>
-              <div className="grid grid-cols-3 gap-2">
-                <Button
-                  type="button"
-                  variant={loginMethod === 'email' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setLoginMethod('email')}
-                  className="flex items-center gap-2 text-xs font-medium rounded-xl"
-                >
-                  <Mail className="w-3 h-3" />
-                  {t('login.email')}
-                </Button>
-                <Button
-                  type="button"
-                  variant={loginMethod === 'phone' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setLoginMethod('phone')}
-                  className="flex items-center gap-2 text-xs font-medium rounded-xl"
-                >
-                  <Phone className="w-3 h-3" />
-                  {t('login.phone')}
-                </Button>
-                <Button
-                  type="button"
-                  variant={loginMethod === 'username' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setLoginMethod('username')}
-                  className="flex items-center gap-2 text-xs font-medium rounded-xl"
-                >
-                  <User className="w-3 h-3" />
-                  {t('login.username')}
-                </Button>
-              </div>
-            </div>
-
             {/* Error Message */}
             {error && (
               <div className="bg-red-50 border border-red-200 rounded-xl p-4">
@@ -146,66 +161,74 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="identifier" className="text-sm font-medium text-gray-900">
-                  {loginMethod === 'email' ? t('login.identifierLabelEmail') : loginMethod === 'phone' ? t('login.identifierLabelPhone') : t('login.identifierLabelUsername')}
+                  Phone, Email, or Username
                 </Label>
                 <div className="relative">
                   <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
-                    {getIconForMethod()}
+                    {getInputIcon()}
                   </div>
                   <Input
                     id="identifier"
-                    type={loginMethod === 'email' ? 'email' : loginMethod === 'phone' ? 'tel' : 'text'}
+                    type="text"
                     value={identifier}
-                    onChange={(e) => setIdentifier(e.target.value)}
-                    placeholder={getPlaceholderText()}
+                    onChange={(e) => handleIdentifierChange(e.target.value)}
+                    placeholder="Enter your phone, email, or username"
                     className="pl-10 rounded-xl"
                     required
                   />
                 </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium text-gray-900">
-                  {t('login.password')}
-                </Label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder={t('login.passwordPlaceholder')}
-                    className="pr-10 rounded-xl"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                  >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
+                <div className="text-xs text-gray-500">
+                  Phone: 8 digits • Email: name@example.com • Username: your choice
                 </div>
               </div>
 
-              <div className="flex justify-end">
-                <Link href="/forgot-password" className="text-sm text-green-600 hover:text-green-700 font-medium">
-                  {t('login.forgotPassword')}
-                </Link>
-              </div>
+              {/* Only show password field for username */}
+              {identifier && detectInputType(identifier) === 'username' && (
+                <>
+                  <div className="space-y-2">
+                    <Label htmlFor="password" className="text-sm font-medium text-gray-900">
+                      Password
+                    </Label>
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? 'text' : 'password'}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Enter your password"
+                        className="pr-10 rounded-xl"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                      >
+                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end">
+                    <Link href="/forgot-password" className="text-sm text-green-600 hover:text-green-700 font-medium">
+                      Forgot password?
+                    </Link>
+                  </div>
+                </>
+              )}
 
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-primary hover:bg-primary/90 text-white border-0 rounded-xl font-semibold py-3"
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white border-0 rounded-xl font-semibold py-3"
               >
                 {isLoading ? (
                   <>
                     <Loader className="w-4 h-4 mr-2 animate-spin" />
-                    {t('login.signingIn')}
+                    {identifier && detectInputType(identifier) === 'username' ? 'Signing In...' : 'Processing...'}
                   </>
                 ) : (
-                  t('login.signIn')
+                  identifier && detectInputType(identifier) === 'username' ? 'Sign In' : 'Next'
                 )}
               </Button>
             </form>
@@ -216,7 +239,7 @@ export default function LoginPage() {
                 <div className="w-full border-t border-gray-200"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="bg-white px-4 text-gray-500 font-medium">{t('common.or')}</span>
+                <span className="bg-white px-4 text-gray-500 font-medium">or</span>
               </div>
             </div>
 
@@ -231,7 +254,7 @@ export default function LoginPage() {
               {isLoading ? (
                 <>
                   <Loader className="w-4 h-4 mr-2 animate-spin" />
-                  {t('login.connecting')}
+                  Connecting...
                 </>
               ) : (
                 <>
@@ -241,16 +264,16 @@ export default function LoginPage() {
                     <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                     <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                   </svg>
-                  {t('login.continueWithGoogle')}
+                  Continue with Google
                 </>
               )}
             </Button>
 
             {/* Sign Up Link */}
             <div className="text-center text-sm">
-              <span className="text-gray-500">{t('login.signupPrompt')}</span>
+              <span className="text-gray-500">Don't have an account? </span>
               <Link href="/signup" className="text-green-600 hover:text-green-700 font-semibold">
-                {t('login.signupLink')}
+                Sign Up
               </Link>
             </div>
           </CardContent>

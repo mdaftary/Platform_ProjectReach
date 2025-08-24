@@ -155,6 +155,11 @@
     "downloadExtraWorksheet": "Download extra worksheet (PDF)",
     "done": "Done",
     "signOut": "Sign Out",
+    "stats": {
+      "totalPoints": "Total points earned",
+      "totalHours": "Total hours spent",
+      "hoursThisWeek": "Hours this week"
+    },
     "weeklyTasks": {
       "0": {
         "title": "Upload Worksheet",
@@ -461,6 +466,15 @@
         "description": "Check back later for new assignments from your teachers."
       }
     },
+    "previousAssignments": {
+      "title": "Previous Assignments",
+      "completed": "Completed",
+      "submitted": "Submitted",
+      "points": "Points",
+      "score": "Score"
+    },
+    "assignmentDetails": "Assignment Details",
+    "submittedFiles": "Submitted Files",
     "detail": {
       "header": "Assignment Details",
       "reach": "REACH Hong Kong",
@@ -643,6 +657,7 @@
       "thisWeek": "This Week",
       "recentActivity": "Recent Activity",
       "upcomingDeadlines": "Upcoming Deadlines",
+      "deadlineReminder": "The deadline is almost up",
       "mathSubmitted": "Math assignment submitted",
       "earnedReadingStar": "Earned \"Reading Star\" badge",
       "joinedDiscussion": "Joined parent discussion",
@@ -650,7 +665,8 @@
       "dueTomorrow": "Due tomorrow",
       "dueInDays": "Due in {{days}} days",
       "dueNextWeek": "Due next week",
-      "pending": "Pending"
+      "pending": "Pending",
+      "tasks": "Tasks"
     },
     "progress": {
       "subjectOverTime": "Subject Progress Over Time",
@@ -897,6 +913,15 @@
       "milestone1": "Mar: Reached 30 sight words",
       "milestone2": "May: Completed alphabet mastery",
       "motivation": "Great Progress! +15% improvement this month 🎉"
+    },
+    "stats": {
+      "totalPoints": "Total points earned",
+      "totalHours": "Total hours spent",
+      "hoursThisWeek": "Hours this week",
+      "starsEarnedThisMonth": "Stars earned this month",
+      "hoursLearnedOverall": "Hours learned overall",
+      "hoursLearnedThisWeek": "Hours learned this week",
+      "swipeHint": "Swipe left/right or tap indicators to see more stats"
     }
   }
   ,
@@ -985,10 +1010,58 @@
       "plus50": "+50 pts",
       "plus75": "+75 pts",
       "plus25": "+25 pts",
-      "plus10": "+10 pts"
+      "plus10": "+10 pts",
+      "totalPoints": "Total points earned"
     },
     "optOut": "Opt out of leaderboard",
     "optIn": "Opt in to leaderboard"
+  },
+  "assignmentDetail": {
+    "title": "Assignment Details",
+    "instructions": "Instructions",
+    "materials": "Materials",
+    "learningObjectives": "Learning Objectives",
+    "description": "Description",
+    "dueDate": "Due Date",
+    "difficulty": {
+      "Easy": "Easy",
+      "Medium": "Medium",
+      "Hard": "Hard"
+    },
+    "pointReward": "Point Reward",
+    "uploadedFiles": "Uploaded Files",
+    "addMoreFiles": "Add More Files",
+    "cancel": "Cancel",
+    "confirmUpload": "Confirm Upload",
+    "file": "file",
+    "files": "files",
+    "viewUploadedFiles": "View Uploaded Files",
+    "uploadSuccess": "Files uploaded successfully! Assignment marked as complete.",
+    "fileTypeError": "File type not supported. Please upload images or PDFs only.",
+    "fileSizeError": "File size must be less than 10MB.",
+    "previewImage": "Preview Image"
+  },
+  "previousAssignment": {
+    "completed": "Completed",
+    "finalScore": "Final Score",
+    "pointsEarned": "Points Earned",
+    "submittedDate": "Submitted",
+    "submittedFiles": "Submitted Files",
+    "download": "Download",
+    "downloadAll": "Download All",
+    "rubric": "Grading Rubric",
+    "teacherFeedback": "Teacher Feedback",
+    "timeline": "Timeline",
+    "submitted": "Submitted",
+    "timeSpent": "Time Spent",
+    "reviewSimilar": "Review Similar",
+    "performance": {
+      "label": "Performance",
+      "excellent": "Excellent",
+      "good": "Good",
+      "satisfactory": "Satisfactory",
+      "needsImprovement": "Needs Improvement"
+    }
   }
 }
 
