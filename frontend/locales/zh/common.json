@@ -340,6 +340,7 @@
       "volunteer": "義工",
       "qna": "問答",
       "liveTutoring": "實時輔導",
+      "assignments": "功課",
       "grading": "評分"
     },
     "routeGuard": {
@@ -790,6 +791,34 @@
          "good": "良好的功課！你正在穩步進步。專注於回饋中重點提到的領域以持續改進。",
          "needsWork": "需要改進",
          "needsImprovement": "這份功課需要一些改進。請檢視回饋並練習重點領域。如有需要請不要猶豫尋求幫助！"
+       }
+     },
+     "assignments": {
+       "title": "功課管理",
+       "createNew": "創建新功課",
+       "allAssignments": "所有功課",
+       "showing": "顯示",
+       "assignment": "功課",
+       "assignments": "功課",
+       "noAssignments": "找不到功課",
+       "noCustomAssignments": "創建您的第一個自定義功課！",
+       "tryFilters": "嘗試調整您的篩選器。",
+       "template": "模板",
+       "custom": "自定義",
+       "subject": "科目：",
+       "difficulty": "難度：",
+       "due": "到期：",
+       "points": "分數",
+       "action": "操作：",
+       "deleteConfirm": "您確定要刪除這個功課嗎？",
+       "types": {
+         "all": "全部",
+         "template": "模板", 
+         "custom": "自定義"
+       },
+       "languages": {
+         "english": "English",
+         "chinese": "中文"
        }
      }
    },

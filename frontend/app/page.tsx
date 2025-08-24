@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Camera, Play, CheckCircle2, Flame, Clock, Circle, User, Eye, ChevronRight, X, Check, AlertCircle, Download, ArrowRight, Loader, LogOut, Settings, BookOpen, Edit3, Volume2, Video, BarChart3, Star, Users, FileText } from "lucide-react"
+import { Camera, Play, CheckCircle2, Flame, Clock, Circle, User, Eye, ChevronRight, X, Check, AlertCircle, Download, ArrowRight, Loader, LogOut, Settings, BookOpen, Edit3, Volume2, Video, BarChart3, Star, Users, FileText, Target } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import { useFontSize } from "@/app/font-size-provider"
@@ -509,6 +509,17 @@ const previousAssignmentsZh = [
 
 
 
+// Icon mapping for custom assignments
+const iconMap = {
+  Camera,
+  Play,
+  Users,
+  CheckCircle2,
+  BookOpen,
+  User,
+  Target
+}
+
 export default function HomePage() {
   const { t, i18n } = useTranslation()
   const { isLarge } = useFontSize()
@@ -519,10 +530,79 @@ export default function HomePage() {
   const { user, logout } = useAuth()
   const userMenuRef = useRef<HTMLDivElement>(null)
 
-  // Select tasks based on current language
-  const weeklyTasks = i18n.language === 'zh' ? weeklyTasksZh : weeklyTasksEn
-  const assignmentDetails = i18n.language === 'zh' ? assignmentDetailsZh : assignmentDetailsEn
+  // State for custom assignments
+  const [customWeeklyTasks, setCustomWeeklyTasks] = useState<typeof weeklyTasksEn>([])
+  const [customAssignmentDetails, setCustomAssignmentDetails] = useState<typeof assignmentDetailsEn>([])
+
+  // Load custom assignments from localStorage
+  useEffect(() => {
+    const loadCustomAssignments = () => {
+      try {
+        const customTasksKey = i18n.language === 'zh' ? 'custom_weekly_tasks_zh' : 'custom_weekly_tasks_en'
+        const customDetailsKey = i18n.language === 'zh' ? 'custom_assignments_zh' : 'custom_assignments_en'
+        
+        console.log('Loading custom assignments with keys:', { customTasksKey, customDetailsKey })
+        
+        const storedTasks = localStorage.getItem(customTasksKey)
+        const storedDetails = localStorage.getItem(customDetailsKey)
+        
+        console.log('Stored tasks:', storedTasks)
+        console.log('Stored details:', storedDetails)
+        
+        if (storedTasks) {
+          const parsedTasks = JSON.parse(storedTasks)
+          console.log('Parsed tasks:', parsedTasks)
+          // Convert iconName back to icon component
+          const tasksWithIcons = parsedTasks.map((task: any) => ({
+            ...task,
+            icon: task.iconName ? iconMap[task.iconName as keyof typeof iconMap] : Camera
+          }))
+          setCustomWeeklyTasks(tasksWithIcons)
+        }
+        
+        if (storedDetails) {
+          const parsedDetails = JSON.parse(storedDetails)
+          console.log('Parsed details:', parsedDetails)
+          // Convert iconName back to icon component
+          const detailsWithIcons = parsedDetails.map((detail: any) => ({
+            ...detail,
+            icon: detail.iconName ? iconMap[detail.iconName as keyof typeof iconMap] : Camera
+          }))
+          setCustomAssignmentDetails(detailsWithIcons)
+        }
+      } catch (error) {
+        console.error('Error loading custom assignments:', error)
+      }
+    }
+    
+    loadCustomAssignments()
+
+    // Also reload when window comes into focus (e.g., returning from create page)
+    const handleFocus = () => {
+      loadCustomAssignments()
+    }
+    
+    window.addEventListener('focus', handleFocus)
+    
+    return () => {
+      window.removeEventListener('focus', handleFocus)
+    }
+  }, [i18n.language])
+
+  // Combine hardcoded and custom assignments
+  const weeklyTasks = [
+    ...(i18n.language === 'zh' ? weeklyTasksZh : weeklyTasksEn),
+    ...customWeeklyTasks
+  ]
+  const assignmentDetails = [
+    ...(i18n.language === 'zh' ? assignmentDetailsZh : assignmentDetailsEn),
+    ...customAssignmentDetails
+  ]
   const previousAssignments = i18n.language === 'zh' ? previousAssignmentsZh : previousAssignmentsEn
+
+  // Debug logging
+  console.log('Final weeklyTasks:', weeklyTasks)
+  console.log('Final assignmentDetails:', assignmentDetails)
 
   // Drawer state
   const [selectedAssignment, setSelectedAssignment] = useState<AssignmentDetail | null>(null)
@@ -562,7 +642,11 @@ export default function HomePage() {
 
     // Load registration statuses for all assignments
     const newRegistrationStatuses: {[key: number]: boolean} = {}
-    assignmentDetails.forEach((assignment) => {
+    const allAssignmentDetails = [
+      ...(i18n.language === 'zh' ? assignmentDetailsZh : assignmentDetailsEn),
+      ...customAssignmentDetails
+    ]
+    allAssignmentDetails.forEach((assignment) => {
       const isInterestAssignment = assignment.buttonText.toLowerCase().includes('interest') || 
                                   assignment.buttonText.includes('興趣')
       if (isInterestAssignment) {
@@ -571,7 +655,7 @@ export default function HomePage() {
       }
     })
     setRegistrationStatuses(newRegistrationStatuses)
-  }, [])
+  }, [customAssignmentDetails])
 
 
   const getScoreColor = (score: number) => {

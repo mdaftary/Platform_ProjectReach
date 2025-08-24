@@ -491,6 +491,34 @@
         "needsWork": "Needs Improvement",
         "needsImprovement": "This assignment needs some improvement. Please review the feedback and practice the highlighted areas. Don't hesitate to ask for help!"
       }
+    },
+    "assignments": {
+      "title": "Assignment Management",
+      "createNew": "Create New Assignment",
+      "allAssignments": "All Assignments",
+      "showing": "Showing",
+      "assignment": "assignment",
+      "assignments": "assignments",
+      "noAssignments": "No assignments found",
+      "noCustomAssignments": "Create your first custom assignment!",
+      "tryFilters": "Try adjusting your filters.",
+      "template": "Template",
+      "custom": "Custom",
+      "subject": "Subject:",
+      "difficulty": "Difficulty:",
+      "due": "Due:",
+      "points": "points",
+      "action": "Action:",
+      "deleteConfirm": "Are you sure you want to delete this assignment?",
+      "types": {
+        "all": "All",
+        "template": "Templates", 
+        "custom": "Custom"
+      },
+      "languages": {
+        "english": "English",
+        "chinese": "中文"
+      }
     }
   },
   "components": {
@@ -538,6 +566,7 @@
       "volunteerLeaderboard": "Leaderboard",
       "qna": "Q&A",
       "liveTutoring": "Live Tutoring",
+      "assignments": "Assignments",
       "grading": "Grading"
     },
     "routeGuard": {
