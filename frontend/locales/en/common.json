@@ -473,6 +473,8 @@
       "points": "Points",
       "score": "Score"
     },
+    "assignmentDetails": "Assignment Details",
+    "submittedFiles": "Submitted Files",
     "detail": {
       "header": "Assignment Details",
       "reach": "REACH Hong Kong",

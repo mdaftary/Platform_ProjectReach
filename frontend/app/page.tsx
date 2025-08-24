@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Camera, Play, CheckCircle2, Flame, Clock, Circle, User, Eye, ChevronRight, X, Check, AlertCircle, Download, ArrowRight, Loader, LogOut, Settings, BookOpen, Edit3, Volume2, Video, BarChart3, Star, Users } from "lucide-react"
+import { Camera, Play, CheckCircle2, Flame, Clock, Circle, User, Eye, ChevronRight, X, Check, AlertCircle, Download, ArrowRight, Loader, LogOut, Settings, BookOpen, Edit3, Volume2, Video, BarChart3, Star, Users, FileText } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import { useFontSize } from "@/app/font-size-provider"
@@ -530,15 +530,22 @@ export default function HomePage() {
   const [selectedPreviousAssignment, setSelectedPreviousAssignment] = useState<PreviousAssignment | null>(null)
   const [previousDrawerOpen, setPreviousDrawerOpen] = useState(false)
   const [isAssignmentCompleted, setIsAssignmentCompleted] = useState(false)
+  const [assignmentFiles, setAssignmentFiles] = useState<{id: string, name: string, type: string, dataUrl: string}[]>([])  // Store uploaded files array
   const [assignmentScore, setAssignmentScore] = useState<number | null>(null)
   const [assignmentFeedback, setAssignmentFeedback] = useState('')
 
   useEffect(() => {
     // Check if assignment 1 is completed
-      const isAssignmentCompleted = localStorage.getItem(`assignment_files_1`)
-      if (isAssignmentCompleted) {
+    const storedFiles = localStorage.getItem(`assignment_files_1`)
+    if (storedFiles) {
+      try {
+        const parsedFiles = JSON.parse(storedFiles)
         setIsAssignmentCompleted(true)
+        setAssignmentFiles(parsedFiles)
+      } catch (error) {
+        console.error('Error parsing stored files:', error)
       }
+    }
 
     // Check if assignment 1 is graded
     const assignmentGrade = localStorage.getItem(`assignment_1_grade`)
@@ -661,12 +668,12 @@ export default function HomePage() {
         ...basicAssignment,
         status: isAssignmentCompleted ? 'graded' : 'pending',
         difficulty: 'Easy',
-        submissionFiles: basicAssignment.id === 11 ? [
-          { id: "1", name: "sight_words_worksheet.pdf", type: "application/pdf", url: "/files/sight_words.pdf" },
-          { id: "2", name: "reading_practice.jpg", type: "image/jpeg", url: "/files/reading.jpg" }
-        ] : basicAssignment.id === 10 ? [
-          { id: "3", name: "handwriting_practice.jpg", type: "image/jpeg", url: "/files/handwriting.jpg" }
-        ] : undefined,
+        submissionFiles: assignmentFiles.length > 0 ? assignmentFiles.map(file => ({
+          id: file.id,
+          name: file.name,
+          type: file.type,
+          url: file.dataUrl
+        })) : undefined,
         rubric: basicAssignment.id === 11 ? [
           { criteria: "Word Recognition", score: 9, maxScore: 10, feedback: "Excellent recognition of all sight words" },
           { criteria: "Reading Fluency", score: 8, maxScore: 10, feedback: "Good pace, work on expression" }
@@ -847,6 +854,35 @@ export default function HomePage() {
                           {weeklyTasks[0].subject}
                         </span>
                       </div>
+                      
+                      {/* File preview thumbnails */}
+                      {assignmentFiles.length > 0 && (
+                        <div className="flex items-center gap-2 mt-2">
+                          <span className="text-xs text-gray-400">{t('previousAssignment.submittedFiles')}:</span>
+                          <div className="flex gap-1">
+                            {assignmentFiles.slice(0, 3).map((file, index) => (
+                              <div key={file.id} className="w-6 h-6 bg-gray-100 rounded border overflow-hidden">
+                                {file.type.startsWith('image/') ? (
+                                  <img 
+                                    src={file.dataUrl} 
+                                    alt={file.name}
+                                    className="w-full h-full object-cover"
+                                  />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center">
+                                    <FileText className="w-3 h-3 text-gray-500" />
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                            {assignmentFiles.length > 3 && (
+                              <div className="w-6 h-6 bg-gray-100 rounded border flex items-center justify-center">
+                                <span className="text-xs text-gray-500">+{assignmentFiles.length - 3}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
 

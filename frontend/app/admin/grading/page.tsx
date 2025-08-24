@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -21,7 +21,8 @@ import {
   Search,
   Filter,
   Download,
-  Star
+  Star,
+  Trash2
 } from "lucide-react"
 import Link from "next/link"
 import "@/lib/i18n"
@@ -122,8 +123,64 @@ export default function AdminGradingPage() {
   const [gradingScore, setGradingScore] = useState<number>(0)
   const [gradingFeedback, setGradingFeedback] = useState<string>("")
   const [filterStatus, setFilterStatus] = useState<"all" | "pending" | "graded">("all")
+  const [localStorageSubmissions, setLocalStorageSubmissions] = useState<any[]>([])
+  const [hasLocalStorageData, setHasLocalStorageData] = useState(false)
 
   const currentSubmission = submissions.find(s => s.id === selectedSubmission)
+
+  // Check localStorage for assignment data
+  useEffect(() => {
+    const assignmentFiles = localStorage.getItem('assignment_files_1')
+    const assignmentGrade = localStorage.getItem('assignment_1_grade')
+    const assignmentFeedback = localStorage.getItem('assignment_1_feedback')
+
+    if (assignmentFiles) {
+      setHasLocalStorageData(true)
+      try {
+        const files = JSON.parse(assignmentFiles)
+        const realSubmission = {
+          id: "real_sub_001",
+          studentName: "Current Student",
+          studentId: "real_st_001",
+          assignmentTitle: "Week 12 - Alphabet Practice",
+          assignmentId: "assign_real_001",
+          submittedAt: new Date().toISOString(),
+          files: files.map((file: any, index: number) => ({
+            id: `real_file_${index}`,
+            name: file.name || `File ${index + 1}`,
+            type: file.type || "image",
+            url: file.url || file.dataUrl || "/placeholder.jpg",
+            scanResults: {
+              accuracy: 85,
+              detectedAnswers: 18,
+              totalQuestions: 20,
+              confidence: "high"
+            }
+          })),
+          status: assignmentGrade ? "graded" as const : "pending" as const,
+          currentScore: assignmentGrade ? Number(assignmentGrade) : null,
+          feedback: assignmentFeedback || "",
+          autoScanFeedback: "AI analysis: Student has submitted their work and is ready for grading.",
+          dueDate: "2024-01-15T18:00:00Z",
+          subject: "English"
+        }
+
+        // Add real submission to the beginning of the list
+        if (localStorageSubmissions.length === 0) {
+          // Set submission no duplication (by id)
+          setSubmissions(prev => {
+            const newSubmissions = [realSubmission as any, ...prev]
+            return newSubmissions.filter((submission, index, self) =>
+              index === self.findIndex((t) => t.id === submission.id)
+            )
+          })
+          setLocalStorageSubmissions([realSubmission])
+        }
+      } catch (e) {
+        console.error('Error parsing assignment files:', e)
+      }
+    }
+  }, [])
 
   const filteredSubmissions = submissions.filter(submission => {
     if (filterStatus === "all") return true
@@ -144,10 +201,31 @@ export default function AdminGradingPage() {
         : submission
     ))
     
+    // Save to localStorage if this is the real submission
+    if (selectedSubmission === "real_sub_001") {
+      localStorage.setItem('assignment_1_grade', gradingScore.toString())
+      localStorage.setItem('assignment_1_feedback', gradingFeedback)
+    }
+    
     // Reset form
     setGradingScore(0)
     setGradingFeedback("")
     setSelectedSubmission(null)
+  }
+
+  const handleClearData = () => {
+    // Clear localStorage data
+    localStorage.removeItem('assignment_files_1')
+    localStorage.removeItem('assignment_1_grade')
+    localStorage.removeItem('assignment_1_feedback')
+    
+    // Remove real submission from submissions
+    setSubmissions(prev => prev.filter(s => s.id !== "real_sub_001"))
+    setLocalStorageSubmissions([])
+    setHasLocalStorageData(false)
+    setSelectedSubmission(null)
+    setGradingScore(0)
+    setGradingFeedback("")
   }
 
   const getStatusColor = (status: string) => {
@@ -258,22 +336,6 @@ export default function AdminGradingPage() {
                     <div key={file.id} className="space-y-4">
                       <div className="flex items-center justify-between">
                         <span className="font-medium">{file.name}</span>
-                        <Badge className={getConfidenceColor(file.scanResults.confidence)}>
-                          {t(`admin.grading.confidence.${file.scanResults.confidence}`)}
-                        </Badge>
-                      </div>
-                      
-                      <div className="grid grid-cols-2 gap-4 text-sm">
-                        <div>
-                          <Label>{t('admin.grading.accuracy')}</Label>
-                          <p className="text-lg font-bold">{file.scanResults.accuracy}%</p>
-                        </div>
-                        <div>
-                          <Label>{t('admin.grading.questionsAnswered')}</Label>
-                          <p className="text-lg font-bold">
-                            {file.scanResults.detectedAnswers}/{file.scanResults.totalQuestions}
-                          </p>
-                        </div>
                       </div>
 
                       {/* Image Preview */}
@@ -382,7 +444,7 @@ export default function AdminGradingPage() {
                   <div className="flex gap-3 pt-4">
                     <Button 
                       onClick={handleGradeSubmission}
-                      className="flex-1"
+                      className="flex-1 duolingo-gradient-primary"
                       disabled={gradingScore === 0 || !gradingFeedback.trim()}
                     >
                       <Save className="w-4 h-4 mr-2" />
@@ -395,6 +457,15 @@ export default function AdminGradingPage() {
                       <Download className="w-4 h-4 mr-2" />
                       {t('admin.grading.download')}
                     </Button>
+                    {currentSubmission?.id === "real_sub_001" && (
+                      <Button 
+                        variant="destructive" 
+                        onClick={handleClearData}
+                        className="px-3"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -466,12 +537,46 @@ export default function AdminGradingPage() {
                 <Download className="w-4 h-4 mr-2" />
                 {t('admin.grading.exportGrades')}
               </Button>
+              {hasLocalStorageData && (
+                <Button 
+                  variant="destructive" 
+                  size="sm"
+                  onClick={handleClearData}
+                >
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Clear Data
+                </Button>
+              )}
             </div>
           </div>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Real Submission Banner */}
+        {hasLocalStorageData && (
+          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <CheckCircle className="w-5 h-5 text-blue-600" />
+                <div>
+                  <p className="font-medium text-blue-900">New Submission</p>
+                  <p className="text-sm text-blue-700">Assignment data loaded - ready for grading</p>
+                </div>
+              </div>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={handleClearData}
+                className="border-blue-300 text-blue-700 hover:bg-blue-100"
+              >
+                <Trash2 className="w-4 h-4 mr-2" />
+                Clear All Data
+              </Button>
+            </div>
+          </div>
+        )}
+
         {/* Filters */}
         <div className="flex items-center gap-4 mb-6">
           <div className="relative flex-1 max-w-sm">

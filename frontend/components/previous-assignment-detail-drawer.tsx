@@ -26,6 +26,13 @@ import {
   MessageSquare,
   Award
 } from "lucide-react"
+import { 
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog"
 import { useTranslation } from "react-i18next"
 
 export interface PreviousAssignment {
@@ -195,19 +202,55 @@ export function PreviousAssignmentDetailDrawer({
                     {assignment.submissionFiles.map((file) => (
                       <div key={file.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                          <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
                             {file.type.startsWith('image/') ? (
-                              <Eye className="w-4 h-4 text-gray-600" />
+                              <img 
+                                src={file.url} 
+                                alt={file.name}
+                                className="w-full h-full object-cover rounded-lg"
+                              />
                             ) : (
-                              <FileText className="w-4 h-4 text-gray-600" />
+                              <FileText className="w-6 h-6 text-gray-600" />
                             )}
                           </div>
-                          <span className="text-sm font-medium text-gray-900">{file.name}</span>
+                          <div className="flex-1 min-w-0">
+                            <span className="text-sm font-medium text-gray-900 block truncate">{file.name}</span>
+                            <span className="text-xs text-gray-500">{file.type}</span>
+                          </div>
                         </div>
-                        <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
-                          <Download className="w-4 h-4 mr-1" />
-                          {t("previousAssignment.download")}
-                        </Button>
+                        <div className="flex items-center gap-2">
+                          {file.type.startsWith('image/') && (
+                            <Dialog>
+                              <DialogTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="text-blue-600 hover:text-blue-700"
+                                  aria-label={t("assignmentDetail.previewImage")}
+                                  title={t("assignmentDetail.previewImage")}
+                                >
+                                  <Eye className="w-4 h-4" />
+                                </Button>
+                              </DialogTrigger>
+                              <DialogContent className="max-w-4xl max-h-[90vh] p-0">
+                                <DialogHeader className="p-6 pb-0">
+                                  <DialogTitle className="text-left">{file.name}</DialogTitle>
+                                </DialogHeader>
+                                <div className="flex items-center justify-center p-6 pt-2">
+                                  <img 
+                                    src={file.url} 
+                                    alt={file.name}
+                                    className="max-w-full max-h-[70vh] object-contain rounded-lg"
+                                  />
+                                </div>
+                              </DialogContent>
+                            </Dialog>
+                          )}
+                          <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
+                            <Download className="w-4 h-4 mr-1" />
+                            {t("previousAssignment.download")}
+                          </Button>
+                        </div>
                       </div>
                     ))}
                   </div>
