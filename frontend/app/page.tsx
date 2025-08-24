@@ -31,7 +31,7 @@ const weeklyTasksEn = [
     id: 2,
     title: "Letter Recognition Tips",
     subtitle: "Watch Tutorial Video",
-    completed: true,
+    completed: false,
     isPrimary: false,
     icon: Play,
     subject: "Alphabet",
@@ -137,7 +137,7 @@ const assignmentDetailsEn: AssignmentDetail[] = [
       "Watch the entire video without skipping",
       "Complete the short quiz after the video"
     ],
-    completed: true,
+    completed: false,
     buttonText: "Watch Tutorial Video",
     pointReward: 10,
     icon: Play
