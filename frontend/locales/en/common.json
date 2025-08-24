@@ -1021,14 +1021,14 @@
       "focusFirst": "Focus First",
       "goalLabel": "Goal:",
       "aboveGoal": " Above Goal ✓",
-      "onTrack": " On track, {{remaining}}% more to go!",
+      "onTrack": " On track!",
       "alphabet": {
         "name": "Alphabet",
         "insight": "Fantastic progress! Ready for extra practice with letter pairs like b/d."
       },
       "sightWords": {
         "name": "Sight Words",
-        "insight": "Great foundation! On track, just 15% more to go for the next milestone."
+        "insight": "Great foundation! On track"
       },
       "vocabulary": {
         "name": "Vocabulary",
@@ -1039,7 +1039,7 @@
         "insight": "Excellent listening skills! Blending sounds beautifully every day."
       },
       "pointAndRead": {
-        "name": "Point-and-Read",
+        "name": "Point-&-Read",
         "insight": "Amazing confidence! Reading independently like a champion."
       }
     },

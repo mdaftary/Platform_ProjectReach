@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next"
 import { AssignmentDetailDrawer, type AssignmentDetail } from "@/components/assignment-detail-drawer"
 import { PreviousAssignmentDetailDrawer, type PreviousAssignment } from "@/components/previous-assignment-detail-drawer"
 import { SwipeableProgressCard } from "@/components/swipeable-progress-card"
+import { PreviousAssignmentCard } from "@/components/previous-assignment-card"
 
 // Weekly tasks data - English version
 const weeklyTasksEn = [
@@ -303,7 +304,7 @@ const previousAssignmentsEn = [
     id: 8,
     title: "Week 8 - Reading Comprehension",
     subtitle: "Short Story Questions",
-    subject: "Point-and-Read",
+    subject: "Point&Read",
     submittedDate: "25/7/2025",
     score: 7,
     status: "graded",
@@ -350,7 +351,7 @@ const previousAssignmentsEn = [
     id: 4,
     title: "Week 4 - Story Writing",
     subtitle: "Creative Writing",
-    subject: "Point-and-Read",
+    subject: "Point-&-Read",
     submittedDate: "27/6/2025",
     score: 6,
     status: "graded",
@@ -608,7 +609,7 @@ export default function HomePage() {
       case 'alphabet':
       case '字母':
         return 'bg-orange-500';
-      case 'point-and-read':
+      case 'point-&-read':
       case '指讀':
         return 'bg-red-500';
       default:
@@ -852,10 +853,16 @@ export default function HomePage() {
           
           <div className="grid gap-3">
             {isAssignmentCompleted && (
-                <div 
-                key={weeklyTasks[0].id} 
-                className="bg-white rounded-2xl p-4 border border-gray-100 hover:shadow-sm transition-shadow cursor-pointer"
+              <PreviousAssignmentCard
+                key={weeklyTasks[0].id}
+                title={weeklyTasks[0].title}
+                subtitle={weeklyTasks[0].subtitle}
+                subject={weeklyTasks[0].subject}
+                submittedDate={new Date().toLocaleDateString()}
+                subjectColor={getSubjectColor(weeklyTasks[0].subject)}
                 onClick={() => handleSubmittedAssignmentClick()}
+                rightContent={
+                  <>
               >
                 <div className="flex items-center justify-between">
                   {/* Left side: Assignment info */}
@@ -934,12 +941,38 @@ export default function HomePage() {
                         N/A
                       </div>
                     )}
-
-                    {/* Arrow */}
-                    <ChevronRight className="w-4 h-4 text-gray-400" />
+                  </>
+                }
+              >
+                {/* File preview thumbnails */}
+                {assignmentFiles.length > 0 && (
+                  <div className="flex items-center gap-2 mt-2">
+                    <span className="text-xs text-gray-400">{t('previousAssignment.submittedFiles')}:</span>
+                    <div className="flex gap-1">
+                      {assignmentFiles.slice(0, 3).map((file, index) => (
+                        <div key={file.id} className="w-6 h-6 bg-gray-100 rounded border overflow-hidden">
+                          {file.type.startsWith('image/') ? (
+                            <img
+                              src={file.dataUrl}
+                              alt={file.name}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <FileText className="w-3 h-3 text-gray-500" />
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                      {assignmentFiles.length > 3 && (
+                        <div className="w-6 h-6 bg-gray-100 rounded border flex items-center justify-center">
+                          <span className="text-xs text-gray-500">+{assignmentFiles.length - 3}</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </div>
+                )}
+              </PreviousAssignmentCard>
             )}
             {previousAssignments.map((assignment, index) => {
               // Helper function to get score color based on performance
@@ -965,7 +998,7 @@ export default function HomePage() {
                   case 'alphabet':
                   case '字母':
                     return 'bg-orange-500';
-                  case 'point-and-read':
+                  case 'point-&-read':
                   case '指讀':
                     return 'bg-red-500';
                   default:
@@ -974,39 +1007,16 @@ export default function HomePage() {
               };
 
               return (
-                <div 
-                  key={assignment.id} 
-                  className="bg-white rounded-2xl p-4 border border-gray-100 hover:shadow-sm transition-shadow cursor-pointer"
+                <PreviousAssignmentCard
+                  key={assignment.id}
+                  title={assignment.title}
+                  subtitle={assignment.subtitle}
+                  subject={assignment.subject}
+                  submittedDate={assignment.submittedDate}
+                  subjectColor={getSubjectColor(assignment.subject)}
                   onClick={() => handlePreviousAssignmentClick(assignment.id)}
-                >
-                  <div className="flex items-center justify-between">
-                    {/* Left side: Assignment info */}
-                    <div className="flex items-center gap-3 flex-1">
-                      {/* Subject indicator */}
-                      <div className={`w-3 h-12 ${getSubjectColor(assignment.subject)} rounded-full flex-shrink-0`}></div>
-                      
-                      {/* Assignment details */}
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-gray-900 text-sm truncate">
-                          {assignment.title}
-                        </h3>
-                        <p className="text-gray-500 text-xs truncate">
-                          {assignment.subtitle}
-                        </p>
-                        <div className="flex items-center gap-2 mt-1">
-                          <span className="text-xs text-gray-400">
-                            {t('assignments.previousAssignments.submitted')}: {assignment.submittedDate}
-                          </span>
-                          <span className="text-xs text-gray-300">•</span>
-                          <span className="text-xs text-gray-500">
-                            {assignment.subject}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Right side: Score and points */}
-                    <div className="flex items-center gap-3 flex-shrink-0">
+                  rightContent={
+                    <>
                       {/* Points earned */}
                       <div className="text-right">
                         <div className="text-xs text-gray-500">
@@ -1021,12 +1031,9 @@ export default function HomePage() {
                       <div className={`px-3 py-1 rounded-full text-sm font-semibold ${getScoreColor(assignment.score)}`}>
                         {assignment.score}/10
                       </div>
-
-                      {/* Arrow */}
-                      <ChevronRight className="w-4 h-4 text-gray-400" />
-                    </div>
-                  </div>
-                </div>
+                    </>
+                  }
+                />
               );
             })}
           </div>

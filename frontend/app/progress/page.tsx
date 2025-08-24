@@ -7,6 +7,8 @@ import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from "recharts"
 import { useFontSize } from "@/app/font-size-provider"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
+import { SwipeableProgressCharts } from "@/components/swipeable-progress-charts"
+import { PreviousAssignmentCard } from "@/components/previous-assignment-card"
 
 // Skills data with progress and insights
 const skillsDataRaw = [
@@ -21,7 +23,7 @@ const skillsDataRaw = [
   {
     name: "sightWords", 
     progress: 60,
-    insight: "Great foundation! On track, just 15% more to go for the next milestone.",
+    insight: "Great foundation! On track",
     icon: BookOpen,
     Goal: 75,
     teacherComment: "Practice high-frequency words daily. Try flashcards during reading time.",
@@ -134,277 +136,66 @@ export default function ProgressPage() {
 
   return (
     <div className={`min-h-screen bg-gray-50 ${isLarge ? 'min-text-lg text-lg' : ''}`}>
-      <div className="max-w-md mx-auto px-6 py-6 space-y-6">
-        {/* Removed top header per request */}
-        {/* Removed separate top icon card to keep only header circle */}
-
-
-        {/* Five-Dimension Radar Chart */}
-        {!isLarge && (
-        <>
-          <h2 className="text-3xl font-bold text-black text-center tracking-tight mb-2">
-  {t('progress.radar.title')}
-</h2>
-<div className="w-16 h-1 bg-primary rounded-full mx-auto mb-2"></div>
-          <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-lg">
-          <CardContent className="p-4">
-        <div className="space-y-6">
-              
-              <div className="flex justify-center w-full">
-                <svg width="100%" height="280" viewBox="0 0 360 280" className="max-w-sm mx-auto">
-                  {/* Definitions for Apple-style effects */}
-                  <defs>
-                    <filter id="chartShadow" x="-20%" y="-20%" width="140%" height="140%">
-                      <feGaussianBlur in="SourceAlpha" stdDeviation="1.5"/>
-                      <feOffset dx="0" dy="1" result="offset"/>
-                      <feComponentTransfer>
-                        <feFuncA type="linear" slope="0.08"/>
-                      </feComponentTransfer>
-                      <feMerge> 
-                        <feMergeNode/>
-                        <feMergeNode in="SourceGraphic"/> 
-                      </feMerge>
-                    </filter>
-                  </defs>
-                  
-                  {/* Minimal grid pentagons (Apple Health style) */}
-                  {/* Outer pentagon (100%) */}
-              <polygon
-                    points="180,100 235,135 215,205 145,205 125,135"
-                fill="none"
-                    stroke="#f8fafc"
-                strokeWidth="1"
-                    opacity="0.6"
-              />
-                  
-                  {/* Middle pentagon (75%) */}
-              <polygon
-                    points="180,117 218,143 206,188 154,188 142,143"
-                fill="none"
-                    stroke="#f8fafc"
-                strokeWidth="1"
-                    opacity="0.4"
-              />
-                  
-                  {/* Inner pentagon (50%) */}
-              <polygon
-                    points="180,135 201,152 196,170 164,170 159,152"
-                fill="none"
-                    stroke="#f8fafc"
-                    strokeWidth="1"
-                    opacity="0.3"
-                  />
-                  
-                  {/* Axis lines (ultra minimal) */}
-                  {radarPoints.map((point, index) => (
-                    <line
-                      key={`axis-${index}`}
-                      x1="180"
-                      y1="170"
-                      x2={point.grid.x}
-                      y2={point.grid.y}
-                      stroke="#f8fafc"
-                strokeWidth="1"
-                      opacity="0.4"
-                    />
-                  ))}
-                  
-                  {/* Goal level (benchmark) - Apple gray dashed */}
-                  <path
-                    d={GoalPathData}
-                    fill="none"
-                    stroke="#d1d5db"
-                    strokeWidth="1.5"
-                    strokeDasharray="3,3"
-                    opacity="0.6"
-                  />
-                  
-                  {/* Current progress polygon - Duolingo green */}
-                  <path
-                    d={currentPathData}
-                    fill="rgba(34, 197, 94, 0.10)"
-                    stroke="#22c55e"
-                    strokeWidth="2.5"
-                    filter="url(#chartShadow)"
-                  />
-                  
-                  {/* Data points with Apple styling */}
-                  {radarPoints.map((point, index) => (
-                    <circle
-                      key={`point-${index}`}
-                      cx={point.current.x}
-                      cy={point.current.y}
-                      r="3.5"
-                      fill="#22c55e"
-                      stroke="#ffffff"
-                      strokeWidth="2"
-                      filter="url(#chartShadow)"
-                    />
-                  ))}
-                  
-                  {/* Skill labels with proper positioning */}
-                  {radarPoints.map((point, index) => {
-                    // Fixed positions for each skill to avoid overlaps
-                    const labelPositions = [
-                      // Alphabet (top)
-                      { x: 180, y: 65, anchor: "middle", percentY: 78 },
-                      // Sight Words (top right) 
-                      { x: 280, y: 120, anchor: "start", percentY: 133 },
-                      // Vocabulary (bottom right)
-                      { x: 280, y: 230, anchor: "start", percentY: 243 },
-                      // Phonemic Awareness (bottom left)
-                      { x: 80, y: 230, anchor: "end", percentY: 243 },
-                      // Point-and-Read (top left)
-                      { x: 80, y: 120, anchor: "end", percentY: 133 }
-                    ]
-                    
-                    const pos = labelPositions[index]
-                    
-                    return (
-                      <g key={`label-group-${index}`}>
-                        {/* Skill name */}
-                        <text
-                          x={pos.x}
-                          y={pos.y}
-                          textAnchor={pos.anchor}
-                          className="fill-gray-700 select-none"
-                          style={{ 
-                            fontSize: '10px', 
-                            fontWeight: '600',
-                            fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif'
-                          }}
-                        >
-                          {t(`progress.skills.${point.skill.name}.name`, { defaultValue: point.skill.name })}
-                        </text>
-                        
-                        {/* Percentage */}
-                        <text
-                          x={pos.x}
-                          y={pos.percentY}
-                          textAnchor={pos.anchor}
-                          className="fill-green-500 select-none"
-                          style={{ 
-                            fontSize: '10px', 
-                            fontWeight: '700',
-                            fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif'
-                          }}
-                        >
-                          {point.skill.progress}%
-                        </text>
-                      </g>
-                    )
-                  })}
-                  
-                  {/* Clean Apple-style legend */}
-                  <g>
-                    {/* Current level indicator */}
-                    <line x1="20" y1="260" x2="35" y2="260" stroke="#22c55e" strokeWidth="2.5" />
-                    <text 
-                      x="40" 
-                      y="264" 
-                      className="fill-gray-600 select-none"
-                      style={{ 
-                        fontSize: '10px', 
-                        fontWeight: '500',
-                        fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif'
-                      }}
-                    >
-                      {t('progress.radar.legend.current')}
-                    </text>
-                    
-                    {/* Goal level indicator */}
-                    <line x1="140" y1="260" x2="155" y2="260" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="3,3" />
-                    <text 
-                      x="160" 
-                      y="264" 
-                      className="fill-gray-600 select-none"
-                      style={{ 
-                        fontSize: '10px', 
-                        fontWeight: '500',
-                        fontFamily: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif'
-                      }}
-                    >
-                      {t('progress.radar.legend.goal')}
-                    </text>
-                  </g>
-            </svg>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        </>
-        )}
+      <div className="max-w-md mx-auto px-6 py-10 space-y-8">
+        {/* Swipeable charts: skills and trend */}
+        <SwipeableProgressCharts />
 
         {/* Skills Breakdown */}
         <div className="space-y-4">
-          <h2 className="text-3xl font-bold text-black text-center tracking-tight mb-2">
-  {t('progress.skills.title')}
-</h2>
-<div className="w-16 h-1 bg-primary rounded-full mx-auto mb-2"></div>
+          <h2 className="text-xl font-semibold text-gray-900 mb-2 text-left">{t('progress.skills.title')}</h2>
           <div className="space-y-3">
             {skillsData.map((skill, index) => {
               const isNeedsFocus = skill.status === 'needs-focus'
               const priorityBadge = index === 0 && isNeedsFocus ? t('progress.skills.focusFirst') : null
-              
+
+              // Get subject color based on skill name
+              const getSubjectColor = (name: string) => {
+                switch (name) {
+                  case 'alphabet':
+                    return 'bg-orange-500';
+                  case 'sightWords':
+                    return 'bg-blue-500';
+                  case 'vocabulary':
+                    return 'bg-purple-500';
+                  case 'phonemicAwareness':
+                    return 'bg-green-500';
+                  case 'pointAndRead':
+                    return 'bg-red-500';
+                  default:
+                    return 'bg-gray-500';
+                }
+              };
+
               return (
-                <Card 
-                  key={skill.name} 
-                  className={`backdrop-blur-sm border-0 shadow-sm ${
-                    isNeedsFocus ? 'bg-orange-50/80 border-l-4 border-l-orange-400' : 
-                    'bg-green-50/80 border-l-4 border-l-green-400'
-                  }`}
-                >
-                  <CardContent className="p-4">
-                    <div className="flex items-start gap-3">
-                      {!isLarge && (
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                          isNeedsFocus ? 'bg-orange-100' : 'bg-green-100'
-                        }`}>
-                          <skill.icon className={`w-4 h-4 stroke-2 ${
-                            isNeedsFocus ? 'text-orange-600' : 'text-green-500'
-                          }`} />
-                        </div>
+                <PreviousAssignmentCard
+                  key={skill.name}
+                  title={t(`progress.skills.${skill.name}.name`, { defaultValue: skill.name })}
+                  subtitle=""
+                  subject={t(`progress.skills.${skill.name}.name`, { defaultValue: skill.name })}
+                  subjectColor={getSubjectColor(skill.name)}
+                  rightContent={
+                    <>
+                      {/* Focus first badge */}
+                      {priorityBadge && (
+                        <Badge
+                          variant="secondary"
+                          className="text-xs px-2 py-0.5 bg-orange-100 text-orange-700 border-orange-200"
+                        >
+                          {priorityBadge}
+                        </Badge>
                       )}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <h3 className="font-semibold text-gray-900">{t(`progress.skills.${skill.name}.name`, { defaultValue: skill.name })}</h3>
-                            {priorityBadge && (
-                              <Badge 
-                                variant="secondary"
-                                className="text-xs px-2 py-0.5 bg-orange-100 text-orange-700 border-orange-200"
-                              >
-                                {priorityBadge}
-                              </Badge>
-                            )}
-                          </div>
-                          <span className={`font-bold tabular-nums ${
-                            isNeedsFocus ? 'text-orange-600' : 'text-green-500'
-                          }`}>{skill.progress}%</span>
-                        </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
-                          <div
-                            className={`h-2 rounded-full transition-all duration-500 ${
-                              isNeedsFocus ? 'bg-orange-500' : 'bg-primary'
-                            }`}
-                            style={{ width: `${skill.progress}%` }}
-                          />
-            </div>
-                        {!isLarge && (
-                          <p className="text-sm text-gray-600 leading-relaxed">{t(`progress.skills.${skill.name}.insight`, { defaultValue: skill.insight })}</p>
-                        )}
-                        <div className="mt-2 text-xs text-gray-500">
-                          {t(`progress.skills.goalLabel`)} {skill.Goal}% • 
-                          {skill.progress >= skill.Goal ? (
-                            <span className="text-primary font-medium">{t('progress.skills.aboveGoal')}</span>
-                          ) : (
-                            <span className="text-gray-600 font-medium">{t('progress.skills.onTrack', { remaining: skill.Goal - skill.progress })}</span>
-                          )}
-            </div>
-            </div>
-            </div>
-                  </CardContent>
-                </Card>
+                      {/* Progress percentage */}
+                      <div className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                        isNeedsFocus ? 'text-orange-600 bg-orange-50' : 'text-green-600 bg-green-50'
+                      }`}>
+                        {skill.progress}/100
+                      </div>
+                    </>
+                  }
+                >
+                  {/* Plain left-aligned text */}
+                  <p className="text-sm text-gray-700">{t(`progress.skills.${skill.name}.insight`, { defaultValue: skill.insight })}</p>
+                </PreviousAssignmentCard>
               )
             })}
           </div>
@@ -412,64 +203,7 @@ export default function ProgressPage() {
 
         {/* (AI Personalized Practices removed from Progress page) */}
 
-        {/* Progress Over Time */}
-        <h2 className="text-3xl font-bold text-black text-center tracking-tight mb-2">
-  {t('progress.trend.title')}
-</h2>
-<div className="w-16 h-1 bg-primary rounded-full mx-auto mb-2"></div>
-        <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-sm">
-          <CardContent className="p-5">
-        <div className="space-y-4">
-          { !isLarge && <TrendingUp className="w-5 h-5 text-green-500 stroke-2" />}
-
-              <div className="h-48">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={progressData}>
-                    <XAxis 
-                      dataKey="month" 
-                      axisLine={false}
-                      tickLine={false}
-                      className="text-xs text-gray-500"
-                    />
-                    <YAxis 
-                      domain={[60, 85]} 
-                      axisLine={false}
-                      tickLine={false}
-                      className="text-xs text-gray-500"
-                    />
-                <Line
-                  type="monotone"
-                      dataKey="score"
-                      stroke="#22c55e"
-                  strokeWidth="3"
-                      dot={{ fill: "#22c55e", strokeWidth: 0, r: 5 }}
-                      activeDot={{ r: 7, fill: "#22c55e" }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-
-              {/* Milestone markers */}
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-xs text-gray-500">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span>{t('progress.trend.milestone1')}</span>
-          </div>
-                <div className="flex items-center gap-2 text-xs text-gray-500">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span>{t('progress.trend.milestone2')}</span>
-                </div>
-              </div>
-              
-              {/* Motivational text */}
-              <div className="bg-green-50 border border-green-200 rounded-xl p-4">
-                <p className="text-sm font-semibold text-green-800 text-center">
-                  {t('progress.trend.motivation')}
-                </p>
-          </div>
-        </div>
-          </CardContent>
-      </Card>
+        {/* Trend is included inside SwipeableProgressCharts above */}
 
         {/* Bottom padding for navigation */}
         <div className="h-20"></div>
