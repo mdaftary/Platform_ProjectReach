@@ -1,6 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
+import { soundManager } from '@/lib/sound-utils'
 
 interface AccessibilityContextType {
   highContrast: boolean
@@ -94,6 +95,11 @@ export function AccessibilityProvider({ children }: AccessibilityProviderProps) 
     }
   }, [focusIndicators])
 
+  // Initialize and update sound manager
+  useEffect(() => {
+    soundManager.setEnabled(soundEnabled)
+  }, [soundEnabled])
+
   const setHighContrast = (enabled: boolean) => {
     setHighContrastState(enabled)
     localStorage.setItem('accessibility-high-contrast', enabled.toString())
@@ -120,6 +126,8 @@ export function AccessibilityProvider({ children }: AccessibilityProviderProps) 
   const setSoundEnabled = (enabled: boolean) => {
     setSoundEnabledState(enabled)
     localStorage.setItem('accessibility-sound-enabled', enabled.toString())
+    // Update sound manager
+    soundManager.setEnabled(enabled)
   }
 
   const setFocusIndicators = (enabled: boolean) => {

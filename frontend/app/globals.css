@@ -482,7 +482,10 @@
 
   /* High Contrast Mode - Works with both light and dark themes */
   .high-contrast {
-    filter: contrast(200%) saturate(150%);
+    /* Remove problematic filter that makes text invisible */
+    /* Use explicit color overrides instead for better control */
+    /* Force high contrast mode indicator */
+    --high-contrast-enabled: 1;
   }
 
   .high-contrast.light {
@@ -509,47 +512,74 @@
     --input: #000000;
   }
 
+  /* High contrast text colors - ensure maximum readability */
   .high-contrast .text-gray-500 {
-    color: #d4d4d8 !important;
+    color: #000000 !important;
   }
 
   .high-contrast .text-gray-600 {
-    color: #e4e4e7 !important;
+    color: #000000 !important;
   }
 
   .high-contrast .text-gray-700 {
-    color: #f4f4f5 !important;
+    color: #000000 !important;
   }
 
   .high-contrast .text-gray-900 {
+    color: #000000 !important;
+  }
+
+  /* Ensure all text is visible in high contrast mode */
+  .high-contrast * {
+    color: #000000 !important;
+  }
+
+  /* Override for specific elements that need white text on dark backgrounds */
+  .high-contrast .bg-green-500,
+  .high-contrast .bg-green-600,
+  .high-contrast .bg-blue-500,
+  .high-contrast .bg-blue-600,
+  .high-contrast .bg-orange-500,
+  .high-contrast .bg-orange-600 {
     color: #ffffff !important;
   }
 
-  .high-contrast .bg-gray-50 {
-    background-color: #1a1a1a !important;
-  }
-
-  .high-contrast .bg-gray-100 {
-    background-color: #262626 !important;
-  }
-
-  .high-contrast .bg-white {
-    background-color: #262626 !important;
-  }
-
-  .high-contrast .border-gray-100,
-  .high-contrast .border-gray-200 {
-    border-color: #525252 !important;
-  }
-
-  /* Ensure buttons remain visible and clickable */
+  /* Ensure buttons have proper contrast */
   .high-contrast button {
-    border: 2px solid #525252 !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 3px solid #000000 !important;
   }
 
   .high-contrast button:hover {
-    border-color: #4ade80 !important;
-    background-color: #404040 !important;
+    background-color: #f0f0f0 !important;
+    color: #000000 !important;
+  }
+
+  .high-contrast .bg-gray-50 {
+    background-color: #ffffff !important;
+  }
+
+  .high-contrast .bg-gray-100 {
+    background-color: #ffffff !important;
+  }
+
+  .high-contrast .bg-white {
+    background-color: #ffffff !important;
+  }
+
+  /* Ensure cards and containers have proper contrast */
+  .high-contrast .card,
+  .high-contrast [class*="bg-"] {
+    background-color: #ffffff !important;
+    border: 2px solid #000000 !important;
+  }
+
+  .high-contrast .border-gray-100,
+  .high-contrast .border-gray-200,
+  .high-contrast .border {
+    border-color: #000000 !important;
+    border-width: 2px !important;
   }
 
   /* Make navigation icons more visible */
@@ -595,15 +625,207 @@
     border-radius: 4px;
   }
 
-  /* Reduced Motion */
+  /* Reduced Motion - Comprehensive accessibility implementation */
   .reduce-motion *,
   .reduce-motion *::before,
   .reduce-motion *::after {
-    animation-duration: 0.01ms !important;
+    /* Completely disable all animations */
+    animation: none !important;
+    animation-duration: 0s !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    transition-delay: 0ms !important;
+    animation-fill-mode: none !important;
+    animation-play-state: paused !important;
+    
+    /* Completely disable all transitions */
+    transition: none !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    transition-property: none !important;
+    
+    /* Disable smooth scrolling */
     scroll-behavior: auto !important;
+    
+    /* Disable transform animations */
+    transform: none !important;
+    
+    /* Disable CSS transforms that might cause motion */
+    will-change: auto !important;
+  }
+  
+  /* Disable specific motion-causing properties */
+  .reduce-motion {
+    /* Disable parallax and scroll effects */
+    background-attachment: scroll !important;
+  }
+  
+  /* Remove hover effects that cause motion */
+  .reduce-motion *:hover {
+    transform: none !important;
+    scale: 1 !important;
+  }
+  
+  /* Disable loading spinners and replace with static indicators */
+  .reduce-motion .animate-spin {
+    animation: none !important;
+  }
+  
+  .reduce-motion .animate-pulse {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+  
+  .reduce-motion .animate-bounce {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* Enhanced Focus Indicators for Keyboard Navigation */
+  .enhanced-focus *:focus {
+    outline: 3px solid #3b82f6 !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.3) !important;
+    border-radius: 4px;
+  }
+
+  .enhanced-focus button:focus {
+    outline: 3px solid #3b82f6 !important;
+    outline-offset: 3px !important;
+    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.4) !important;
+  }
+
+  .enhanced-focus input:focus,
+  .enhanced-focus textarea:focus,
+  .enhanced-focus select:focus {
+    outline: 3px solid #10b981 !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.3) !important;
+  }
+
+  .enhanced-focus a:focus {
+    outline: 3px solid #8b5cf6 !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 5px rgba(139, 92, 246, 0.3) !important;
+    text-decoration: underline;
+  }
+
+  .enhanced-focus [role="button"]:focus,
+  .enhanced-focus [tabindex]:focus {
+    outline: 3px solid #f59e0b !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.3) !important;
+  }
+
+  .enhanced-focus .focus-ring:focus {
+    outline: 4px solid #ef4444 !important;
+    outline-offset: 3px !important;
+    box-shadow: 0 0 0 7px rgba(239, 68, 68, 0.4) !important;
+  }
+
+  /* Enhanced focus for card components */
+  .enhanced-focus .card:focus-within {
+    outline: 2px solid #6366f1 !important;
+    outline-offset: 1px !important;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2) !important;
+  }
+
+  /* Enhanced focus for dropdown and modal elements */
+  .enhanced-focus [role="menu"] *:focus,
+  .enhanced-focus [role="menuitem"]:focus {
+    outline: 3px solid #ec4899 !important;
+    outline-offset: 1px !important;
+    box-shadow: 0 0 0 5px rgba(236, 72, 153, 0.3) !important;
+    background-color: rgba(236, 72, 153, 0.1) !important;
+  }
+
+  /* Skip to content link styling */
+  .enhanced-focus .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #000;
+    color: #fff;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 1000;
+  }
+
+  .enhanced-focus .skip-link:focus {
+    top: 6px;
+    outline: 3px solid #fff !important;
+    outline-offset: 2px !important;
+  }
+
+  /* High contrast mode focus indicators */
+  .high-contrast.enhanced-focus *:focus {
+    outline: 4px solid #ffff00 !important;
+    outline-offset: 3px !important;
+    box-shadow: 0 0 0 7px rgba(255, 255, 0, 0.5) !important;
+    background-color: rgba(255, 255, 0, 0.1) !important;
+  }
+
+  /* Focus indicators for interactive elements in grandparent mode */
+  [data-font-size="grandparent"].enhanced-focus *:focus {
+    outline-width: 4px !important;
+    outline-offset: 4px !important;
+    box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.4) !important;
+  }
+
+  /* Ensure focus is visible on all interactive elements */
+  .enhanced-focus *:focus-visible {
+    outline: 3px solid #3b82f6 !important;
+    outline-offset: 2px !important;
+  }
+
+  /* Remove default focus styles when enhanced focus is enabled */
+  .enhanced-focus *:focus:not(:focus-visible) {
+    outline: 3px solid #3b82f6 !important;
+    outline-offset: 2px !important;
+  }
+  
+  /* Disable fade effects */
+  .reduce-motion .fade-in,
+  .reduce-motion .fade-out {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+  
+  /* Disable slide effects */
+  .reduce-motion .slide-in,
+  .reduce-motion .slide-out {
+    transform: none !important;
+    transition: none !important;
+  }
+  
+  /* Make modals appear instantly */
+  .reduce-motion .modal,
+  .reduce-motion .dialog {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  /* Disable button press animations */
+  .reduce-motion button:active,
+  .reduce-motion .btn:active {
+    transform: none !important;
+    scale: 1 !important;
+  }
+  
+  /* Disable card hover effects */
+  .reduce-motion .card:hover,
+  .reduce-motion [class*="hover:"] {
+    transform: none !important;
+    scale: 1 !important;
+    box-shadow: none !important;
+  }
+  
+  /* Force immediate state changes for interactive elements */
+  .reduce-motion input:focus,
+  .reduce-motion button:focus,
+  .reduce-motion select:focus,
+  .reduce-motion textarea:focus {
+    transition: none !important;
+    animation: none !important;
   }
 
   /* Enhanced Focus Indicators */
@@ -620,5 +842,67 @@
   .enhanced-focus textarea:focus {
     transform: scale(1.05) !important;
     z-index: 10 !important;
+  }
+
+  /* Grandparent Mode Enhancements */
+  [data-font-size="grandparent"] {
+    /* Increase button and interactive element sizes */
+    --button-padding-y: 1rem;
+    --button-padding-x: 1.5rem;
+    --input-padding: 1rem;
+  }
+
+  [data-font-size="grandparent"] button,
+  [data-font-size="grandparent"] .btn {
+    padding: var(--button-padding-y) var(--button-padding-x) !important;
+    min-height: 3.5rem !important;
+    font-weight: 600 !important;
+  }
+
+  [data-font-size="grandparent"] input,
+  [data-font-size="grandparent"] select,
+  [data-font-size="grandparent"] textarea {
+    padding: var(--input-padding) !important;
+    min-height: 3.5rem !important;
+    font-weight: 500 !important;
+  }
+
+  [data-font-size="grandparent"] .card,
+  [data-font-size="grandparent"] .bg-white {
+    padding: 2rem !important;
+  }
+
+  /* Extra spacing for grandparent mode */
+  [data-font-size="grandparent"] .space-y-4 > * + * {
+    margin-top: 1.5rem !important;
+  }
+
+  [data-font-size="grandparent"] .space-y-6 > * + * {
+    margin-top: 2rem !important;
+  }
+
+  /* Enhanced contrast for grandparent mode */
+  [data-font-size="grandparent"] .text-gray-600 {
+    color: rgb(55 65 81) !important; /* text-gray-700 */
+  }
+
+  [data-font-size="grandparent"] .text-gray-500 {
+    color: rgb(75 85 99) !important; /* text-gray-600 */
+  }
+
+  /* Larger icons for grandparent mode */
+  [data-font-size="grandparent"] .w-4.h-4 {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+  }
+
+  [data-font-size="grandparent"] .w-5.h-5 {
+    width: 2rem !important;
+    height: 2rem !important;
+  }
+
+  [data-font-size="grandparent"] .w-6.h-6 {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
   }
 }

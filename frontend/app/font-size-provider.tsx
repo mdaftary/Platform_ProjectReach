@@ -2,13 +2,17 @@
 
 import React from 'react'
 
-type FontSizeMode = 'normal' | 'large'
+type FontSizeMode = 'normal' | 'large' | 'extra-large' | 'grandparent'
 
 type FontSizeContextValue = {
   mode: FontSizeMode
   isLarge: boolean
+  isExtraLarge: boolean
+  isGrandparent: boolean
   setMode: (mode: FontSizeMode) => void
   toggle: () => void
+  getFontSizeLabel: () => string
+  getFontSizeDescription: () => string
 }
 
 const FontSizeContext = React.createContext<FontSizeContextValue | undefined>(
@@ -20,10 +24,38 @@ const LOCAL_STORAGE_KEY = 'app-font-size-mode'
 function applyRootFontSize(mode: FontSizeMode) {
   if (typeof document === 'undefined') return
   const root = document.documentElement
-  // Tailwind uses rem units, so changing root font-size scales the entire UI.
-  // normal: 16px (100%), large: 18px (~112.5%)
-  root.style.fontSize = mode === 'large' ? '18px' : '16px'
+  
+  // Enhanced font size options for better accessibility
+  let fontSize: string
+  let lineHeight: string
+  
+  switch (mode) {
+    case 'large':
+      fontSize = '20px'      // 125% increase
+      lineHeight = '1.6'
+      break
+    case 'extra-large':
+      fontSize = '24px'      // 150% increase
+      lineHeight = '1.7'
+      break
+    case 'grandparent':
+      fontSize = '28px'      // 175% increase - much larger for elderly users
+      lineHeight = '1.8'
+      break
+    default: // 'normal'
+      fontSize = '16px'      // 100% baseline
+      lineHeight = '1.5'
+      break
+  }
+  
+  root.style.fontSize = fontSize
+  root.style.lineHeight = lineHeight
   root.setAttribute('data-font-size', mode)
+  
+  // Add CSS custom properties for additional styling
+  root.style.setProperty('--font-scale', mode === 'grandparent' ? '1.75' : mode === 'extra-large' ? '1.5' : mode === 'large' ? '1.25' : '1')
+  
+  console.log(`Applied font size: ${fontSize} (${mode} mode)`) // Debug log
 }
 
 export function FontSizeProvider({
@@ -37,7 +69,7 @@ export function FontSizeProvider({
   React.useEffect(() => {
     try {
       const stored = localStorage.getItem(LOCAL_STORAGE_KEY) as FontSizeMode | null
-      if (stored === 'large' || stored === 'normal') {
+      if (stored === 'normal' || stored === 'large' || stored === 'extra-large' || stored === 'grandparent') {
         setMode(stored)
         applyRootFontSize(stored)
         return
@@ -58,8 +90,37 @@ export function FontSizeProvider({
     () => ({
       mode,
       isLarge: mode === 'large',
+      isExtraLarge: mode === 'extra-large',
+      isGrandparent: mode === 'grandparent',
       setMode,
-      toggle: () => setMode((m) => (m === 'large' ? 'normal' : 'large')),
+      toggle: () => {
+        // Cycle through all font sizes: normal -> large -> extra-large -> grandparent -> normal
+        setMode((m) => {
+          switch (m) {
+            case 'normal': return 'large'
+            case 'large': return 'extra-large'
+            case 'extra-large': return 'grandparent'
+            case 'grandparent': return 'normal'
+            default: return 'normal'
+          }
+        })
+      },
+      getFontSizeLabel: () => {
+        switch (mode) {
+          case 'large': return 'Large Text'
+          case 'extra-large': return 'Extra Large Text'
+          case 'grandparent': return 'Grandparent Mode'
+          default: return 'Normal Text'
+        }
+      },
+      getFontSizeDescription: () => {
+        switch (mode) {
+          case 'large': return 'Slightly larger text for better readability'
+          case 'extra-large': return 'Much larger text for improved accessibility'
+          case 'grandparent': return 'Very large text optimized for elderly users'
+          default: return 'Standard text size'
+        }
+      },
     }),
     [mode]
   )

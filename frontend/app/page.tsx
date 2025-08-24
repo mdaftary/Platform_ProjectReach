@@ -8,6 +8,7 @@ import { Camera, Play, CheckCircle2, Flame, Clock, Circle, User, Eye, ChevronRig
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import { useFontSize } from "@/app/font-size-provider"
+import { useSoundEffects } from "@/hooks/use-sound-effects"
 import { Trans } from "react-i18next"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
@@ -512,6 +513,7 @@ const previousAssignmentsZh = [
 export default function HomePage() {
   const { t, i18n } = useTranslation()
   const { isLarge } = useFontSize()
+  const { sounds } = useSoundEffects()
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
   const [uploadState, setUploadState] = useState<'idle' | 'uploading' | 'processing' | 'complete'>('idle')
   const [uploadedImage, setUploadedImage] = useState<string | null>(null)
@@ -634,6 +636,7 @@ export default function HomePage() {
   }, [showUserMenu])
 
   const handleUploadClick = () => {
+    sounds.upload()
     setUploadModalOpen(true)
     setUploadState('uploading')
     
@@ -641,15 +644,18 @@ export default function HomePage() {
     setTimeout(() => {
       setUploadedImage('/worksheet-example.jpg') // Mock uploaded image
       setUploadState('processing')
+      sounds.notification()
       
       // Simulate OCR processing
       setTimeout(() => {
         setUploadState('complete')
+        sounds.successSequence()
       }, 3000)
     }, 1500)
   }
 
   const closeModal = () => {
+    sounds.click()
     setUploadModalOpen(false)
     setUploadState('idle')
     setUploadedImage(null)
@@ -736,7 +742,6 @@ export default function HomePage() {
 
   return (
     <div className={`min-h-screen bg-gray-50 ${isLarge ? 'min-text-lg text-lg' : ''}`}>
-
       <div className="max-w-md mx-auto px-6 space-y-5">
         {/* Swipeable Progress Card */}
         <SwipeableProgressCard />
@@ -760,9 +765,12 @@ export default function HomePage() {
             <p className="text-purple-100 text-sm mb-4">
               {weeklyTasks[0]?.subtitle || "Week 12 - Alphabet Practice"}
             </p>
-
             {weeklyTasks[0] && !weeklyTasks[0].completed && (
                       <Button 
+                        onClick={() => {
+                          sounds.click()
+                          handleUploadClick()
+                        }}
                         size="sm" 
                         onClick={() => handleAssignmentClick(weeklyTasks[0].id)}
                 className="bg-white/20 hover:bg-white/30 text-white border border-white/30 px-4 py-2 text-sm font-semibold rounded-xl backdrop-blur-sm"
@@ -1149,7 +1157,7 @@ export default function HomePage() {
                           </div>
                           <div className="bg-green-50/50 rounded-xl p-3">
                             <p className="text-sm text-gray-900 leading-relaxed">
-                              Correctly circled <span className="font-semibold">"see"</span> and <span className="font-semibold">"cat"</span>. Great recognition skills!
+                              I loved seeing you identify <span className="font-semibold">"see"</span> and <span className="font-semibold">"cat"</span> so quickly! You're really getting the hang of these sight words.
                             </p>
                           </div>
                         </div>
@@ -1162,7 +1170,7 @@ export default function HomePage() {
                           </div>
                           <div className="bg-orange-50/50 rounded-xl p-3">
                             <p className="text-sm text-gray-900 leading-relaxed">
-                              Didn't circle <span className="font-semibold">"apple"</span>. Try double-checking sight words.
+                              Let's work on the word <span className="font-semibold">"the"</span> - I noticed you hesitated a few times. Try practicing this sight word with flashcards or by finding it in your favorite books!
                             </p>
                           </div>
                         </div>
@@ -1175,7 +1183,7 @@ export default function HomePage() {
                           </div>
                           <div className="bg-green-50/50 rounded-xl p-3">
                             <p className="text-sm text-gray-900 leading-relaxed">
-                              Good tracing, but spacing between <span className="font-semibold">"p"</span> and <span className="font-semibold">"a"</span> in "panda" needs work.
+                              Your reading confidence is growing! I can see you're taking your time to sound out words carefully. Keep up the great work with your phonics skills.
                             </p>
                           </div>
                         </div>
@@ -1201,14 +1209,7 @@ export default function HomePage() {
                   </Card>
                 </div>
 
-                  {/* Close Button */}
-                  <Button 
-                    onClick={closeModal}
-                    variant="outline"
-                    className="w-full border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl font-semibold"
-                  >
-                    {t('home.done')}
-                  </Button>
+
                 </div>
               )}
             </div>

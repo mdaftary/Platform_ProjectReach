@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS grades (
   points_earned INTEGER,
   max_points INTEGER NOT NULL DEFAULT 100,
   feedback TEXT,
-  ai_generated_feedback TEXT,
+  reach_expert_feedback TEXT,
   rubric_scores JSONB,
   graded_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
