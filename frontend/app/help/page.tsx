@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-
+import { Heart } from "lucide-react"
 import { useFontSize } from "@/app/font-size-provider"
 import {
   Users,
@@ -13,7 +13,6 @@ import {
   Star,
   MessageCircle,
   Video,
-  Heart
 } from "lucide-react"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
@@ -25,7 +24,7 @@ const volunteersEn = [
     name: "Sarah Chen",
     role: "Former K3 Teacher",
     avatar: "👩‍🏫",
-    rating: 4.9,
+    likes: 2450,
     hoursContributed: 42,
     timeAuctionBadge: "Gold Mentor",
     badgeColor: "bg-yellow-100 text-yellow-700",
@@ -38,7 +37,7 @@ const volunteersEn = [
     name: "David Wong",
     role: "Parent of 3",
     avatar: "👨‍👨‍👧‍👦",
-    rating: 4.8,
+    likes: 1800,
     hoursContributed: 28,
     timeAuctionBadge: "Silver Helper",
     badgeColor: "bg-gray-100 text-gray-700",
@@ -51,7 +50,7 @@ const volunteersEn = [
     name: "Ms. Liu",
     role: "Child Psychologist",
     avatar: "👩‍⚕️",
-    rating: 5.0,
+    likes: 2200,
     hoursContributed: 65,
     timeAuctionBadge: "Platinum Expert",
     badgeColor: "bg-purple-100 text-purple-700",
@@ -67,7 +66,7 @@ const volunteersZh = [
     name: "Sarah Chen",
     role: "前 K3 老師",
     avatar: "👩‍🏫",
-    rating: 4.9,
+    likes: 2450,
     hoursContributed: 42,
     timeAuctionBadge: "金級導師",
     badgeColor: "bg-yellow-100 text-yellow-700",
@@ -80,7 +79,7 @@ const volunteersZh = [
     name: "David Wong",
     role: "三孩家長",
     avatar: "👨‍👨‍👧‍👦",
-    rating: 4.8,
+    likes: 1800,
     hoursContributed: 28,
     timeAuctionBadge: "銀級幫手",
     badgeColor: "bg-gray-100 text-gray-700",
@@ -93,7 +92,7 @@ const volunteersZh = [
     name: "Ms. Liu",
     role: "兒童心理學家",
     avatar: "👩‍⚕️",
-    rating: 5.0,
+    likes: 2200,
     hoursContributed: 65,
     timeAuctionBadge: "白金專家",
     badgeColor: "bg-purple-100 text-purple-700",
@@ -121,8 +120,28 @@ export default function VolunteerPage() {
   const { i18n } = useTranslation()
   const { isLarge } = useFontSize()
   const isZh = i18n.language?.startsWith('zh')
-  const volunteers = isZh ? volunteersZh : volunteersEn
+  const volunteersData = isZh ? volunteersZh : volunteersEn
   const [search, setSearch] = useState("");
+  // Track likes and liked state per volunteer
+  const [volunteers, setVolunteers] = useState(
+    volunteersData.map(v => ({ ...v, liked: false }))
+  )
+
+  // Update volunteers when language changes
+  useEffect(() => {
+    setVolunteers(volunteersData.map(v => ({ ...v, liked: false })))
+  }, [isZh])
+
+  // Like handler
+  const handleLike = useCallback((id: number) => {
+    setVolunteers(vols =>
+      vols.map(v =>
+        v.id === id && !v.liked
+          ? { ...v, likes: v.likes + 1, liked: true }
+          : v
+      )
+    )
+  }, [])
 
   return (
     <div
@@ -131,12 +150,6 @@ export default function VolunteerPage() {
       }`}
     >
       <div className="max-w-md mx-auto px-4 py-6 space-y-6">
-        {/* Removed top header and start button per request */}
-
-
-
-        {/* Removed My Impact section per request */}
-
         {/* Volunteers list */}
         <div className="space-y-4">
           <div className="relative">
@@ -174,14 +187,26 @@ export default function VolunteerPage() {
                         </div>
                         <p className="text-sm text-gray-600">{volunteer.role}</p>
                         <div className="flex items-center gap-1 mt-1">
-                          <Star className="w-4 h-4 text-yellow-500 fill-yellow-500 stroke-2" />
-                          <span className="text-sm font-medium text-gray-700">{volunteer.rating}</span>
+                          <button
+                            type="button"
+                            aria-label={volunteer.liked ? t('volunteer.volunteers.liked') : t('volunteer.volunteers.like')}
+                            onClick={() => handleLike(volunteer.id)}
+                            disabled={volunteer.liked}
+                            className={`p-1 rounded-full transition-colors ${
+                              volunteer.liked ? "bg-red-100" : "hover:bg-gray-100"
+                            }`}
+                          >
+                            <Heart
+                              className="w-4 h-4"
+                              fill={volunteer.liked ? "#EF4444" : "none"}
+                              stroke="#EF4444"
+                            />
+                          </button>
+                          <span className="text-sm font-medium text-gray-700">{volunteer.likes}</span>
                           <span className="text-sm text-gray-500">• {volunteer.totalAnswers} {t('volunteer.volunteers.answers')}</span>
                         </div>
                       </div>
                     </div>
-
-                    {/* Removed Time Auction badge & hours per request */}
 
                     {/* Specialties */}
                     <div className="flex flex-wrap gap-1">

@@ -283,7 +283,10 @@ export default function CommunityPage() {
   const [activeTab, setActiveTab] = useState("discussions")
   const { isLarge } = useFontSize()
   const isZh = i18n.language?.startsWith('zh')
-  
+
+  // Search state
+  const [searchText, setSearchText] = useState("")
+
   // User posts state
   const [userPosts, setUserPosts] = useState<UserPost[]>([])
   const [userReplies, setUserReplies] = useState<UserReply[]>([])
@@ -297,6 +300,14 @@ export default function CommunityPage() {
   // Reply state
   const [replyForms, setReplyForms] = useState<Record<string, boolean>>({})
   const [replyTexts, setReplyTexts] = useState<Record<string, string>>({})
+
+  // Track liked state for each discussion (by index)
+  const [likedDiscussions, setLikedDiscussions] = useState<Record<number, boolean>>({})
+  // Track likes for static discussions
+  const [staticDiscussionLikes, setStaticDiscussionLikes] = useState<Record<number, number>>({})
+
+  // Track favourited state for each resource (by id)
+  const [favouritedResources, setFavouritedResources] = useState<Record<number, boolean>>({})
 
   // Load user posts and replies on mount
   useEffect(() => {
@@ -382,26 +393,29 @@ export default function CommunityPage() {
 
   // Handle like button click
   const handleLike = (discussionIndex: number) => {
+    if (likedDiscussions[discussionIndex]) return // Prevent multiple likes
     const discussion = allDiscussions[discussionIndex]
-    
+
     if ('isUserPost' in discussion && 'id' in discussion) {
-      // It's a user post - update localStorage
+      // Update likes for user posts in localStorage and state
       const newLikes = discussion.likes + 1
       updateUserPostLikes(discussion.id, newLikes)
-      
-      // Update local state
-      setUserPosts(prev => 
-        prev.map(post => 
-          post.id === discussion.id 
+      setUserPosts(prev =>
+        prev.map(post =>
+          post.id === discussion.id
             ? { ...post, likes: newLikes }
             : post
         )
       )
     } else {
-      // It's a static post - we can't persist this, but we can update the UI temporarily
-      // For a real app, you'd want to send this to a backend
-      console.log(`Liked static post: ${discussion.title}`)
+      // For static posts, update likes in state
+      setStaticDiscussionLikes(prev => ({
+        ...prev,
+        [discussionIndex]: (prev[discussionIndex] ?? discussion.likes) + 1
+      }))
     }
+
+    setLikedDiscussions(prev => ({ ...prev, [discussionIndex]: true }))
   }
 
   // Handle reply submission
@@ -451,6 +465,38 @@ export default function CommunityPage() {
     setReplyForms(prev => ({ ...prev, [discussionId]: !prev[discussionId] }))
   }
 
+  // Handle favourite button click for resources
+  const handleFavouriteResource = (resourceId: number) => {
+    if (favouritedResources[resourceId]) return // Prevent multiple favourites
+    setFavouritedResources(prev => ({
+      ...prev,
+      [resourceId]: true
+    }))
+  }
+
+  // Filtered discussions
+  const filteredDiscussions = allDiscussions.filter((discussion, index) =>
+    (discussion.title?.toLowerCase().includes(searchText.toLowerCase()) ||
+     discussion.author?.toLowerCase().includes(searchText.toLowerCase()) ||
+     discussion.category?.toLowerCase().includes(searchText.toLowerCase()) ||
+     (('content' in discussion && discussion.content?.toLowerCase().includes(searchText.toLowerCase())) || false))
+  )
+
+  // Filtered resources
+  const filteredResources = sharedResources.filter(resource =>
+    resource.title.toLowerCase().includes(searchText.toLowerCase()) ||
+    resource.author.toLowerCase().includes(searchText.toLowerCase()) ||
+    resource.category.toLowerCase().includes(searchText.toLowerCase()) ||
+    resource.type.toLowerCase().includes(searchText.toLowerCase())
+  )
+
+  // Filtered groups
+  const filteredGroups = practiceGroups.filter(group =>
+    group.name.toLowerCase().includes(searchText.toLowerCase()) ||
+    group.description.toLowerCase().includes(searchText.toLowerCase()) ||
+    group.level.toLowerCase().includes(searchText.toLowerCase())
+  )
+
   const tabs = [
     { id: "discussions", label: t('community.page.tabs.discussions'), icon: MessageSquare },
     { id: "resources", label: t('community.page.tabs.resources'), icon: Share2 },
@@ -460,11 +506,15 @@ export default function CommunityPage() {
   return (
     <div className={`min-h-screen bg-background ${isLarge ? 'min-text-lg text-lg' : ''}`}>
       <div className="max-w-md mx-auto px-4 py-6 space-y-6">
-        {/* Removed top header per request */}
         {/* Search */}
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary w-6 h-6 stroke-2 z-10 pointer-events-none" />
-          <Input placeholder={t('community.page.search')} className="pl-12 duolingo-card border-0 shadow-lg" />
+          <Input
+            placeholder={t('community.page.search')}
+            className="pl-12 duolingo-card border-0 shadow-lg"
+            value={searchText}
+            onChange={e => setSearchText(e.target.value)}
+          />
         </div>
 
         {/* Tab Navigation */}
@@ -568,9 +618,9 @@ export default function CommunityPage() {
             </div>
 
             <div className="space-y-3">
-              {allDiscussions.map((discussion, index) => (
-                <Card 
-                  key={('id' in discussion) ? discussion.id : index} 
+              {filteredDiscussions.map((discussion, index) => (
+                <Card
+                  key={('id' in discussion) ? discussion.id : index}
                   className={`duolingo-card border-0 shadow-lg cursor-pointer hover:shadow-xl transition-shadow ${
                     ('isUserPost' in discussion) ? 'ring-2 ring-green-200 bg-green-50/30' : ''
                   }`}
@@ -669,14 +719,28 @@ export default function CommunityPage() {
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="flex items-center gap-1 hover:bg-red-50 hover:text-red-600 p-1 h-auto"
+                            className={`flex items-center gap-1 p-1 h-auto ${
+                              likedDiscussions[index]
+                                ? "bg-red-50 text-red-600"
+                                : "hover:bg-red-50 hover:text-red-600"
+                            }`}
                             onClick={(e) => {
                               e.stopPropagation()
                               handleLike(index)
                             }}
+                            disabled={likedDiscussions[index]}
                           >
-                            <Heart className="w-4 h-4" />
-                            <span>{discussion.likes}</span>
+                            <Heart
+                              className="w-4 h-4"
+                              fill={likedDiscussions[index] ? "#EF4444" : "none"}
+                              stroke="#EF4444"
+                            />
+                            <span>
+                              {'isUserPost' in discussion
+                                ? discussion.likes
+                                : staticDiscussionLikes[index] ?? discussion.likes
+                              }
+                            </span>
                           </Button>
                         </div>
                       </div>
@@ -726,6 +790,11 @@ export default function CommunityPage() {
                   </CardContent>
                 </Card>
               ))}
+              {filteredDiscussions.length === 0 && (
+                <div className="text-center text-gray-500 py-8">
+                  {t('community.page.searchNoResults')}
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -742,7 +811,7 @@ export default function CommunityPage() {
             </div>
 
             <div className="space-y-4">
-              {sharedResources.map((resource) => (
+              {filteredResources.map((resource) => (
                 <Card key={resource.id} className="duolingo-card border-0 shadow-lg cursor-pointer hover:shadow-xl transition-shadow">
                   <CardContent className="p-5">
                     <div className="space-y-4">
@@ -764,7 +833,28 @@ export default function CommunityPage() {
                           <div className={`flex ${isLarge ? 'flex-col items-start gap-1' : 'items-center gap-2'} text-sm text-muted-foreground`}>
                             <span>{t('community.page.resources.by')} {resource.author}</span>
                             {!isLarge && <span>•</span>}
-                            <span>⭐ {resource.rating}</span>
+                            <span>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className={`flex items-center gap-1 p-0 h-auto ${
+                                  favouritedResources[resource.id]
+                                    ? "bg-red-50 text-red-600"
+                                    : "hover:bg-red-50 hover:text-red-600"
+                                }`}
+                                onClick={e => {
+                                  e.stopPropagation()
+                                  handleFavouriteResource(resource.id)
+                                }}
+                                disabled={favouritedResources[resource.id]}
+                              >
+                                <Heart
+                                  className="w-4 h-4"
+                                  fill={favouritedResources[resource.id] ? "#EF4444" : "none"}
+                                  stroke="#EF4444"
+                                />
+                              </Button>
+                            </span>
                             {!isLarge && <span>•</span>}
                             <span>{resource.downloads} {t('community.page.resources.download')}</span>
                           </div>
@@ -788,8 +878,20 @@ export default function CommunityPage() {
                               {t('community.page.resources.preview')}
                             </Button>
                           )}
-                          <Button variant="outline" size="sm" className="text-green-700 border-green-400 hover:bg-green-100">
-                            {!isLarge && <Heart className="w-3 h-3 mr-1 stroke-2" />}
+                          <Button size="sm"
+                            variant="outline"
+                            className={`flex items-center gap-1 text-green-700 border-green-400 hover:bg-green-100`}
+                            onClick={e => {
+                              e.stopPropagation()
+                              handleFavouriteResource(resource.id)
+                            }}
+                            disabled={favouritedResources[resource.id]}
+                          >
+                            <Heart
+                              className="w-4 h-4"
+                              fill={favouritedResources[resource.id] ? "#EF4444" : "none"}
+                              stroke="#EF4444"
+                            />
                             {t('community.page.resources.favourite')}
                           </Button>
                         </div>
@@ -803,6 +905,11 @@ export default function CommunityPage() {
                   </CardContent>
                 </Card>
               ))}
+              {filteredResources.length === 0 && (
+                <div className="text-center text-gray-500 py-8">
+                  {t('community.page.searchNoResults')}
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -819,7 +926,7 @@ export default function CommunityPage() {
             </div>
 
             <div className="space-y-4">
-              {practiceGroups.map((group) => (
+              {filteredGroups.map((group) => (
                 <Card key={group.id} className="duolingo-card border-0 shadow-lg cursor-pointer">
                   <CardContent className="p-5">
                     <div className="space-y-4">
@@ -847,6 +954,11 @@ export default function CommunityPage() {
                   </CardContent>
                 </Card>
               ))}
+              {filteredGroups.length === 0 && (
+                <div className="text-center text-gray-500 py-8">
+                  {t('community.page.searchNoResults')}
+                </div>
+              )}
             </div>
           </div>
         )}
