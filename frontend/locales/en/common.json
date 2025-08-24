@@ -960,6 +960,43 @@
         "noLive": "No live sessions at the moment.",
         "noUpcoming": "No upcoming sessions scheduled.",
         "noCompleted": "No completed sessions yet."
+      },
+      "createSession": {
+        "title": "Create New Tutoring Session",
+        "description": "Schedule a new one-on-one tutoring session with a student",
+        "form": {
+          "sessionTitle": "Session Title",
+          "sessionTitlePlaceholder": "e.g., Alphabet Recognition Practice",
+          "subject": "Learning Area",
+          "subjectPlaceholder": "Select learning area",
+          "scheduledDate": "Scheduled Date",
+          "scheduledTime": "Scheduled Time",
+          "duration": "Duration (minutes)",
+          "durationPlaceholder": "e.g., 30",
+          "description": "Session Description",
+          "descriptionPlaceholder": "Describe what will be covered in this session..."
+        },
+        "subjects": {
+          "alphabet": "Alphabet",
+          "sightwords": "Sight Words", 
+          "vocabulary": "Vocabulary",
+          "phonemicAwareness": "Phonemic Awareness",
+          "pointAndRead": "Point and Read"
+        },
+        "buttons": {
+          "createSession": "Create Session",
+          "cancel": "Cancel",
+          "creating": "Creating..."
+        },
+        "validation": {
+          "titleRequired": "Session title is required",
+          "subjectRequired": "Learning area is required",
+          "dateRequired": "Scheduled date is required",
+          "timeRequired": "Scheduled time is required",
+          "durationRequired": "Duration is required",
+          "durationInvalid": "Duration must be a valid number"
+        },
+        "success": "Session created successfully!"
       }
     }
   }

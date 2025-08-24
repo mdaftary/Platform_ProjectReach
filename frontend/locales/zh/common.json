@@ -1098,6 +1098,43 @@
         "noLive": "目前沒有進行中的課程。",
         "noUpcoming": "沒有預定的課程。",
         "noCompleted": "還沒有完成的課程。"
+      },
+      "createSession": {
+        "title": "建立新輔導課程",
+        "description": "安排與學生的一對一輔導課程",
+        "form": {
+          "sessionTitle": "課程標題",
+          "sessionTitlePlaceholder": "例如：字母識別練習",
+          "subject": "學習範疇",
+          "subjectPlaceholder": "選擇學習範疇",
+          "scheduledDate": "預定日期",
+          "scheduledTime": "預定時間",
+          "duration": "時長（分鐘）",
+          "durationPlaceholder": "例如：30",
+          "description": "課程描述",
+          "descriptionPlaceholder": "描述此課程將涵蓋的內容..."
+        },
+        "subjects": {
+          "alphabet": "字母",
+          "sightwords": "常見詞", 
+          "vocabulary": "詞彙",
+          "phonemicAwareness": "音素意識",
+          "pointAndRead": "指讀"
+        },
+        "buttons": {
+          "createSession": "建立課程",
+          "cancel": "取消",
+          "creating": "建立中..."
+        },
+        "validation": {
+          "titleRequired": "課程標題必填",
+          "subjectRequired": "學習範疇必填",
+          "dateRequired": "預定日期必填",
+          "timeRequired": "預定時間必填",
+          "durationRequired": "時長必填",
+          "durationInvalid": "時長必須是有效數字"
+        },
+        "success": "課程建立成功！"
       }
     }
   }
