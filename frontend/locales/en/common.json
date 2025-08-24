@@ -1,7 +1,7 @@
 {
   "login": {
     "title": "Welcome Back",
-    "subtitle": "Sign in to continue your learning journey",
+    "subtitle": "Welcome back to REACH Hong Kong",
     "signInWith": "Sign in with",
     "email": "Email",
     "phone": "Phone",
@@ -14,27 +14,140 @@
     "identifierLabelUsername": "Username",
     "password": "Password",
     "passwordPlaceholder": "Enter your password",
+    "identifierLabel": "Phone, Email, or Username",
+    "identifierPlaceholder": "Enter your phone, email, or username", 
+    "identifierHelp": "Phone: 8 digits • Email: name@example.com • Username: your choice",
     "forgotPassword": "Forgot password?",
     "signIn": "Sign In",
     "signingIn": "Signing in...",
+    "processing": "Processing...",
+    "next": "Next",
     "or": "or",
     "continueWithGoogle": "Continue with Google",
     "connecting": "Connecting...",
     "signupPrompt": "Don't have an account? ",
     "signupLink": "Sign up",
+    "errorIdentifierRequired": "Please enter your phone number, email, or username",
+    "errorPasswordRequired": "Please enter your password", 
     "errorLoginFailed": "Login failed",
     "errorGoogleFailed": "Google sign in failed"
   },
   "signup": {
     "titles": {
+      "signup": "Sign Up",
+      "signin": "Sign In",
+      "verifyAccount": "Verify Your Account",
+      "enterPassword": "Enter Password", 
+      "chooseRole": "Choose Your Role",
+      "parentDetails": "Parent Information",
+      "volunteerDetails": "Volunteer Setup",
+      "complete": "Welcome!",
       "method": "Create Account",
-      "details": "Account Details",
-      "complete": "Welcome to REACH!"
+      "details": "Account Details"
     },
     "subtitles": {
+      "enterIdentifier": "Enter your phone number, email, or username",
+      "verifyEmail": "We sent a verification code to your email",
+      "verifyPhone": "We sent a verification code to your phone",
+      "verifyFromLogin": "Enter verification code sent to your",
+      "passwordPrompt": "Enter your password to sign in", 
+      "roleSelection": "Let us know how you want to use REACH",
+      "parentInfo": "Tell us about your child",
+      "volunteerSetupPassword": "Set up your password",
+      "volunteerSetupComplete": "Complete your registration",
+      "accountCreated": "Your account has been created successfully",
       "method": "Choose how you'd like to sign up",
       "details": "Fill in your account information",
       "complete": "Your account has been created successfully"
+    },
+    "labels": {
+      "identifierField": "Phone, Email, or Username",
+      "verificationCode": "Verification Code",
+      "password": "Password",
+      "roleQuestion": "How will you use REACH?",
+      "schoolCode": "School Code",
+      "schoolCodeOptional": "School Code (optional)",
+      "parentName": "Parent Name",
+      "studentName": "Student Name", 
+      "schoolName": "School Name",
+      "confirmPassword": "Confirm Password"
+    },
+    "placeholders": {
+      "enterIdentifier": "Enter your phone, email, or username",
+      "enterCode": "Enter 4-digit code",
+      "enterPassword": "Enter your password",
+      "createPassword": "Create a password",
+      "confirmPassword": "Confirm your password",
+      "schoolCode": "Enter school code if you have one",
+      "parentName": "Your full name",
+      "studentName": "Your child's full name",
+      "schoolName": "Your child's school"
+    },
+    "helper": {
+      "identifierHelp": "Phone: 8 digits • Email: name@example.com • Username: your choice",
+      "testingCode": "For testing, use code: 0000",
+      "schoolCodeHelp": "If you have a school code, enter it to complete registration quickly"
+    },
+    "buttons": {
+      "next": "Next",
+      "verify": "Verify",
+      "signIn": "Sign In",
+      "continue": "Continue",
+      "resendCode": "Resend Code",
+      "completeRegistration": "Complete Registration",
+      "continueToDashboard": "Continue to Dashboard",
+      "signUp": "Sign Up"
+    },
+    "loading": {
+      "processing": "Processing...",
+      "verifying": "Verifying...",
+      "signingIn": "Signing In...",
+      "connecting": "Connecting...",
+      "creatingAccount": "Creating Account..."
+    },
+    "roles": {
+      "parent": "Parent",
+      "volunteer": "Volunteer",
+      "parentDescription": "I want to help my child learn English",
+      "volunteerDescription": "I want to help teach and support students"
+    },
+    "fieldLabels": {
+      "required": "*",
+      "optional": "(optional)"
+    },
+    "links": {
+      "alreadyHaveAccount": "Already have an account? ",
+      "signInLink": "Sign In",
+      "forgotPassword": "Forgot password?",
+      "createNewAccount": "Want to create a new account? ",
+      "signUpLink": "Sign Up",
+      "backToSignIn": "Back to Sign In"
+    },
+    "success": {
+      "accountCreatedTitle": "Account Created Successfully!",
+      "welcomeMessage": "Welcome to REACH Hong Kong",
+      "accountLabel": "Account: ",
+      "roleLabel": "Role: "
+    },
+    "errors": {
+      "enterIdentifier": "Please enter your phone number, email, or username",
+      "enterPassword": "Please enter your password",
+      "enterConfirmPassword": "Please enter and confirm your password",
+      "passwordMismatch": "Passwords do not match",
+      "passwordTooShort": "Password must be at least 6 characters",
+      "fillAllFields": "Please fill in all required fields",
+      "invalidCode": "Invalid verification code. Please try 0000 for testing.",
+      "invalidSchoolCode": "Invalid school code. Please check and try again.",
+      "failedToProcess": "Failed to process input. Please try again.",
+      "failedToVerify": "Failed to verify. Please try again.",
+      "loginFailed": "Login failed. Please try again.",
+      "signupFailed": "Signup failed",
+      "googleFailed": "Google signup failed",
+      "failedToValidateSchool": "Failed to validate school code"
+    },
+    "messages": {
+      "userExists": "You're all set! Your volunteer account will be created with your",
+      "or": "or"
     },
     "signUpWith": "Sign up with",
     "emailAddress": "Email Address",
@@ -835,12 +948,55 @@
         "tomorrow": "Tomorrow"
       },
       "stats": {
-        "sessions": "Sessions"
+        "sessions": "Sessions",
+        "upcomingTutorials": "Upcoming Tutorials",
+        "liveTutorials": "Live Tutorials", 
+        "previousTutorials": "Previous Tutorials",
+        "scheduledSessions": "Scheduled sessions this week",
+        "currentlyActive": "Currently active session",
+        "completedSessions": "Completed sessions this month"
       },
       "empty": {
         "noLive": "No live sessions at the moment.",
         "noUpcoming": "No upcoming sessions scheduled.",
         "noCompleted": "No completed sessions yet."
+      },
+      "createSession": {
+        "title": "Create New Tutoring Session",
+        "description": "Schedule a new one-on-one tutoring session with a student",
+        "form": {
+          "sessionTitle": "Session Title",
+          "sessionTitlePlaceholder": "e.g., Alphabet Recognition Practice",
+          "subject": "Learning Area",
+          "subjectPlaceholder": "Select learning area",
+          "scheduledDate": "Scheduled Date",
+          "scheduledTime": "Scheduled Time",
+          "duration": "Duration (minutes)",
+          "durationPlaceholder": "e.g., 30",
+          "description": "Session Description",
+          "descriptionPlaceholder": "Describe what will be covered in this session..."
+        },
+        "subjects": {
+          "alphabet": "Alphabet",
+          "sightwords": "Sight Words", 
+          "vocabulary": "Vocabulary",
+          "phonemicAwareness": "Phonemic Awareness",
+          "pointAndRead": "Point and Read"
+        },
+        "buttons": {
+          "createSession": "Create Session",
+          "cancel": "Cancel",
+          "creating": "Creating..."
+        },
+        "validation": {
+          "titleRequired": "Session title is required",
+          "subjectRequired": "Learning area is required",
+          "dateRequired": "Scheduled date is required",
+          "timeRequired": "Scheduled time is required",
+          "durationRequired": "Duration is required",
+          "durationInvalid": "Duration must be a valid number"
+        },
+        "success": "Session created successfully!"
       }
     }
   }
@@ -1039,7 +1195,8 @@
     "uploadSuccess": "Files uploaded successfully! Assignment marked as complete.",
     "fileTypeError": "File type not supported. Please upload images or PDFs only.",
     "fileSizeError": "File size must be less than 10MB.",
-    "previewImage": "Preview Image"
+    "previewImage": "Preview Image",
+    "registered": "Registered"
   },
   "previousAssignment": {
     "completed": "Completed",

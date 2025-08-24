@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -21,80 +21,71 @@ import {
   CameraOff,
   Share,
   MessageSquare,
-  Settings
+  Settings,
+  Plus
 } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import "@/lib/i18n"
+import { SwipeableLiveTutoringCard } from "@/components/swipeable-live-tutoring-card"
+import { CreateSessionDialog } from "@/components/create-session-dialog"
+import { getAllSessions, type TutoringSession as StoredTutoringSession } from "@/lib/session-storage"
 
 interface TutoringSession {
   id: string
   title: string
-  student: string
   subject: string
-  grade: string
   scheduledTime: string
   duration: number // in minutes
   status: 'upcoming' | 'live' | 'completed'
   description: string
-  studentAvatar?: string
 }
 
 // Mock sessions in English
 const mockSessionsEn: TutoringSession[] = [
   {
     id: "1",
-    title: "Reading Comprehension Help",
-    student: "Emma Chen",
-    subject: "English",
-    grade: "Grade 3",
+    title: "Letter Recognition Practice",
+    subject: "alphabet",
     scheduledTime: "2024-01-15T14:00:00",
     duration: 30,
     status: "live",
-    description: "Help with understanding story elements and answering comprehension questions"
+    description: "Focus on uppercase and lowercase letter identification and sounds"
   },
   {
     id: "2",
-    title: "Math Word Problems",
-    student: "Lucas Wong",
-    subject: "Math",
-    grade: "Grade 2",
+    title: "High-Frequency Words",
+    subject: "sightwords",
     scheduledTime: "2024-01-15T15:30:00",
     duration: 45,
     status: "upcoming",
-    description: "Practice solving addition and subtraction word problems"
+    description: "Practice reading and recognizing common sight words"
   },
   {
     id: "3",
-    title: "Phonics Practice",
-    student: "Sophia Lee",
-    subject: "English",
-    grade: "Kindergarten",
+    title: "Sound Blending Session",
+    subject: "phonemicAwareness",
     scheduledTime: "2024-01-15T16:15:00",
     duration: 25,
     status: "upcoming",
-    description: "Work on letter sounds and blending CVC words"
+    description: "Work on blending individual sounds to form words"
   },
   {
     id: "4",
-    title: "Science Vocabulary",
-    student: "Ryan Park",
-    subject: "Science",
-    grade: "Grade 4",
+    title: "Word Meaning Exploration",
+    subject: "vocabulary",
     scheduledTime: "2024-01-14T13:00:00",
     duration: 30,
     status: "completed",
-    description: "Review plant life cycle vocabulary and concepts"
+    description: "Expand vocabulary through context and visual aids"
   },
   {
     id: "5",
-    title: "Sight Words Review",
-    student: "Chloe Chan",
-    subject: "English",
-    grade: "Grade 1",
+    title: "Reading Fluency Practice",
+    subject: "pointAndRead",
     scheduledTime: "2024-01-16T10:00:00",
     duration: 30,
     status: "upcoming",
-    description: "Practice high-frequency sight words and reading fluency"
+    description: "Practice pointing to words while reading to improve tracking"
   }
 ]
 
@@ -102,58 +93,48 @@ const mockSessionsEn: TutoringSession[] = [
 const mockSessionsZh: TutoringSession[] = [
   {
     id: "1",
-    title: "閱讀理解輔導",
-    student: "陳小美",
-    subject: "英文",
-    grade: "小三",
+    title: "字母識別練習",
+    subject: "alphabet",
     scheduledTime: "2024-01-15T14:00:00",
     duration: 30,
     status: "live",
-    description: "幫助理解故事元素和回答理解問題"
+    description: "專注大小寫字母識別和發音"
   },
   {
     id: "2",
-    title: "數學應用題",
-    student: "黃小明",
-    subject: "數學",
-    grade: "小二",
+    title: "高頻詞練習",
+    subject: "sightwords",
     scheduledTime: "2024-01-15T15:30:00",
     duration: 45,
     status: "upcoming",
-    description: "練習解決加法和減法應用題"
+    description: "練習閱讀和識別常見詞彙"
   },
   {
     id: "3",
-    title: "自然拼讀練習",
-    student: "李小雅",
-    subject: "英文",
-    grade: "幼稚園",
+    title: "語音混合課程",
+    subject: "phonemicAwareness",
     scheduledTime: "2024-01-15T16:15:00",
     duration: 25,
     status: "upcoming",
-    description: "練習字母發音和拼讀 CVC 詞語"
+    description: "練習將個別音素組合成詞語"
   },
   {
     id: "4",
-    title: "科學詞彙複習",
-    student: "朴小俊",
-    subject: "科學",
-    grade: "小四",
+    title: "詞彙意義探索",
+    subject: "vocabulary",
     scheduledTime: "2024-01-14T13:00:00",
     duration: 30,
     status: "completed",
-    description: "複習植物生命週期詞彙和概念"
+    description: "透過語境和視覺輔助擴展詞彙"
   },
   {
     id: "5",
-    title: "常見詞複習",
-    student: "陳小晴",
-    subject: "英文",
-    grade: "小一",
+    title: "閱讀流暢性練習",
+    subject: "pointAndRead",
     scheduledTime: "2024-01-16T10:00:00",
     duration: 30,
     status: "upcoming",
-    description: "練習高頻常見詞和閱讀流利度"
+    description: "練習指讀以提升閱讀追蹤能力"
   }
 ]
 
@@ -163,12 +144,37 @@ export default function VolunteerLiveTutoringPage() {
   const [inSession, setInSession] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
   const [isCameraOn, setIsCameraOn] = useState(true)
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
+  const [createdSessions, setCreatedSessions] = useState<StoredTutoringSession[]>([])
+
+  // Load sessions from localStorage on component mount
+  useEffect(() => {
+    setCreatedSessions(getAllSessions())
+  }, [])
 
   // Determine which sessions to show based on language
   const isZh = i18n.language?.startsWith("zh")
   const mockSessions = isZh ? mockSessionsZh : mockSessionsEn
+  
+  // Combine mock sessions with created sessions, converting format
+  const allSessions: TutoringSession[] = [
+    ...mockSessions,
+    ...createdSessions.map(session => ({
+      id: session.id,
+      title: session.title,
+      subject: session.subject,
+      scheduledTime: session.scheduledTime,
+      duration: session.duration,
+      status: session.status,
+      description: session.description
+    }))
+  ]
 
-  const filteredSessions = mockSessions.filter(session => session.status === selectedTab)
+  const filteredSessions = allSessions.filter(session => session.status === selectedTab)
+
+  const handleSessionCreated = (newSession: StoredTutoringSession) => {
+    setCreatedSessions(prev => [...prev, newSession])
+  }
 
   const formatTime = (dateString: string) => {
     const date = new Date(dateString)
@@ -259,14 +265,14 @@ export default function VolunteerLiveTutoringPage() {
       <div className="min-h-screen bg-gray-900 relative">
         {/* Main Video Area */}
         <div className="relative w-full h-screen">
-          {/* Student Video (Main) */}
+          {/* Session Video (Main) */}
           <div className="w-full h-full bg-gray-800 flex items-center justify-center">
             <div className="text-center text-white">
-              <Avatar className="w-32 h-32 mx-auto mb-4 bg-blue-500">
-                <span className="text-4xl font-bold">EC</span>
+              <Avatar className="w-32 h-32 mx-auto mb-4 bg-green-500">
+                <span className="text-4xl font-bold">LS</span>
               </Avatar>
-              <h2 className="text-2xl font-bold mb-2">Emma Chen</h2>
-              <p className="text-gray-300">Reading Comprehension Help</p>
+              <h2 className="text-2xl font-bold mb-2">Live Session</h2>
+              <p className="text-gray-300">Letter Recognition Practice</p>
             </div>
           </div>
 
@@ -301,20 +307,18 @@ export default function VolunteerLiveTutoringPage() {
       <div className="max-w-6xl mx-auto px-6 py-8">
         {/* Tabs */}
         <div className="mb-8 mt-8">
-          <div className="flex space-x-1 bg-gray-100 rounded-xl p-1 w-fit">
-            {(['upcoming', 'live', 'completed'] as const).map((tab) => (
-              <Button
-                key={tab}
-                variant={selectedTab === tab ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setSelectedTab(tab)}
-                className="rounded-lg capitalize"
-              >
-                {tab === 'live' && <div className="w-2 h-2 bg-red-500 rounded-full mr-2 animate-pulse" />}
-                {t(`volunteer.liveTutoring.tabs.${tab}`)} ({mockSessions.filter(s => s.status === tab).length})
-              </Button>
-            ))}
-          </div>
+            <SwipeableLiveTutoringCard />
+        </div>
+
+        {/* Create Session Button */}
+        <div className="mb-6">
+          <Button
+            onClick={() => setIsCreateDialogOpen(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            {t('volunteer.liveTutoring.createSession.title')}
+          </Button>
         </div>
 
         {/* Sessions List */}
@@ -324,17 +328,15 @@ export default function VolunteerLiveTutoringPage() {
               <CardContent className="p-6">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-4">
-                    <Avatar className="w-12 h-12 bg-blue-100">
-                      <span className="text-lg font-medium text-blue-600">
-                        {session.student.split(' ').map(n => n[0]).join('')}
+                    <Avatar className="w-12 h-12 bg-green-100 flex items-center justify-center">
+                      <span className="text-lg font-medium text-green-600 text-center">
+                        {session.title.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()}
                       </span>
                     </Avatar>
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900">{session.title}</h3>
-                      <p className="text-gray-600 font-medium">{session.student}</p>
                       <div className="flex items-center gap-2 mt-1">
-                        <Badge variant="outline">{session.subject}</Badge>
-                        <Badge variant="outline">{session.grade}</Badge>
+                        <Badge variant="outline">{t(`volunteer.liveTutoring.createSession.subjects.${session.subject}`)}</Badge>
                       </div>
                     </div>
                   </div>
@@ -415,6 +417,13 @@ export default function VolunteerLiveTutoringPage() {
           </div>
         )}
       </div>
+
+      {/* Create Session Dialog */}
+      <CreateSessionDialog
+        open={isCreateDialogOpen}
+        onOpenChange={setIsCreateDialogOpen}
+        onSessionCreated={handleSessionCreated}
+      />
     </div>
   )
 }
