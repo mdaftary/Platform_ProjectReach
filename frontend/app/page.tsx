@@ -14,7 +14,6 @@ import { useTranslation } from "react-i18next"
 import { AssignmentDetailDrawer, type AssignmentDetail } from "@/components/assignment-detail-drawer"
 import { PreviousAssignmentDetailDrawer, type PreviousAssignment } from "@/components/previous-assignment-detail-drawer"
 import { SwipeableProgressCard } from "@/components/swipeable-progress-card"
-import { PreviousAssignmentCard } from "@/components/previous-assignment-card"
 
 // Weekly tasks data - English version
 const weeklyTasksEn = [
@@ -304,7 +303,7 @@ const previousAssignmentsEn = [
     id: 8,
     title: "Week 8 - Reading Comprehension",
     subtitle: "Short Story Questions",
-    subject: "Point&Read",
+    subject: "Point-and-Read",
     submittedDate: "25/7/2025",
     score: 7,
     status: "graded",
@@ -351,7 +350,7 @@ const previousAssignmentsEn = [
     id: 4,
     title: "Week 4 - Story Writing",
     subtitle: "Creative Writing",
-    subject: "Point-&-Read",
+    subject: "Point-and-Read",
     submittedDate: "27/6/2025",
     score: 6,
     status: "graded",
@@ -609,7 +608,7 @@ export default function HomePage() {
       case 'alphabet':
       case '字母':
         return 'bg-orange-500';
-      case 'point-&-read':
+      case 'point-and-read':
       case '指讀':
         return 'bg-red-500';
       default:
@@ -853,16 +852,10 @@ export default function HomePage() {
           
           <div className="grid gap-3">
             {isAssignmentCompleted && (
-              <PreviousAssignmentCard
-                key={weeklyTasks[0].id}
-                title={weeklyTasks[0].title}
-                subtitle={weeklyTasks[0].subtitle}
-                subject={weeklyTasks[0].subject}
-                submittedDate={new Date().toLocaleDateString()}
-                subjectColor={getSubjectColor(weeklyTasks[0].subject)}
+                <div 
+                key={weeklyTasks[0].id} 
+                className="bg-white rounded-2xl p-4 border border-gray-100 hover:shadow-sm transition-shadow cursor-pointer"
                 onClick={() => handleSubmittedAssignmentClick()}
-                rightContent={
-                  <>
               >
                 <div className="flex items-center justify-between">
                   {/* Left side: Assignment info */}
@@ -941,38 +934,12 @@ export default function HomePage() {
                         N/A
                       </div>
                     )}
-                  </>
-                }
-              >
-                {/* File preview thumbnails */}
-                {assignmentFiles.length > 0 && (
-                  <div className="flex items-center gap-2 mt-2">
-                    <span className="text-xs text-gray-400">{t('previousAssignment.submittedFiles')}:</span>
-                    <div className="flex gap-1">
-                      {assignmentFiles.slice(0, 3).map((file, index) => (
-                        <div key={file.id} className="w-6 h-6 bg-gray-100 rounded border overflow-hidden">
-                          {file.type.startsWith('image/') ? (
-                            <img
-                              src={file.dataUrl}
-                              alt={file.name}
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center">
-                              <FileText className="w-3 h-3 text-gray-500" />
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                      {assignmentFiles.length > 3 && (
-                        <div className="w-6 h-6 bg-gray-100 rounded border flex items-center justify-center">
-                          <span className="text-xs text-gray-500">+{assignmentFiles.length - 3}</span>
-                        </div>
-                      )}
-                    </div>
+
+                    {/* Arrow */}
+                    <ChevronRight className="w-4 h-4 text-gray-400" />
                   </div>
-                )}
-              </PreviousAssignmentCard>
+                </div>
+              </div>
             )}
             {previousAssignments.map((assignment, index) => {
               // Helper function to get score color based on performance
@@ -998,7 +965,7 @@ export default function HomePage() {
                   case 'alphabet':
                   case '字母':
                     return 'bg-orange-500';
-                  case 'point-&-read':
+                  case 'point-and-read':
                   case '指讀':
                     return 'bg-red-500';
                   default:
@@ -1007,16 +974,39 @@ export default function HomePage() {
               };
 
               return (
-                <PreviousAssignmentCard
-                  key={assignment.id}
-                  title={assignment.title}
-                  subtitle={assignment.subtitle}
-                  subject={assignment.subject}
-                  submittedDate={assignment.submittedDate}
-                  subjectColor={getSubjectColor(assignment.subject)}
+                <div 
+                  key={assignment.id} 
+                  className="bg-white rounded-2xl p-4 border border-gray-100 hover:shadow-sm transition-shadow cursor-pointer"
                   onClick={() => handlePreviousAssignmentClick(assignment.id)}
-                  rightContent={
-                    <>
+                >
+                  <div className="flex items-center justify-between">
+                    {/* Left side: Assignment info */}
+                    <div className="flex items-center gap-3 flex-1">
+                      {/* Subject indicator */}
+                      <div className={`w-3 h-12 ${getSubjectColor(assignment.subject)} rounded-full flex-shrink-0`}></div>
+                      
+                      {/* Assignment details */}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-gray-900 text-sm truncate">
+                          {assignment.title}
+                        </h3>
+                        <p className="text-gray-500 text-xs truncate">
+                          {assignment.subtitle}
+                        </p>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-xs text-gray-400">
+                            {t('assignments.previousAssignments.submitted')}: {assignment.submittedDate}
+                          </span>
+                          <span className="text-xs text-gray-300">•</span>
+                          <span className="text-xs text-gray-500">
+                            {assignment.subject}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right side: Score and points */}
+                    <div className="flex items-center gap-3 flex-shrink-0">
                       {/* Points earned */}
                       <div className="text-right">
                         <div className="text-xs text-gray-500">
@@ -1031,9 +1021,12 @@ export default function HomePage() {
                       <div className={`px-3 py-1 rounded-full text-sm font-semibold ${getScoreColor(assignment.score)}`}>
                         {assignment.score}/10
                       </div>
-                    </>
-                  }
-                />
+
+                      {/* Arrow */}
+                      <ChevronRight className="w-4 h-4 text-gray-400" />
+                    </div>
+                  </div>
+                </div>
               );
             })}
           </div>
@@ -1042,180 +1035,6 @@ export default function HomePage() {
         {/* Bottom padding for navigation */}
         <div className="h-24"></div>
       </div>
-
-      {/* Upload Modal */}
-      {uploadModalOpen && (
-        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-100/50">
-              <h2 className="text-xl font-bold text-gray-900">{t('home.modalUploadWorksheet')}</h2>
-              <button
-                onClick={closeModal}
-                className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
-              >
-                <X className="w-4 h-4 text-gray-600" />
-              </button>
-            </div>
-
-            <div className="p-6 space-y-6">
-              {/* Upload State: Uploading */}
-              {uploadState === 'uploading' && (
-                                  <div className="text-center space-y-4">
-                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                      <Loader className="w-8 h-8 text-green-600 animate-spin stroke-2" />
-                    </div>
-                  <div>
-                    <p className="text-lg font-semibold text-gray-900">{t('home.uploading')}</p>
-                    <p className="text-sm text-gray-500 mt-1">{t('home.processingWorksheet')}</p>
-                  </div>
-                </div>
-              )}
-
-              {/* Upload State: Processing */}
-              {uploadState === 'processing' && (
-                <div className="space-y-6">
-                  {/* Success Banner */}
-                  <div className="bg-green-50 border border-green-200 rounded-2xl p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                        <Check className="w-5 h-5 text-white stroke-2" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-green-900">{t('home.uploadedSuccessfully')}</p>
-                        <p className="text-sm text-green-700">Week 12 - Alphabet Practice</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Uploaded Image Preview */}
-                  <div className="space-y-3">
-                    <h3 className="font-semibold text-gray-900">{t('home.uploadedWorksheet')}</h3>
-                    <div className="bg-gray-100 rounded-2xl p-4 aspect-[4/3] flex items-center justify-center">
-                      <div className="text-center text-gray-500">
-                        <Camera className="w-8 h-8 mx-auto mb-2" />
-                        <p className="text-sm">{t('home.worksheetPreview')}</p>
-                        <p className="text-xs">{t('home.sightWordTask')}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* OCR Processing */}
-                  <div className="text-center space-y-4">
-                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                      <Loader className="w-6 h-6 text-green-600 animate-spin stroke-2" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">{t('home.analyzing')}</p>
-                      <p className="text-sm text-gray-500 mt-1">{t('home.takes3060')}</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Upload State: Complete */}
-              {uploadState === 'complete' && (
-                <div className="space-y-6">
-                  {/* Success Banner */}
-                  <div className="bg-green-50 border border-green-200 rounded-2xl p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                        <Check className="w-5 h-5 text-white stroke-2" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-green-900">{t('home.analysisComplete')}</p>
-                        <p className="text-sm text-green-700">{t('home.emmaReviewed')}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Progress Bump */}
-                  <div className="bg-green-50 border border-green-200 rounded-2xl p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                        <ArrowRight className="w-4 h-4 text-white stroke-2" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-green-900">{t('home.progressUpdated')}</p>
-                        <p className="text-sm text-green-700">{t('home.progressDelta')}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* AI Feedback Section */}
-                  <div className="space-y-3">
-                    <h3 className="text-lg font-bold text-gray-900">{t('home.aiFeedback')}</h3>
-                    <Card className="bg-white border border-gray-200 shadow-sm">
-                      <CardContent className="p-5">
-                        <div className="space-y-5">
-                        
-                        {/* What Went Well Section */}
-                        <div className="space-y-3">
-                          <div className="flex items-center gap-2">
-                            <Check className="w-4 h-4 text-green-600 stroke-2" />
-                            <h4 className="text-sm font-semibold text-green-800">{t('home.whatWentWell')}</h4>
-                          </div>
-                          <div className="bg-green-50/50 rounded-xl p-3">
-                            <p className="text-sm text-gray-900 leading-relaxed">
-                              I loved seeing you identify <span className="font-semibold">"see"</span> and <span className="font-semibold">"cat"</span> so quickly! You're really getting the hang of these sight words.
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Needs Practice Section */}
-                        <div className="space-y-3">
-                          <div className="flex items-center gap-2">
-                            <AlertCircle className="w-4 h-4 text-orange-600 stroke-2" />
-                            <h4 className="text-sm font-semibold text-orange-800">{t('home.needsPractice')}</h4>
-                          </div>
-                          <div className="bg-orange-50/50 rounded-xl p-3">
-                            <p className="text-sm text-gray-900 leading-relaxed">
-                              Let's work on the word <span className="font-semibold">"the"</span> - I noticed you hesitated a few times. Try practicing this sight word with flashcards or by finding it in your favorite books!
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* General Notes Section */}
-                        <div className="space-y-3">
-                          <div className="flex items-center gap-2">
-                            <Eye className="w-4 h-4 text-green-600 stroke-2" />
-                            <h4 className="text-sm font-semibold text-green-800">{t('home.generalNotes')}</h4>
-                          </div>
-                          <div className="bg-green-50/50 rounded-xl p-3">
-                            <p className="text-sm text-gray-900 leading-relaxed">
-                              Your reading confidence is growing! I can see you're taking your time to sound out words carefully. Keep up the great work with your phonics skills.
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Divider */}
-                        <div className="border-t border-gray-100 pt-4">
-                          <h4 className="font-semibold text-gray-900 mb-3">{t('home.suggestedNextSteps')}</h4>
-                          
-                          <div className="space-y-3">
-                            <Button className="w-full bg-primary hover:bg-primary/90 text-white border-0 rounded-xl font-semibold">
-                              <ArrowRight className="w-4 h-4 mr-2 stroke-2" />
-                              {t('home.viewRecommendedPractice')}
-                            </Button>
-                            
-                            <button className="w-full flex items-center justify-center gap-2 text-sm text-gray-600 hover:text-gray-800 transition-colors">
-                              <Download className="w-4 h-4 stroke-2" />
-                              {t('home.downloadExtraWorksheet')}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-
-
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Assignment Detail Drawer */}
       <AssignmentDetailDrawer
