@@ -1176,7 +1176,8 @@
     "uploadSuccess": "檔案上傳成功！功課已標記為完成。",
     "fileTypeError": "不支援此檔案類型。請只上傳圖片或PDF檔案。",
     "fileSizeError": "檔案大小必須小於10MB。",
-    "previewImage": "預覽圖片"
+    "previewImage": "預覽圖片",
+    "registered": "已登記"
   },
   "previousAssignment": {
     "completed": "已完成",

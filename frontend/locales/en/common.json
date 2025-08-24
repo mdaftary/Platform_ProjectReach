@@ -1039,7 +1039,8 @@
     "uploadSuccess": "Files uploaded successfully! Assignment marked as complete.",
     "fileTypeError": "File type not supported. Please upload images or PDFs only.",
     "fileSizeError": "File size must be less than 10MB.",
-    "previewImage": "Preview Image"
+    "previewImage": "Preview Image",
+    "registered": "Registered"
   },
   "previousAssignment": {
     "completed": "Completed",

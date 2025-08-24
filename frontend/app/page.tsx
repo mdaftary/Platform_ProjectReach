@@ -533,6 +533,7 @@ export default function HomePage() {
   const [assignmentFiles, setAssignmentFiles] = useState<{id: string, name: string, type: string, dataUrl: string}[]>([])  // Store uploaded files array
   const [assignmentScore, setAssignmentScore] = useState<number | null>(null)
   const [assignmentFeedback, setAssignmentFeedback] = useState('')
+  const [registrationStatuses, setRegistrationStatuses] = useState<{[key: number]: boolean}>({})
 
   useEffect(() => {
     // Check if assignment 1 is completed
@@ -558,6 +559,18 @@ export default function HomePage() {
     if (assignmentFeedback) {
       setAssignmentFeedback(assignmentFeedback)
     }
+
+    // Load registration statuses for all assignments
+    const newRegistrationStatuses: {[key: number]: boolean} = {}
+    assignmentDetails.forEach((assignment) => {
+      const isInterestAssignment = assignment.buttonText.toLowerCase().includes('interest') || 
+                                  assignment.buttonText.includes('興趣')
+      if (isInterestAssignment) {
+        const registrationStatus = localStorage.getItem(`assignment_registration_${assignment.id}`)
+        newRegistrationStatuses[assignment.id] = registrationStatus === 'true'
+      }
+    })
+    setRegistrationStatuses(newRegistrationStatuses)
   }, [])
 
 
@@ -566,6 +579,18 @@ export default function HomePage() {
     if (score >= 7) return 'text-blue-600 bg-blue-50';
     if (score >= 5) return 'text-yellow-600 bg-yellow-50';
     return 'text-red-600 bg-red-50';
+  };
+
+  // Helper function to get assignment title with registration status
+  const getAssignmentDisplayTitle = (task: any) => {
+    const isInterestAssignment = task.buttonText?.toLowerCase().includes('interest') || 
+                                task.buttonText?.includes('興趣')
+    const isRegistered = registrationStatuses[task.id]
+    
+    if (isInterestAssignment && isRegistered) {
+      return `${task.title} (${t('assignmentDetail.registered')})`
+    }
+    return task.title
   };
 
   // Helper function to get subject icon color
@@ -729,7 +754,7 @@ export default function HomePage() {
             </div>
             
             <h2 className="text-2xl font-bold mb-3 leading-tight">
-              {weeklyTasks[0]?.title || "Upload Worksheet"}
+              {getAssignmentDisplayTitle(weeklyTasks[0]) || "Upload Worksheet"}
             </h2>
             
             <p className="text-purple-100 text-sm mb-4">
@@ -796,7 +821,7 @@ export default function HomePage() {
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
                       <h3 className={`font-semibold ${task.completed ? 'text-gray-500 line-through' : 'text-gray-900'}`}>
-                        {task.title}
+                        {getAssignmentDisplayTitle(task)}
                       </h3>
                       {task.completed && (
                         <CheckCircle2 className="w-4 h-4 text-green-500" />
@@ -840,7 +865,7 @@ export default function HomePage() {
                     {/* Assignment details */}
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-gray-900 text-sm truncate">
-                        {weeklyTasks[0].title}
+                        {getAssignmentDisplayTitle(weeklyTasks[0])}
                       </h3>
                       <p className="text-gray-500 text-xs truncate">
                         {weeklyTasks[0].subtitle}
