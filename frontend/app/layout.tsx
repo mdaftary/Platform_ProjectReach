@@ -14,7 +14,7 @@ import I18nProvider from "./i18n-provider"
 import LangProfile from "./lang-profile"
 
 export const metadata: Metadata = {
-  title: "REACH Hong Kong - Assignment Hub",
+  title: "Parents REACH Parents",
   description: "Educational platform for kindergarten English learning",
   generator: "v0.app",
 }
